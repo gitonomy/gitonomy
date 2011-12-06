@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -9,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -57,5 +59,88 @@ class User
     {
         $this->sshKeys      = new ArrayCollection();
         $this->repositories = new ArrayCollection();
+    }
+
+    public function equals(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        return $user->getUsername() === $this->username;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function regenerateSalt()
+    {
+        $this->salt = md5(uniqid().microtime());
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function getSshKeys()
+    {
+        return $this->sshKeys;
+    }
+
+    public function getRepositories()
+    {
+        return $this->repositories;
     }
 }

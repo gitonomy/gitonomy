@@ -32,4 +32,39 @@ class UserSshKey
      * @ORM\Column(type="boolean")
      */
     protected $isInstalled = false;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    public function getIsInstalled()
+    {
+        return $this->isInstalled;
+    }
+
+    public function setIsInstalled($isInstalled)
+    {
+        $this->isInstalled = $isInstalled;
+    }
 }
