@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="gitonomy_frontend.twig_extension" class="Gitonomy\Bundle\FrontendBundle\Twig\GitonomyExtension">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+            <argument>%gitonomy_frontend.ssh_access%</argument>
+        </service>
+    </services>
+
+</container>

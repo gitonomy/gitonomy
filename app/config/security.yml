@@ -1,0 +1,22 @@
+security:
+    encoders:
+        Gitonomy\Bundle\CoreBundle\Entity\User:
+            algorithm:        sha512
+            encode-as-base64: true
+            iterations:       5
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        entity:
+            entity: { class: "Gitonomy\Bundle\CoreBundle\Entity\User", property: "username" }
+
+    firewalls:
+        main:
+            pattern:    "/.*"
+            security:   true
+            form_login: true
+            logout:     true
+            anonymous:  true

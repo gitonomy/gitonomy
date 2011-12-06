@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {% include "GitonomyFrontendBundle::stylesheets.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {% include "GitonomyFrontendBundle::javascripts.html.twig" %}
+    {% block content_javascript '' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% include "GitonomyFrontendBundle::navigation.html.twig" %}
+        {% block content '' %}
+    </div>
+{% endblock %}

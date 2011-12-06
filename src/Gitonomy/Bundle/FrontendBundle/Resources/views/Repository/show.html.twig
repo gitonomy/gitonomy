@@ -1,0 +1,31 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Welcome to Gitonomy' %}
+
+{% block content %}
+    <h1>{{ repository.namespace ~ '/' ~ repository.name -}}
+        {%- if repository.isForked -%}
+            {%- set origin = repository.forkedFrom -%}
+            <small>forked from <a href="{{ repository_path(origin) }}">{{ origin.namespace ~ '/' ~ origin.name }}</a></small>
+        {%- endif -%}
+    </h1>
+    <p>
+        {% if repository is forked %}
+            <a class="btn" href="{{ path('gitonomy_frontend_repository_show', {'namespace': app.user.username, 'name': repository.name}) }}">
+                View my fork
+            </a>
+        {% elseif is_granted('ROLE_USER') %}
+            <a class="btn" href="{{ path('gitonomy_frontend_repository_fork', {'namespace': repository.namespace, 'name': repository.name}) }}">
+                Fork this repository
+            </a>
+        {% endif %}
+    </p>
+    <p>
+        {% if repository.description %}
+            {{ repository.description }}
+        {% else %}
+            <em>No description</em>
+        {% endif %}
+    </p>
+    <pre>{{ repository_ssh(repository) }}</pre>
+{% endblock %}

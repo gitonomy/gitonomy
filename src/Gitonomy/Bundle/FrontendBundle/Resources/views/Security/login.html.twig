@@ -1,0 +1,40 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Register' %}
+{% set navigation_active = null %}
+
+{% block content_javascript %}
+    <script type="text/javascript">
+        jQuery(window).load(function (){
+            jQuery("#username").focus();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h1>Login</h1>
+    {% if error %}
+        <div class="alert-message warning">
+            <p>
+                <strong>Unable to login:</strong>
+                {{ error.message }}
+            </p>
+        </div>
+    {% endif %}
+    <form class="form-stacked" action="{{ path('gitonomy_frontend_security_loginCheck') }}" method="POST" novalidate>
+        <div class="well">
+            <div class="clearfix">
+                <label for="username">Username :</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            </div>
+            <div class="clearfix">
+                <label for="password">Password :</label>
+                <input type="password" id="password" name="_password" />
+            </div>
+
+            <p>
+                <input class="btn primary" type="submit" name="login" value="Login" />
+            </p>
+        </div>
+    </form>
+{% endblock %}

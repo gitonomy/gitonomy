@@ -1,0 +1,22 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Welcome to Gitonomy' %}
+
+{% block content %}
+    <div class="row">
+        <div class="span10">
+            <h2>Upcoming...</h2>
+        </div>
+        <div class="span6">
+            <h2>My repositories</h2>
+            {% for repository in app.user.repositories %}
+                <div class="well">
+                    <h3><a href="{{ repository_path(repository) }}">{{ repository.namespace ~ '/' ~ repository.name }}</a></h3>
+                    <p>{% if repository.description %}{{ repository.description }}{% else %}<em>No description</em>{% endif %}</p>
+                </div>
+            {% else %}
+                <p><em>No repository found</em></p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

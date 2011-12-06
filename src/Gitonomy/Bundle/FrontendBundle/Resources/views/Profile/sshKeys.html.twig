@@ -1,0 +1,26 @@
+{% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
+
+{% block title 'Profile' %}
+{% set navigation_active = null %}
+
+{% block column_right %}
+    <h2>SSH Keys</h2>
+    <p>Bla bla bla</p>
+    <hr />
+    {% for key in sshKeys %}
+        <pre>{{ key.content }}</pre>
+        <p>
+            <a class="btn danger small" href="{{ path('gitonomy_frontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
+            {% if not key.isInstalled %}
+                <span class="label warn notice">INSTALLING</span>
+            {% endif %}
+        </p>
+        <hr />
+    {% endfor %}
+    <h3>New key</h3>
+    <form action="{{ path('gitonomy_frontend_profile_createSshKey') }}" method="POST">
+        {{ form_widget(form.content, {'attr': { 'class': 'span12'}}) }}
+        {{ form_rest(form) }}
+        <p><input type="submit" value="Add key" /></p>
+    </form>
+{% endblock %}

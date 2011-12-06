@@ -1,0 +1,17 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <ul>
+                    <li><a href="{{ path('gitonomy_frontend_profile_index') }}">Profile</a></li>
+                    <li><a href="{{ path('gitonomy_frontend_profile_sshKeys') }}">SSH keys</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span12">
+            {% block column_right '' %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+# Main
+gitonomy_frontend_main_homepage:
+    pattern: /
+    defaults: { _controller: "GitonomyFrontendBundle:Main:homepage" }
+
+# User
+
+gitonomy_frontend_user_register:
+    pattern: /register
+    defaults: { _controller: "GitonomyFrontendBundle:User:register" }
+
+
+# Security
+gitonomy_frontend_security_login:
+    pattern: /login
+    defaults: { _controller: "GitonomyFrontendBundle:Security:login" }
+
+gitonomy_frontend_security_loginCheck:
+    pattern: /login_check
+    defaults: { _controller: "GitonomyFrontendBundle:Security:loginCheck" }
+
+gitonomy_frontend_security_logout:
+    pattern: /logout
+    defaults: { _controller: "GitonomyFrontendBundle:Security:logout" }
+
+
+# Profile
+gitonomy_frontend_profile_index:
+    pattern: /profile
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:index" }
+
+gitonomy_frontend_profile_sshKeys:
+    pattern: /profile/ssh-keys
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:sshKeys" }
+
+gitonomy_frontend_profile_deleteSshKey:
+    pattern: /profile/delete-ssh-key/{id}
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:deleteSshKey" }
+
+gitonomy_frontend_profile_createSshKey:
+    pattern: /profile/create-ssh-key
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:createSshKey" }
+
+# Repository
+gitonomy_frontend_repository_show:
+    pattern: /{namespace}/{name}
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:show" }
+
+gitonomy_frontend_repository_fork:
+    pattern: /{namespace}/{name}/fork
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:fork" }

@@ -1,0 +1,28 @@
+parameters:
+  # Database
+  database_driver:   pdo_mysql
+  database_host:     localhost
+  database_port:     ~
+  database_name:     gitonomy
+  database_user:     root
+  database_password: ~
+
+  # Mailer
+  mailer_transport:  smtp
+  mailer_host:       localhost
+  mailer_user:       ~
+  mailer_password:   ~
+
+  # Security
+  secret:            ThisTokenIsNotSoSecretChangeIt
+
+  # Localisation
+  locale:            en
+
+  # System
+  repository_path:   %kernel.root_dir%/cache/repositories
+  ssh_access:        alex@localhost
+
+  # Your project
+  project_name:      Gitonomy.sample
+  open_registration: true

@@ -1,0 +1,15 @@
+# Gitonomy core
+gitonomy_core:
+    open_registration: %open_registration%
+    repository_path:   %repository_path%
+
+gitonomy_frontend:
+    ssh_access:        %ssh_access%
+
+twig:
+    form:
+        resources: [ "GitonomyFrontendBundle::form.html.twig" ]
+    globals:
+        project:
+          name:              %project_name%
+          open_registration: %open_registration%

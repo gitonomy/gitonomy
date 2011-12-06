@@ -1,0 +1,7 @@
+web/bundles/
+sample/
+app/bootstrap.php.cache
+app/cache/*
+app/logs/*
+build/
+vendor/

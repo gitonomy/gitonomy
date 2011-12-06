@@ -1,0 +1,52 @@
+<div class="topbar" data-dropdown>
+    <div class="topbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="{{ path('gitonomy_frontend_main_homepage') }}">{{ project.name }}</a>
+            {% if is_granted('ROLE_USER') %}
+                <ul class="nav">
+                    <li>
+                        <a href="#" class="dropdown-toggle">My repositories</a>
+                        <ul class="dropdown-menu">
+                            {% for repository in app.user.repositories %}
+                            <li><a href="{{ repository_path(repository) }}">{{ repository.name }}</a></li>
+                            {% else %}
+                                <li><a><em>No repository found</em></a></li>
+                            {% endfor %}
+                            <li class="divider"></li>
+                            <li><a href="#">Create</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+            <ul class="nav">
+                <li>
+                    <a href="#" class="dropdown-toggle">Users</a>
+                    <ul class="dropdown-menu">
+                        {% for user in user_list() %}
+                            <li><a href="#">{{ user.fullname }}</a></li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="#">Create</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav secondary-nav">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">{{ app.user.username }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('gitonomy_frontend_profile_index') }}">Configuration</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('gitonomy_frontend_security_logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    {% if project.open_registration%}
+                        <li><a href="{{ path('gitonomy_frontend_user_register') }}">Register</a></li>
+                    {% endif %}
+                    <li><a href="{{ path('gitonomy_frontend_security_login') }}">Login</a></li>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+Gitonomy
+======
+
+This project is still a work in progress.
+
+
+System configuration
+::::::::::::::::::::
+
+The command ``php app/console gitonomy:authorized-keys -i`` will regenerate the
+file with user SSH keys.
+
