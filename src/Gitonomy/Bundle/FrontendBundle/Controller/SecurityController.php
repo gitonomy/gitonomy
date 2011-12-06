@@ -22,6 +22,7 @@ class SecurityController extends BaseController
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
             $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
         return $this->render('GitonomyFrontendBundle:Security:login.html.twig', array(
