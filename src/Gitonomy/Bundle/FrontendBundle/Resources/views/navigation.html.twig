@@ -2,29 +2,40 @@
     <div class="topbar-inner">
         <div class="container-fluid">
             <a class="brand" href="{{ path('gitonomy_frontend_main_homepage') }}">{{ project.name }}</a>
-            {% if is_granted('ROLE_USER') %}
-                <ul class="nav">
-                    <li>
-                        <a href="#" class="dropdown-toggle">My repositories</a>
-                        <ul class="dropdown-menu">
-                            {% for repository in app.user.repositories %}
-                            <li><a href="{{ repository_path(repository) }}">{{ repository.name }}</a></li>
-                            {% else %}
-                                <li><a><em>No repository found</em></a></li>
-                            {% endfor %}
-                            <li class="divider"></li>
-                            <li><a href="#">Create</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            {% endif %}
             <ul class="nav">
+                <li>
+                    <a href="#" class="dropdown-toggle">Projects</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Project A</a></li>
+                        <li><a href="#">Project B</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Create</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle">My repositories</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Repository A</a></li>
+                        <li><a href="#">Repository B</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Create</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href="#" class="dropdown-toggle">Users</a>
                     <ul class="dropdown-menu">
                         {% for user in user_list() %}
                             <li><a href="#">{{ user.fullname }}</a></li>
                         {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="#">Create</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle">Administration</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Users</a></li>
+                        <li><a href="#">Projects</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Create</a></li>
                     </ul>
