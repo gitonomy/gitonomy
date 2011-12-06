@@ -81,7 +81,7 @@ class User implements UserInterface
 
     public function regenerateSalt()
     {
-        $this->salt = md5(uniqid().microtime());
+        return $this->salt = md5(uniqid().microtime());
     }
 
     public function getUsername()
