@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ ! -f "app/config/parameters.yml" ]; then
     echo "You must setup the parameters.yml file in app/config before running this file"
 fi
