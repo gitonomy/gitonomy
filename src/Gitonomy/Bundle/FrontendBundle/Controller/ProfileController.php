@@ -2,7 +2,7 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
-use Gitonomy\Bundle\FrontendBundle\Form\CreateSshKeyType;
+use Gitonomy\Bundle\FrontendBundle\Form;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -19,8 +19,27 @@ class ProfileController extends BaseController
     public function indexAction()
     {
         $this->assertPermission('ROLE_USER');
+        $user = $this->getUser();
 
-        return $this->render('GitonomyFrontendBundle:Profile:index.html.twig');
+        $form = $this->createForm(new Form\UserInformationsType(), $user);
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($user);
+                $em->flush();
+
+                $this->get('session')->setFlash('success', 'Profile updated!');
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_index'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:index.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     /**
@@ -30,7 +49,7 @@ class ProfileController extends BaseController
     {
         $this->assertPermission('ROLE_USER');
 
-        $form = $this->createForm(new CreateSshKeyType());
+        $form = $this->createForm(new Form\CreateSshKeyType());
 
         return $this->render('GitonomyFrontendBundle:Profile:sshKeys.html.twig', array(
             'sshKeys' => $this->getUser()->getSshKeys(),
@@ -72,7 +91,7 @@ class ProfileController extends BaseController
 
         $userSshKey = new UserSshKey();
         $userSshKey->setUser($this->getUser());
-        $form = $this->createForm(new CreateSshKeyType(), $userSshKey);
+        $form = $this->createForm(new Form\CreateSshKeyType(), $userSshKey);
 
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {

@@ -4,11 +4,11 @@
 {% set navigation_active = null %}
 
 {% block column_right %}
-    <h2>SSH Keys</h2>
-    <p>Bla bla bla</p>
-    <hr />
+    <div class="page-header">
+        <h2>SSH Keys <small>Manage your keyring</small></h2>
+    </div>
     {% for key in sshKeys %}
-        <h5>{{ key.title }}</h5>
+        <h3>{{ key.title }}</h3>
         <pre>{{ key.content }}</pre>
         <p>
             <a class="btn danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
