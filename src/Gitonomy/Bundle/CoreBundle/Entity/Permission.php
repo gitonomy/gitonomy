@@ -29,13 +29,19 @@ class Permission
     protected $permission;
 
     /**
+     * @ORM\Column(type="boolean", name="is_global", nullable=false)
+     */
+    protected $isGlobal;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", mappedBy="permissions")
      */
     protected $roles;
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        $this->roles    = new ArrayCollection();
+        $this->isGlobal = false;
     }
 
     public function getId()
@@ -66,6 +72,16 @@ class Permission
     public function setPermission($permission)
     {
         $this->permission = $permission;
+    }
+
+    public function getIsGlobal()
+    {
+        return $this->isGlobal;
+    }
+
+    public function setIsGlobal($isGlobal)
+    {
+        $this->isGlobal = $isGlobal;
     }
 
     public function getRoles()
