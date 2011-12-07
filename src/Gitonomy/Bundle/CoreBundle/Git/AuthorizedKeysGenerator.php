@@ -14,8 +14,8 @@ class AuthorizedKeysGenerator
     /**
      * Generates the file.
      *
-     * @param array $keyList An array of array, like [ ['alice', 'key1'],
-     * ['bob', 'key2'], ... ]
+     * @param array $keyList An array of keys (each element has 2 keys: username
+     * and content).
      *
      * @param string $shellCommand The shell command to execute the git
      * wrapper
