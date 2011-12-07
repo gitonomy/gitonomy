@@ -40,7 +40,7 @@ EOF
     {
         $authorizedKeys = $this->getContainer()
             ->get('gitonomy_core.git.authorized_keys_generator')
-            ->generateAuthorizedKeys($input->getOption('mark-as-installed'))
+            ->generate($input->getOption('mark-as-installed'))
         ;
 
         $output->write($authorizedKeys);

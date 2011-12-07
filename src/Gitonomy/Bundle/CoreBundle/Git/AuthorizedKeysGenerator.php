@@ -1,6 +1,6 @@
 <?php
 
-namespace Git\Bundle\CoreBundle\Git;
+namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Symfony\Bundle\DoctrineBundle\Registry as Doctrine;
 
@@ -9,7 +9,7 @@ use Symfony\Bundle\DoctrineBundle\Registry as Doctrine;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class AuthorizedKeysDumper
+class AuthorizedKeysGenerator
 {
     /**
      * @var Symfony\Bundle\DoctrineBundle\Registry
@@ -17,13 +17,21 @@ class AuthorizedKeysDumper
     protected $doctrine;
 
     /**
+     * The shell command to run the git wrapper.
+     *
+     * @var string
+     */
+    protected $shellCommand;
+
+    /**
      * Constructor.
      *
      * @param Symfony\Bundle\DoctrineBundle\Registry $doctrine A doctrine registry
      */
-    public function __construct(Doctrine $doctrine)
+    public function __construct(Doctrine $doctrine, $shellCommand)
     {
-        $this->doctrine = $doctrine;
+        $this->doctrine     = $doctrine;
+        $this->shellCommand = $shellCommand;
     }
 
     /**

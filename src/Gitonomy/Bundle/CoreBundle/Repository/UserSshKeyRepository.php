@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\Entity;
+namespace Gitonomy\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
