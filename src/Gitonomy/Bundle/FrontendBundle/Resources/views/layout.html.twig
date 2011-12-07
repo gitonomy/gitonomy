@@ -12,6 +12,7 @@
 {% block body %}
     <div class="container">
         {% include "GitonomyFrontendBundle::navigation.html.twig" %}
+        {% include "GitonomyFrontendBundle::flashes.html.twig" %}
         {% block content '' %}
     </div>
 {% endblock %}
