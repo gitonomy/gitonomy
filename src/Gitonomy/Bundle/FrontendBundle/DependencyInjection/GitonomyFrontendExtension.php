@@ -27,20 +27,8 @@ class GitonomyFrontendExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $openRegistration = $container->hasParameter('gitonomy.open_registration') ?
-            $container->getParameter('gitonomy.open_registration')
-            :
-            $config['open_registration']
-        ;
-        $container->setParameter('gitonomy_frontend.user.open_registration', $openRegistration);
-
-        $projectName = $container->hasParameter('gitonomy.project_name') ?
-            $container->getParameter('gitonomy.project_name')
-            :
-            $config['project_name']
-        ;
-        $container->setParameter('gitonomy_frontend.project.name', $projectName);
-
+        $container->setParameter('gitonomy_frontend.user.open_registration', $config['open_registration']);
+        $container->setParameter('gitonomy_frontend.project.name', $config['project_name']);
         $container->setParameter('gitonomy_frontend.ssh_access', $config['ssh_access']);
     }
 }
