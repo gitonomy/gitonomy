@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +26,16 @@ class UserSshKey
     protected $user;
 
     /**
+     * @ORM\Column(type="string",length=128)
+     *
+     * @Assert\NotBlank
+     */
+    protected $title;
+
+    /**
      * @ORM\Column(type="text")
+     *
+     * @Assert\NotBlank
      */
     protected $content;
 
@@ -46,6 +57,16 @@ class UserSshKey
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     public function getContent()

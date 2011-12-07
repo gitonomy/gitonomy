@@ -227,7 +227,7 @@
 {% spaceless %}
     <div class="clearfix{% if errors|length %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
-        {{ form_widget(form) }}
+        {{ form_widget(form, {'attr': field_attr|default({})}) }}
         {{ form_errors(form) }}
     </div>
 {% endspaceless %}

@@ -22,17 +22,20 @@ class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterf
         $alice = $manager->merge($this->getReference('user-alice'));
         $aliceKey = new UserSshKey();
         $aliceKey->setUser($alice);
+        $aliceKey->setTitle('Laptop key');
         $aliceKey->setContent('alice-key');
         $manager->persist($aliceKey);
 
         $bob = $manager->merge($this->getReference('user-bob'));
         $bobKeyInstalled = new UserSshKey();
+        $bobKeyInstalled->setTitle('Installed key');
         $bobKeyInstalled->setUser($bob);
         $bobKeyInstalled->setContent('bob-key-installed');
         $bobKeyInstalled->setIsInstalled(true);
         $manager->persist($bobKeyInstalled);
         $bobKeyNotInstalled = new UserSshKey();
         $bobKeyNotInstalled->setUser($bob);
+        $bobKeyNotInstalled->setTitle('Not installed key');
         $bobKeyNotInstalled->setContent('bob-key-not-installed');
         $manager->persist($bobKeyNotInstalled);
 

@@ -10,9 +10,8 @@ class CreateSshKeyType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('content', 'textarea', array(
-                'label' => 'Your SSH key'
-            ))
+            ->add('title', 'text')
+            ->add('content', 'textarea')
         ;
     }
 
