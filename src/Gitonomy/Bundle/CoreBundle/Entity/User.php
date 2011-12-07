@@ -149,4 +149,29 @@ class User implements UserInterface
     {
         return $this->repositories;
     }
+
+    public function setRepositories(ArrayCollection $repositories)
+    {
+        $this->repositories = $repositories;
+    }
+
+    public function addRepository(Repository $repository)
+    {
+        $this->repositories->add($repository);
+    }
+
+    public function getUserRoles()
+    {
+        return $this->userRoles;
+    }
+
+    public function setUserRoles(UserRole $userRoles)
+    {
+        $this->userRoles = $userRoles;
+    }
+
+    public function addUserRole(UserRole $userRole)
+    {
+        $this->userRoles->add($userRole);
+    }
 }

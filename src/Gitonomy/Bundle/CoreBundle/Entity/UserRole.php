@@ -32,7 +32,42 @@ class UserRole
 
     /**
      * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Project", inversedBy="userRoles")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id",nullable=true)
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable=true)
      */
     protected $project;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role)
+    {
+        $this->role = $role;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
+    }
 }

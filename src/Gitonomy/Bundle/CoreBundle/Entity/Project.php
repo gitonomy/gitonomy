@@ -38,4 +38,39 @@ class Project
         $this->repositories = new ArrayCollection();
         $this->userRoles    = new ArrayCollection();
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getRepositories()
+    {
+        return $this->repositories;
+    }
+
+    public function setRepositories(ArrayCollection $repositories)
+    {
+        $this->repositories = $repositories;
+    }
+
+    public function addRepository(Repository $repository)
+    {
+        $this->repositories->add($repository);
+    }
+
+    public function getUserRoles()
+    {
+        return $this->userRoles;
+    }
 }

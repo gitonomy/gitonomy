@@ -50,11 +50,6 @@ class Role
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function getName()
     {
         return $this->name;
@@ -88,5 +83,10 @@ class Role
     public function addPermission(Permission $permission)
     {
         $this->permissions->add($permission);
+    }
+
+    public function getUserRoles()
+    {
+        return $this->userRoles;
     }
 }
