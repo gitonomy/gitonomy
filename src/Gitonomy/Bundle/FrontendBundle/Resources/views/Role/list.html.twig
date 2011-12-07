@@ -1,0 +1,40 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Roles' %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Roles</h1>
+    <a href="{{ path('gitonomyfrontend_role_create') }}" class="btn success">Create</a>
+    <table class="zebra-striped" id="sortTableExample">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Permissions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for role in roles %}
+                <tr>
+                    <td>{{ role.id }}</td>
+                    <td>
+                        <a href="{{ path('gitonomyfrontend_role_edit', {'id': role.id}) }}">{{ role.name }}</a>
+                    </td>
+                    <td>{{ role.description }}</td>
+                    <td>
+                        {% for permission in role.permissions %}
+                            {{ permission }}{% if not loop.last  %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr colspan="3">
+                    <td>No roles</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('gitonomyfrontend_role_create') }}" class="btn success">Create</a>
+{% endblock %}

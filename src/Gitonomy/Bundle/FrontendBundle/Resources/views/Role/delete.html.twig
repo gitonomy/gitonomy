@@ -1,0 +1,15 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Delete role '~role.name %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Delete role "{{ role.name }}" ?</h1>
+    <form class="form-stacked" action="{{ path('gitonomyfrontend_role_delete', {'id':role.id}) }}" method="POST" novalidate>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+
+        <input type="submit" class="btn danger" value="Delete" />
+        <a href="{{ path('gitonomyfrontend_role_list') }}" class="btn">Cancel</a>
+    </form>
+{% endblock %}

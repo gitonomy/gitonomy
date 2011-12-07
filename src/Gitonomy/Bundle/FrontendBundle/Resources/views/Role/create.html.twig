@@ -1,0 +1,14 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Create role' %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Create role</h1>
+    <form class="form-stacked" action="{{ path('gitonomyfrontend_role_create') }}" method="POST" novalidate>
+        {% include('GitonomyFrontendBundle:Role:form.html.twig') with {'form': form} only %}
+
+        <input type="submit" class="btn success" value="Create" />
+        <a href="{{ path('gitonomyfrontend_role_list') }}" class="btn">Cancel</a>
+    </form>
+{% endblock %}
