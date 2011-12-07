@@ -29,14 +29,13 @@ class Project
     protected $repositories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="projects")
-     * @ORM\JoinTable(name="project_group")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="project")
      */
-    protected $groups;
+    protected $userRoles;
 
     public function __construct()
     {
         $this->repositories = new ArrayCollection();
-        $this->groups       = new ArrayCollection();
+        $this->userRoles    = new ArrayCollection();
     }
 }

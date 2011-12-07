@@ -35,14 +35,14 @@ class Role
     protected $permissions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Project", mappedBy="roles")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="role")
      */
-    protected $groups;
+    protected $userRoles;
 
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
-        $this->groups      = new ArrayCollection();
+        $this->userRoles   = new ArrayCollection();
     }
 
     public function getId()
@@ -88,20 +88,5 @@ class Role
     public function addPermission(Permission $permission)
     {
         $this->permissions->add($permission);
-    }
-
-    public function getGroups()
-    {
-        return $this->groups;
-    }
-
-    public function setGroups(ArrayCollection $groups)
-    {
-        $this->groups = $groups;
-    }
-
-    public function addGroup(Group $group)
-    {
-        $this->groups->add($group);
     }
 }

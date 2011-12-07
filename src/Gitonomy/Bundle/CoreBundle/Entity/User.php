@@ -55,10 +55,16 @@ class User implements UserInterface
      */
     protected $repositories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="user")
+     */
+    protected $userRoles;
+
     public function __construct()
     {
         $this->sshKeys      = new ArrayCollection();
         $this->repositories = new ArrayCollection();
+        $this->userRoles    = new ArrayCollection();
     }
 
     public function equals(UserInterface $user)
