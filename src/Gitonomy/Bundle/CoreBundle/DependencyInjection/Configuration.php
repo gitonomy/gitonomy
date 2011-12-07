@@ -22,7 +22,6 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('open_registration')->defaultTrue()->end()
                 ->scalarNode('repository_path')->cannotBeEmpty()->end()
             ->end()
         ;

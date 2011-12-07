@@ -18,6 +18,16 @@ class GitonomyExtension extends \Twig_Extension
         $this->sshAccess = $sshAccess;
     }
 
+    public function getGlobals()
+    {
+        return array(
+            'project' => array(
+                'name'              => $this->container->getParameter('gitonomy_frontend.project.name'),
+                'open_registration' => $this->container->getParameter('gitonomy_frontend.user.open_registration')
+            )
+        );
+    }
+
     public function getFunctions()
     {
         return array(

@@ -25,7 +25,7 @@ class GitonomyCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('gitonomy_core.user.open_registration', $config['open_registration']);
+        // Path to repositories
         $container->setParameter('gitonomy_core.git.repository_path', $config['repository_path']);
     }
 }

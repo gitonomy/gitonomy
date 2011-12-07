@@ -12,7 +12,7 @@ class UserController extends BaseController
      */
     public function registerAction()
     {
-        if (!$this->container->getParameter('gitonomy_core.user.open_registration')) {
+        if (!$this->container->getParameter('gitonomy_frontend.user.open_registration')) {
             throw $this->createNotFoundException('Public registration is disabled');
         }
 
