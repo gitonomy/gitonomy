@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Gitonomy\Bundle\CoreBundle\Git\AuthorizedKeysGenerator;
+
 /**
  * Shell command for generating the authorized_keys file.
  *
@@ -38,11 +40,27 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $authorizedKeys = $this->getContainer()
-            ->get('gitonomy_core.git.authorized_keys_generator')
-            ->generate($input->getOption('mark-as-installed'))
-        ;
+        $markAsInstalled = $input->getOption('mark-as-installed');
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $output->write($authorizedKeys);
+        $shellCommand = $this->getContainer()->getParameter('gitonomy_core.git.shell_command');
+        $keyList = $em->transactional(function ($em) use ($markAsInstalled) {
+            $repository = $em->getRepository('GitonomyCoreBundle:UserSshKey');
+            $keyList = $repository->getKeyList();
+            if ($markAsInstalled) {
+                $repository->markAllAsInstalled();
+            }
+
+            return $keyList;
+        });
+
+        // Here we test true, because $em->transactional returns true if the list was an empty list
+        if (empty($keyList) || true === $keyList) {
+            throw new \LogicException('Cannot generate the authorized_keys file: no key in database');
+        }
+
+        $generator = new AuthorizedKeysGenerator();
+
+        $output->write($generator->generate($keyList, $shellCommand));
     }
 }

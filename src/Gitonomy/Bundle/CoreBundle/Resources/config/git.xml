@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="gitonomy_core.git.system.class">Gitonomy\Bundle\CoreBundle\Git\System\NativeSystem</parameter>
         <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Git\RepositoryPool</parameter>
-        <parameter key="gitonomy_core.git.authorized_keys_generator.class">Gitonomy\Bundle\CoreBundle\Git\AuthorizedKeysGenerator</parameter>
         <parameter key="gitonomy_core.git.shell_command">php %kernel.root_dir%/console gitonomy:git</parameter>
     </parameters>
 
@@ -18,11 +17,6 @@
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.system" />
             <argument>%gitonomy_core.git.repository_path%</argument>
-        </service>
-
-        <service id="gitonomy_core.git.authorized_keys_generator" class="%gitonomy_core.git.authorized_keys_generator.class%">
-            <argument type="service" id="doctrine" />
-            <argument>%gitonomy_core.git.shell_command%</argument>
         </service>
     </services>
 
