@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 
 /**
- * Loads the fixtures for user object.
+ * Loads the fixtures for role object.
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
@@ -37,7 +37,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleLeadDev->addPermission($this->getReference('permission-usercreate'));
         $roleLeadDev->addPermission($this->getReference('permission-projectcreate'));
         $manager->persist($roleLeadDev);
-        $this->setReference('role-lead', $roleLeadDev);
+        $this->setReference('role-leaddev', $roleLeadDev);
 
         $roleProjectManager = new Role();
         $roleProjectManager->setName('Project managers');
@@ -45,7 +45,15 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleProjectManager->addPermission($this->getReference('permission-usercreate'));
         $roleProjectManager->addPermission($this->getReference('permission-projectcreate'));
         $manager->persist($roleProjectManager);
-        $this->setReference('permission-userdelete', $roleProjectManager);
+        $this->setReference('role-projectmanager', $roleProjectManager);
+
+        $roleDeveloper = new Role();
+        $roleDeveloper->setName('Project managers');
+        $roleDeveloper->setDescription('Role of project managers');
+        $roleDeveloper->addPermission($this->getReference('permission-usercreate'));
+        $roleDeveloper->addPermission($this->getReference('permission-projectcreate'));
+        $manager->persist($roleDeveloper);
+        $this->setReference('role-dev', $roleDeveloper);
 
         $manager->flush();
     }
