@@ -21,12 +21,12 @@ class Group
     protected $id;
 
     /**
-     * @ORM\Column(type="text",length=64)
+     * @ORM\Column(type="text",length=50)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="text",length=50)
      */
     protected $description;
 
@@ -52,5 +52,80 @@ class Group
         $this->roles    = new ArrayCollection();
         $this->users    = new ArrayCollection();
         $this->projects = new ArrayCollection();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(ArrayCollection $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
+    }
+
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function setUsers(ArrayCollection $users)
+    {
+        $this->users = $users;
+    }
+
+    public function addUser(User $user)
+    {
+        $this->users->add($user);
+    }
+
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    public function setProjects(ArrayCollection $projects)
+    {
+        $this->projects = $projects;
+    }
+
+    public function addProject(Project $project)
+    {
+        $this->projects->add($project);
     }
 }
