@@ -2,7 +2,9 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,6 +12,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
+ *
+ * @AssertDoctrine\UniqueEntity(fields="username",groups={"registration"})
+ * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration"})
  */
 class User implements UserInterface
 {
@@ -22,11 +27,18 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string",length=32)
+     *
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\MinLength(limit=3,groups={"registration"})
+     * @Assert\MaxLength(limit=32,groups={"registration"})
+     * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration"})
      */
     protected $username;
 
     /**
      * @ORM\Column(type="string",length=128)
+     *
+     * @Assert\NotBlank(groups={"registration"})
      */
     protected $password;
 
@@ -37,11 +49,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string",length=64)
+     *
+     * @Assert\NotBlank(groups={"registration"})
      */
     protected $fullname;
 
     /**
      * @ORM\Column(type="string",length=256)
+     *
+     * @Assert\NotBlank(groups={"registration"})
      */
     protected $email;
 

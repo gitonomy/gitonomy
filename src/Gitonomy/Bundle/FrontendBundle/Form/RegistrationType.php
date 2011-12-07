@@ -10,29 +10,22 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('username', 'text', array(
-                'label' => 'Your username'
-            ))
-            ->add('fullname', 'text', array(
-                'label' => 'Your fullname'
-            ))
-            ->add('email', 'email', array(
-                'label' => 'Your e-mail'
-            ))
-            ->add('password', 'repeated',array(
-                'type' => 'password',
-                'first_options' => array(
-                    'label' => 'Choose a password'
-                ),
-                'second_options' => array(
-                    'label' => 'And repeat it'
-                )
-            ))
+            ->add('username', 'text')
+            ->add('fullname', 'text')
+            ->add('email', 'email')
+            ->add('password', 'repeated',array('type' => 'password'))
         ;
     }
 
     public function getName()
     {
         return 'registration';
+    }
+
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'validation_groups' => array('registration')
+        );
     }
 }
