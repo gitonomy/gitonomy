@@ -12,7 +12,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class LoaderUserSshKeyData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @inheritdoc
@@ -44,6 +44,6 @@ class LoaderUserSshKeyData extends AbstractFixture implements OrderedFixtureInte
      */
     public function getOrder()
     {
-        return 2;
+        return 11;
     }
 }

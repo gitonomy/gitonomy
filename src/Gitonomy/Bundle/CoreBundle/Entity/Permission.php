@@ -19,9 +19,14 @@ class Permission
     protected $id;
 
     /**
-     * @ORM\Column(type="text",length=64)
+     * @ORM\Column(type="text",length=50)
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="text",length=50)
+     */
+    protected $permission;
 
     /**
      * @ORM\ManyToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", mappedBy="permissions")
@@ -31,5 +36,45 @@ class Permission
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getPermission()
+    {
+        return $this->permission;
+    }
+
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
     }
 }

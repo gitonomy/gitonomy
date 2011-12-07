@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="group_")
+ * @ORM\Table(name="group")
  *
  * @todo To fix Doctrine2, we use name "group_" instead of group
  */

@@ -15,7 +15,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class LoaderUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * Service container of the application
@@ -61,7 +61,7 @@ class LoaderUserData extends AbstractFixture implements OrderedFixtureInterface,
      */
     public function getOrder()
     {
-        return 1;
+        return 10;
     }
 
     /**
