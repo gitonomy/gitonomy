@@ -56,7 +56,7 @@ class GitonomyExtension extends \Twig_Extension
 
     public function getRepositoryPath(Repository $repository)
     {
-        return $this->container->get('router')->generate('gitonomy_frontend_repository_show', array(
+        return $this->container->get('router')->generate('gitonomyfrontend_repository_show', array(
             'namespace' => $repository->getNamespace(),
             'name'      => $repository->getName()
         ));

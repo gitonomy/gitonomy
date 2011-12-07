@@ -1,0 +1,7 @@
+gitonomyfrontend_repository_show:
+    pattern: /{namespace}/{name}
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:show" }
+
+gitonomyfrontend_repository_fork:
+    pattern: /{namespace}/{name}/fork
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:fork" }

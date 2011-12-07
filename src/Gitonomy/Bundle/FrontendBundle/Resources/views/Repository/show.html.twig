@@ -11,11 +11,11 @@
     </h1>
     <p>
         {% if repository is forked %}
-            <a class="btn" href="{{ path('gitonomy_frontend_repository_show', {'namespace': app.user.username, 'name': repository.name}) }}">
+            <a class="btn" href="{{ path('gitonomyfrontend_repository_show', {'namespace': app.user.username, 'name': repository.name}) }}">
                 View my fork
             </a>
         {% elseif is_granted('ROLE_USER') %}
-            <a class="btn" href="{{ path('gitonomy_frontend_repository_fork', {'namespace': repository.namespace, 'name': repository.name}) }}">
+            <a class="btn" href="{{ path('gitonomyfrontend_repository_fork', {'namespace': repository.namespace, 'name': repository.name}) }}">
                 Fork this repository
             </a>
         {% endif %}

@@ -50,7 +50,7 @@ class RepositoryController extends BaseController
 
         $pool->fork($user, $pool->findOneByNamespaceAndName($namespace, $name));
 
-        return $this->redirect($this->generateUrl('gitonomy_frontend_repository_show', array('namespace' => $username, 'name' => $name)));
+        return $this->redirect($this->generateUrl('gitonomyfrontend_repository_show', array('namespace' => $username, 'name' => $name)));
     }
 
     /**

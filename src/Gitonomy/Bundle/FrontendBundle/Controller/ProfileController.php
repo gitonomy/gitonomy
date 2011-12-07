@@ -60,7 +60,7 @@ class ProfileController extends BaseController
 
         $em->remove($userSshKey);
 
-        return $this->redirect($this->generateUrl('gitonomy_frontend_profile_sshKeys'));
+        return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
     }
 
     /**
@@ -82,7 +82,7 @@ class ProfileController extends BaseController
                 $em->persist($userSshKey);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('gitonomy_frontend_profile_sshKeys'));
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
             }
         }
 

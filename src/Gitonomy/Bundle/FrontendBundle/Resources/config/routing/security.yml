@@ -1,0 +1,11 @@
+gitonomyfrontend_security_login:
+    pattern: /login
+    defaults: { _controller: "GitonomyFrontendBundle:Security:login" }
+
+gitonomyfrontend_security_loginCheck:
+    pattern: /login_check
+    defaults: { _controller: "GitonomyFrontendBundle:Security:loginCheck" }
+
+gitonomyfrontend_security_logout:
+    pattern: /logout
+    defaults: { _controller: "GitonomyFrontendBundle:Security:logout" }

@@ -1,5 +1,3 @@
-# User
-
-gitonomy_frontend_user_register:
+gitonomyfrontend_user_register:
     pattern: /register
     defaults: { _controller: "GitonomyFrontendBundle:User:register" }
