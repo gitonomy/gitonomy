@@ -13,93 +13,10 @@ use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
  * @author Julien DIDIER <julien@jdidier.net>
  */
 
-class AdminRoleController extends BaseController
+class AdminRoleController extends BaseAdminController
 {
-    public function listAction()
+    protected function getRepository()
     {
-        $em         = $this->getDoctrine()->getEntityManager();
-        $repository = $em->getRepository('GitonomyCoreBundle:Role');
-        $roles      = $repository->findAll();
-
-        return $this->render('GitonomyFrontendBundle:AdminRole:list.html.twig', array(
-           'roles' => $roles,
-        ));
-    }
-
-    public function createAction()
-    {
-        $role    = new Role();
-        $form    = $this->createForm(new RoleType(), $role);
-        $request = $this->getRequest();
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($role);
-                $em->flush();
-
-                $this->get('session')->setFlash('success', 'Role saved');
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:AdminRole:create.html.twig', array(
-           'form' => $form->createView(),
-        ));
-    }
-
-    public function editAction($id)
-    {
-        $em        = $this->getDoctrine()->getEntityManager();
-        if (!$role = $em->getRepository('GitonomyCoreBundle:Role')->find($id)) {
-            throw new HttpException(404, sprintf('No role found with id "%d".', $id));
-        }
-        $form      = $this->createForm(new RoleType(), $role);
-        $request   = $this->getRequest();
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
-
-                $this->get('session')->setFlash('success', sprintf('Role "%s" updated.', $role->getName()));
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:AdminRole:edit.html.twig', array(
-            'role' => $role,
-            'form' => $form->createView(),
-        ));
-    }
-
-    public function deleteAction($id)
-    {
-        $em        = $this->getDoctrine()->getEntityManager();
-        if (!$role = $em->getRepository('GitonomyCoreBundle:Role')->find($id)) {
-            throw new HttpException(404, sprintf('No role found with id "%d".', $id));
-        }
-        $form      = $this->createFormBuilder()->getForm();
-        $request   = $this->getRequest();
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em->remove($role);
-                $em->flush();
-
-                $this->get('session')->setFlash('success', sprintf('Role "%s" deleted.', $role->getName()));
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:AdminRole:delete.html.twig', array(
-            'role' => $role,
-            'form' => $form->createView(),
-        ));
+        return $this->getDoctrine()->getEntityManager()->getRepository('GitonomyCoreBundle:Role');
     }
 }

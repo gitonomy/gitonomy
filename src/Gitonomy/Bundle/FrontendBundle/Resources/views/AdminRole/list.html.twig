@@ -16,15 +16,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for role in roles %}
+            {% for object in objects %}
                 <tr>
-                    <td>{{ role.id }}</td>
+                    <td>{{ object.id }}</td>
                     <td>
-                        <a href="{{ path('gitonomyfrontend_adminrole_edit', {'id': role.id}) }}">{{ role.name }}</a>
+                        <a href="{{ path('gitonomyfrontend_adminrole_edit', {'id': object.id}) }}">{{ object.name }}</a>
                     </td>
-                    <td>{{ role.description }}</td>
+                    <td>{{ object.description }}</td>
                     <td>
-                        {% for permission in role.permissions %}
+                        {% for permission in object.permissions %}
                             {{ permission }}{% if not loop.last  %}, {% endif %}
                         {% endfor %}
                     </td>
