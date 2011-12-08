@@ -103,7 +103,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        $roles = array();
+        $roles = array('ROLE_USER');
         foreach ($userRoles = $this->getUserRoles() as $userRole) {
             foreach ($userRole->getRole()->getPermissions() as $permission) {
                 $roles[] = $permission->getPermission();
