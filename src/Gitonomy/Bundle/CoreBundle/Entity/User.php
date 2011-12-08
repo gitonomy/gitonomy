@@ -103,7 +103,13 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = array();
+        foreach ($userRoles = $this->getUserRoles() as $userRole) {
+            foreach ($userRole->getRole()->getPermissions() as $permission) {
+                $roles[] = $permission->getPermission();
+            }
+        }
+        return $roles;
     }
 
     public function regenerateSalt()
