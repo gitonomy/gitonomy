@@ -10,6 +10,6 @@
         {{ form_rest(form) }}
 
         <input type="submit" class="btn danger" value="Delete" />
-        <a href="{{ path('gitonomyfrontend_adminrole_list') }}" class="btn">Cancel</a>
+        <a href="{{ path('gitonomyfrontend_adminrole_edit', {'id':object.id}) }}" class="btn">Cancel</a>
     </form>
 {% endblock %}
