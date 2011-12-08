@@ -1,0 +1,19 @@
+gitonomyfrontend_adminuser_list:
+    pattern: /adminuser/list
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:list" }
+
+gitonomyfrontend_adminuser_create:
+    pattern: /adminuser/create
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:create" }
+
+gitonomyfrontend_adminuser_edit:
+    pattern: /adminuser/{id}/edit
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:edit" }
+    requirements:
+        id:  \d+
+
+gitonomyfrontend_adminuser_delete:
+    pattern: /adminuser/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:delete" }
+    requirements:
+        id:  \d+

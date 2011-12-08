@@ -11,8 +11,6 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Permissions</th>
             </tr>
         </thead>
         <tbody>
@@ -20,18 +18,12 @@
                 <tr>
                     <td>{{ object.id }}</td>
                     <td>
-                        <a href="{{ path(route_prefix~'_edit', {'id': object.id}) }}">{{ object.name }}</a>
-                    </td>
-                    <td>{{ object.description }}</td>
-                    <td>
-                        {% for permission in object.permissions %}
-                            {{ permission }}{% if not loop.last  %}, {% endif %}
-                        {% endfor %}
+                        <a href="{{ path(route_prefix~'_edit', {'id': object.id}) }}">{{ object }}</a>
                     </td>
                 </tr>
             {% else %}
-                <tr colspan="3">
-                    <td>No {{ object_type }} to display</td>
+                <tr>
+                    <td colspan="2">No {{ object_type }} to display</td>
                 </tr>
             {% endfor %}
         </tbody>

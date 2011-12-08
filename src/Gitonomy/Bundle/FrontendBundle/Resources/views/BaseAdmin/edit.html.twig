@@ -1,0 +1,15 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Edit '~object_type~' '~object.name %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Edit {{ object_type }} {{ object.name }}</h1>
+    <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" novalidate>
+        {% include(controller_prefix~':form.html.twig') with {'form': form} only %}
+
+        <input type="submit" class="btn success" value="Update" />
+        <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
+        <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+    </form>
+{% endblock %}

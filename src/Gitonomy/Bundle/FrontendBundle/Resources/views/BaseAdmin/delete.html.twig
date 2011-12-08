@@ -1,0 +1,15 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Delete '~object_type~' '~object %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Delete {{ object_type }} "{{ object }}" ?</h1>
+    <form class="form-stacked" action="{{ path(route_prefix~'_delete', {'id':object.id}) }}" method="POST" novalidate>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+
+        <input type="submit" class="btn danger" value="Delete" />
+        <a href="{{ path(route_prefix~'_edit', {'id':object.id}) }}" class="btn">Cancel</a>
+    </form>
+{% endblock %}

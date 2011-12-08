@@ -1,0 +1,36 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Users' %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <h1>Roles</h1>
+    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn success">Create</a>
+    <table class="zebra-striped" id="sortTableExample">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+                <tr>
+                    <td>{{ object.id }}</td>
+                    <td>
+                        <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id': object.id}) }}">{{ object.username }}</a>
+                    </td>
+                    <td>{{ object.fullname }}</td>
+                    <td>{{ object.email }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No roles</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn success">Create</a>
+{% endblock %}

@@ -10,6 +10,12 @@ _gitonomyfrontend_user:
 _gitonomyfrontend_adminrole:
     resource: routing/adminrole.yml
 
+_gitonomyfrontend_adminproject:
+    resource: routing/adminproject.yml
+
+_gitonomyfrontend_adminuser:
+    resource: routing/adminuser.yml
+
 _gitonomyfrontend_profile:
     resource: routing/profile.yml
 
