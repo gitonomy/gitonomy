@@ -21,7 +21,7 @@ class GitonomyExtension extends \Twig_Extension
     public function getGlobals()
     {
         return array(
-            'project' => array(
+            'gitonomy' => array(
                 'name'              => $this->container->getParameter('gitonomy_frontend.project.name'),
                 'open_registration' => $this->container->getParameter('gitonomy_frontend.user.open_registration')
             )
