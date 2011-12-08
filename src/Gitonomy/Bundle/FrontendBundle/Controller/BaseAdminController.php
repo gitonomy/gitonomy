@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -18,7 +20,7 @@ abstract class BaseAdminController extends BaseController
         $repository = $this->getRepository();
         $objects    = $repository->findAll();
 
-        return $this->render($this->getViewName($className, 'list'), array(
+        return $this->render('list', array(
            'objects' => $objects,
         ));
     }
@@ -48,7 +50,7 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render($this->getViewName($className, 'create'), array(
+        return $this->render('create', array(
            'form' => $form->createView(),
         ));
     }
@@ -81,7 +83,7 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render($this->getViewName($className, 'edit'), array(
+        return $this->render('edit', array(
             'object' => $object,
             'form'   => $form->createView(),
         ));
@@ -117,7 +119,7 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render($this->getViewName($className, 'delete'), array(
+        return $this->render('delete', array(
             'object' => $object,
             'form'   => $form->createView(),
         ));
@@ -133,7 +135,9 @@ abstract class BaseAdminController extends BaseController
 
     protected function getRouteName($route)
     {
-        $route = strtolower($this->getIdentifier(get_class($this)));
+        $className = get_class($this);
+        $route     = $this->getIdentifier($className);
+        $route     = strtolower(preg_replace('/Controller$/', '', $route));
 
         return 'gitonomyfrontend_'.$route.'_list';
     }
@@ -145,12 +149,35 @@ abstract class BaseAdminController extends BaseController
         return 'GitonomyFrontendBundle:Admin'.$className.':'.$view.'.html.twig';
     }
 
-    protected function getIdentifier($string)
+    protected function getIdentifier($className)
     {
-        $string = substr($string, strrpos($string, '\\') + 1);
-        $string = preg_replace('/Controller$/', '', $string);
+        return substr($className, strrpos($className, '\\') + 1);
+    }
 
-        return $string;
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        $className     = $this->getRepository()->getClassName();
+        $objectType    = strtolower($this->getIdentifier($className));
+        $templating    = $this->container->get('templating');
+        $viewDirectory = 'Admin'.$className;
+
+        $parameters = array_merge(
+            array(
+                'object_type'       => strtolower($this->getIdentifier($className)),
+                'route_prefix'      => 'gitonomyfrontend_admin'.$objectType,
+                'controller_prefix' => 'GitonomyFrontendBundle:Admin'.$this->getIdentifier($className),
+            ),
+            $parameters
+        );
+
+        $template = new TemplateReference('GitonomyFrontendBundle', $viewDirectory, $view, 'html', 'twig');
+        if ($templating->exists($template)) {
+            $view = $template->getLogicalName();
+        } else {
+            $view = 'GitonomyFrontendBundle:BaseAdmin:'.$view.'.html.twig';
+        }
+
+        return parent::render($view, $parameters, $response);
     }
 
     abstract protected function getRepository();
