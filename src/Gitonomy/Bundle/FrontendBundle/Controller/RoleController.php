@@ -5,7 +5,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
-use Gitonomy\Bundle\FrontendBundle\Form\RoleType;
+use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 
 /**
  * Controller for repository actions.

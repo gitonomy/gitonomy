@@ -2,9 +2,11 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
-use Gitonomy\Bundle\FrontendBundle\Form;
-use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+use Gitonomy\Bundle\FrontendBundle\Form\Profile\CreateSshKeyType;
+use Gitonomy\Bundle\FrontendBundle\Form\Profile\UserInformationsType;
+use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 
 /**
  * Controller for user profile.
@@ -21,7 +23,7 @@ class ProfileController extends BaseController
         $this->assertPermission('ROLE_USER');
         $user = $this->getUser();
 
-        $form = $this->createForm(new Form\UserInformationsType(), $user);
+        $form = $this->createForm(new UserInformationsType(), $user);
 
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
@@ -49,7 +51,7 @@ class ProfileController extends BaseController
     {
         $this->assertPermission('ROLE_USER');
 
-        $form = $this->createForm(new Form\CreateSshKeyType());
+        $form = $this->createForm(new CreateSshKeyType());
 
         return $this->render('GitonomyFrontendBundle:Profile:sshKeys.html.twig', array(
             'sshKeys' => $this->getUser()->getSshKeys(),
@@ -91,7 +93,7 @@ class ProfileController extends BaseController
 
         $userSshKey = new UserSshKey();
         $userSshKey->setUser($this->getUser());
-        $form = $this->createForm(new Form\CreateSshKeyType(), $userSshKey);
+        $form = $this->createForm(new CreateSshKeyType(), $userSshKey);
 
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {

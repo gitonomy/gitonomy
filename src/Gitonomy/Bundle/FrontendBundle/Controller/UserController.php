@@ -3,7 +3,7 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\FrontendBundle\Form\RegistrationType;
+use Gitonomy\Bundle\FrontendBundle\Form\User\RegistrationType;
 
 class UserController extends BaseController
 {
