@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Role;
+namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -23,12 +23,11 @@ class RoleType extends AbstractType
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
-            'action'     => 'create',
         );
     }
 
     public function getName()
     {
-        return 'role';
+        return 'adminrole';
     }
 }
