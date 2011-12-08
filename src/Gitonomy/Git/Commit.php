@@ -2,22 +2,104 @@
 
 namespace Gitonomy\Git;
 
+/**
+ * Representation of a Git commit.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ */
 class Commit
 {
+    /**
+     * The repository associated to the commit.
+     *
+     * @var Gitonomy\Git\Repository
+     */
     protected $repository;
+
+    /**
+     * Hash of the commit.
+     *
+     * @var string
+     */
     protected $hash;
 
+    /**
+     * A flag indicating if the commit is initialized.
+     *
+     * @var boolean
+     */
     protected $initialized;
+
+    /**
+     * Hash of the tree.
+     *
+     * @var string
+     */
     protected $treeHash;
-    protected $parentHash;
+
+    /**
+     * Hashes of the parent commits.
+     *
+     * @var array
+     */
+    protected $parentHashes;
+
+    /**
+     * Author name.
+     *
+     * @var string
+     */
     protected $authorName;
+
+    /**
+     * Author email.
+     *
+     * @var string
+     */
     protected $authorEmail;
+
+    /**
+     * Date of authoring.
+     *
+     * @var DateTime
+     */
     protected $authorDate;
+
+    /**
+     * Committer name.
+     *
+     * @var string
+     */
     protected $committerName;
+
+    /**
+     * Committer email.
+     *
+     * @var string
+     */
     protected $committerEmail;
+
+    /**
+     * Date of commit.
+     *
+     * @var DateTime
+     */
     protected $committerDate;
+
+    /**
+     * Message of the commit.
+     *
+     * @var string
+     */
     protected $message;
 
+    /**
+     * Constructor.
+     *
+     * @param Gitonomy\Git\Repository $repository Repository of the commit
+     *
+     * @param string $hash Hash of the commit
+     */
     function __construct(Repository $repository, $hash)
     {
         $this->repository = $repository;
@@ -25,6 +107,11 @@ class Commit
         $this->initialized = false;
     }
 
+    /**
+     * Initializes the commit, which means read data about it and fill object.
+     *
+     * @throws RuntimeException An error occurred during read of data.
+     */
     protected function initialize()
     {
         if (true === $this->initialized) {
@@ -47,10 +134,10 @@ class Commit
             'tree (?<tree>[A-Za-z0-9]{40})'.
             "\n".
             '(parent (?<parent>[A-Za-z0-9]{40})'.
-            "\n)?".
-            'author (?<author_name>.*) <(?<author_email>.*)> (?<author_date>\d+ \+\d{4})'.
+            "\n)*".
+            'author (?<author_name>.*) <(?<author_email>.*)> (?<author_date>\d+ [+-]\d{4})'.
             "\n".
-            'committer (?<committer_name>.*) <(?<committer_email>.*)> (?<committer_date>\d+ \+\d{4})'.
+            'committer (?<committer_name>.*) <(?<committer_email>.*)> (?<committer_date>\d+ [+-]\d{4})'.
             "\n\n".
             '(?<message>[^$]*)'.
             '/'
@@ -61,7 +148,12 @@ class Commit
         }
 
         $this->treeHash       = $vars['tree'];
-        $this->parentHash     = $vars['parent'];
+
+        if ($vars['parent']) {
+            $this->parentHashes   = array($vars['parent']);
+        } else {
+            $this->parentHashes   = array();
+        }
         $this->authorName     = $vars['author_name'];
         $this->authorEmail    = $vars['author_email'];
         $this->authorDate     = $vars['author_date'];
@@ -73,29 +165,51 @@ class Commit
         $this->initialized = true;
     }
 
+    /**
+     * Returns the commit hash.
+     *
+     * @return string A SHA1 hash
+     */
     public function getHash()
     {
         return $this->hash;
     }
 
-    public function getParentHash()
+    /**
+     * Returns parent hashes.
+     *
+     * @return array An array of SHA1 hashes
+     */
+    public function getParentHashes()
     {
         $this->initialize();
 
-        return $this->parentHash;
+        return $this->parentHashes;
     }
 
-    public function getParent()
+    /**
+     * Returns the parent commits.
+     *
+     * @return array An array of Commit objects
+     */
+    public function getParents()
     {
         $this->initialize();
 
-        if ("" === $this->parentHash) {
-            return null;
+        $result = array();
+
+        foreach ($this->parentHashes as $parentHash) {
+            $result[] = $this->repository->getCommit($parentHash);
         }
 
-        return $this->repository->getCommit($this->parentHash);
+        return $result;
     }
 
+    /**
+     * Returns the tree hash.
+     *
+     * @return string A SHA1 hash
+     */
     public function getTreeHash()
     {
         $this->initialize();
@@ -103,6 +217,11 @@ class Commit
         return $this->treeHash;
     }
 
+    /**
+     * Returns the author name.
+     *
+     * @return string A name
+     */
     public function getAuthorName()
     {
         $this->initialize();
@@ -110,6 +229,11 @@ class Commit
         return $this->authorName;
     }
 
+    /**
+     * Returns the author email.
+     *
+     * @return string An email
+     */
     public function getAuthorEmail()
     {
         $this->initialize();
@@ -117,6 +241,11 @@ class Commit
         return $this->authorEmail;
     }
 
+    /**
+     * Returns the authoring date.
+     *
+     * @return DateTime A time object
+     */
     public function getAuthorDate()
     {
         $this->initialize();
@@ -124,6 +253,11 @@ class Commit
         return $this->authorDate;
     }
 
+    /**
+     * Returns the committer name.
+     *
+     * @return string A name
+     */
     public function getCommitterName()
     {
         $this->initialize();
@@ -131,6 +265,11 @@ class Commit
         return $this->committerName;
     }
 
+    /**
+     * Returns the comitter email.
+     *
+     * @return string An email
+     */
     public function getCommitterEmail()
     {
         $this->initialize();
@@ -138,6 +277,11 @@ class Commit
         return $this->committerEmail;
     }
 
+    /**
+     * Returns the authoring date.
+     *
+     * @return DateTime A time object
+     */
     public function getCommitterDate()
     {
         $this->initialize();
@@ -145,6 +289,11 @@ class Commit
         return $this->committerDate;
     }
 
+    /**
+     * Returns the message of the commit.
+     *
+     * @return string A commit message
+     */
     public function getMessage()
     {
         $this->initialize();

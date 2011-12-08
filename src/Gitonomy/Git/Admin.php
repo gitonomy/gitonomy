@@ -2,6 +2,11 @@
 
 namespace Gitonomy\Git;
 
+/**
+ * Administration class for Git repositories.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ */
 class Admin
 {
     /**
