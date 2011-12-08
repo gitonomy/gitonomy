@@ -83,6 +83,11 @@ class User implements UserInterface
         $this->userRoles    = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->fullname;
+    }
+
     public function equals(UserInterface $user)
     {
         if (!$user instanceof User) {
