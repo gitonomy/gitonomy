@@ -31,16 +31,7 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'repository_ssh'  => new \Twig_Function_Method($this, 'getRepositorySsh'),
-            'repository_path' => new \Twig_Function_Method($this, 'getRepositoryPath'),
-            'user_list'       => new \Twig_Function_Method($this, 'getUserList')
-        );
-    }
-
-    public function getTests()
-    {
-        return array(
-            'forked' => new \Twig_Test_Method($this, 'isRepositoryForked')
+            'gravatar' => new \Twig_Function_Method($this, 'getGravatar')
         );
     }
 
@@ -49,27 +40,9 @@ class GitonomyExtension extends \Twig_Extension
         return 'gitonomy';
     }
 
-    public function isRepositoryForked(Repository $repository)
+    public function getGravatar($email, $size = 100)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!$user instanceof User) {
-            return false;
-        }
-
-        return $this->container->get('gitonomy_core.git.repository_pool')->exists($user->getUsername(), $repository->getName());
-    }
-
-    public function getRepositorySsh(Repository $repository)
-    {
-        return $this->sshAccess.':'.$repository->getNamespace().'/'.$repository->getName().'.git';
-    }
-
-    public function getRepositoryPath(Repository $repository)
-    {
-        return $this->container->get('router')->generate('gitonomyfrontend_repository_show', array(
-            'namespace' => $repository->getNamespace(),
-            'name'      => $repository->getName()
-        ));
+        return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
     }
 
     public function getUserList()

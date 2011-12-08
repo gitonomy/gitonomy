@@ -29,10 +29,11 @@ class RepositoryController extends BaseController
 
         while ($limit > 0) {
             $commits[] = $commit;
-            $commit = $commit->getParent();
-            if (null === $commit) {
+            $commit = $commit->getParents();
+            if (!count($commit)) {
                 break;
             }
+            $commit = $commit[0];
             $limit--;
         }
 
