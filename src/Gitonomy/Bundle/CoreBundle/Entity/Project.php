@@ -44,6 +44,11 @@ class Project
         $this->userRoles    = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getMainRepository()
     {
         foreach ($this->repositories as $repository) {
