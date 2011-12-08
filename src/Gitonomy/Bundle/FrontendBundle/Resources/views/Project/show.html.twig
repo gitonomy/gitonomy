@@ -6,4 +6,10 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
+    <h2>Users on the project</h2>
+    {% for userRole in project.userRoles %}
+        <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
+    {% endfor %}
+    <h2>Commit history</h2>
+    {% render "GitonomyFrontendBundle:Repository:blockCommitHistory" with {'id': project.mainRepository.id } %}
 {% endblock %}
