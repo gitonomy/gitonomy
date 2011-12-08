@@ -1,0 +1,19 @@
+gitonomyfrontend_adminrole_list:
+    pattern: /adminrole/list
+    defaults: { _controller: "GitonomyFrontendBundle:AdminRole:list" }
+
+gitonomyfrontend_adminrole_create:
+    pattern: /adminrole/create
+    defaults: { _controller: "GitonomyFrontendBundle:AdminRole:create" }
+
+gitonomyfrontend_adminrole_edit:
+    pattern: /adminrole/{id}/edit
+    defaults: { _controller: "GitonomyFrontendBundle:AdminRole:edit" }
+    requirements:
+        id:  \d+
+
+gitonomyfrontend_adminrole_delete:
+    pattern: /adminrole/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminRole:delete" }
+    requirements:
+        id:  \d+

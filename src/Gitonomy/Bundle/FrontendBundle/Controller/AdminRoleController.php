@@ -13,7 +13,7 @@ use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
  * @author Julien DIDIER <julien@jdidier.net>
  */
 
-class RoleController extends BaseController
+class AdminRoleController extends BaseController
 {
     public function listAction()
     {
@@ -21,7 +21,7 @@ class RoleController extends BaseController
         $repository = $em->getRepository('GitonomyCoreBundle:Role');
         $roles      = $repository->findAll();
 
-        return $this->render('GitonomyFrontendBundle:Role:list.html.twig', array(
+        return $this->render('GitonomyFrontendBundle:AdminRole:list.html.twig', array(
            'roles' => $roles,
         ));
     }
@@ -41,11 +41,11 @@ class RoleController extends BaseController
 
                 $this->get('session')->setFlash('success', 'Role saved');
 
-                return $this->redirect($this->generateUrl('gitonomyfrontend_role_list'));
+                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
             }
         }
 
-        return $this->render('GitonomyFrontendBundle:Role:create.html.twig', array(
+        return $this->render('GitonomyFrontendBundle:AdminRole:create.html.twig', array(
            'form' => $form->createView(),
         ));
     }
@@ -66,11 +66,11 @@ class RoleController extends BaseController
 
                 $this->get('session')->setFlash('success', sprintf('Role "%s" updated.', $role->getName()));
 
-                return $this->redirect($this->generateUrl('gitonomyfrontend_role_list'));
+                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
             }
         }
 
-        return $this->render('GitonomyFrontendBundle:Role:edit.html.twig', array(
+        return $this->render('GitonomyFrontendBundle:AdminRole:edit.html.twig', array(
             'role' => $role,
             'form' => $form->createView(),
         ));
@@ -93,11 +93,11 @@ class RoleController extends BaseController
 
                 $this->get('session')->setFlash('success', sprintf('Role "%s" deleted.', $role->getName()));
 
-                return $this->redirect($this->generateUrl('gitonomyfrontend_role_list'));
+                return $this->redirect($this->generateUrl('gitonomyfrontend_adminrole_list'));
             }
         }
 
-        return $this->render('GitonomyFrontendBundle:Role:delete.html.twig', array(
+        return $this->render('GitonomyFrontendBundle:AdminRole:delete.html.twig', array(
             'role' => $role,
             'form' => $form->createView(),
         ));

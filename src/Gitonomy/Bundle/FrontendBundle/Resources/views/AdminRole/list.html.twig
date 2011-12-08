@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>Roles</h1>
-    <a href="{{ path('gitonomyfrontend_role_create') }}" class="btn success">Create</a>
+    <a href="{{ path('gitonomyfrontend_adminrole_create') }}" class="btn success">Create</a>
     <table class="zebra-striped" id="sortTableExample">
         <thead>
             <tr>
@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ role.id }}</td>
                     <td>
-                        <a href="{{ path('gitonomyfrontend_role_edit', {'id': role.id}) }}">{{ role.name }}</a>
+                        <a href="{{ path('gitonomyfrontend_adminrole_edit', {'id': role.id}) }}">{{ role.name }}</a>
                     </td>
                     <td>{{ role.description }}</td>
                     <td>
@@ -36,5 +36,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('gitonomyfrontend_role_create') }}" class="btn success">Create</a>
+    <a href="{{ path('gitonomyfrontend_adminrole_create') }}" class="btn success">Create</a>
 {% endblock %}
