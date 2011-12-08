@@ -1,10 +1,10 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Edit '~object_type~' '~object.name %}
+{% block title 'Edit '~object_type~' '~object %}
 {% set navigation_active = null %}
 
 {% block content %}
-    <h1>Edit {{ object_type }} {{ object.name }}</h1>
+    <h1>Edit {{ object_type }} {{ object }}</h1>
     <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" novalidate>
         {% include(controller_prefix~':form.html.twig') with {'form': form} only %}
 
