@@ -1,7 +1,6 @@
 <?php
 
 namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
-namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
