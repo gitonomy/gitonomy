@@ -4,7 +4,7 @@
 {% set navigation_active = null %}
 
 {% block content %}
-    <h1>Create role</h1>
+    <h1>Edit role {{ object.name }}</h1>
     <form class="form-stacked" action="{{ path('gitonomyfrontend_adminrole_edit', {'id':object.id}) }}" method="POST" novalidate>
         {% include('GitonomyFrontendBundle:AdminRole:form.html.twig') with {'form': form} only %}
 
