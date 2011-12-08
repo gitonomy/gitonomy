@@ -1,0 +1,3 @@
+gitonomyfrontend_project_show:
+    pattern: /{slug}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:show" }

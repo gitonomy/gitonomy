@@ -15,3 +15,6 @@ _gitonomyfrontend_profile:
 
 _gitonomyfrontend_repository:
     resource: routing/repository.yml
+
+_gitonomyfrontend_project:
+    resource: routing/project.yml
