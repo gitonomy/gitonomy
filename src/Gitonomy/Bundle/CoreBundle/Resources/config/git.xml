@@ -14,7 +14,6 @@
         <service id="gitonomy_core.git.system" class="%gitonomy_core.git.system.class%" />
 
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
-            <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.system" />
             <argument>%gitonomy_core.git.repository_path%</argument>
         </service>
