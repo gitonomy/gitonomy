@@ -24,6 +24,11 @@ class Project
     protected $name;
 
     /**
+     * @ORM\Column(type="string",length=32)
+     */
+    protected $slug;
+
+    /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Repository", mappedBy="project")
      */
     protected $repositories;
@@ -52,6 +57,16 @@ class Project
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 
     public function getRepositories()

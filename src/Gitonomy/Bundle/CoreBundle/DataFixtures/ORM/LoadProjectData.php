@@ -21,16 +21,19 @@ class LoadProjectData extends AbstractFixture
     {
         $foo = new Project();
         $foo->setName('Foo');
+        $foo->setSlug('foo');
         $manager->persist($foo);
         $this->setReference('project-foo', $foo);
 
         $bar = new Project();
         $bar->setName('Bar');
+        $bar->setSlug('bar');
         $manager->persist($bar);
         $this->setReference('project-bar', $bar);
 
         $baz = new Project();
         $baz->setName('Baz');
+        $baz->setSlug('baz');
         $manager->persist($baz);
         $this->setReference('project-baz', $baz);
 
