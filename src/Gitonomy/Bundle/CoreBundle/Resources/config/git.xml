@@ -5,16 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="gitonomy_core.git.system.class">Gitonomy\Bundle\CoreBundle\Git\System\NativeSystem</parameter>
         <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Git\RepositoryPool</parameter>
         <parameter key="gitonomy_core.git.shell_command">php %kernel.root_dir%/console gitonomy:git</parameter>
     </parameters>
 
     <services>
-        <service id="gitonomy_core.git.system" class="%gitonomy_core.git.system.class%" />
-
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
-            <argument type="service" id="gitonomy_core.git.system" />
             <argument>%gitonomy_core.git.repository_path%</argument>
         </service>
     </services>
