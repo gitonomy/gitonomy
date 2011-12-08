@@ -4,9 +4,6 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-use Gitonomy\Bundle\CoreBundle\Entity\Role;
-use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
-
 /**
  * Controller for repositories actions.
  *
@@ -30,7 +27,7 @@ abstract class BaseAdminController extends BaseController
     {
         $className = $this->getRepository()->getClassName();
         $object    = new $className();
-        $form      = $this->createForm(new RoleType(), $object);
+        $form      = $this->createForm($this->getFormType($className), $object);
         $request   = $this->getRequest();
 
         if ('POST' == $request->getMethod()) {
@@ -40,7 +37,12 @@ abstract class BaseAdminController extends BaseController
                 $em->persist($object);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('%s saved', $className));
+                $this->get('session')->setFlash('success',
+                    sprintf('%s "%s" saved.',
+                        $this->getIdentifier($className),
+                        $object->__toString()
+                    )
+                );
 
                 return $this->redirect($this->generateUrl($this->getRouteName('list')));
             }
@@ -59,7 +61,7 @@ abstract class BaseAdminController extends BaseController
             throw new HttpException(404, sprintf('No role found with id "%d".', $id));
         }
 
-        $form    = $this->createForm(new RoleType(), $object);
+        $form    = $this->createForm($this->getFormType($className), $object);
         $request = $this->getRequest();
 
         if ('POST' == $request->getMethod()) {
@@ -68,7 +70,12 @@ abstract class BaseAdminController extends BaseController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('%s "%s" updated.', $className, $object->getName()));
+                $this->get('session')->setFlash('success',
+                    sprintf('%s "%s" updated.',
+                        $this->getIdentifier($className),
+                        $object->__toString()
+                    )
+                );
 
                 return $this->redirect($this->generateUrl($this->getRouteName('list')));
             }
@@ -98,7 +105,13 @@ abstract class BaseAdminController extends BaseController
                 $em->remove($object);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('%s "%s" deleted.', $className, $object->getName()));
+                $this->get('session')->setFlash('success',
+                    sprintf('%s "%s" deleted.',
+                        $this->getIdentifier($className),
+                        $object->__toString()
+                    )
+                );
+
 
                 return $this->redirect($this->generateUrl($this->getRouteName('list')));
             }
@@ -110,9 +123,17 @@ abstract class BaseAdminController extends BaseController
         ));
     }
 
+    protected function getFormType($className)
+    {
+        $className = $this->getIdentifier($className);
+        $formName  = 'Gitonomy\Bundle\FrontendBundle\Form\Admin\\'.$className.'Type';
+
+        return new $formName();
+    }
+
     protected function getRouteName($route)
     {
-        $route = strtolower($this->getIdentifier($route));
+        $route = strtolower($this->getIdentifier(get_class($this)));
 
         return 'gitonomyfrontend_'.$route.'_list';
     }
@@ -121,12 +142,11 @@ abstract class BaseAdminController extends BaseController
     {
         $className = $this->getIdentifier($className);
 
-        return 'GitonomyFrontendBundle:'.$className.':'.$view.'.html.twig';
+        return 'GitonomyFrontendBundle:Admin'.$className.':'.$view.'.html.twig';
     }
 
     protected function getIdentifier($string)
     {
-        $string = get_class($this);
         $string = substr($string, strrpos($string, '\\') + 1);
         $string = preg_replace('/Controller$/', '', $string);
 
