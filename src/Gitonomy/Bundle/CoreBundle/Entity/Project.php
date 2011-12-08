@@ -44,6 +44,17 @@ class Project
         $this->userRoles    = new ArrayCollection();
     }
 
+    public function getMainRepository()
+    {
+        foreach ($this->repositories as $repository) {
+            if ($repository->getIsProjectRepository()) {
+                return $repository;
+            }
+        }
+
+        throw new \RuntimeException(sprintf('No main repository for project %s', $this->name));
+    }
+
     public function getId()
     {
         return $this->id;

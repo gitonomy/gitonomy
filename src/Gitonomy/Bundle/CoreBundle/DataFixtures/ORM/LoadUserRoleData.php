@@ -34,9 +34,9 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
         $bobDev = new UserRole();
         $bobDev->setUser($this->getReference('user-bob'));
         $bobDev->setRole($this->getReference('role-dev'));
-        $bobDev->setProject($this->getReference('project-foo'));
+        $bobDev->setProject($this->getReference('project-foobar'));
         $manager->persist($bobDev);
-        $this->setReference('userrole-bob-dev-foo', $bobDev);
+        $this->setReference('userrole-bob-dev-foobar', $bobDev);
 
         $manager->flush();
     }

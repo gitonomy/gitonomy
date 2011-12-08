@@ -12,30 +12,24 @@ use Gitonomy\Bundle\CoreBundle\Entity\Project;
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class LoadProjectData extends AbstractFixture
+class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @inheritdoc
      */
     public function load($manager)
     {
-        $foo = new Project();
-        $foo->setName('Foo');
-        $foo->setSlug('foo');
-        $manager->persist($foo);
-        $this->setReference('project-foo', $foo);
+        $foobar = new Project();
+        $foobar->setName('Foobar');
+        $foobar->setSlug('foobar');
+        $manager->persist($foobar);
+        $this->setReference('project-foobar', $foobar);
 
-        $bar = new Project();
-        $bar->setName('Bar');
-        $bar->setSlug('bar');
-        $manager->persist($bar);
-        $this->setReference('project-bar', $bar);
-
-        $baz = new Project();
-        $baz->setName('Baz');
-        $baz->setSlug('baz');
-        $manager->persist($baz);
-        $this->setReference('project-baz', $baz);
+        $barbaz = new Project();
+        $barbaz->setName('Barbaz');
+        $barbaz->setSlug('barbaz');
+        $manager->persist($barbaz);
+        $this->setReference('project-barbaz', $barbaz);
 
         $manager->flush();
     }

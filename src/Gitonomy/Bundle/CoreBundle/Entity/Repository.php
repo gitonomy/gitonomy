@@ -29,4 +29,34 @@ class Repository
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id")
      */
     protected $project;
+
+    public function getIsProjectRepository()
+    {
+        return null === $this->owner;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
+    }
 }
