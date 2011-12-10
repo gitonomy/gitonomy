@@ -31,13 +31,19 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'gravatar' => new \Twig_Function_Method($this, 'getGravatar')
+            'gravatar'     => new \Twig_Function_Method($this, 'getGravatar'),
+            'project_list' => new \Twig_Function_Method($this, 'getProjectList')
         );
     }
 
     public function getName()
     {
         return 'gitonomy';
+    }
+
+    public function getProjectList()
+    {
+        return $this->container->get('doctrine')->getRepository('GitonomyCoreBundle:Project')->findAll();
     }
 
     public function getGravatar($email, $size = 100)

@@ -6,8 +6,9 @@
                 <li>
                     <a href="#" class="dropdown-toggle">Projects</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Project A</a></li>
-                        <li><a href="#">Project B</a></li>
+                        {% for project in project_list() %}
+                            <li><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></li>
+                        {% endfor %}
                         <li class="divider"></li>
                         <li><a href="#">Create</a></li>
                     </ul>
