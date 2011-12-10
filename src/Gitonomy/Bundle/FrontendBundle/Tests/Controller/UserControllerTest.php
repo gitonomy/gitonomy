@@ -10,7 +10,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $crawler  = $client->request('GET', '/register');
+        $crawler  = $client->request('GET', '/en_US/register');
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -20,23 +20,23 @@ class UserControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $crawler  = $client->request('GET', '/register');
+        $crawler  = $client->request('GET', '/en_US/register');
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
 
         $form = $crawler->filter('form input[type=submit]')->form(array(
-            'registration[username]'         => 'test',
-            'registration[fullname]'         => 'Test example',
-            'registration[email]'            => 'test@example.org',
-            'registration[password][first]'  => 'test',
-            'registration[password][second]' => 'test',
+            'user_registration[username]'         => 'test',
+            'user_registration[fullname]'         => 'Test example',
+            'user_registration[email]'            => 'test@example.org',
+            'user_registration[password][first]'  => 'test',
+            'user_registration[password][second]' => 'test',
         ));
 
         $crawler  = $client->submit($form);
         $response = $client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/'));
+        $this->assertTrue($response->isRedirect('/en_US/'));
 
         $crawler = $client->followRedirect();
         $node = $crawler->filter('div.alert-message.success p');
@@ -45,14 +45,3 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals('Your account was created!', $node->text());
     }
 }
-
-/**
- *             'registration' => array(
-                'username'         => 'test',
-            'fullname'         => 'Test example',
-            'email'            => 'test@example.org',
-            'password' => array(
-                'first'  => 'test',
-                'second' => 'test',
-
- */
