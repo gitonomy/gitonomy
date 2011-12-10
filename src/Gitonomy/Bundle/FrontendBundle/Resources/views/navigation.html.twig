@@ -39,6 +39,17 @@
                 </li>
             </ul>
             <ul class="nav secondary-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Lang</a>
+                    <ul class="dropdown-menu">
+                        {% for locale, name in {
+                            'fr_FR': 'Français',
+                            'en_EN': 'English'
+                        }%}
+                            <li><a href="{{ path('gitonomyfrontend_main_setLocale', {'locale': locale}) }}">{{ name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 {% if is_granted('ROLE_USER') %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">{{ app.user.username }}</a>

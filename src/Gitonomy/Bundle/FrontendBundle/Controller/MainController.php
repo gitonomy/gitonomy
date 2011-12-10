@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Main pages of the application.
  *
@@ -13,8 +15,12 @@ class MainController extends BaseController
      * Root of the website, displaying informations or redirecting to the
      * dashboard.
      */
-    public function homepageAction()
+    public function homepageAction($_locale = null)
     {
+        if (null === $_locale) {
+            return new RedirectResponse($this->generateUrl('gitonomyfrontend_main_homepage'));
+        }
+
         if ($this->get('security.context')->isGranted('ROLE_USER')) {
             return $this->forward('GitonomyFrontendBundle:Main:dashboard');
         }
@@ -30,5 +36,17 @@ class MainController extends BaseController
         $this->assertPermission('ROLE_USER');
 
         return $this->render('GitonomyFrontendBundle:Main:dashboard.html.twig');
+    }
+
+    public function setLocaleAction($locale)
+    {
+        $referer = $this->getRequest()->headers->get('Referer');
+        if ($referer) {
+            $redirect = str_replace('/'.$this->getRequest()->getLocale().'/', '/'.$locale.'/', $referer);
+        } else {
+            $redirect = $this->generateUrl('gitonomyfrontend_main_homepage');
+        }
+
+        return new RedirectResponse($redirect);
     }
 }

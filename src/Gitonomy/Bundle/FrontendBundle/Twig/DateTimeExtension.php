@@ -2,6 +2,7 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session;
 
 /**
@@ -15,6 +16,13 @@ class DateTimeExtension extends \Twig_Extension
      * @var array An array mapping type to formatter
      */
     protected $formatters = array();
+
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * {@inherited}
@@ -154,10 +162,13 @@ class DateTimeExtension extends \Twig_Extension
      */
     protected function getFormatter($dateFormat, $timeFormat = \IntlDateFormatter::NONE)
     {
-        $format = $dateFormat . '_' . $timeFormat;
-        if (false === isset($this->formatters[$format])) {
-            $this->formatter[$format] = new \IntlDateFormatter('fr_FR', $dateFormat, $timeFormat, 'Europe/Paris');
+        $locale = $this->container->get('request')->getLocale();
+        $timezone = $this->container->get('security.context')->getToken()->getUser()->getTimezone();
+
+        $key = $dateFormat . '_' . $timeFormat.'_'.$locale.'_'.$timezone;
+        if (false === isset($this->formatters[$key])) {
+            $this->formatter[$key] = new \IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone);
         }
-        return $this->formatter[$format];
+        return $this->formatter[$key];
     }
 }
