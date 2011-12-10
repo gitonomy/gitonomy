@@ -44,7 +44,7 @@ class MainController extends BaseController
         if ($referer) {
             $redirect = str_replace('/'.$this->getRequest()->getLocale().'/', '/'.$locale.'/', $referer);
         } else {
-            $redirect = $this->generateUrl('gitonomyfrontend_main_homepage');
+            $redirect = $this->generateUrl('gitonomyfrontend_main_homepage', array('_locale' => $locale));
         }
 
         return new RedirectResponse($redirect);
