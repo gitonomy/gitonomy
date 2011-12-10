@@ -7,5 +7,5 @@ gitonomyfrontend_main_homepage:
     defaults: { _controller: "GitonomyFrontendBundle:Main:homepage" }
 
 gitonomyfrontend_main_setLocale:
-    pattern: /{_locale}-but-i-would-prefer-{locale}
+    pattern: /{_locale}/but-i-would-prefer-{locale}
     defaults: { _controller: "GitonomyFrontendBundle:Main:setLocale" }
