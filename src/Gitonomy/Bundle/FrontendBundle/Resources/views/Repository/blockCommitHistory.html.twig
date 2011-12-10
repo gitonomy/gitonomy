@@ -1,5 +1,6 @@
 {% for commit in commits %}
-    <img src="{{ gravatar(commit.authorEmail, 50) }}" style="float:left; padding-right: 20px" /><h5>{{ commit.hash }}</h5>
+    <img src="{{ gravatar(commit.authorEmail, 50) }}" style="float:left; padding-right: 20px" />
+    <h5>{{ commit.authorDate | datetime_long }} - {{ commit.hash }}</h5>
     <p><strong>Author</strong>: {{ commit.authorName }} &lt;{{ commit.authorEmail }}&gt;</p>
     {% if commit.authorName != commit.committerName or commit.authorEmail != commit.committerEmail %}
         <p><strong>Committer</strong>: {{ commit.committerName }} &lt;{{ commit.committerEmail }}&gt;</p>

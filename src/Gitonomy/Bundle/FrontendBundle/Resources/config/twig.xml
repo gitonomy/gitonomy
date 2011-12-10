@@ -10,6 +10,11 @@
             <argument type="service" id="service_container" />
             <argument>%gitonomy_frontend.ssh_access%</argument>
         </service>
+
+        <service id="gitonomy_frontend.twig_datetime_extension" class="Gitonomy\Bundle\FrontendBundle\Twig\DateTimeExtension">
+            <tag name="twig.extension" />
+            <argument>%gitonomy_frontend.ssh_access%</argument>
+        </service>
     </services>
 
 </container>

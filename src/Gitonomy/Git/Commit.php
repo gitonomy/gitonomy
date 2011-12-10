@@ -156,10 +156,11 @@ class Commit
         }
         $this->authorName     = $vars['author_name'];
         $this->authorEmail    = $vars['author_email'];
-        $this->authorDate     = $vars['author_date'];
+        $this->authorDate     = $this->parseDate($vars['author_date']);
         $this->committerName  = $vars['committer_name'];
         $this->committerEmail = $vars['committer_email'];
-        $this->committerDate  = $vars['committer_date'];
+        $this->committerDate  = $this->parseDate($vars['committer_date']);
+        $this->committerDate  = new \DateTime();
         $this->message        = $vars['message'];
 
         $this->initialized = true;
@@ -301,5 +302,8 @@ class Commit
         return $this->message;
     }
 
-
+    protected function parseDate($text)
+    {
+        return \DateTime::createFromFormat('U e O', $text.' UTC');
+    }
 }
