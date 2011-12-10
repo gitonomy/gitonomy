@@ -5,6 +5,8 @@ namespace Gitonomy\Bundle\FrontendBundle\Twig;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session;
 
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+
 /**
  * Twig extension for date/time formatting.
  */
@@ -163,7 +165,13 @@ class DateTimeExtension extends \Twig_Extension
     protected function getFormatter($dateFormat, $timeFormat = \IntlDateFormatter::NONE)
     {
         $locale = $this->container->get('request')->getLocale();
-        $timezone = $this->container->get('security.context')->getToken()->getUser()->getTimezone();
+
+        $user = $timezone = $this->container->get('security.context')->getToken()->getUser();
+        if ($user instanceof User) {
+            $timezone = $user->getTimezone();
+        } else {
+            $timezone = date_default_timezone_get();
+        }
 
         $key = $dateFormat . '_' . $timeFormat.'_'.$locale.'_'.$timezone;
         if (false === isset($this->formatters[$key])) {
