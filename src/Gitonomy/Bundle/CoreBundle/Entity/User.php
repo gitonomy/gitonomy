@@ -62,6 +62,14 @@ class User implements UserInterface
     protected $email;
 
     /**
+     * @ORM\Column(type="string",length=64)
+     *
+     * @Assert\NotBlank(groups={"registration", "profile_informations"})
+     * @Assert\Choice(callback={"DateTimeZone","listIdentifiers"},groups={"registration", "profile_informations"})
+     */
+    protected $timezone;
+
+    /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey", mappedBy="user")
      */
     protected $sshKeys;
@@ -200,5 +208,15 @@ class User implements UserInterface
     public function addUserRole(UserRole $userRole)
     {
         $this->userRoles->add($userRole);
+    }
+
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
     }
 }

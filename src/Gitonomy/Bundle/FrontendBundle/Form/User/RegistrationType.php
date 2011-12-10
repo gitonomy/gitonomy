@@ -13,6 +13,7 @@ class RegistrationType extends AbstractType
             ->add('username', 'text')
             ->add('fullname', 'text')
             ->add('email', 'email')
+            ->add('timezone', 'timezone')
             ->add('password', 'repeated',array('type' => 'password'))
         ;
     }

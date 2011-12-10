@@ -11,6 +11,7 @@ class InformationsType extends AbstractType
     {
         $builder
             ->add('fullname', 'text')
+            ->add('timezone', 'timezone')
         ;
     }
 

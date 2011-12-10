@@ -41,6 +41,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $admin->setUsername('admin');
         $admin->setFullname('Admin');
         $admin->setEmail('admin@example.org');
+        $admin->setTimezone('Europe/Paris');
         $this->setPassword($admin, 'admin');
         $manager->persist($admin);
         $this->setReference('user-admin', $admin);
@@ -49,6 +50,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $lead->setUsername('lead');
         $lead->setFullname('Lead');
         $lead->setEmail('lead@example.org');
+        $lead->setTimezone('Europe/Paris');
         $this->setPassword($lead, 'lead');
         $manager->persist($lead);
         $this->setReference('user-lead', $lead);
@@ -57,6 +59,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $alice->setUsername('alice');
         $alice->setFullname('Alice');
         $alice->setEmail('alice@example.org');
+        $alice->setTimezone('Europe/Paris');
         $this->setPassword($alice, 'alice');
         $manager->persist($alice);
         $this->setReference('user-alice', $alice);
@@ -65,6 +68,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $bob->setUsername('bob');
         $bob->setFullname('Bob');
         $bob->setEmail('bob@example.org');
+        $bob->setTimezone('Europe/Paris');
         $this->setPassword($bob, 'bob');
         $manager->persist($bob);
         $this->setReference('user-bob', $bob);

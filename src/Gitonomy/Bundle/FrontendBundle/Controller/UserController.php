@@ -16,6 +16,7 @@ class UserController extends BaseController
         }
 
         $user = new User();
+        $user->setTimezone(date_default_timezone_get());
         $form = $this->createForm('user_registration', $user);
 
         $request = $this->getRequest();
