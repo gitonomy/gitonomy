@@ -1,19 +1,19 @@
 gitonomyfrontend_adminproject_list:
-    pattern: /adminproject/list
+    pattern: /{_locale}/adminproject/list
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:list" }
 
 gitonomyfrontend_adminproject_create:
-    pattern: /adminproject/create
+    pattern: /{_locale}/adminproject/create
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:create" }
 
 gitonomyfrontend_adminproject_edit:
-    pattern: /adminproject/{id}/edit
+    pattern: /{_locale}/adminproject/{id}/edit
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:edit" }
     requirements:
         id:  \d+
 
 gitonomyfrontend_adminproject_delete:
-    pattern: /adminproject/{id}/delete
+    pattern: /{_locale}/adminproject/{id}/delete
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:delete" }
     requirements:
         id:  \d+

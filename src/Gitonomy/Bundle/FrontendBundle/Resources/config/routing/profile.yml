@@ -1,15 +1,15 @@
 gitonomyfrontend_profile_index:
-    pattern: /profile
+    pattern: /{_locale}/profile
     defaults: { _controller: "GitonomyFrontendBundle:Profile:index" }
 
 gitonomyfrontend_profile_sshKeys:
-    pattern: /profile/ssh-keys
+    pattern: /{_locale}/profile/ssh-keys
     defaults: { _controller: "GitonomyFrontendBundle:Profile:sshKeys" }
 
 gitonomyfrontend_profile_deleteSshKey:
-    pattern: /profile/delete-ssh-key/{id}
+    pattern: /{_locale}/profile/delete-ssh-key/{id}
     defaults: { _controller: "GitonomyFrontendBundle:Profile:deleteSshKey" }
 
 gitonomyfrontend_profile_createSshKey:
-    pattern: /profile/create-ssh-key
+    pattern: /{_locale}/profile/create-ssh-key
     defaults: { _controller: "GitonomyFrontendBundle:Profile:createSshKey" }

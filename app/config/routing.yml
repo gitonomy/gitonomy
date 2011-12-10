@@ -1,10 +1,5 @@
 _gitonomy_frontend:
     resource: "@GitonomyFrontendBundle/Resources/config/routing.yml"
-    prefix: /{_locale}
-
-gitonomyfrontend_main_noLocaleHomepage:
-    pattern: /
-    defaults: { _controller: "GitonomyFrontendBundle:Main:homepage" }
 
 
 # Internal routing configuration to handle ESI
