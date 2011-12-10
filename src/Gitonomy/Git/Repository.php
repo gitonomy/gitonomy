@@ -19,13 +19,13 @@ class Repository
     protected $path;
 
     /**
-     * Cache containing all commits of the repository.
+     * Cache containing all objets of the repository.
      *
-     * Associative array, indexed by commit hash
+     * Associative array, indexed by object hash
      *
      * @var array
      */
-    protected $commits;
+    protected $objects;
 
     /**
      * Constructor.
@@ -36,7 +36,7 @@ class Repository
      */
     public function __construct($path)
     {
-        $this->commits = array();
+        $this->objects = array();
 
         if (!is_dir($path)) {
             throw new \InvalidArgumentException(sprintf('The folder "%s" does not exists'));
@@ -75,11 +75,11 @@ class Repository
      */
     public function getCommit($hash)
     {
-        if (! isset($this->commits[$hash])) {
-            $this->commits[$hash] = new Commit($this, $hash);
+        if (! isset($this->objects[$hash])) {
+            $this->objects[$hash] = new Commit($this, $hash);
         }
 
-        return $this->commits[$hash];
+        return $this->objects[$hash];
     }
 
     /**

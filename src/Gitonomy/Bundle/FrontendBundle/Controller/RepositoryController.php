@@ -19,23 +19,13 @@ class RepositoryController extends BaseController
             throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
         }
 
-        $commits = array();
-        $commit = $this
+        $commits = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($repository)
             ->getRevision($revision)
-            ->getCommit()
+            ->getLog($limit)
+            ->getCommits()
         ;
-
-        while ($limit > 0) {
-            $commits[] = $commit;
-            $commit = $commit->getParents();
-            if (!count($commit)) {
-                break;
-            }
-            $commit = $commit[0];
-            $limit--;
-        }
 
         return $this->render('GitonomyFrontendBundle:Repository:blockCommitHistory.html.twig', array(
             'commits' => $commits

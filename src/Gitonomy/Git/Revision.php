@@ -14,6 +14,11 @@ class Revision
         $this->name       = $name;
     }
 
+    public function getLog($limit = null)
+    {
+        return new Log($this->repository, $this->getResolved(), $limit);
+    }
+
     public function getResolved()
     {
         if (null !== $this->resolved) {
