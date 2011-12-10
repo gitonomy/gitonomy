@@ -11,8 +11,7 @@
             <h2>My repositories</h2>
             {% for repository in app.user.repositories %}
                 <div class="well">
-                    <h3><a href="{{ repository_path(repository) }}">{{ repository.namespace ~ '/' ~ repository.name }}</a></h3>
-                    <p>{% if repository.description %}{{ repository.description }}{% else %}<em>No description</em>{% endif %}</p>
+                    <h3><a href="#">{{ repository.project.name }}</a></h3>
                 </div>
             {% else %}
                 <p><em>No repository found</em></p>
