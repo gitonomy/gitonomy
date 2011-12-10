@@ -125,6 +125,11 @@ abstract class BaseAdminController extends BaseController
         ));
     }
 
+    protected function isGranted($permission)
+    {
+        return $this->get('gitonomy_frontend.security.right')->isCurrentUserGranted($permission);
+    }
+
     protected function getFormType($className)
     {
         $className = $this->getIdentifier($className);

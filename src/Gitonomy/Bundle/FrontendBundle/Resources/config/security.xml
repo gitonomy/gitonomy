@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="gitonomy_frontend.security.right.class">Gitonomy\Bundle\FrontendBundle\Security\Right</parameter>
+    </parameters>
+
+    <services>
+        <service id="gitonomy_frontend.security.right" class="%gitonomy_frontend.security.right.class%">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+
+</container>

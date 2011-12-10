@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\UserRoleRepository")
  * @ORM\Table(name="user_role")
  */
 class UserRole
@@ -69,5 +69,10 @@ class UserRole
     public function setProject(Project $project)
     {
         $this->project = $project;
+    }
+
+    public function isGlobal()
+    {
+        return (null === $this->getProject());
     }
 }

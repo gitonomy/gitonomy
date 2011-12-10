@@ -23,6 +23,7 @@ class GitonomyFrontendExtension extends Extension
         $loader->load('twig.xml');
         $loader->load('form.xml');
         $loader->load('test.xml');
+        $loader->load('security.xml');
 
 
         $configuration = new Configuration();
