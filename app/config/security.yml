@@ -11,8 +11,10 @@ security:
 
     firewalls:
         main:
-            pattern:    "/.*"
             security:   true
-            form_login: true
-            logout:     true
+            form_login:
+              login_path: gitonomyfrontend_security_login
+              check_path: gitonomyfrontend_security_loginCheck
+            logout:
+              path: gitonomyfrontend_security_logout
             anonymous:  true
