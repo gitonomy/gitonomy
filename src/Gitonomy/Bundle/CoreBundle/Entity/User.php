@@ -50,7 +50,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string",length=64)
      *
-     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\NotBlank(groups={"registration", "profile_informations"})
      */
     protected $fullname;
 

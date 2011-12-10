@@ -5,18 +5,24 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Profile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class CreateSshKeyType extends AbstractType
+class InformationsType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('title', 'text')
-            ->add('content', 'textarea')
+            ->add('fullname', 'text')
         ;
     }
 
     public function getName()
     {
-        return 'create_ssh_key';
+        return 'profile_informations';
+    }
+
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'validation_groups' => array('profile_informations')
+        );
     }
 }

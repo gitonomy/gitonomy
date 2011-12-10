@@ -3,7 +3,6 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\FrontendBundle\Form\User\RegistrationType;
 
 class UserController extends BaseController
 {
@@ -17,7 +16,7 @@ class UserController extends BaseController
         }
 
         $user = new User();
-        $form = $this->createForm(new RegistrationType(), $user);
+        $form = $this->createForm('user_registration', $user);
 
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
