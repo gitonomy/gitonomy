@@ -9,7 +9,26 @@
             <li><strong>parent:</strong> <a href="{{ path('gitonomyfrontend_repository_showCommit', {'id': repository.id, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
         </ul>
     {% endfor %}
+    {#
     <pre>{{ commit.message }}</pre>
-    <h2>Diff</h2>
-    <pre>{{ commit.diff }}</pre>
+    #}
+    <h2>Summary</h2>
+    {% set diff = commit.diff %}
+
+    {% for file in diff.files %}
+        <h5>{{ file.newName }} ( {{ file.additions }} additions, {{ file.deletions }} deletions)</h5>
+    {% endfor %}
+    <hr />
+    <h2>Changes</h2>
+    {% for file in diff.files %}
+        <ul>
+            <li><strong>Old</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
+            <li><strong>New</strong>: {{ file.newName }} ({{ file.newMode }})</li>
+            {% for change in file.changes %}
+                <p><code>@@ -{{ change.rangeOldStart }},{{ change.rangeOldCount }} +{{ change.rangeNewStart }},{{ change.rangeNewCount }}</code></p>
+                <pre>{% for line in change.lines %}<span style="{% if line[0] == 1 %}background-color: #aaffaa{% elseif line[0] == -1 %};background-color: #ffaaaa{% endif %}">{{ line[1] }}</span>
+{% endfor %}</pre>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}
