@@ -1,0 +1,5 @@
+{% extends "GitonomyFrontendBundle:BaseAdmin:edit.html.twig" %}
+
+{% block actions %}
+    <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn">Send an email</a>
+{% endblock %}
