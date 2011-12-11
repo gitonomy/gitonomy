@@ -21,7 +21,7 @@ class AdminProjectController extends BaseAdminController
 
     public function listAction()
     {
-        $this->assertPermission(array('PROJECT_CREATE', 'PROJECT_EDIT', 'PROJECT_DELETE'));
+        $this->assertPermission(array('PROJECT_ADMIN'));
 
         return parent::listAction();
     }

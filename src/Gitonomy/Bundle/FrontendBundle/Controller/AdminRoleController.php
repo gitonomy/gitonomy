@@ -22,7 +22,7 @@ class AdminRoleController extends BaseAdminController
 
     public function listAction()
     {
-        $this->assertPermission(array('ROLE_CREATE', 'ROLE_EDIT', 'ROLE_DELETE'));
+        $this->assertPermission('ROLE_ADMIN');
 
         return parent::listAction();
     }
