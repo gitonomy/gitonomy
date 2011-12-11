@@ -59,31 +59,37 @@ EOF
             throw new \RuntimeException('Sorry, seems the user your are using does not exists anymore');
         }
 
-        if (!preg_match('#^(git-(receive|upload)-pack) \'([a-z]+)/([a-z]+).git\'#', $originalCommand, $vars)) {
+        if (!preg_match('#^(git-(receive|upload)-pack) \'([a-z]+)(/([a-z]+))?.git\'#', $originalCommand, $vars)) {
             throw new \RuntimeException('Action seems illegal: '.$originalCommand);
         }
 
         $command   = $vars[1];
-        $namespace = $vars[3];
-        $name      = $vars[4];
+        $projectSlug = $vars[3];
+        $username    = isset($vars[5]) ? $vars[5] : null;
 
         $isReading = $command == 'git-upload-pack';
 
-        $pool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
+        $project = $this->getContainer()->get('doctrine')
+            ->getRepository('GitonomyCoreBundle:Project')
+            ->findOneBySlug($projectSlug)
+        ;
 
-        if (!$pool->exists($namespace, $name)) {
-            if (!$isReading && $username === $namespace) {
-                $pool->create($user, $name);
-            } else {
-                throw new \RuntimeException('Repository not found');
+        if (! $project) {
+            throw new \RuntimeException(sprintf('No project with slug "%s" found', $projectSlug));
+        }
+
+        if (null === $username) {
+            $repository = $project->getMainRepository();
+        } else {
+            $repository = $project->getUserRepository($username);
+
+            if (null === $repository) {
+                throw new \RuntimeException(sprintf('The repository "%s" wat not found for user "%s"', $projectSlug, $username));
             }
         }
 
-        if (!$isReading && $username !== $namespace) {
-            throw new \RuntimeException('You cannot write if it\'s not your repository');
-        }
+        $pool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
 
-        $repository = $pool->find($namespace, $name);
-        $pool->command($repository, $command);
+        $pool->getGitRepository($repository)->shell($command);
     }
 }

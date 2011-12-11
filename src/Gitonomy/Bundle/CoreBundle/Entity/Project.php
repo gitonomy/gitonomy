@@ -57,6 +57,17 @@ class Project
         return $this->name;
     }
 
+    public function getUserRepository($username)
+    {
+        foreach ($this->repositories as $repository) {
+            if (!$repository->getIsProjectRepository() && $repository->getOwner()->getUsername() === $username) {
+                return $repository;
+            }
+        }
+
+        return null;
+    }
+
     public function getMainRepository()
     {
         foreach ($this->repositories as $repository) {
