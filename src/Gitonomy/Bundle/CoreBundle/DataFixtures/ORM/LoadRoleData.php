@@ -20,7 +20,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
     public function load($manager)
     {
         $roleAdmin = new Role();
-        $roleAdmin->setName('Administrators');
+        $roleAdmin->setName('Administrator');
         $roleAdmin->setDescription('Master of the application');
         $roleAdmin->addPermission($this->getReference('permission-usercreate'));
         $roleAdmin->addPermission($this->getReference('permission-useredit'));
@@ -32,7 +32,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $this->setReference('role-admin', $roleAdmin);
 
         $roleLeadDev = new Role();
-        $roleLeadDev->setName('Lead developers');
+        $roleLeadDev->setName('Lead developer');
         $roleLeadDev->setDescription('Merge leader');
         $manager->persist($roleLeadDev);
         $this->setReference('role-lead-developer', $roleLeadDev);
