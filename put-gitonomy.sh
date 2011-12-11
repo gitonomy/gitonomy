@@ -4,4 +4,4 @@ if [ -d app/cache/repositories/projects/gitonomy.git ]; then
     rm -Rf app/cache/repositories/projects/gitonomy.git
 fi
 mkdir -p app/cache/repositories/projects
-cp -R .git app/cache/repositories/projects/gitonomy.git
+git clone --bare . app/cache/repositories/projects/gitonomy.git
