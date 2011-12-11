@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
+use Gitonomy\Bundle\CoreBundle\Entity\Repository;
 
 /**
  * Controller for repository actions.
@@ -31,6 +32,17 @@ class AdminProjectController extends BaseAdminController
         $this->assertPermission('PROJECT_CREATE');
 
         return parent::createAction();
+    }
+
+    protected function postCreate($object)
+    {
+        $repository = new Repository();
+        $repository->setProject($object);
+        $object->addRepository($repository);
+
+        $git = $this->get('gitonomy_core.git.repository_pool');
+        $git->create($repository);
+        $em->flush();
     }
 
     public function editAction($id)

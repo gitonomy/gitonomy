@@ -37,8 +37,10 @@ abstract class BaseAdminController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
+
                 $em->persist($object);
                 $em->flush();
+                $this->postCreate($object);
 
                 $this->get('session')->setFlash('success',
                     sprintf('%s "%s" saved.',
@@ -178,6 +180,11 @@ abstract class BaseAdminController extends BaseController
         }
 
         return parent::render($view, $parameters, $response);
+    }
+
+    protected function postCreate($object)
+    {
+        return null;
     }
 
     abstract protected function getRepository();

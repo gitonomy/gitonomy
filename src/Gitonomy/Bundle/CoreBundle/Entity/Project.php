@@ -29,12 +29,12 @@ class Project
     protected $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Repository", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Repository", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $repositories;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $userRoles;
 
