@@ -94,6 +94,13 @@ class Commit
     protected $message;
 
     /**
+     * Short message of the commit.
+     *
+     * @var string
+     */
+    protected $shortMessage;
+
+    /**
      * Constructor.
      *
      * @param Gitonomy\Git\Repository $repository Repository of the commit
@@ -217,26 +224,37 @@ class Commit
         return $this->treeHash;
     }
 
+    /**
+     * Returns the first line of the commit, and the first 80 characters.
+     *
+     * @return string
+     */
     public function getShortMessage()
     {
         $this->initialize();
+
+        if (null !== $this->shortMessage) {
+            return $this->shortMessage;
+        }
 
         $pos    = mb_strpos($this->message, "\n");
         $length = mb_strlen($this->message);
 
         if (false === $pos) {
             if ($length < 80) {
-                return $this->message;
+                $shortMessage = $this->message;
             } else {
-                return mb_substr($this->message, 0, 80).'...';
+                $shortMessage = mb_substr($this->message, 0, 80).'...';
+            }
+        } else {
+            if ($pos < 80) {
+                $shortMessage = mb_substr($this->message, 0, $pos);
+            } else {
+                $shortMessage = mb_substr($this->message, 0, 80).'...';
             }
         }
 
-        if ($pos < 80) {
-            return mb_substr($this->message, 0, $pos);
-        } else {
-            return mb_substr($this->message, 0, 80).'...';
-        }
+        return $this->shortMessage = $shortMessage;
     }
 
     /**
