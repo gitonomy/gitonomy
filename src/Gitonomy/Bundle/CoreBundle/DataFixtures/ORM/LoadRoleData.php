@@ -21,7 +21,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
     {
         $roleAdmin = new Role();
         $roleAdmin->setName('Administrators');
-        $roleAdmin->setDescription('Role of administrators');
+        $roleAdmin->setDescription('Master of the application');
         $roleAdmin->addPermission($this->getReference('permission-usercreate'));
         $roleAdmin->addPermission($this->getReference('permission-useredit'));
         $roleAdmin->addPermission($this->getReference('permission-userdelete'));
@@ -33,27 +33,21 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
 
         $roleLeadDev = new Role();
         $roleLeadDev->setName('Lead developers');
-        $roleLeadDev->setDescription('Role of lead developers');
-        $roleLeadDev->addPermission($this->getReference('permission-usercreate'));
-        $roleLeadDev->addPermission($this->getReference('permission-projectcreate'));
+        $roleLeadDev->setDescription('Merge leader');
         $manager->persist($roleLeadDev);
-        $this->setReference('role-leaddev', $roleLeadDev);
+        $this->setReference('role-lead-developer', $roleLeadDev);
 
         $roleProjectManager = new Role();
-        $roleProjectManager->setName('Project managers');
-        $roleProjectManager->setDescription('Role of project managers');
-        $roleProjectManager->addPermission($this->getReference('permission-usercreate'));
-        $roleProjectManager->addPermission($this->getReference('permission-projectcreate'));
+        $roleProjectManager->setName('Project manager');
+        $roleProjectManager->setDescription('Manage the project and the team');
         $manager->persist($roleProjectManager);
-        $this->setReference('role-projectmanager', $roleProjectManager);
+        $this->setReference('role-project-manager', $roleProjectManager);
 
         $roleDeveloper = new Role();
-        $roleDeveloper->setName('Project managers');
-        $roleDeveloper->setDescription('Role of project managers');
-        $roleDeveloper->addPermission($this->getReference('permission-usercreate'));
-        $roleDeveloper->addPermission($this->getReference('permission-projectcreate'));
+        $roleDeveloper->setName('Developer');
+        $roleDeveloper->setDescription('Fork the project and commit to it');
         $manager->persist($roleDeveloper);
-        $this->setReference('role-dev', $roleDeveloper);
+        $this->setReference('role-developer', $roleDeveloper);
 
         $manager->flush();
     }
