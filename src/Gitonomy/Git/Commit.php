@@ -137,39 +137,37 @@ class Commit
             throw new \RuntimeException('Error while getting content of a commit');
         }
 
-        $pattern = '/'.
-            'tree (?<tree>[A-Za-z0-9]{40})'.
-            "\n".
-            '(parent (?<parent>[A-Za-z0-9]{40})'.
-            "\n)*".
-            'author (?<author_name>.*) <(?<author_email>.*)> (?<author_date>\d+ [+-]\d{4})'.
-            "\n".
-            'committer (?<committer_name>.*) <(?<committer_email>.*)> (?<committer_date>\d+ [+-]\d{4})'.
-            "\n\n".
-            '(?<message>[^$]*)'.
-            '/'
-        ;
+        $parser = new Parser\CommitParser();
+        $parser->parse($result);
 
-        if (!preg_match($pattern, $result, $vars)) {
-            throw new \RuntimeException('Unable to parse a commit');
-        }
-
-        $this->treeHash       = $vars['tree'];
-
-        if ($vars['parent']) {
-            $this->parentHashes   = array($vars['parent']);
-        } else {
-            $this->parentHashes   = array();
-        }
-        $this->authorName     = $vars['author_name'];
-        $this->authorEmail    = $vars['author_email'];
-        $this->authorDate     = $this->parseDate($vars['author_date']);
-        $this->committerName  = $vars['committer_name'];
-        $this->committerEmail = $vars['committer_email'];
-        $this->committerDate  = $this->parseDate($vars['committer_date']);
-        $this->message        = $vars['message'];
+        $this->treeHash       = $parser->tree;
+        $this->parentHashes   = $parser->parents;
+        $this->authorName     = $parser->authorName;
+        $this->authorEmail    = $parser->authorEmail;
+        $this->authorDate     = $parser->authorDate;
+        $this->committerName  = $parser->committerName;
+        $this->committerEmail = $parser->committerEmail;
+        $this->committerDate  = $parser->committerDate;
+        $this->message        = $parser->message;
 
         $this->initialized = true;
+    }
+
+    public function getDiff()
+    {
+        ob_start();
+        system(sprintf(
+            'cd %s && git diff-tree -p %s',
+            escapeshellarg($this->repository->getPath()),
+            escapeshellarg($this->hash)
+        ), $return);
+        $result = ob_get_clean();
+
+        if (0 !== $return) {
+            throw new \RuntimeException('Error while getting diff');
+        }
+
+        return $result;
     }
 
     /**
@@ -339,16 +337,5 @@ class Commit
         $this->initialize();
 
         return $this->message;
-    }
-
-    protected function parseDate($text)
-    {
-        $date = \DateTime::createFromFormat('U e O', $text.' UTC');
-
-        if (!$date instanceof \DateTime) {
-            throw new \RuntimeException(sprintf('Unable to convert "%s" to datetime', $text));
-        }
-
-        return $date;
     }
 }
