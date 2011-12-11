@@ -159,14 +159,14 @@ abstract class BaseAdminController extends BaseController
     public function render($view, array $parameters = array(), Response $response = null)
     {
         $className     = $this->getRepository()->getClassName();
-        $objectType    = strtolower($this->getIdentifier($className));
+        $objectType    = $this->getIdentifier($className);
         $templating    = $this->container->get('templating');
-        $viewDirectory = 'Admin'.$className;
+        $viewDirectory = 'Admin'.$objectType;
 
         $parameters = array_merge(
             array(
                 'object_type'       => strtolower($this->getIdentifier($className)),
-                'route_prefix'      => 'gitonomyfrontend_admin'.$objectType,
+                'route_prefix'      => 'gitonomyfrontend_admin'.strtolower($objectType),
                 'controller_prefix' => 'GitonomyFrontendBundle:Admin'.$this->getIdentifier($className),
             ),
             $parameters
