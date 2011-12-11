@@ -9,6 +9,7 @@
         <import resource="services/security.xml" />
         <import resource="services/twig.xml" />
         <import resource="services/test.xml" />
+        <import resource="services/listener.xml" />
     </imports>
 
 </container>
