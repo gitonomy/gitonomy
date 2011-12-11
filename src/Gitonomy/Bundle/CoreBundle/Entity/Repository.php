@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\RepositoryRepository")
- * @ORM\Table(name="repository")
+ * @ORM\Table(name="repository",uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="repository_unique",columns={"user_id","project_id"})
+ * })
  */
 class Repository
 {

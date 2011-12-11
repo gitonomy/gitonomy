@@ -19,12 +19,12 @@ class Role
     protected $id;
 
     /**
-     * @ORM\Column(type="text",length=50)
+     * @ORM\Column(type="string",length=50,unique=true)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="text",length=50)
+     * @ORM\Column(type="string",length=50)
      */
     protected $description;
 

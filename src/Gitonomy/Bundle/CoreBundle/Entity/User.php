@@ -26,7 +26,7 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string",length=32)
+     * @ORM\Column(type="string",length=32,unique=true)
      *
      * @Assert\NotBlank(groups={"registration"})
      * @Assert\MinLength(limit=3,groups={"registration"})
@@ -55,7 +55,7 @@ class User implements UserInterface
     protected $fullname;
 
     /**
-     * @ORM\Column(type="string",length=256)
+     * @ORM\Column(type="string",length=256,unique=true)
      *
      * @Assert\NotBlank(groups={"registration"})
      */

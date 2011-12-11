@@ -19,12 +19,12 @@ class Project
     protected $id;
 
     /**
-     * @ORM\Column(type="string",length=32)
+     * @ORM\Column(type="string",length=32,unique=true)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string",length=32)
+     * @ORM\Column(type="string",length=32,unique=true)
      */
     protected $slug;
 
