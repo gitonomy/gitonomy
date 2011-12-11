@@ -21,6 +21,7 @@ class GitonomyCoreExtension extends Extension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('git.xml');
+        $loader->load('validator.xml');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);

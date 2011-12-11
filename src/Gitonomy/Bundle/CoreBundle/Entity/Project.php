@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-use Gitonomy\Bundle\FrontendBundle\Validator\Constraints as GitonomyAssert;
+use Gitonomy\Bundle\CoreBundle\Validator\Constraints as GitonomyAssert;
 
 /**
  * @ORM\Entity
