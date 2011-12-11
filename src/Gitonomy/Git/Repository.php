@@ -39,7 +39,7 @@ class Repository
         $this->objects = array();
 
         if (!is_dir($path)) {
-            throw new \InvalidArgumentException(sprintf('The folder "%s" does not exists'));
+            throw new \InvalidArgumentException(sprintf('The folder "%s" does not exists', $path));
         }
         $this->path   = $path;
     }
