@@ -4,7 +4,12 @@
     <div class="page-header">
         <h1>View commit <small>{{ commit.hash }}</small></h1>
     </div>
+    {% for parent in commit.parents %}
+        <ul>
+            <li><strong>parent:</strong> <a href="{{ path('gitonomyfrontend_repository_showCommit', {'id': repository.id, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
+        </ul>
+    {% endfor %}
     <pre>{{ commit.message }}</pre>
     <h2>Diff</h2>
-    <p>@todo</p>
+    <pre>{{ commit.diff }}</pre>
 {% endblock %}
