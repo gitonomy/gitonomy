@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class Rights to define permissions for a logged user.
@@ -26,11 +27,11 @@ class Right
 
     public function isGranted($token, $permission, $project = null)
     {
-        if (!$this->token->isAuthenticated()) {
+        if (!$token->getUser() instanceof UserInterface) {
             throw new BadCredentialsException('Authentication required');
         }
 
-        $user = $this->token->getUser();
+        $user = $token->getUser();
 
         if (!$this->hasPermission($user, $permission)) {
             throw new HttpException(403, 'Unautorized');

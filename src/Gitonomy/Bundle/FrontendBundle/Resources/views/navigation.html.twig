@@ -32,9 +32,15 @@
                 <li>
                     <a href="#" class="dropdown-toggle">Administration</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
-                        <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
-                        <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
+                        {% if is_granted(['USER_CREATE', 'USER_UPDATE', 'USER_DELETE']) %}
+                            <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
+                        {% endif %}
+                        {% if is_granted(['PROJECT_CREATE', 'PROJECT_UPDATE', 'PROJECT_DELETE']) %}
+                            <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
+                        {% endif %}
+                        {% if is_granted(['ROLE_CREATE', 'ROLE_UPDATE', 'ROLE_DELETE']) %}
+                            <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
