@@ -1,0 +1,11 @@
+{% block subject %}
+    Heeey
+{% endblock %}
+
+{% block body_html %}
+    salut {{ user.fullname }}
+{% endblock %}
+
+{% block body_text %}
+    salut {{ user.fullname | striptags }}
+{% endblock %}

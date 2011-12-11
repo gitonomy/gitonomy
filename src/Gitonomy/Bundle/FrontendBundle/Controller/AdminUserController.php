@@ -8,16 +8,29 @@ use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 
 /**
- * Controller for repository actions.
+ * Controller for user actions.
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
 
 class AdminUserController extends BaseAdminController
 {
-    protected function getRepository()
+    public function mailAction($id)
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository('GitonomyCoreBundle:User');
+        if (!$user = $this->getRepository()->find($id)) {
+            throw new HttpException(404, sprintf('No user found with id "%d".', $id));
+        }
+        // send a notification per mail
+        $this->get('gitonomy_frontend.mail_sender')->user($user);
+
+
+        $this->get('session')->setFlash('success',
+            sprintf('Mail sent for user "%s".',
+                $user->__toString()
+            )
+        );
+
+        return $this->redirect($this->generateUrl($this->getRouteName('list')));
     }
 
     public function listAction()
@@ -46,5 +59,10 @@ class AdminUserController extends BaseAdminController
         $this->assertPermission('USER_DELETE');
 
         return parent::deleteAction($id);
+    }
+
+    protected function getRepository()
+    {
+        return $this->getDoctrine()->getEntityManager()->getRepository('GitonomyCoreBundle:User');
     }
 }

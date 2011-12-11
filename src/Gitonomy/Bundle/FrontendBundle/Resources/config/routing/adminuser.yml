@@ -17,3 +17,7 @@ gitonomyfrontend_adminuser_delete:
     defaults: { _controller: "GitonomyFrontendBundle:AdminUser:delete" }
     requirements:
         id:  \d+
+
+gitonomyfrontend_adminuser_mail:
+    pattern: /{_locale}/adminuser/{id}/mail
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:mail" }
