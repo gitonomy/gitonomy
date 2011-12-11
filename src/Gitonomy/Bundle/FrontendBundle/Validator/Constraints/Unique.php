@@ -8,10 +8,8 @@ use Symfony\Component\Validator\Constraint;
  * Unique onstraint instance
  *
  * @author Julien DIDIER <julien@jdidier.net>
- * 
+ *
  * @Annotation
- */
-/**
  */
 class Unique extends Constraint
 {
