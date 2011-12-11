@@ -9,9 +9,7 @@
             <li><strong>parent:</strong> <a href="{{ path('gitonomyfrontend_repository_showCommit', {'id': repository.id, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
         </ul>
     {% endfor %}
-    {#
     <pre>{{ commit.message }}</pre>
-    #}
     <h2>Summary</h2>
     {% set diff = commit.diff %}
 
