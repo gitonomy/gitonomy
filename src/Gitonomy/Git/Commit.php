@@ -155,19 +155,7 @@ class Commit
 
     public function getDiff()
     {
-        ob_start();
-        system(sprintf(
-            'cd %s && git diff-tree -p %s',
-            escapeshellarg($this->repository->getPath()),
-            escapeshellarg($this->hash)
-        ), $return);
-        $result = ob_get_clean();
-
-        if (0 !== $return) {
-            throw new \RuntimeException('Error while getting diff');
-        }
-
-        return $result;
+        return new Diff($this->repository, $this->hash);
     }
 
     /**
