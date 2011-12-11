@@ -1,7 +1,3 @@
-gitonomyfrontend_repository_show:
-    pattern: /{_locale}/__/{namespace}/{name}
-    defaults: { _controller: "GitonomyFrontendBundle:Repository:show" }
-
-gitonomyfrontend_repository_fork:
-    pattern: /{_locale}/__/{namespace}/{name}/fork
-    defaults: { _controller: "GitonomyFrontendBundle:Repository:fork" }
+gitonomyfrontend_repository_showCommit:
+    pattern: /{_locale}/repository/{id}/view-commit/{hash}
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:showCommit" }

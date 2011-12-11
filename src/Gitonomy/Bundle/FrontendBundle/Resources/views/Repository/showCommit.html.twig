@@ -1,0 +1,10 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>View commit <small>{{ commit.hash }}</small></h1>
+    </div>
+    <pre>{{ commit.message }}</pre>
+    <h2>Diff</h2>
+    <p>@todo</p>
+{% endblock %}
