@@ -217,6 +217,28 @@ class Commit
         return $this->treeHash;
     }
 
+    public function getShortMessage()
+    {
+        $this->initialize();
+
+        $pos    = mb_strpos($this->message, "\n");
+        $length = mb_strlen($this->message);
+
+        if (false === $pos) {
+            if ($length < 80) {
+                return $this->message;
+            } else {
+                return mb_substr($this->message, 0, 80).'...';
+            }
+        }
+
+        if ($pos < 80) {
+            return mb_substr($this->message, 0, $pos);
+        } else {
+            return mb_substr($this->message, 0, 80).'...';
+        }
+    }
+
     /**
      * Returns the author name.
      *
