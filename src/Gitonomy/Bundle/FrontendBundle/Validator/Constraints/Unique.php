@@ -14,8 +14,6 @@ use Symfony\Component\Validator\Constraint;
 class Unique extends Constraint
 {
     public $message = 'This value should be unique';
-    public $field   = null;
-    public $class   = null;
 
     public function validatedBy()
     {

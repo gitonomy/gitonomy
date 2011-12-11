@@ -14,9 +14,6 @@ use Gitonomy\Bundle\FrontendBundle\Validator\Constraints as GitonomyAssert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
- *
- * @AssertDoctrine\UniqueEntity(fields="username",groups={"registration"})
- * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration"})
  */
 class User implements UserInterface
 {
@@ -34,7 +31,7 @@ class User implements UserInterface
      * @Assert\MinLength(limit=3,groups={"registration", "admin"})
      * @Assert\MaxLength(limit=32,groups={"registration", "admin"})
      * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration", "admin"})
-     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:User", field="username",groups={"registration", "admin"})
+     * @GitonomyAssert\Unique(groups={"registration", "admin"})
      */
     protected $username;
 
@@ -61,7 +58,7 @@ class User implements UserInterface
      * @ORM\Column(type="string",length=256,unique=true)
      *
      * @Assert\NotBlank(groups={"registration", "admin"})
-     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:User", field="username",groups={"registration", "admin"})
+     * @GitonomyAssert\Unique(groups={"registration", "admin"})
      */
     protected $email;
 

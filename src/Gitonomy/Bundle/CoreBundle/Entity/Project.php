@@ -25,14 +25,14 @@ class Project
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      * @Assert\NotBlank(groups={"admin"})
-     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:Project", field="name",groups={"admin"})
+     * @GitonomyAssert\Unique(groups={"admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      * @Assert\NotBlank(groups={"admin"})
-     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:Project", field="slug",groups={"admin"})
+     * @GitonomyAssert\Unique(groups={"admin"})
      */
     protected $slug;
 

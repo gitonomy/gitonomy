@@ -14,11 +14,11 @@ use Doctrine\ORM\EntityManager;
  */
 class UniqueValidator extends ConstraintValidator
 {
-    protected $entityManager;
+    protected $em;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $em)
     {
-        $this->entityManager = $entityManager;
+        $this->em = $em;
     }
 
     /**
@@ -33,12 +33,13 @@ class UniqueValidator extends ConstraintValidator
      */
     public function isValid($value, Constraint $constraint)
     {
-        $field      = $constraint->field;
+        $className  = $this->context->getCurrentClass();
+        $property   = $this->context->getCurrentProperty();
         $value      = (string) $value;
-        $repository = $this->entityManager->getRepository($constraint->class);
-        $object     = $repository->findOneBy(array($field => $value));
-        $valid      = null === $object;
-        if (!$valid) {
+        $repository = $this->em->getRepository($className);
+        $object     = $repository->findOneBy(array($property => $value));
+
+        if (null !== $object) {
             $this->setMessage($constraint->message, array('{{ value }}' => $value));
 
             return false;
