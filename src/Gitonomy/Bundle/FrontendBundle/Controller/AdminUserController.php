@@ -22,28 +22,28 @@ class AdminUserController extends BaseAdminController
 
     public function listAction()
     {
-        $this->isGranted(array('USER_CREATE', 'USER_EDIT', 'USER_DELETE'));
+        $this->assertPermission(array('USER_CREATE', 'USER_EDIT', 'USER_DELETE'));
 
         return parent::listAction();
     }
 
     public function createAction()
     {
-        $this->isGranted('USER_CREATE');
+        $this->assertPermission('USER_CREATE');
 
         return parent::createAction();
     }
 
     public function editAction($id)
     {
-        $this->isGranted('USER_EDIT');
+        $this->assertPermission('USER_EDIT');
 
         return parent::editAction($id);
     }
 
     public function deleteAction($id)
     {
-        $this->isGranted('USER_DELETE');
+        $this->assertPermission('USER_DELETE');
 
         return parent::deleteAction($id);
     }

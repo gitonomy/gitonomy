@@ -10,7 +10,6 @@
 
     <services>
         <service id="gitonomy_frontend.security.right" class="%gitonomy_frontend.security.right.class%">
-            <argument type="service" id="security.context" />
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>

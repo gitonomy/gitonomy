@@ -5,6 +5,8 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+
 /**
  * Base class for every controller of the frontend.
  *
@@ -15,12 +17,14 @@ class BaseController extends Controller
     /**
      * Checks the current security context grants a given role.
      *
-     * @param string $role The role to check
+     * @param string $permission The permission to check (can be an array, meaning OR)
      * @param string $message An error message (internal, will not be displayed
      */
-    protected function assertPermission($role, $message = 'Access Denied')
+    protected function assertPermission($permission, $message = 'Access Denied')
     {
-        if (!$this->get('security.context')->isGranted($role)) {
+        $user = $this->getUser();
+
+        if (!$user instanceof User || !$this->get('gitonomy_frontend.security.right')->isGranted($user, $permission)) {
             throw new AccessDeniedException($message);
         }
     }

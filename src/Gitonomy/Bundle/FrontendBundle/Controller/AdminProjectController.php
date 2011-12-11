@@ -21,28 +21,28 @@ class AdminProjectController extends BaseAdminController
 
     public function listAction()
     {
-        $this->isGranted(array('PROJECT_CREATE', 'PROJECT_EDIT', 'PROJECT_DELETE'));
+        $this->assertPermission(array('PROJECT_CREATE', 'PROJECT_EDIT', 'PROJECT_DELETE'));
 
         return parent::listAction();
     }
 
     public function createAction()
     {
-        $this->isGranted('PROJECT_CREATE');
+        $this->assertPermission('PROJECT_CREATE');
 
         return parent::createAction();
     }
 
     public function editAction($id)
     {
-        $this->isGranted('PROJECT_EDIT');
+        $this->assertPermission('PROJECT_EDIT');
 
         return parent::editAction($id);
     }
 
     public function deleteAction($id)
     {
-        $this->isGranted('PROJECT_DELETE');
+        $this->assertPermission('PROJECT_DELETE');
 
         return parent::deleteAction($id);
     }

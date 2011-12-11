@@ -2,12 +2,11 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Security;
 
-use Gitonomy\Bundle\CoreBundle\Entity;
-use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\User\UserInterface;
+
+use Gitonomy\Bundle\CoreBundle\Entity;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 
 /**
  * Class Rights to define permissions for a logged user.
@@ -16,33 +15,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Right
 {
-    protected $token;
     protected $em;
 
-    public function __construct(SecurityContext $securityContext, EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->token = $securityContext->getToken();
         $this->em    = $entityManager;
     }
 
-    public function isGranted($token, $permission, $project = null)
+    public function isGrantedForProject(User $user, Project $project, $permission)
     {
-        if (!$token->getUser() instanceof UserInterface) {
-            throw new BadCredentialsException('Authentication required');
-        }
-
-        $user = $token->getUser();
-
-        if (!$this->hasPermission($user, $permission)) {
-            throw new HttpException(403, 'Unautorized');
-        }
-
-        return (null !== $this->findUserRole($user, $project, $permission));
+        return $this->em
+            ->getRepository('GitonomyCoreBundle:Permission')
+            ->findByPermission($user, $project, $permission)
+        ;
     }
 
-    public function isCurrentUserGranted($permission, $project = null)
+    public function isGranted(User $user, $permission)
     {
-        return $this->isGranted($this->token, $permission, $project);
+        return $this->hasPermission($user, $permission);
     }
 
     protected function hasPermission($user, $permissions)
@@ -63,10 +53,5 @@ class Right
     protected function getPermissions($user)
     {
         return $user->getRoles();
-    }
-
-    protected function findUserRole($user, $project, $permission)
-    {
-        return $this->em->getRepository('GitonomyCoreBundle:Permission')->findByPermission($user, $project, $permission);
     }
 }

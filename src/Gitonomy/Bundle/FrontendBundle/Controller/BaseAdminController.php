@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Controller for repositories actions.
@@ -123,11 +124,6 @@ abstract class BaseAdminController extends BaseController
             'object' => $object,
             'form'   => $form->createView(),
         ));
-    }
-
-    protected function isGranted($permission)
-    {
-        return $this->get('gitonomy_frontend.security.right')->isCurrentUserGranted($permission);
     }
 
     protected function getFormType($className)

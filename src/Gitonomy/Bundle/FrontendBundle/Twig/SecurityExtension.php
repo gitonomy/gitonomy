@@ -3,7 +3,10 @@
 namespace Gitonomy\Bundle\FrontendBundle\Twig;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
+
 use Gitonomy\Bundle\FrontendBundle\Security\Right;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 
 /**
  * SecurityExtension exposes security context features.
@@ -25,21 +28,33 @@ class SecurityExtension extends \Twig_Extension
         $this->right = $right;
     }
 
-    public function isGranted($role, $object = null, $field = null)
+    public function isGranted($permission)
     {
-        $token = $this->context->getToken();
+        $user = $this->context->getToken()->getUser();
 
-        try {
-            return $this->right->isGranted($token, $role, $object);
-        } catch (\Exception $e) {
+        if (!$user instanceof User) {
             return false;
         }
+
+        return $this->right->isGranted($user, $permission);
+    }
+
+    public function isGrantedForProject(Project $project, $permission)
+    {
+        $user = $this->context->getToken()->getUser();
+
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        return $this->right->isGrantedForProject($user, $project, $permission);
     }
 
     public function getFunctions()
     {
         return array(
-            'is_granted' => new \Twig_Function_Method($this, 'isGranted'),
+            'is_granted'             => new \Twig_Function_Method($this, 'isGranted'),
+            'is_granted_for_project' => new \Twig_Function_Method($this, 'isGrantedForProject'),
         );
     }
 
