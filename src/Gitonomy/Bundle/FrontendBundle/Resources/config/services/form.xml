@@ -9,6 +9,7 @@
         <parameter key="gitonomy_frontend.form.type.profile_informations.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\InformationsType</parameter>
         <parameter key="gitonomy_frontend.form.type.user_registration.class">Gitonomy\Bundle\FrontendBundle\Form\User\RegistrationType</parameter>
         <parameter key="gitonomy_frontend.form.type.admin_user.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
+        <parameter key="gitonomy_frontend.form.type.base_admin.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\BaseAdminType</parameter>
         <parameter key="gitonomy_frontend.form.type.admin_project.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectType</parameter>
         <parameter key="gitonomy_frontend.form.type.admin_role.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\RoleType</parameter>
     </parameters>
@@ -22,6 +23,9 @@
         </service>
         <service id="gitonomy_frontend.form.type.user_registration" class="%gitonomy_frontend.form.type.user_registration.class%">
             <tag name="form.type" alias="user_registration" />
+        </service>
+        <service id="gitonomy_frontend.form.type.base_admin" class="%gitonomy_frontend.form.type.base_admin.class%">
+            <tag name="form.type" alias="base_admin" />
         </service>
         <service id="gitonomy_frontend.form.type.admin_user" class="%gitonomy_frontend.form.type.admin_user.class%">
             <tag name="form.type" alias="admin_user" />

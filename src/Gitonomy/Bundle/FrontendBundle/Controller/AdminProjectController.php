@@ -42,7 +42,7 @@ class AdminProjectController extends BaseAdminController
 
         $git = $this->get('gitonomy_core.git.repository_pool');
         $git->create($repository);
-        $em->flush();
+        $this->getDoctrine()->getEntityManager()->flush();
     }
 
     public function editAction($id)

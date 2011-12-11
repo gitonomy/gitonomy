@@ -13,6 +13,7 @@ class UserType extends AbstractType
             ->add('username', 'text')
             ->add('fullname', 'text')
             ->add('email', 'email')
+            ->add('timezone', 'timezone')
         ;
     }
 
@@ -21,6 +22,11 @@ class UserType extends AbstractType
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
         );
+    }
+
+    public function getParent(array $options)
+    {
+        return 'base_admin';
     }
 
     public function getName()

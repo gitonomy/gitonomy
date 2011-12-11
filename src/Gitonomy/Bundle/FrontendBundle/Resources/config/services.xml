@@ -6,6 +6,7 @@
 
     <imports>
         <import resource="services/form.xml" />
+        <import resource="services/validator.xml" />
         <import resource="services/security.xml" />
         <import resource="services/twig.xml" />
         <import resource="services/test.xml" />

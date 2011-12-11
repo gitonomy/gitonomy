@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>Create {{ object_type }}</h1>
-    <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" novalidate>
+    <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" novalidate="novalidate">
         {% include [controller_prefix~':form.html.twig', 'GitonomyFrontendBundle:BaseAdmin:form.html.twig'] with { 'form': form } only %}
 
         <input type="submit" class="btn success" value="Create" />

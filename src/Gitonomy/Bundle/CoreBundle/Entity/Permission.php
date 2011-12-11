@@ -5,6 +5,8 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Gitonomy\Bundle\FrontendBundle\Validator\Constraints as GitonomyAssert;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="permission")
@@ -25,6 +27,7 @@ class Permission
 
     /**
      * @ORM\Column(type="string",length=50,unique=true)
+     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:Permission", field="permission",groups={"admin"})
      */
     protected $permission;
 

@@ -26,6 +26,11 @@ class ProjectType extends AbstractType
         );
     }
 
+    public function getParent(array $options)
+    {
+        return 'base_admin';
+    }
+
     public function getName()
     {
         return 'adminproject';

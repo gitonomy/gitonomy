@@ -2,8 +2,12 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Gitonomy\Bundle\FrontendBundle\Validator\Constraints as GitonomyAssert;
 
 /**
  * @ORM\Entity
@@ -20,11 +24,15 @@ class Project
 
     /**
      * @ORM\Column(type="string",length=32,unique=true)
+     * @Assert\NotBlank(groups={"admin"})
+     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:Project", field="name",groups={"admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string",length=32,unique=true)
+     * @Assert\NotBlank(groups={"admin"})
+     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:Project", field="slug",groups={"admin"})
      */
     protected $slug;
 

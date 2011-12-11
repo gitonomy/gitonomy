@@ -9,6 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Gitonomy\Bundle\FrontendBundle\Validator\Constraints as GitonomyAssert;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
@@ -28,15 +30,16 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      *
-     * @Assert\NotBlank(groups={"registration"})
-     * @Assert\MinLength(limit=3,groups={"registration"})
-     * @Assert\MaxLength(limit=32,groups={"registration"})
-     * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration"})
+     * @Assert\NotBlank(groups={"registration", "admin"})
+     * @Assert\MinLength(limit=3,groups={"registration", "admin"})
+     * @Assert\MaxLength(limit=32,groups={"registration", "admin"})
+     * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration", "admin"})
+     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:User", field="username",groups={"registration", "admin"})
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string",length=128)
+     * @ORM\Column(type="string",length=128, nullable=true)
      *
      * @Assert\NotBlank(groups={"registration"})
      */
@@ -50,14 +53,15 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string",length=64)
      *
-     * @Assert\NotBlank(groups={"registration", "profile_informations"})
+     * @Assert\NotBlank(groups={"registration", "profile_informations", "admin"})
      */
     protected $fullname;
 
     /**
      * @ORM\Column(type="string",length=256,unique=true)
      *
-     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\NotBlank(groups={"registration", "admin"})
+     * @GitonomyAssert\Unique(class="GitonomyCoreBundle:User", field="username",groups={"registration", "admin"})
      */
     protected $email;
 
@@ -65,7 +69,7 @@ class User implements UserInterface
      * @ORM\Column(type="string",length=64)
      *
      * @Assert\NotBlank(groups={"registration", "profile_informations"})
-     * @Assert\Choice(callback={"DateTimeZone","listIdentifiers"},groups={"registration", "profile_informations"})
+     * @Assert\Choice(callback={"DateTimeZone","listIdentifiers"},groups={"registration", "profile_informations", "admin"})
      */
     protected $timezone;
 
@@ -89,6 +93,7 @@ class User implements UserInterface
         $this->sshKeys      = new ArrayCollection();
         $this->repositories = new ArrayCollection();
         $this->userRoles    = new ArrayCollection();
+        $this->regenerateSalt();
     }
 
     public function __toString()
