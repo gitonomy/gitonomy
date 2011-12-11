@@ -160,7 +160,6 @@ class Commit
         $this->committerName  = $vars['committer_name'];
         $this->committerEmail = $vars['committer_email'];
         $this->committerDate  = $this->parseDate($vars['committer_date']);
-        $this->committerDate  = new \DateTime();
         $this->message        = $vars['message'];
 
         $this->initialized = true;
@@ -304,6 +303,12 @@ class Commit
 
     protected function parseDate($text)
     {
-        return \DateTime::createFromFormat('U e O', $text.' UTC');
+        $date = \DateTime::createFromFormat('U e O', $text.' UTC');
+
+        if (!$date instanceof \DateTime) {
+            throw new \RuntimeException(sprintf('Unable to convert "%s" to datetime', $text));
+        }
+
+        return $date;
     }
 }
