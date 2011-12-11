@@ -22,7 +22,7 @@ class AdminUserController extends BaseAdminController
 
     public function listAction()
     {
-        $this->assertPermission(array('USER_CREATE', 'USER_EDIT', 'USER_DELETE'));
+        $this->assertPermission('USER_ADMIN');
 
         return parent::listAction();
     }

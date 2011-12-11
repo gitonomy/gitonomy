@@ -34,6 +34,17 @@ class Permission
     protected $isGlobal;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Permission", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    protected $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="parent")
+     */
+    protected $children;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", mappedBy="permissions")
      */
     protected $roles;
@@ -87,6 +98,31 @@ class Permission
     public function setIsGlobal($isGlobal)
     {
         $this->isGlobal = $isGlobal;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    public function hasParent()
+    {
+        return ($this->parent instanceof Permission);
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = $children;
     }
 
     public function getRoles()

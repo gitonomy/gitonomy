@@ -15,63 +15,46 @@ use Gitonomy\Bundle\CoreBundle\Entity\Permission;
 class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
+     * Returns a verbose-less array with plan of userRole creation.
+     *
+     * @return array An array where is element is ('user-XXX', 'role-XXX', ?'project-XXX')
+     */
+    protected function getData()
+    {
+        return array(
+            // Parent permissions
+            array('User admin',    'USER_ADMIN',    'permission-useradmin',    false, null),
+            array('Project admin', 'PROJECT_ADMIN', 'permission-projectadmin', false, null),
+            array('Role admin',    'ROLE_ADMIN',    'permission-roleadmin',    false, null),
+            // User
+            array('User create', 'USER_CREATE', 'permission-usercreate', true, 'permission-useradmin'),
+            array('User edit',   'USER_EDIT',   'permission-useredit',   true, 'permission-useradmin'),
+            array('User delete', 'USER_DELETE', 'permission-userdelete', true, 'permission-useradmin'),
+            // Project
+            array('Project contribute', 'PROJECT_CONTRIBUTE', 'permission-projectcontribute', false, 'permission-projectadmin'),
+            array('Project commit',     'PROJECT_COMMIT',     'permission-projectcommit',     false, 'permission-projectadmin'),
+            array('Project create',     'PROJECT_CREATE',     'permission-projectcreate',     true,  'permission-projectadmin'),
+            array('Project edit',       'PROJECT_EDIT',       'permission-projectedit',       true,  'permission-projectadmin'),
+            array('Project delete',     'PROJECT_DELETE',     'permission-projectdelete',     true,  'permission-projectadmin'),
+            // Role
+            array('Role create', 'ROLE_CREATE', 'permission-rolecreate', true, 'permission-roleadmin'),
+            array('Role edit',   'ROLE_EDIT',   'permission-roleedit',   true, 'permission-roleadmin'),
+            array('Role delete', 'ROLE_DELETE', 'permission-roledelete', true, 'permission-roleadmin'),
+        );
+    }
+
+    /**
      * @inheritdoc
      */
     public function load($manager)
     {
-        $userCreate = new Permission();
-        $userCreate->setName('User create');
-        $userCreate->setPermission('USER_CREATE');
-        $userCreate->setIsGlobal(true);
-        $manager->persist($userCreate);
-        $this->setReference('permission-usercreate', $userCreate);
+        foreach ($this->getData() as $row) {
+            list($name, $permission, $reference, $isGlobal, $parent)  = $row;
 
-        $userEdit = new Permission();
-        $userEdit->setName('User edit');
-        $userEdit->setPermission('USER_EDIT');
-        $userEdit->setIsGlobal(true);
-        $manager->persist($userEdit);
-        $this->setReference('permission-useredit', $userEdit);
+            $userRole = $this->createPermission($name, $permission, $reference, $isGlobal, $parent);
 
-        $userDelete = new Permission();
-        $userDelete->setName('User delete');
-        $userDelete->setPermission('USER_DELETE');
-        $userDelete->setIsGlobal(true);
-        $manager->persist($userDelete);
-        $this->setReference('permission-userdelete', $userDelete);
-
-        $projectContribute = new Permission();
-        $projectContribute->setName('Project contribute');
-        $projectContribute->setPermission('PROJECT_CONTRIBUTE');
-        $manager->persist($projectContribute);
-        $this->setReference('permission-projectcontribute', $projectContribute);
-
-        $projectCommit = new Permission();
-        $projectCommit->setName('Project commit');
-        $projectCommit->setPermission('PROJECT_COMMIT');
-        $manager->persist($projectCommit);
-        $this->setReference('permission-projectcommit', $projectCommit);
-
-        $projectCreate = new Permission();
-        $projectCreate->setName('Project create');
-        $projectCreate->setPermission('PROJECT_CREATE');
-        $projectCreate->setIsGlobal(true);
-        $manager->persist($projectCreate);
-        $this->setReference('permission-projectcreate', $projectCreate);
-
-        $projectEdit = new Permission();
-        $projectEdit->setName('Project edit');
-        $projectEdit->setPermission('PROJECT_EDIT');
-        $projectEdit->setIsGlobal(true);
-        $manager->persist($projectEdit);
-        $this->setReference('permission-projectedit', $projectEdit);
-
-        $projectDelete = new Permission();
-        $projectDelete->setName('Project delete');
-        $projectDelete->setPermission('PROJECT_DELETE');
-        $projectDelete->setIsGlobal(true);
-        $manager->persist($projectDelete);
-        $this->setReference('permission-projectdelete', $projectDelete);
+            $manager->persist($userRole);
+        }
 
         $manager->flush();
     }
@@ -83,4 +66,19 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     {
         return 20;
     }
+
+    protected function createPermission($name, $permission, $reference, $isGlobal, $parent)
+    {
+        $object = new Permission();
+        $object->setName($name);
+        $object->setPermission($permission);
+        $object->setIsGlobal($isGlobal);
+        if (null !== $parent) {
+            $object->setParent($this->getReference($parent));
+        }
+        $this->setReference($reference, $object);
+
+        return $object;
+    }
+
 }

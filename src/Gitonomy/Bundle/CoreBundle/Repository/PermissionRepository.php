@@ -23,7 +23,7 @@ class PermissionRepository extends EntityRepository
 QUERY
             )->setParameters(array(
                 'user_id'    => $user->getId(),
-                'project_id' => (null !== $project) ? $project->getId() : null,
+                'project_id' => $project->getId(),
                 'permission' => $permission,
             )
         );

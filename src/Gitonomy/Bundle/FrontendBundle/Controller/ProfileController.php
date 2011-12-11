@@ -18,7 +18,7 @@ class ProfileController extends BaseController
      */
     public function indexAction()
     {
-        $this->assertPermission('ROLE_USER');
+        $this->assertPermission('AUTHENTICATED');
         $user = $this->getUser();
 
         $form = $this->createForm('profile_informations', $user);
@@ -47,7 +47,7 @@ class ProfileController extends BaseController
      */
     public function sshKeysAction()
     {
-        $this->assertPermission('ROLE_USER');
+        $this->assertPermission('AUTHENTICATED');
 
         $form = $this->createForm('profile_ssh_key');
 
@@ -64,7 +64,7 @@ class ProfileController extends BaseController
      */
     public function deleteSshKeyAction($id)
     {
-        $this->assertPermission('ROLE_USER');
+        $this->assertPermission('AUTHENTICATED');
 
         $em = $this->getDoctrine()->getEntityManager();
         $userSshKey = $em->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
@@ -87,7 +87,7 @@ class ProfileController extends BaseController
      */
     public function createSshKeyAction()
     {
-        $this->assertPermission('ROLE_USER');
+        $this->assertPermission('AUTHENTICATED');
 
         $userSshKey = new UserSshKey();
         $userSshKey->setUser($this->getUser());

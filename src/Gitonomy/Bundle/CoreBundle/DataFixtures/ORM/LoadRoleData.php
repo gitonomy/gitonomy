@@ -28,6 +28,9 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleAdmin->addPermission($this->getReference('permission-projectcreate'));
         $roleAdmin->addPermission($this->getReference('permission-projectedit'));
         $roleAdmin->addPermission($this->getReference('permission-projectdelete'));
+        $roleAdmin->addPermission($this->getReference('permission-rolecreate'));
+        $roleAdmin->addPermission($this->getReference('permission-roleedit'));
+        $roleAdmin->addPermission($this->getReference('permission-roledelete'));
         $manager->persist($roleAdmin);
         $this->setReference('role-admin', $roleAdmin);
 

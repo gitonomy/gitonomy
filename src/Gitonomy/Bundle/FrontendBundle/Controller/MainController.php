@@ -21,7 +21,7 @@ class MainController extends BaseController
             return new RedirectResponse($this->generateUrl('gitonomyfrontend_main_homepage'));
         }
 
-        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        if ($this->get('security.context')->isGranted('AUTHENTICATED')) {
             return $this->forward('GitonomyFrontendBundle:Main:dashboard');
         }
 
@@ -33,7 +33,7 @@ class MainController extends BaseController
      */
     public function dashboardAction()
     {
-        $this->assertPermission('ROLE_USER');
+        $this->assertPermission('AUTHENTICATED');
 
         return $this->render('GitonomyFrontendBundle:Main:dashboard.html.twig');
     }

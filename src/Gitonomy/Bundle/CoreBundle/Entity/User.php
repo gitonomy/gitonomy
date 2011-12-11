@@ -111,13 +111,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        $roles = array('ROLE_USER');
-        foreach ($userRoles = $this->getUserRoles() as $userRole) {
-            foreach ($userRole->getRole()->getPermissions() as $permission) {
-                $roles[] = $permission->getPermission();
-            }
-        }
-        return $roles;
+        return array_merge($this->getGlobalPermissions(), array('AUTHENTICATED' => 'AUTHENTICATED'));
     }
 
     public function regenerateSalt()
@@ -193,6 +187,38 @@ class User implements UserInterface
     public function addRepository(Repository $repository)
     {
         $this->repositories->add($repository);
+    }
+
+    public function getGlobalRole()
+    {
+        foreach ($this->getUserRoles() as $userRole)
+        {
+            if ($userRole->isGlobal()) {
+                return $userRole->getRole();
+            }
+        }
+    }
+
+    public function getGlobalPermissions()
+    {
+        $permissions = array();
+
+        $globalRole = $this->getGlobalRole();
+        if (null === $globalRole) {
+            return $permissions;
+        }
+
+        foreach ($globalRole->getPermissions() as $permission) {
+            if ($permission->hasParent()) {
+                $perm = $permission->getParent()->getPermission();
+                $permissions[$perm] = $perm;
+            }
+
+            $perm = $permission->getPermission();
+            $permissions[$perm] = $perm;
+        }
+
+        return $permissions;
     }
 
     public function getUserRoles()
