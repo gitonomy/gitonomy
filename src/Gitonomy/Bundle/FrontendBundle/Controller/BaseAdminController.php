@@ -128,10 +128,9 @@ abstract class BaseAdminController extends BaseController
 
     protected function getFormType($className)
     {
-        $className = $this->getIdentifier($className);
-        $formName  = 'Gitonomy\Bundle\FrontendBundle\Form\Admin\\'.$className.'Type';
+        $className = strtolower($this->getIdentifier($className));
 
-        return new $formName();
+        return 'admin_'.$className;
     }
 
     protected function getRouteName($route)
