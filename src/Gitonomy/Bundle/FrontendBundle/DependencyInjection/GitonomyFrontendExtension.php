@@ -29,5 +29,6 @@ class GitonomyFrontendExtension extends Extension
         $container->setParameter('gitonomy_frontend.project.name', $config['project_name']);
         $container->setParameter('gitonomy_frontend.ssh_access', $config['ssh_access']);
         $container->setParameter('gitonomy_frontend.allowed_locales', $config['allowed_locales']);
+        $container->setParameter('gitonomy_frontend.mailer', $config['mailer']);
     }
 }

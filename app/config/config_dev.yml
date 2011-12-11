@@ -19,5 +19,8 @@ monolog:
             type:  firephp
             level: info
 
+swiftmailer:
+    delivery_address: julien@localhost
+
 assetic:
     use_controller: true

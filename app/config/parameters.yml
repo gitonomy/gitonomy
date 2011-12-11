@@ -26,3 +26,5 @@ parameters:
   # Your project
   project_name:      Gitonomy.sample
   open_registration: true
+  mail_from:         noreply@example.org
+  mail_to:           admin@example.org

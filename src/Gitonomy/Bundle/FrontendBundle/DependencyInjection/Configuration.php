@@ -28,6 +28,12 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('allowed_locales')
                     ->prototype('variable')->end()
                 ->end()
+                ->arrayNode('mailer')
+                    ->children()
+                        ->scalarNode('from')->isRequired()->end()
+                        ->scalarNode('to')->isRequired()->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

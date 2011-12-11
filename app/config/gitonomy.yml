@@ -7,6 +7,9 @@ gitonomy_frontend:
     open_registration: %open_registration%
     ssh_access:        %ssh_access%
     allowed_locales:   [ fr_FR, en_US ]
+    mailer:
+        from:          %mail_from%
+        to:            %mail_to%
 
 twig:
     form:
