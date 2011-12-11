@@ -8,11 +8,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Controller for repositories actions.
+ * Controller for admin actions.
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
-
 abstract class BaseAdminController extends BaseController
 {
     public function listAction()
@@ -63,7 +62,7 @@ abstract class BaseAdminController extends BaseController
         $className = $this->getRepository()->getClassName();
 
         if (!$object = $this->getRepository()->find($id)) {
-            throw new HttpException(404, sprintf('No role found with id "%d".', $id));
+            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
         }
 
         $form    = $this->createForm($this->getFormType($className), $object);

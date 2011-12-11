@@ -9,7 +9,7 @@ use Gitonomy\Bundle\FrontendBundle\DependencyInjection\Compiler\SecurityTwigPass
 /**
  * Bundle for Gitonomy frontend.
  *
- * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <julien@jdidier.net>
  */
 class GitonomyFrontendBundle extends Bundle
 {
