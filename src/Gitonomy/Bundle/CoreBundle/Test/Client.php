@@ -57,10 +57,10 @@ class Client extends BaseClient
         if (true === $this->requested) {
             $this->kernel->shutdown();
             $this->kernel->boot();
-        } else {
-            $this->startIsolation();
-            $this->requested = true;
         }
+
+        $this->startIsolation();
+        $this->requested = true;
 
         return $this->kernel->handle($request);
     }
@@ -83,9 +83,10 @@ class Client extends BaseClient
     {
         if (null === $this->connection) {
             $this->connection = $this->getContainer()->get('doctrine.dbal.default_connection');
+        } else {
+            $this->getContainer()->set('doctrine.dbal.default_connection', $this->connection);
         }
 
-        $this->getContainer()->set('doctrine.dbal.default_connection', $this->connection);
         if (null !== $this->repositoryPool) {
             $this->getContainer()->set('gitonomy_core.git.repository_pool', $this->repositoryPool);
         }
