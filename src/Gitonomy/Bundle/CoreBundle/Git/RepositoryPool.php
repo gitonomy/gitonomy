@@ -5,7 +5,6 @@ namespace Gitonomy\Bundle\CoreBundle\Git;
 use Gitonomy\Bundle\CoreBundle\Entity\Repository;
 use Gitonomy\Git;
 
-
 /**
  * Repository pool, containing all Git repositories.
  *
@@ -30,6 +29,12 @@ class RepositoryPool
         $this->repositoryPath = $repositoryPath;
     }
 
+    /**
+     * Creates a new Git repository.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Entity\Repository $repository A
+     * repository model instance
+     */
     public function create(Repository $repository)
     {
         $path = $this->getPath($repository);
@@ -41,6 +46,14 @@ class RepositoryPool
         Git\Admin::init($path);
     }
 
+    /**
+     * Returns the Git repository associated the a model repository.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Entity\Repository $repository A
+     * repository model instance
+     *
+     * @return Gitonomy\Git\Repository A Git repository
+     */
     public function getGitRepository(Repository $repository)
     {
         return new Git\Repository($this->getPath($repository));

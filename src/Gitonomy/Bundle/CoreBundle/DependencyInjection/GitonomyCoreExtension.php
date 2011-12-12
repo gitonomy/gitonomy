@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Container extension for Gitonomy.
+ * Container extension for Gitonomy core bundle.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
