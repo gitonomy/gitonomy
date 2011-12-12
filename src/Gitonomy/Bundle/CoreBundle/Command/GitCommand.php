@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  *
- * @todo Cleanup and refactor
+ * @todo This class is too critical to be tested (STDIN, STDOUT, STDERR as pipes).
  */
 class GitCommand extends ContainerAwareCommand
 {
@@ -23,22 +23,33 @@ class GitCommand extends ContainerAwareCommand
     {
         $this
             ->setName('gitonomy:git')
-            ->addArgument('username', InputArgument::REQUIRED, 'Name of the user executing Git')
-            ->setDescription('Wraps the Git command')
+            ->addArgument('username', InputArgument::REQUIRED, 'Authenticated user')
+            ->setDescription('Wraps the Git command to ensure authorization')
             ->setHelp(<<<EOF
-The <info>gitonomy:git</info> command wraps Git to add Gitonomy logic in it.
+The <info>gitonomy:git</info> command wraps Git to check the authorizations of
+the user passed as argument.
+
+This commands only works properly is called via SSH. It's configured via the
+<info>authorized_keys</info> file, containing lines like:
+
+  > <comment>command="php app/console gitonomy:git alex" <SSH-KEY></comment>
+
+It does not manage the <info>authentication</info>, but only the <info>authorization</info>
+of the user.
 EOF
             )
         ;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
             $this->doExecute($input, $output);
-        } catch (\Exception $e)
-        {
-            fputs(STDERR, $e->getMessage()."\n");
+        } catch (\Exception $e) {
+            fputs(STDERR, sprintf("An error occurred during execution:\n\n  %s\n\n", $e->getMessage()));
         }
     }
 
@@ -50,6 +61,7 @@ EOF
         $originalCommand = $_SERVER['SSH_ORIGINAL_COMMAND'];
 
         $username = $input->getArgument('username');
+
         $user = $this->getContainer()->get('doctrine')
             ->getRepository('GitonomyCoreBundle:User')
             ->findOneByUsername($username)
@@ -63,7 +75,7 @@ EOF
             throw new \RuntimeException('Action seems illegal: '.$originalCommand);
         }
 
-        $command   = $vars[1];
+        $command     = $vars[1];
         $projectSlug = $vars[3];
         $username    = isset($vars[5]) ? $vars[5] : null;
 
@@ -74,7 +86,7 @@ EOF
             ->findOneBySlug($projectSlug)
         ;
 
-        if (! $project) {
+        if (!$project) {
             throw new \RuntimeException(sprintf('No project with slug "%s" found', $projectSlug));
         }
 
