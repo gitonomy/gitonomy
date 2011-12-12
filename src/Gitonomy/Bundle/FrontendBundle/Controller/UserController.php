@@ -4,6 +4,11 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
+/**
+ * Controller for the user actions.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ */
 class UserController extends BaseController
 {
     /**
@@ -39,6 +44,11 @@ class UserController extends BaseController
         ));
     }
 
+    /**
+     * Handles registration of the user.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Entity\User $user A user to register
+     */
     protected function doRegister(User $user)
     {
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);

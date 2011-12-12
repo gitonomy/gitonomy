@@ -38,6 +38,9 @@ class MainController extends BaseController
         return $this->render('GitonomyFrontendBundle:Main:dashboard.html.twig');
     }
 
+    /**
+     * Action for changing the current locale.
+     */
     public function setLocaleAction($locale)
     {
         $referer = $this->getRequest()->headers->get('Referer');

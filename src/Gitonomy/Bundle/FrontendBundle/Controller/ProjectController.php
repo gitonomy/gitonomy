@@ -2,8 +2,16 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
+/**
+ * Controller for project displaying.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ */
 class ProjectController extends BaseController
 {
+    /**
+     * Displays the project main page
+     */
     public function showAction($slug)
     {
         $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBy(array('slug' => $slug));

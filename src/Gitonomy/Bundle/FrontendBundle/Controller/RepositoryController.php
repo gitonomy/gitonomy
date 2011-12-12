@@ -11,6 +11,9 @@ use Symfony\Component\Security\Core\SecurityContext;
  */
 class RepositoryController extends BaseController
 {
+    /**
+     * Displays a commit.
+     */
     public function showCommitAction($id, $hash)
     {
         $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
@@ -31,6 +34,11 @@ class RepositoryController extends BaseController
         ));
     }
 
+    /**
+     * Displays last commit of a repository.
+     *
+     * @todo Separate two cases: the requested revision does not exists and no commit.
+     */
     public function blockCommitHistoryAction($id, $revision = 'HEAD', $limit = 10)
     {
         $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
