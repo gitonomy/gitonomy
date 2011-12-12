@@ -35,6 +35,11 @@ class Role
     protected $permissions;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $isGlobal;
+
+    /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="role")
      */
     protected $userRoles;
@@ -93,5 +98,15 @@ class Role
     public function getUserRoles()
     {
         return $this->userRoles;
+    }
+
+    public function getIsGlobal()
+    {
+        return $this->isGlobal;
+    }
+
+    public function setIsGlobal($isGlobal)
+    {
+        $this->isGlobal = $isGlobal;
     }
 }

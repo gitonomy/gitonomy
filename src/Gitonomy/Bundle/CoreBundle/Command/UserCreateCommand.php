@@ -55,5 +55,7 @@ EOF
 
         $em->persist($user);
         $em->flush();
+
+        $output->writeln(sprintf('The user <info>%s</info> was created!', $user->getUsername()));
     }
 }
