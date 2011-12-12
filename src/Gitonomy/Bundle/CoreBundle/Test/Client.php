@@ -4,6 +4,8 @@ namespace Gitonomy\Bundle\CoreBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Client as BaseClient;
 
+use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
+
 /**
  * Test client for Gitonomy application.
  *
@@ -15,6 +17,11 @@ class Client extends BaseClient
      * The current DBAL connection.
      */
     protected $connection;
+
+    /**
+     * The repository pool
+     */
+    protected $repositoryPool;
 
     /**
      * Was this client already requested?
@@ -58,6 +65,11 @@ class Client extends BaseClient
         return $this->kernel->handle($request);
     }
 
+    public function setRepositoryPool(RepositoryPool $repositoryPool)
+    {
+        $this->repositoryPool = $repositoryPool;
+    }
+
     /**
      * Starts the isolation process of the client.
      */
@@ -68,6 +80,9 @@ class Client extends BaseClient
         }
 
         $this->getContainer()->set('doctrine.dbal.default_connection', $this->connection);
+        if (null !== $this->repositoryPool) {
+            $this->getContainer()->set('gitonomy_core.git.repository_pool', $this->repositoryPool);
+        }
 
         if (false === $this->requested) {
             $this->connection->beginTransaction();

@@ -26,11 +26,16 @@ class ProjectCreateCommand extends ContainerAwareCommand
             ->setName('gitonomy:project-create')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the project')
             ->addArgument('slug', InputArgument::REQUIRED, 'Slug of the project')
-            ->setDescription('Generates the authorized_keys file')
+            ->setDescription('Creates a new project and initializes its repository')
             ->setHelp(<<<EOF
-The <info>gitonomy:projec-create</info> allows you to create a project with
-CLI tool.
+The <info>gitonomy:project-create</info> command creates a project and initializes
+it repository.
 
+<comment>Sample usages</comment>
+
+  > php app/console gitonomy:project-create "My Project" my-project
+
+    Creates a new project with name "<comment>My project</comment>" and slugged "<comment>my-project</comment>"
 EOF
             )
         ;
@@ -56,5 +61,7 @@ EOF
         $em->flush();
 
         $pool->create($repository);
+
+        $output->writeln(sprintf('Project <info>%s</info> was created!', $project->getName()));
     }
 }
