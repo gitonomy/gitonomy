@@ -4,12 +4,15 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 
 /**
  * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\UserRoleRepository")
- * @ORM\Table(name="user_role",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="todo",columns={"user_id","project_id"})
+ * @ORM\Table(name="user_role", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="user_project", columns={"user_id", "project_id"})
  * })
+ *
+ * @AssertDoctrine\UniqueEntity(fields={"project", "user"},groups={"admin"})
  */
 class UserRole
 {
@@ -22,13 +25,13 @@ class UserRole
 
     /**
      * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\User", inversedBy="userRoles")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", inversedBy="userRoles")
-     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      */
     protected $role;
 
@@ -37,6 +40,16 @@ class UserRole
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable=true)
      */
     protected $project;
+
+    public function __toString()
+    {
+        if ($this->isGlobal()) {
+            return sprintf('%s is %s', $this->getUser(), $this->getRole());
+        } else {
+            return sprintf('%s is %s in the project %s', $this->getUser(), $this->getRole(), $this->getProject());
+
+            }
+    }
 
     public function getId()
     {

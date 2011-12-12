@@ -8,12 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Gitonomy\Bundle\CoreBundle\Validator\Constraints as GitonomyAssert;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
+ *
+ * @AssertDoctrine\UniqueEntity(fields="username",groups={"registration", "admin"})
+ * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration", "admin"})
  */
 class User implements UserInterface
 {
@@ -31,7 +33,6 @@ class User implements UserInterface
      * @Assert\MinLength(limit=3,groups={"registration", "admin"})
      * @Assert\MaxLength(limit=32,groups={"registration", "admin"})
      * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration", "admin"})
-     * @GitonomyAssert\Unique(groups={"registration", "admin"})
      */
     protected $username;
 
@@ -58,7 +59,6 @@ class User implements UserInterface
      * @ORM\Column(type="string",length=256,unique=true)
      *
      * @Assert\NotBlank(groups={"registration", "admin"})
-     * @GitonomyAssert\Unique(groups={"registration", "admin"})
      */
     protected $email;
 
@@ -81,7 +81,7 @@ class User implements UserInterface
     protected $repositories;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $userRoles;
 
@@ -228,13 +228,16 @@ class User implements UserInterface
         return $this->userRoles;
     }
 
-    public function setUserRoles(UserRole $userRoles)
+    public function setUserRoles(PersistentCollection $userRoles)
     {
-        $this->userRoles = $userRoles;
+        foreach($userRoles as $userRole) {
+            $this->addUserRole($userRole);
+        }
     }
 
     public function addUserRole(UserRole $userRole)
     {
+        $userRole->setUser($this);
         $this->userRoles->add($userRole);
     }
 

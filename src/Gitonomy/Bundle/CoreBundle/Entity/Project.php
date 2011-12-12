@@ -6,12 +6,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
-use Gitonomy\Bundle\CoreBundle\Validator\Constraints as GitonomyAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="project")
+ *
+ * @AssertDoctrine\UniqueEntity(fields="name",groups={"admin"})
+ * @AssertDoctrine\UniqueEntity(fields="slug",groups={"admin"})
  */
 class Project
 {
@@ -25,14 +27,12 @@ class Project
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      * @Assert\NotBlank(groups={"admin"})
-     * @GitonomyAssert\Unique(groups={"admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      * @Assert\NotBlank(groups={"admin"})
-     * @GitonomyAssert\Unique(groups={"admin"})
      */
     protected $slug;
 
