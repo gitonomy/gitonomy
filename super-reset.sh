@@ -15,7 +15,7 @@ fi
 ./app/console gitonomy:user-ssh-key-create $username "Autokey" "`cat ~/.ssh/id_rsa.pub`"
 ./app/console gitonomy:authorized-keys -i | tee ~/.ssh/authorized_keys
 
-./app/console gitonomy:user-add-to-project julien gitonomy "Lead developer"
-./app/console gitonomy:user-add-to-project alex gitonomy "Lead developer"
+./app/console gitonomy:user-role-create julien "Lead developer" gitonomy
+./app/console gitonomy:user-role-create alex   "Lead developer" gitonomy
 
 
