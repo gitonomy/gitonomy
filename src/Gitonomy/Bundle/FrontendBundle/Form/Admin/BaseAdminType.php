@@ -16,6 +16,6 @@ class BaseAdminType extends AbstractType
 
     public function getName()
     {
-        return 'base_admin';
+        return 'baseadmin';
     }
 }

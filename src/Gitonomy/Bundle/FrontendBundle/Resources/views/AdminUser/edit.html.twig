@@ -2,4 +2,9 @@
 
 {% block actions %}
     <a href="{{ path(route_prefix~'_mail', {'id':object.id}) }}" class="btn">Send an email</a>
+    <input type="button" id="add-element" class="btn" value="Add to a new project" />
+{% endblock %}
+
+{% block content_javascript %}
+    <script type="text/javascript" src="{{ asset('bundles/gitonomyfrontend/js/admin_user_form.js') }}"></script>
 {% endblock %}

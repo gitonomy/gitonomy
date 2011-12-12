@@ -131,7 +131,7 @@ abstract class BaseAdminController extends BaseController
     {
         $className = strtolower($this->getIdentifier($className));
 
-        return 'admin_'.$className;
+        return 'admin'.$className;
     }
 
     protected function getRouteName($route)

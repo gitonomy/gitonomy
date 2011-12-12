@@ -14,6 +14,15 @@ class UserType extends AbstractType
             ->add('fullname', 'text')
             ->add('email', 'email')
             ->add('timezone', 'timezone')
+            ->add('userRoles', 'collection', array(
+                'type' => 'adminuserrole',
+                'prototype'       => true,
+                'by_reference'    => false,
+                'label'           => 'User roles',
+                'allow_add'       => true,
+                'allow_delete'    => true,
+                'options'         => array('from_adminuser' => true),
+            ))
         ;
     }
 
@@ -26,7 +35,7 @@ class UserType extends AbstractType
 
     public function getParent(array $options)
     {
-        return 'base_admin';
+        return 'baseadmin';
     }
 
     public function getName()

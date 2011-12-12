@@ -8,10 +8,11 @@
         <parameter key="gitonomy_frontend.form.type.profile_ssh_key.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\SshKeyType</parameter>
         <parameter key="gitonomy_frontend.form.type.profile_informations.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\InformationsType</parameter>
         <parameter key="gitonomy_frontend.form.type.user_registration.class">Gitonomy\Bundle\FrontendBundle\Form\User\RegistrationType</parameter>
-        <parameter key="gitonomy_frontend.form.type.admin_user.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
-        <parameter key="gitonomy_frontend.form.type.base_admin.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\BaseAdminType</parameter>
-        <parameter key="gitonomy_frontend.form.type.admin_project.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectType</parameter>
-        <parameter key="gitonomy_frontend.form.type.admin_role.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\RoleType</parameter>
+        <parameter key="gitonomy_frontend.form.type.baseadmin.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\BaseAdminType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminuser.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminproject.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminrole.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\RoleType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminuserrole.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleType</parameter>
     </parameters>
 
     <services>
@@ -24,17 +25,20 @@
         <service id="gitonomy_frontend.form.type.user_registration" class="%gitonomy_frontend.form.type.user_registration.class%">
             <tag name="form.type" alias="user_registration" />
         </service>
-        <service id="gitonomy_frontend.form.type.base_admin" class="%gitonomy_frontend.form.type.base_admin.class%">
-            <tag name="form.type" alias="base_admin" />
+        <service id="gitonomy_frontend.form.type.baseadmin" class="%gitonomy_frontend.form.type.baseadmin.class%">
+            <tag name="form.type" alias="baseadmin" />
         </service>
-        <service id="gitonomy_frontend.form.type.admin_user" class="%gitonomy_frontend.form.type.admin_user.class%">
-            <tag name="form.type" alias="admin_user" />
+        <service id="gitonomy_frontend.form.type.adminuser" class="%gitonomy_frontend.form.type.adminuser.class%">
+            <tag name="form.type" alias="adminuser" />
         </service>
-        <service id="gitonomy_frontend.form.type.admin_project" class="%gitonomy_frontend.form.type.admin_project.class%">
-            <tag name="form.type" alias="admin_project" />
+        <service id="gitonomy_frontend.form.type.adminproject" class="%gitonomy_frontend.form.type.adminproject.class%">
+            <tag name="form.type" alias="adminproject" />
         </service>
-        <service id="gitonomy_frontend.form.type.admin_role" class="%gitonomy_frontend.form.type.admin_role.class%">
-            <tag name="form.type" alias="admin_role" />
+        <service id="gitonomy_frontend.form.type.adminrole" class="%gitonomy_frontend.form.type.adminrole.class%">
+            <tag name="form.type" alias="adminrole" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminuserrole" class="%gitonomy_frontend.form.type.adminuserrole.class%">
+            <tag name="form.type" alias="adminuserrole" />
         </service>
     </services>
 

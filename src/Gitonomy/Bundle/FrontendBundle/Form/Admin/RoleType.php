@@ -26,6 +26,11 @@ class RoleType extends AbstractType
         );
     }
 
+    public function getParent(array $options)
+    {
+        return 'baseadmin';
+    }
+
     public function getName()
     {
         return 'adminrole';
