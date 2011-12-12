@@ -6,23 +6,32 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MainControllerTest extends WebTestCase
 {
+    protected $client;
+
+    public function setUp()
+    {
+        $this->client = self::createClient();
+        $this->client->startIsolation();
+    }
+
+    public function tearDown()
+    {
+        $this->client->stopIsolation();
+    }
+
     public function testHomepageWithoutLocale()
     {
-        $client = self::createClient();
+        $crawler  = $this->client->request('GET', '/');
+        $response = $this->client->getResponse();
 
-        $crawler  = $client->request('GET', '/');
-        $response = $client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/en_US/'));
+        $this->assertTrue($response->isRedirect('/en_US'));
 
     }
 
     public function testHomepage()
     {
-        $client = self::createClient();
-
-        $crawler  = $client->request('GET', '/en_US/');
-        $response = $client->getResponse();
+        $crawler  = $this->client->request('GET', '/en_US');
+        $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Welcome to Gitonomy.sample!', $crawler->filter('h1')->text());
@@ -30,23 +39,19 @@ class MainControllerTest extends WebTestCase
 
     public function testSetLocaleWithoutReferer()
     {
-        $client = self::createClient();
+        $crawler  = $this->client->request('GET', '/fr_FR/but-i-would-prefer-en_US');
+        $response = $this->client->getResponse();
 
-        $crawler  = $client->request('GET', '/fr_FR/but-i-would-prefer-en_US');
-        $response = $client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/en_US/'));
+        $this->assertTrue($response->isRedirect('/en_US'));
 
     }
 
     public function testSetLocaleWithReferer()
     {
-        $client = self::createClient();
-
-        $crawler  = $client->request('GET', '/fr_FR/but-i-would-prefer-en_US', array(), array(), array(
+        $crawler  = $this->client->request('GET', '/fr_FR/but-i-would-prefer-en_US', array(), array(), array(
             'HTTP_REFERER' => '/fr_FR/foobar'
         ));
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertTrue($response->isRedirect('/en_US/foobar'));
 
