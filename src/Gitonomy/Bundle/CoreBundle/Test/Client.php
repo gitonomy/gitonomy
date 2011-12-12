@@ -65,6 +65,12 @@ class Client extends BaseClient
         return $this->kernel->handle($request);
     }
 
+    /**
+     * Defines the repository pool to use for the client.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Git\RepositoryPool $repositoryPool The
+     * repository pool to set
+     */
     public function setRepositoryPool(RepositoryPool $repositoryPool)
     {
         $this->repositoryPool = $repositoryPool;
