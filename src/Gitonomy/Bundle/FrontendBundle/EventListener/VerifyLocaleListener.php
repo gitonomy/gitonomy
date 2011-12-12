@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\FrontendBundle\Listener;
+namespace Gitonomy\Bundle\FrontendBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
