@@ -12,7 +12,7 @@ else
     username="julien"
 fi
 
-./app/console gitonomy:ssh-key-create $username "Autokey" "`cat ~/.ssh/id_rsa.pub`"
+./app/console gitonomy:user-ssh-key-create $username "Autokey" "`cat ~/.ssh/id_rsa.pub`"
 ./app/console gitonomy:authorized-keys -i | tee ~/.ssh/authorized_keys
 
 ./app/console gitonomy:user-add-to-project julien gitonomy "Lead developer"

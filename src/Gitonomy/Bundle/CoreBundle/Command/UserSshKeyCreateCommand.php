@@ -11,11 +11,11 @@ use Gitonomy\Bundle\CoreBundle\Git\AuthorizedKeysGenerator;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 
 /**
- * Command tool for adding a SSH key to a given user.
+ * Command tool for adding a SSH key to a user.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class SshKeyCreateCommand extends ContainerAwareCommand
+class UserSshKeyCreateCommand extends ContainerAwareCommand
 {
     /**
      * @inheritdoc
@@ -23,14 +23,17 @@ class SshKeyCreateCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('gitonomy:ssh-key-create')
-            ->addArgument('username', InputArgument::REQUIRED, 'Username to add key to')
+            ->setName('gitonomy:user-ssh-key-create')
+            ->addArgument('username', InputArgument::REQUIRED, 'A username')
             ->addArgument('title',    InputArgument::REQUIRED, 'Title of the key')
             ->addArgument('content',  InputArgument::REQUIRED, 'The SSH-key content')
             ->setDescription('Adds a SSH key to a user')
             ->setHelp(<<<EOF
-The <info>gitonomy:ssh-key-add</info> adds a key to a user.
+The <info>gitonomy:user-ssh-key-create</info> adds a key to an existing user.
 
+<comment>Sample usage:</comment>
+
+  > php app/console gitonomy:user-ssh-key-create alice "Desktop" "ssh-rsa ..."
 EOF
             )
         ;
@@ -60,5 +63,7 @@ EOF
 
         $em->persist($sshKey);
         $em->flush();
+
+        $output->writeln(sprintf("The key named <info>%s</info> was successfully added to user <info>%s</info>!", $title, $user->getUsername()));
     }
 }
