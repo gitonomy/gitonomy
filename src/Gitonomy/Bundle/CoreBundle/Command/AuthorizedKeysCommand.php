@@ -23,13 +23,25 @@ class AuthorizedKeysCommand extends ContainerAwareCommand
     {
         $this
             ->setName('gitonomy:authorized-keys')
-            ->addOption('mark-as-installed', 'i', InputOption::VALUE_NONE, 'Mark all the keys as installed')
+            ->addOption('mark-as-installed', 'i', InputOption::VALUE_NONE, 'Mark all the keys as installed in database')
             ->setDescription('Generates the authorized_keys file')
             ->setHelp(<<<EOF
 The <info>gitonomy:authorized-keys</info> generates the file for authentication
 of users via SSH.
 
-Use the option <info>-i</option> to mark all keys as installed correctly.
+The option <info>-i</info> marks all keys as installed correctly.
+
+<comment>Sample usages</comment>:
+
+  > php app/console gitonomy:authorized-keys
+
+      Generates all the authorized_keys file but do not update database to
+      indicate that keys are installed on machine.
+
+  > php app/console gitonomy:authorized-keys -i
+
+      Same output as above, but updates database to mark them all as installed.
+
 EOF
             )
         ;
