@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @todo Find a way to test the project with mode "unregistered"
+ * @todo Test logout
  */
 class UserControllerTest extends WebTestCase
 {
