@@ -30,8 +30,14 @@ class UserCreateCommand extends ContainerAwareCommand
             ->addArgument('timezone', InputArgument::OPTIONAL, 'Timezone of the user', date_default_timezone_get())
             ->setDescription('Creates a new user')
             ->setHelp(<<<EOF
-The <info>gitonomy:user-create</info> task creates a new user.
+The <info>gitonomy:user-create</info> task creates a new user in the application.
 
+The <info>timezone</info> option is optional. If not set, the default timezone of the
+server will be used.
+
+<comment>Sample usage:</comment>
+
+  > php app/console gitonomy:user-create alex mypassword "alexandre.salome@gmail.com" "Alexandre Salomé"
 EOF
             )
         ;
@@ -56,6 +62,6 @@ EOF
         $em->persist($user);
         $em->flush();
 
-        $output->writeln(sprintf('The user <info>%s</info> was created!', $user->getUsername()));
+        $output->writeln(sprintf('The user <info>%s</info> was successfully created!', $user->getUsername()));
     }
 }
