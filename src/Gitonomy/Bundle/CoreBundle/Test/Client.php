@@ -33,20 +33,21 @@ class Client extends BaseClient
      *
      * @param string $username Username
      * @param string $password Password. If not set, will use the username
-     * @param string $target Target of the login form
-     *
-     * @todo After redirection, check we are not anymore on the login page.
      */
-    public function connect($username = 'alice', $password = null, $target = '/en_US/login_check')
+    public function connect($username = 'alice', $password = null)
     {
         $password = null !== $password ? $password : $username;
 
-        $crawler = $this->request('POST', $target, array(
+        $crawler = $this->request('GET', '/en_US/login');
+
+        $form = $crawler->filter('form input[type=submit][value="Login"]')->form(array(
             '_username' => $username,
             '_password' => $password
         ));
 
-        $this->followRedirect();
+        $this->submit($form);
+
+        return $this->followRedirect();
     }
 
     /**

@@ -13,8 +13,10 @@ security:
         main:
             security:   true
             form_login:
-              login_path: gitonomyfrontend_security_login
-              check_path: gitonomyfrontend_security_loginCheck
+              login_path:          gitonomyfrontend_security_login
+              check_path:          gitonomyfrontend_security_loginCheck
+              default_target_path: gitonomyfrontend_main_homepage
             logout:
-              path: gitonomyfrontend_security_logout
+              path:   gitonomyfrontend_security_logout
+              target: gitonomyfrontend_main_homepage
             anonymous:  true
