@@ -34,7 +34,7 @@ class MainControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Welcome to Gitonomy.sample!', $crawler->filter('h1')->text());
+        $this->assertEquals('gitonomy.sample', $crawler->filter('h1')->text());
     }
 
     public function testSetLocaleWithoutReferer()
