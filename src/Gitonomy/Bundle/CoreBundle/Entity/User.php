@@ -212,11 +212,11 @@ class User implements UserInterface
 
         foreach ($globalRole->getPermissions() as $permission) {
             if ($permission->hasParent()) {
-                $perm = $permission->getParent()->getPermission();
+                $perm = $permission->getParent()->getName();
                 $permissions[$perm] = $perm;
             }
 
-            $perm = $permission->getPermission();
+            $perm = $permission->getName();
             $permissions[$perm] = $perm;
         }
 

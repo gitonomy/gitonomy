@@ -20,6 +20,8 @@ class ProjectController extends BaseController
             throw $this->createNotFoundException(sprintf('Project with slug %s does not exists', $slug));
         }
 
+        $this->assertProjectPermission($project, 'PROJECT_VIEW');
+
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project' => $project
         ));

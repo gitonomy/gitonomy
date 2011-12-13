@@ -19,7 +19,7 @@ class PermissionRepository extends EntityRepository
  INNER JOIN RP.permission               RP
       WHERE UR.user           = :user_id
         AND UR.project        = :project_id
-        AND P.permission      = :permission
+        AND P.name      = :permission
 QUERY
             )->setParameters(array(
                 'user_id'    => $user->getId(),

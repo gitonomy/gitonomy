@@ -35,7 +35,7 @@ class Right
         return $this->hasPermission($user, $permission);
     }
 
-    protected function hasPermission($user, $permissions)
+    protected function hasPermission(User $user, $permissions)
     {
         if (!is_array($permissions)) {
             return in_array($permissions, $user->getRoles());

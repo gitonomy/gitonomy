@@ -19,14 +19,9 @@ class Permission
     protected $id;
 
     /**
-     * @ORM\Column(type="string",length=50)
-     */
-    protected $name;
-
-    /**
      * @ORM\Column(type="string",length=50,unique=true)
      */
-    protected $permission;
+    protected $name;
 
     /**
      * @ORM\Column(type="boolean", name="is_global", nullable=false)
@@ -78,16 +73,6 @@ class Permission
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
     }
 
     public function getIsGlobal()

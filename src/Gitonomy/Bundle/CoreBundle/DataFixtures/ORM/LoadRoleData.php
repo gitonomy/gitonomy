@@ -23,15 +23,15 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleAdmin->setName('Administrator');
         $roleAdmin->setDescription('Master of the application');
         $roleAdmin->setIsGlobal(true);
-        $roleAdmin->addPermission($this->getReference('permission-usercreate'));
-        $roleAdmin->addPermission($this->getReference('permission-useredit'));
-        $roleAdmin->addPermission($this->getReference('permission-userdelete'));
-        $roleAdmin->addPermission($this->getReference('permission-projectcreate'));
-        $roleAdmin->addPermission($this->getReference('permission-projectedit'));
-        $roleAdmin->addPermission($this->getReference('permission-projectdelete'));
-        $roleAdmin->addPermission($this->getReference('permission-rolecreate'));
-        $roleAdmin->addPermission($this->getReference('permission-roleedit'));
-        $roleAdmin->addPermission($this->getReference('permission-roledelete'));
+        $roleAdmin->addPermission($this->getReference('permission-USER_CREATE'));
+        $roleAdmin->addPermission($this->getReference('permission-USER_EDIT'));
+        $roleAdmin->addPermission($this->getReference('permission-USER_DELETE'));
+        $roleAdmin->addPermission($this->getReference('permission-PROJECT_CREATE'));
+        $roleAdmin->addPermission($this->getReference('permission-PROJECT_EDIT'));
+        $roleAdmin->addPermission($this->getReference('permission-PROJECT_DELETE'));
+        $roleAdmin->addPermission($this->getReference('permission-ROLE_CREATE'));
+        $roleAdmin->addPermission($this->getReference('permission-ROLE_EDIT'));
+        $roleAdmin->addPermission($this->getReference('permission-ROLE_DELETE'));
         $manager->persist($roleAdmin);
         $this->setReference('role-admin', $roleAdmin);
 

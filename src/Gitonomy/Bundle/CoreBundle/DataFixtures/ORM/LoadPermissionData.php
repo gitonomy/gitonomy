@@ -22,24 +22,15 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     protected function getData()
     {
         return array(
-            // Parent permissions
-            array('User admin',    'USER_ADMIN',    'permission-useradmin',    false, null),
-            array('Project admin', 'PROJECT_ADMIN', 'permission-projectadmin', false, null),
-            array('Role admin',    'ROLE_ADMIN',    'permission-roleadmin',    false, null),
-            // User
-            array('User create', 'USER_CREATE', 'permission-usercreate', true, 'permission-useradmin'),
-            array('User edit',   'USER_EDIT',   'permission-useredit',   true, 'permission-useradmin'),
-            array('User delete', 'USER_DELETE', 'permission-userdelete', true, 'permission-useradmin'),
-            // Project
-            array('Project contribute', 'PROJECT_CONTRIBUTE', 'permission-projectcontribute', false, 'permission-projectadmin'),
-            array('Project commit',     'PROJECT_COMMIT',     'permission-projectcommit',     false, 'permission-projectadmin'),
-            array('Project create',     'PROJECT_CREATE',     'permission-projectcreate',     true,  'permission-projectadmin'),
-            array('Project edit',       'PROJECT_EDIT',       'permission-projectedit',       true,  'permission-projectadmin'),
-            array('Project delete',     'PROJECT_DELETE',     'permission-projectdelete',     true,  'permission-projectadmin'),
-            // Role
-            array('Role create', 'ROLE_CREATE', 'permission-rolecreate', true, 'permission-roleadmin'),
-            array('Role edit',   'ROLE_EDIT',   'permission-roleedit',   true, 'permission-roleadmin'),
-            array('Role delete', 'ROLE_DELETE', 'permission-roledelete', true, 'permission-roleadmin'),
+            'global' => array(
+                'USER_ADMIN'    => array('USER_CREATE', 'USER_EDIT', 'USER_DELETE'),
+                'PROJECT_ADMIN' => array('PROJECT_CREATE', 'PROJECT_EDIT', 'PROJECT_DELETE'),
+                'ROLE_ADMIN'    => array('ROLE_CREATE', 'ROLE_EDIT', 'ROLE_DELETE')
+            ),
+            'project' => array(
+                'PROJECT_CONTRIBUTE' => array(),
+                'PROJECT_COMMIT'     => array(),
+            )
         );
     }
 
@@ -48,12 +39,18 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
      */
     public function load($manager)
     {
-        foreach ($this->getData() as $row) {
-            list($name, $permission, $reference, $isGlobal, $parent)  = $row;
+        $data = $this->getData();
 
-            $userRole = $this->createPermission($name, $permission, $reference, $isGlobal, $parent);
-
-            $manager->persist($userRole);
+        foreach ($data as $case => $rows) {
+            $isGlobal = $case == 'global';
+            foreach ($rows as $parentName => $children) {
+                $parentPermission = $this->createPermission($parentName, $isGlobal);
+                foreach ($children as $childName) {
+                    $permission = $this->createPermission($childName, $isGlobal, $parentName);
+                    $manager->persist($permission);
+                }
+                $manager->persist($parentPermission);
+            }
         }
 
         $manager->flush();
@@ -67,16 +64,16 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
         return 20;
     }
 
-    protected function createPermission($name, $permission, $reference, $isGlobal, $parent)
+    protected function createPermission($name, $isGlobal, $parent = null)
     {
         $object = new Permission();
         $object->setName($name);
-        $object->setPermission($permission);
         $object->setIsGlobal($isGlobal);
+
         if (null !== $parent) {
-            $object->setParent($this->getReference($parent));
+            $object->setParent($this->getReference('permission-'.$parent));
         }
-        $this->setReference($reference, $object);
+        $this->setReference('permission-'.$name, $object);
 
         return $object;
     }
