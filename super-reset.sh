@@ -2,6 +2,7 @@
 ./reset.sh
 ./put-symfony.sh
 ./put-gitonomy.sh
+./put-selenium.sh
 
 ./app/console gitonomy:user-create julien julien 'genzo.wm@gmail.com' "Julien DIDIER"
 ./app/console gitonomy:user-create alex alex 'alexandre.salome@gmail.com' "Alexandre Salomé"
@@ -17,5 +18,6 @@ fi
 
 ./app/console gitonomy:user-role-create julien "Lead developer" gitonomy
 ./app/console gitonomy:user-role-create alex   "Lead developer" gitonomy
+./app/console gitonomy:user-role-create alex   "Lead developer" selenium
 
 
