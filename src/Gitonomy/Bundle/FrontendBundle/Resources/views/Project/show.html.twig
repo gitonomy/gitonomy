@@ -21,6 +21,11 @@
                 <h2>Branches</h2>
             </div>
             {% render "GitonomyFrontendBundle:Repository:blockBranches" with {'id': project.mainRepository.id } %}
+            <p>&nbsp;</p>
+            <div class="page-header">
+                <h2>Tags</h2>
+            </div>
+            {% render "GitonomyFrontendBundle:Repository:blockTags" with {'id': project.mainRepository.id } %}
         </div>
         <div class="span10">
             <div class="page-header">

@@ -82,11 +82,33 @@ class RepositoryController extends BaseController
         $branches = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($repository)
+            ->getReferences()
             ->getBranches()
         ;
 
         return $this->render('GitonomyFrontendBundle:Repository:blockBranches.html.twig', array(
             'branches'   => $branches,
+            'repository' => $repository
+        ));
+    }
+
+    public function blockTagsAction($id)
+    {
+        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
+
+        if (null === $repository) {
+            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
+        }
+
+        $tags = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($repository)
+            ->getReferences()
+            ->getTags()
+        ;
+
+        return $this->render('GitonomyFrontendBundle:Repository:blockTags.html.twig', array(
+            'tags'       => $tags,
             'repository' => $repository
         ));
     }
