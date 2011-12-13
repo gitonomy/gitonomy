@@ -13,15 +13,18 @@
                         <li><a href="#">Create</a></li>
                     </ul>
                 </li>
+                {% if is_granted('AUTHENTICATED') %}
                 <li>
                     <a href="#" class="dropdown-toggle">My repositories</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Repository A</a></li>
-                        <li><a href="#">Repository B</a></li>
+                        {% for repository in app.user.repositories %}
+                            <li><a href="#">{{ repository.project.name }}</a></li>
+                        {% endfor %}
                         <li class="divider"></li>
                         <li><a href="#">Create</a></li>
                     </ul>
                 </li>
+                {% endif %}
                 <li>
                     <a href="#" class="dropdown-toggle">Users</a>
                     <ul class="dropdown-menu">
@@ -32,20 +35,22 @@
                         <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#" class="dropdown-toggle">Administration</a>
-                    <ul class="dropdown-menu">
-                        {% if is_granted(['USER_ADMIN']) %}
-                            <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
-                        {% endif %}
-                        {% if is_granted(['PROJECT_ADMIN']) %}
-                            <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
-                        {% endif %}
-                        {% if is_granted(['ROLE_CREATE', 'ROLE_UPDATE', 'ROLE_DELETE']) %}
-                            <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
+                {% if is_granted(['USER_ADMIN', 'PROJECT_ADMIN', 'ROLE_CREATE', 'ROLE_UPDATE', 'ROLE_DELETE']) %}
+                    <li>
+                        <a href="#" class="dropdown-toggle">Administration</a>
+                        <ul class="dropdown-menu">
+                            {% if is_granted(['USER_ADMIN']) %}
+                                <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
+                            {% endif %}
+                            {% if is_granted(['PROJECT_ADMIN']) %}
+                                <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
+                            {% endif %}
+                            {% if is_granted(['ROLE_CREATE', 'ROLE_UPDATE', 'ROLE_DELETE']) %}
+                                <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="nav secondary-nav">
                 <li class="dropdown">
