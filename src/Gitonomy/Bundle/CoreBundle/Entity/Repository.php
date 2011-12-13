@@ -32,6 +32,16 @@ class Repository
      */
     protected $project;
 
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    protected $mainBranch;
+
+    public function __construct()
+    {
+        $this->mainBranch = 'master';
+    }
+
     public function getIsProjectRepository()
     {
         return null === $this->owner;
@@ -60,5 +70,15 @@ class Repository
     public function setProject(Project $project)
     {
         $this->project = $project;
+    }
+
+    public function setMainBranch($mainBranch)
+    {
+        $this->mainBranch = $mainBranch;
+    }
+
+    public function getMainBranch()
+    {
+        return $this->mainBranch;
     }
 }

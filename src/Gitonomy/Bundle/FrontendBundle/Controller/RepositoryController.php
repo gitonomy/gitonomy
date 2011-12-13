@@ -39,13 +39,15 @@ class RepositoryController extends BaseController
      *
      * @todo Separate two cases: the requested revision does not exists and no commit.
      */
-    public function blockCommitHistoryAction($id, $revision = 'HEAD', $limit = 10)
+    public function blockCommitHistoryAction($id, $branch = null, $limit = 10)
     {
         $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
 
         if (null === $repository) {
             throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
         }
+
+        $revision = null === $branch ? $repository->getMainBranch() : $branch;
 
         $revision = $this
             ->get('gitonomy_core.git.repository_pool')

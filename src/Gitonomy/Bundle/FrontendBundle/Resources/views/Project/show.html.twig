@@ -24,7 +24,7 @@
         </div>
         <div class="span10">
             <div class="page-header">
-                <h2>Last commits</h2>
+                <h2>Last commits on branch {{ project.mainRepository.mainBranch }}</h2>
             </div>
             {% render "GitonomyFrontendBundle:Repository:blockCommitHistory" with {'id': project.mainRepository.id } %}
         </div>
