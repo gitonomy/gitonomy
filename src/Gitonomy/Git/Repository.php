@@ -66,6 +66,31 @@ class Repository
         return new Revision($this, $name);
     }
 
+    public function getBranches()
+    {
+        ob_start();
+        system(sprintf(
+            'cd %s && git show-ref',
+            escapeshellarg($this->path)
+        ), $return);
+        $result = ob_get_clean();
+
+        if (0 !== $return) {
+            throw new \RuntimeException('Error while getting list of references');
+        }
+
+        if (!preg_match_all('/([a-zA-Z0-9]{40}) refs\/heads\/([^\s]+)/', $result, $vars)) {
+            throw new \RuntimeException('Unable to parse references');
+        }
+
+        $result = array();
+        foreach ($vars[1] as $i => $hash) {
+            $result[] = new Reference($this, $vars[2][$i], $hash);
+        }
+
+        return $result;
+    }
+
     /**
      * Instanciates a commit object or fetches one from the cache.
      *

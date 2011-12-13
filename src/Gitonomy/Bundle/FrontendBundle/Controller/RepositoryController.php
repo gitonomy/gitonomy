@@ -68,4 +68,24 @@ class RepositoryController extends BaseController
             ));
         }
     }
+
+    public function blockBranchesAction($id)
+    {
+        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
+
+        if (null === $repository) {
+            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
+        }
+
+        $branches = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($repository)
+            ->getBranches()
+        ;
+
+        return $this->render('GitonomyFrontendBundle:Repository:blockBranches.html.twig', array(
+            'branches'   => $branches,
+            'repository' => $repository
+        ));
+    }
 }

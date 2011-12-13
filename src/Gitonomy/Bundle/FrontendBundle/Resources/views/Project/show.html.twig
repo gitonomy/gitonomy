@@ -6,12 +6,26 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% if project.userRoles | length %}
-        <h2>Users on the project</h2>
-        {% for userRole in project.userRoles %}
-            <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
-        {% endfor %}
-    {% endif %}
-    <h2>Last commits</h2>
-    {% render "GitonomyFrontendBundle:Repository:blockCommitHistory" with {'id': project.mainRepository.id } %}
+    <div class="row">
+        <div class="span6">
+            <div class="page-header">
+                <h2>Users on the project</h2>
+            </div>
+            {% for userRole in project.userRoles %}
+                <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
+            {% else %}
+                <h3><small>No user associated to the project</small></h3>
+            {% endfor %}
+            <p>&nbsp;</p>
+            <div class="page-header">
+                <h2>Branches</h2>
+            </div>
+            {% render "GitonomyFrontendBundle:Repository:blockBranches" with {'id': project.mainRepository.id } %}
+        </div>
+        <div class="span10">
+            <div class="page-header">
+                <h2>Last commits</h2>
+            </div>
+            {% render "GitonomyFrontendBundle:Repository:blockCommitHistory" with {'id': project.mainRepository.id } %}
+        </div>
 {% endblock %}
