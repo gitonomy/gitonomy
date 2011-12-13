@@ -16,3 +16,6 @@ git clone --bare sample/alice-foobar/.git app/cache/repositories/users/alice/foo
 git clone --bare sample/bob-foobar/.git   app/cache/repositories/users/bob/foobar.git
 
 git clone --bare sample/alice-barbaz/.git app/cache/repositories/projects/barbaz.git
+
+rm -Rf web/bundles
+php app/console assets:install --symlink web
