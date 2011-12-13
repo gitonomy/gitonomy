@@ -26,7 +26,7 @@ class Right
     {
         return $this->em
             ->getRepository('GitonomyCoreBundle:Permission')
-            ->findByPermission($user, $project, $permission)
+            ->hasProjectPermission($user, $project, $permission)
         ;
     }
 

@@ -7,27 +7,25 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class PermissionRepository extends EntityRepository
 {
-    public function findByPermission(Entity\User $user, Entity\Project $project, $permission)
+    public function hasProjectPermission(Entity\User $user, Entity\Project $project, $permission)
     {
-        $query = $this
-            ->getEntityManager()
-            ->createQuery(<<<QUERY
-     SELECT UR
-       FROM GitonomyCoreBundle:UserRole UR
- INNER JOIN UR.role                     R
- INNER JOIN R.rolePermissions           RP
- INNER JOIN RP.permission               RP
-      WHERE UR.user           = :user_id
-        AND UR.project        = :project_id
-        AND P.name      = :permission
-QUERY
-            )->setParameters(array(
+        $count = $this
+            ->createQueryBuilder('permission')
+            ->select('COUNT(permission.id)')
+            ->leftJoin('permission.roles', 'role')
+            ->leftJoin('role.userRoles', 'user_role')
+            ->leftJoin('user_role.user', 'user')
+            ->leftJoin('user_role.project', 'project')
+            ->where('user.id = :user_id AND project.id = :project_id AND permission.name = :permission')
+            ->setParameters(array(
                 'user_id'    => $user->getId(),
                 'project_id' => $project->getId(),
                 'permission' => $permission,
-            )
-        );
+            ))
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
 
-        return $query->getSingleResult();
+        return $count >= 1;
     }
 }
