@@ -25,6 +25,9 @@
                 <li>
                     <a href="#" class="dropdown-toggle">Users</a>
                     <ul class="dropdown-menu">
+                        {% for user in user_list() %}
+                            <li><a href="#">{{ user.fullname }}</a></li>
+                        {% endfor %}
                         <li class="divider"></li>
                         <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
                     </ul>

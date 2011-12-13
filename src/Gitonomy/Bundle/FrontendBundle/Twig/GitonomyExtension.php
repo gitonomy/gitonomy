@@ -32,7 +32,8 @@ class GitonomyExtension extends \Twig_Extension
     {
         return array(
             'gravatar'     => new \Twig_Function_Method($this, 'getGravatar'),
-            'project_list' => new \Twig_Function_Method($this, 'getProjectList')
+            'project_list' => new \Twig_Function_Method($this, 'getProjectList'),
+            'user_list'    => new \Twig_Function_Method($this, 'getUserList')
         );
     }
 
@@ -46,13 +47,13 @@ class GitonomyExtension extends \Twig_Extension
         return $this->container->get('doctrine')->getRepository('GitonomyCoreBundle:Project')->findAll();
     }
 
-    public function getGravatar($email, $size = 100)
-    {
-        return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
-    }
-
     public function getUserList()
     {
         return $this->container->get('doctrine')->getRepository('GitonomyCoreBundle:User')->findAll();
+    }
+
+    public function getGravatar($email, $size = 100)
+    {
+        return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
     }
 }
