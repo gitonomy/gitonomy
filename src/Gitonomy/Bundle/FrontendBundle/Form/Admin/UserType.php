@@ -14,14 +14,20 @@ class UserType extends AbstractType
             ->add('fullname', 'text')
             ->add('email', 'email')
             ->add('timezone', 'timezone')
-            ->add('userRoles', 'collection', array(
-                'type' => 'adminuserrole',
+            ->add('projectUserRoles', 'collection', array(
+                'type'            => 'adminuserrole',
                 'prototype'       => true,
                 'by_reference'    => false,
-                'label'           => 'User roles',
+                'label'           => 'Project user roles',
                 'allow_add'       => true,
                 'allow_delete'    => true,
-                'options'         => array('from_adminuser' => true),
+                'options'         => array('from_adminuser' => true, 'global' => false),
+            ))
+            ->add('globalUserRoles', 'collection', array(
+                'type'            => 'adminuserrole',
+                'by_reference'    => false,
+                'label'           => 'Global user roles',
+                'options'         => array('from_adminuser' => true, 'global' => true),
             ))
         ;
     }

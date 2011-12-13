@@ -72,6 +72,7 @@ abstract class BaseAdminController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
+                $this->postEdit($object);
                 $em->flush();
 
                 $this->get('session')->setFlash('success',
@@ -182,6 +183,11 @@ abstract class BaseAdminController extends BaseController
     }
 
     protected function postCreate($object)
+    {
+        return null;
+    }
+
+    protected function postEdit($object)
     {
         return null;
     }

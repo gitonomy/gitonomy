@@ -1,17 +1,12 @@
 $(document).ready(function()
 {
-    // add new locale in item form
-    $('#add-element').click(function() {
-        var prototype       = $('#adminuser_userRoles').attr('data-prototype');
-        var nbTranslations  = $("#adminuser_userRoles > div").length;
+    $('#add-projectuserrole').click(function() {
+        var wrapper   = $('#adminuser_projectUserRoles');
+        var prototype = wrapper.attr('data-prototype');
+        var nbOjects  = $("#adminuser_globalUserRoles > div").length;
+        prototype     = prototype.replace(/\$\$name\$\$/g, nbOjects++);
 
-        // the level of the prototype is replaced by $$name$$
-        // you might have have to change this to be coherent
-        // with your row ordering.
-        prototype = prototype.replace(/\$\$name\$\$/g, nbTranslations++);
-
-        // Append the prototype to the DOM
-        $('#adminuser_userRoles').append(prototype);
+        wrapper.append(prototype);
     });
 
     $('.discard').live('click', function() {

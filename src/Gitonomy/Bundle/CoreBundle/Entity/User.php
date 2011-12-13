@@ -241,6 +241,60 @@ class User implements UserInterface
         $this->userRoles->add($userRole);
     }
 
+    public function removeUserRole(UserRole $userRole)
+    {
+        $this->userRoles->removeElement($userRole);
+    }
+
+    public function getProjectUserRoles()
+    {
+        $projectUserRoles = new ArrayCollection();
+        foreach ($this->getUserRoles() as $userRole) {
+            if (!$userRole->isGlobal()) {
+                $projectUserRoles->add($userRole);
+            }
+        }
+
+        return $projectUserRoles;
+    }
+
+    public function getGlobalUserRoles()
+    {
+        $globalUserRoles = new ArrayCollection();
+        foreach ($this->getUserRoles() as $userRole) {
+            if ($userRole->isGlobal()) {
+                $globalUserRoles->add($userRole);
+            }
+        }
+
+        return $globalUserRoles;
+    }
+
+    public function setProjectUserRoles(ArrayCollection $projectUserRoles)
+    {
+        $this->hidrateUserRoles($this->getProjectUserRoles(), $projectUserRoles);
+    }
+
+    public function setGlobalUserRoles(ArrayCollection $globalUserRoles)
+    {
+        $this->hidrateUserRoles($this->getGlobalUserRoles(), $globalUserRoles);
+    }
+
+    protected function hidrateUserRoles(ArrayCollection $currentUserRoles, ArrayCollection $newUserRoles)
+    {
+        foreach ($currentUserRoles as $currentUserRole) {
+            if (!$newUserRoles->contains($currentUserRole)) {
+                $this->removeUserRole($currentUserRole);
+            }
+        }
+
+        foreach ($newUserRoles as $newUserRole) {
+            if (!$currentUserRoles->contains($newUserRole)) {
+                $this->addUserRole($newUserRole);
+            }
+        }
+    }
+
     public function getTimezone()
     {
         return $this->timezone;
