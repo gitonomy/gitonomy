@@ -3,5 +3,14 @@
 {% block title 'Welcome to Gitonomy' %}
 
 {% block content %}
-    <h1>Welcome to {{ gitonomy.name }}!</h1>
+    <div class="hero-unit">
+        <h1>{{ gitonomy.name }}</h1>
+        <p>{{ gitonomy.baseline }}</p>
+        <p>
+            <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn primary large">Connect</a>
+            {% if gitonomy.open_registration%}
+                <a href="{{ path('gitonomyfrontend_user_register') }}" class="btn large">Register</a>
+            {% endif %}
+        </p>
+    </div>
 {% endblock %}

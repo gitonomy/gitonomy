@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('project_name')->cannotBeEmpty()->end()
+                ->scalarNode('project_baseline')->cannotBeEmpty()->end()
                 ->booleanNode('open_registration')->defaultTrue()->end()
                 ->scalarNode('ssh_access')->cannotBeEmpty()->end()
                 ->arrayNode('allowed_locales')

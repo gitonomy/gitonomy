@@ -24,7 +24,8 @@ parameters:
   ssh_access:        alex@localhost
 
   # Your project
-  project_name:      Gitonomy.sample
+  project_name:      gitonomy.sample
+  project_baseline:  Git repositories inside infrastructure with a beautiful interface
   open_registration: true
   mail_from:         noreply@example.org
   mail_to:           admin@example.org
