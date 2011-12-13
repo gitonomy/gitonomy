@@ -4,13 +4,17 @@
 
 {% block content %}
     <div class="hero-unit">
-        <h1>{{ gitonomy.name }}</h1>
-        <p>{{ gitonomy.baseline }}</p>
-        <p>
-            <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn primary large">Connect</a>
-            {% if gitonomy.open_registration%}
-                <a href="{{ path('gitonomyfrontend_user_register') }}" class="btn large">Register</a>
-            {% endif %}
-        </p>
+        {% if is_granted('AUTHENTICATED') %}
+            <p>You are connected! Quick! Navigate with the menu!</p>
+        {% else %}
+            <h1>{{ gitonomy.name }}</h1>
+            <p>{{ gitonomy.baseline }}</p>
+            <p>
+                <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn primary large">Connect</a>
+                {% if gitonomy.open_registration%}
+                    <a href="{{ path('gitonomyfrontend_user_register') }}" class="btn large">Register</a>
+                {% endif %}
+            </p>
+        {% endif %}
     </div>
 {% endblock %}
