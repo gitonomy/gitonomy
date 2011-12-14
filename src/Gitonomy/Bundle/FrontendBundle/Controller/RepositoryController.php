@@ -12,15 +12,26 @@ use Symfony\Component\Security\Core\SecurityContext;
 class RepositoryController extends BaseController
 {
     /**
+     * Show a repository
+     */
+    public function showAction($id, $reference = null)
+    {
+        $repository = $this->getRepository($id);
+
+        $reference = null === $reference ? $repository->getMainBranch() : $reference;
+
+        return $this->render('GitonomyFrontendBundle:Repository:show.html.twig', array(
+            'repository' => $repository,
+            'reference'  => $reference
+        ));
+    }
+
+    /**
      * Displays a commit.
      */
     public function showCommitAction($id, $hash)
     {
-        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
-
-        if (null === $repository) {
-            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
-        }
+        $repository = $this->getRepository($id);
 
         $commit = $this
             ->get('gitonomy_core.git.repository_pool')
@@ -34,20 +45,31 @@ class RepositoryController extends BaseController
         ));
     }
 
+    public function blockNavigationAction($id)
+    {
+        $repository = $this->getRepository($id);
+
+        $gitRepository = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($repository)
+        ;
+
+        return $this->render('GitonomyFrontendBundle:Repository:blockNavigation.html.twig', array(
+            'repository'    => $repository,
+            'gitRepository' => $gitRepository
+        ));
+    }
+
     /**
      * Displays last commit of a repository.
      *
      * @todo Separate two cases: the requested revision does not exists and no commit.
      */
-    public function blockCommitHistoryAction($id, $branch = null, $limit = 10)
+    public function blockCommitHistoryAction($id, $reference = null, $limit = 10)
     {
-        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
+        $repository = $this->getRepository($id);
 
-        if (null === $repository) {
-            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
-        }
-
-        $revision = null === $branch ? $repository->getMainBranch() : $branch;
+        $revision = null === $reference ? $repository->getMainBranch() : $reference;
 
         $revision = $this
             ->get('gitonomy_core.git.repository_pool')
@@ -73,11 +95,7 @@ class RepositoryController extends BaseController
 
     public function blockBranchesAction($id)
     {
-        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
-
-        if (null === $repository) {
-            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
-        }
+        $repository = $this->getRepository($id);
 
         $branches = $this
             ->get('gitonomy_core.git.repository_pool')
@@ -94,11 +112,7 @@ class RepositoryController extends BaseController
 
     public function blockTagsAction($id)
     {
-        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
-
-        if (null === $repository) {
-            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
-        }
+        $repository = $this->getRepository($id);
 
         $tags = $this
             ->get('gitonomy_core.git.repository_pool')
@@ -111,5 +125,16 @@ class RepositoryController extends BaseController
             'tags'       => $tags,
             'repository' => $repository
         ));
+    }
+
+    protected function getRepository($id)
+    {
+        $repository = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Repository')->find($id);
+
+        if (null === $repository) {
+            throw $this->createNotFoundException(sprintf('Repository #%s not found', $id));
+        }
+
+        return $repository;
     }
 }

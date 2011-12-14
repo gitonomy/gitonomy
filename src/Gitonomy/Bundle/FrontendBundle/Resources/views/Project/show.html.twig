@@ -6,6 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
+    {% render "GitonomyFrontendBundle:Repository:blockNavigation" with {'id': project.mainRepository.id } %}
     <div class="row">
         <div class="span6">
             <div class="page-header">
@@ -16,16 +17,6 @@
             {% else %}
                 <h3><small>No user associated to the project</small></h3>
             {% endfor %}
-            <p>&nbsp;</p>
-            <div class="page-header">
-                <h2>Branches</h2>
-            </div>
-            {% render "GitonomyFrontendBundle:Repository:blockBranches" with {'id': project.mainRepository.id } %}
-            <p>&nbsp;</p>
-            <div class="page-header">
-                <h2>Tags</h2>
-            </div>
-            {% render "GitonomyFrontendBundle:Repository:blockTags" with {'id': project.mainRepository.id } %}
         </div>
         <div class="span10">
             <div class="page-header">

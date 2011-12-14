@@ -1,5 +1,0 @@
-{% for branch in branches %}
-    <h3><a href="#">{{ branch.name }} </a><small>{{ branch.lastModification | date_long }}</small></h3>
-{% else %}
-    <p><em>No branch</em></p>
-{% endfor %}

@@ -1,3 +1,8 @@
+gitonomyfrontend_repository_show:
+    pattern: /{_locale}/repository/{id}/{reference}
+    defaults: { _controller: "GitonomyFrontendBundle:Repository:show", reference: null }
+    requirements: { reference: ".*" }
+
 gitonomyfrontend_repository_showCommit:
     pattern: /{_locale}/repository/{id}/view-commit/{hash}
     defaults: { _controller: "GitonomyFrontendBundle:Repository:showCommit" }
