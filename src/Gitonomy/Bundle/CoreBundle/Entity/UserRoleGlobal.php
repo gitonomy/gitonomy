@@ -64,4 +64,9 @@ class UserRoleGlobal
     {
         $this->role = $role;
     }
+
+    public function getPermissions()
+    {
+        return $this->getRole()->getPermissions();
+    }
 }

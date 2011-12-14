@@ -230,7 +230,7 @@ class User implements UserInterface
         $permissions = array();
 
         foreach ($this->getUserRolesGlobal() as $userRole) {
-            foreach ($useRole->getPermissions() as $permission) {
+            foreach ($userRole->getPermissions() as $permission) {
                 if ($permission->hasParent()) {
                     $perm = $permission->getParent()->getName();
                     $permissions[$perm] = $perm;
