@@ -42,7 +42,7 @@ class Project
     protected $repositories;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="project", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $userRoles;
 

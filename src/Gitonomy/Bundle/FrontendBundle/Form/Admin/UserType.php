@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Doctrine\ORM\EntityRepository;
 
 class UserType extends AbstractType
 {
@@ -21,13 +22,17 @@ class UserType extends AbstractType
                 'label'           => 'Project user roles',
                 'allow_add'       => true,
                 'allow_delete'    => true,
-                'options'         => array('from_adminuser' => true, 'global' => false),
+                'options'         => array('from_adminuser' => true),
             ))
-            ->add('globalUserRoles', 'collection', array(
-                'type'            => 'adminuserrole',
-                'by_reference'    => false,
-                'label'           => 'Global user roles',
-                'options'         => array('from_adminuser' => true, 'global' => true),
+            ->add('globalUserRoles', 'entity', array(
+                'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->where('r.isGlobal = true')
+                        ->orderBy('r.name', 'ASC');
+                },
+                'multiple' => true,
+                'expanded' => true,
             ))
         ;
     }

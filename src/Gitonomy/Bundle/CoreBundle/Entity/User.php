@@ -81,9 +81,13 @@ class User implements UserInterface
     protected $repositories;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRole", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    protected $userRoles;
+    protected $userRolesProject;
+    /**
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    protected $userRolesGlobal;
 
     public function __construct()
     {
@@ -191,108 +195,24 @@ class User implements UserInterface
         $this->repositories->add($repository);
     }
 
-    public function getGlobalRole()
+    public function getUserRolesProject()
     {
-        foreach ($this->getUserRoles() as $userRole)
-        {
-            if ($userRole->isGlobal()) {
-                return $userRole->getRole();
-            }
-        }
+        return $this->userRolesProject;
     }
 
-    public function getGlobalPermissions()
+    public function setUserRolesProject(ArrayCollection $userRolesProject)
     {
-        $permissions = array();
-
-        $globalRole = $this->getGlobalRole();
-        if (null === $globalRole) {
-            return $permissions;
-        }
-
-        foreach ($globalRole->getPermissions() as $permission) {
-            if ($permission->hasParent()) {
-                $perm = $permission->getParent()->getName();
-                $permissions[$perm] = $perm;
-            }
-
-            $perm = $permission->getName();
-            $permissions[$perm] = $perm;
-        }
-
-        return $permissions;
+        $this->userRolesProject = $userRolesProject;
     }
 
-    public function getUserRoles()
+    public function getUserRolesGlobal()
     {
-        return $this->userRoles;
+        return $this->userRolesGlobal;
     }
 
-    public function setUserRoles(PersistentCollection $userRoles)
+    public function setUserRolesGlobal(ArrayCollection $userRolesGlobal)
     {
-        foreach($userRoles as $userRole) {
-            $this->addUserRole($userRole);
-        }
-    }
-
-    public function addUserRole(UserRole $userRole)
-    {
-        $userRole->setUser($this);
-        $this->userRoles->add($userRole);
-    }
-
-    public function removeUserRole(UserRole $userRole)
-    {
-        $this->userRoles->removeElement($userRole);
-    }
-
-    public function getProjectUserRoles()
-    {
-        $projectUserRoles = new ArrayCollection();
-        foreach ($this->getUserRoles() as $userRole) {
-            if (!$userRole->isGlobal()) {
-                $projectUserRoles->add($userRole);
-            }
-        }
-
-        return $projectUserRoles;
-    }
-
-    public function getGlobalUserRoles()
-    {
-        $globalUserRoles = new ArrayCollection();
-        foreach ($this->getUserRoles() as $userRole) {
-            if ($userRole->isGlobal()) {
-                $globalUserRoles->add($userRole);
-            }
-        }
-
-        return $globalUserRoles;
-    }
-
-    public function setProjectUserRoles(ArrayCollection $projectUserRoles)
-    {
-        $this->hidrateUserRoles($this->getProjectUserRoles(), $projectUserRoles);
-    }
-
-    public function setGlobalUserRoles(ArrayCollection $globalUserRoles)
-    {
-        $this->hidrateUserRoles($this->getGlobalUserRoles(), $globalUserRoles);
-    }
-
-    protected function hidrateUserRoles(ArrayCollection $currentUserRoles, ArrayCollection $newUserRoles)
-    {
-        foreach ($currentUserRoles as $currentUserRole) {
-            if (!$newUserRoles->contains($currentUserRole)) {
-                $this->removeUserRole($currentUserRole);
-            }
-        }
-
-        foreach ($newUserRoles as $newUserRole) {
-            if (!$currentUserRoles->contains($newUserRole)) {
-                $this->addUserRole($newUserRole);
-            }
-        }
+        $this->userRolesGlobal = $userRolesGlobal;
     }
 
     public function getTimezone()
@@ -303,5 +223,24 @@ class User implements UserInterface
     public function setTimezone($timezone)
     {
         $this->timezone = $timezone;
+    }
+
+    public function getGlobalPermissions()
+    {
+        $permissions = array();
+
+        foreach ($this->getUserRolesGlobal() as $userRole) {
+            foreach ($useRole->getPermissions() as $permission) {
+                if ($permission->hasParent()) {
+                    $perm = $permission->getParent()->getName();
+                    $permissions[$perm] = $perm;
+                }
+
+                $perm = $permission->getName();
+                $permissions[$perm] = $perm;
+            }
+        }
+
+        return $permissions;
     }
 }

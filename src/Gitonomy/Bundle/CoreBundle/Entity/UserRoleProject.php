@@ -7,14 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 
 /**
- * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\UserRoleRepository")
- * @ORM\Table(name="user_role", uniqueConstraints={
+ * @ORM\Entity
+ * @ORM\Table(name="user_role_project", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="user_project", columns={"user_id", "project_id"})
  * })
  *
  * @AssertDoctrine\UniqueEntity(fields={"project", "user"},groups={"admin"})
  */
-class UserRole
+class UserRoleProject
 {
     /**
      * @ORM\Id
@@ -24,13 +24,13 @@ class UserRole
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\User", inversedBy="userRoles")
+     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\User", inversedBy="userRolesProject")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", inversedBy="userRoles")
+     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", inversedBy="userRolesProject")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      */
     protected $role;
@@ -43,12 +43,7 @@ class UserRole
 
     public function __toString()
     {
-        if ($this->isGlobal()) {
-            return sprintf('%s is %s', $this->getUser(), $this->getRole());
-        } else {
-            return sprintf('%s is %s in the project %s', $this->getUser(), $this->getRole(), $this->getProject());
-
-            }
+        return sprintf('%s is %s in the project %s', $this->getUser(), $this->getRole(), $this->getProject());
     }
 
     public function getId()
@@ -84,10 +79,5 @@ class UserRole
     public function setProject(Project $project)
     {
         $this->project = $project;
-    }
-
-    public function isGlobal()
-    {
-        return (null === $this->getProject());
     }
 }

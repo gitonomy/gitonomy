@@ -37,7 +37,7 @@
         <service id="gitonomy_frontend.form.type.adminrole" class="%gitonomy_frontend.form.type.adminrole.class%">
             <tag name="form.type" alias="adminrole" />
         </service>
-        <service id="gitonomy_frontend.form.type.adminuserrole" class="%gitonomy_frontend.form.type.adminuserrole.class%">
+        <service id="gitonomy_frontend.form.type.adminprojectuserrole" class="%gitonomy_frontend.form.type.adminuserrole.class%">
             <tag name="form.type" alias="adminuserrole" />
         </service>
     </services>

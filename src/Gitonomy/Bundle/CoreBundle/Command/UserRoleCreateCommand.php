@@ -8,7 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\CoreBundle\Entity\UserRole;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
@@ -79,12 +80,14 @@ EOF
             throw new \RuntimeException("Cannot add a project role without project slug");
         }
 
-        $userRole = new UserRole();
+        if ($project) {
+            $userRole = new UserRoleProject();
+            $userRole->setProject($project);
+        } else {
+            $userRole = new UserRoleGlobal();
+        }
         $userRole->setUser($user);
         $userRole->setRole($role);
-        if ($project) {
-            $userRole->setProject($project);
-        }
 
         $output->writeln(sprintf(
             'Added succesfully <info>%s</info> as <info>%s</info>%s',

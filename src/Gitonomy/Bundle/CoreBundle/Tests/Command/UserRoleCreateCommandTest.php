@@ -30,12 +30,12 @@ class UserRoleCreateCommandTest extends CommandTestCase
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
-        $userRole = $em->getRepository('GitonomyCoreBundle:UserRole')->findOneBy(array(
+        $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
             'user' => $user,
-            'role' => $role
+            'role' => $role,
         ));
 
-        $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\UserRole', $userRole);
+        $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject', $userRole);
     }
 
     public function testGlobalRole()
@@ -48,12 +48,12 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-        $userRole = $em->getRepository('GitonomyCoreBundle:UserRole')->findOneBy(array(
+        $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleGlobal')->findOneBy(array(
             'user' => $user,
-            'role' => $role
+            'role' => $role,
         ));
 
-        $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\UserRole', $userRole);
+        $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal', $userRole);
     }
 
     public function testProjectRoleIncorrect()

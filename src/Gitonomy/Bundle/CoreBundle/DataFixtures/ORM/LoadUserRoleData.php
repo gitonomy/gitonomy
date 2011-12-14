@@ -5,7 +5,8 @@ namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use Gitonomy\Bundle\CoreBundle\Entity\UserRole;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal;
 
 /**
  * Loads the fixtures for user role object.
@@ -79,12 +80,14 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
      */
     protected function createUserRole($userReferenceName, $roleReferenceName, $projectReferenceName = null)
     {
-        $userRole = new UserRole();
-        $userRole->setUser($this->manager->merge($this->getReference($userReferenceName)));
-        $userRole->setRole($this->manager->merge($this->getReference($roleReferenceName)));
-        if (null !== $projectReferenceName) {
+        if (null === $projectReferenceName) {
+            $userRole = new UserRoleGlobal();
+        } else {
+            $userRole = new UserRoleProject();
             $userRole->setProject($this->manager->merge($this->getReference($projectReferenceName)));
         }
+        $userRole->setUser($this->manager->merge($this->getReference($userReferenceName)));
+        $userRole->setRole($this->manager->merge($this->getReference($roleReferenceName)));
 
         return $userRole;
     }
