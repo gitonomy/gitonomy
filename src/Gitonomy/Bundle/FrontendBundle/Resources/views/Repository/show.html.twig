@@ -4,11 +4,14 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>{% if repository.owner %}{{ repository.owner.fullname }} / {% endif %}{{ repository.project.name }} <small>Repository</small></h1>
+        <h1>
+            {{ repository.project.name }}
+            {% if repository.owner %}
+                &raquo; {{ repository.owner.fullname }}
+            {% endif %}
+            &raquo; {{ reference }}
+        </h1>
     </div>
-    {% render "GitonomyFrontendBundle:Repository:blockNavigation" with {'id': repository.id} %}
-    <div class="page-header">
-        <h2>Last commits on branch {{ repository.mainBranch }}</h2>
-    </div>
+    {% render "GitonomyFrontendBundle:Repository:blockNavigation" with {'id': repository.id, 'active': 'commits'} %}
     {% render "GitonomyFrontendBundle:Repository:blockCommitHistory" with {'id': repository.id, 'reference': reference } %}
 {% endblock %}

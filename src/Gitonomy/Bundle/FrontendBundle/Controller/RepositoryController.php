@@ -45,7 +45,7 @@ class RepositoryController extends BaseController
         ));
     }
 
-    public function blockNavigationAction($id)
+    public function blockNavigationAction($id, $active)
     {
         $repository = $this->getRepository($id);
 
@@ -56,7 +56,8 @@ class RepositoryController extends BaseController
 
         return $this->render('GitonomyFrontendBundle:Repository:blockNavigation.html.twig', array(
             'repository'    => $repository,
-            'gitRepository' => $gitRepository
+            'gitRepository' => $gitRepository,
+            'active'        => $active
         ));
     }
 

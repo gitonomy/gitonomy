@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Repository:blockNavigation" with {'id': project.mainRepository.id } %}
+    {% render "GitonomyFrontendBundle:Repository:blockNavigation" with {'id': project.mainRepository.id, 'active': 'project' } %}
     <div class="row">
         <div class="span6">
             <div class="page-header">

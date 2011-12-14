@@ -1,8 +1,37 @@
 <ul class="tabs">
-    <li class="active"><a href="#">Last commits</a></li>
+    <li{% if active == "project" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_show', {'slug': repository.project.slug }) }}">
+            Overview
+        </a>
+    </li>
+    <li><a href="#">Graph</a></li>
+    <li{% if active == "commits" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_repository_show', {'id': repository.id }) }}">
+            Last commits
+        </a>
+    </li>
     <li><a href="#">Source</a></li>
     <li class="dropdown" data-dropdown="dropdown">
-        <a href="#" class="dropdown-toggle">Switch to</a>
+        <a href="#" class="dropdown-toggle">Forks</a>
+        <ul class="dropdown-menu">
+            {% set forks = repository.project.repositories %}
+            {% if forks|length > 1 %}
+                {% for repository in forks %}
+                    {% if not repository.isProjectRepository %}
+                        <li>
+                            <a href="{{ path('gitonomyfrontend_repository_show', {'id': repository.id }) }}">
+                                {{ repository.owner.fullname }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <li><a>No fork</a></li>
+            {% endif %}
+        </ul>
+    </li>
+    <li class="dropdown" data-dropdown="dropdown">
+        <a href="#" class="dropdown-toggle">Tags/Branches</a>
         <ul class="dropdown-menu">
             {% for branch in gitRepository.references.branches %}
                 <li>
