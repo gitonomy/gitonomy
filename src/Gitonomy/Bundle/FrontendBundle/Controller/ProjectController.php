@@ -24,6 +24,19 @@ class ProjectController extends BaseController
     }
 
     /**
+     * Displays the last commits
+     */
+    public function showLastCommitsAction($slug, $reference)
+    {
+        $project = $this->getProject($slug);
+
+        return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
+            'project'   => $project,
+            'reference' => $reference
+        ));
+    }
+
+    /**
      * Displays a commit.
      */
     public function showCommitAction($slug, $hash)

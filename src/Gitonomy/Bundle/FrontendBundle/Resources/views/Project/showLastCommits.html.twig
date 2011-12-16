@@ -1,0 +1,14 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title project.name %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {'slug': project.slug, 'active': 'commits' } %}
+    <div class="page-header">
+        <h2>Last commits on branch {{ project.mainBranch }}</h2>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'reference': reference } %}
+{% endblock %}

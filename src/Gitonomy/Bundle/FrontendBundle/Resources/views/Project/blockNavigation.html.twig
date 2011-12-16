@@ -6,7 +6,7 @@
     </li>
     <li><a href="#">Graph</a></li>
     <li{% if active == "commits" %} class="active"{% endif %}>
-        <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">
+        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': project.mainBranch }) }}">
             Last commits
         </a>
     </li>
@@ -16,7 +16,7 @@
         <ul class="dropdown-menu">
             {% for branch in repository.references.branches %}
                 <li>
-                    <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug, 'reference': branch.name }) }}">
+                    <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': branch.name }) }}">
                         {{ branch.name }}
                     </a>
                 </li>
@@ -26,7 +26,7 @@
             <li class="divider"></li>
             {% for tag in repository.references.tags %}
                 <li>
-                    <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug, 'reference': tag.name }) }}">
+                    <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': tag.name }) }}">
                         {{ tag.name }}
                     </a>
                 </li>

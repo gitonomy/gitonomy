@@ -17,11 +17,15 @@
             {% else %}
                 <h3><small>No user associated to the project</small></h3>
             {% endfor %}
+            <div class="page-header">
+                <h2>Branches</h2>
+            </div>
+            <p>@todo Display all the branches, most recent/actives</p>
         </div>
         <div class="span10">
             <div class="page-header">
                 <h2>Last commits on branch {{ project.mainBranch }}</h2>
             </div>
-            {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug } %}
+            {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'limit': 2 } %}
         </div>
 {% endblock %}
