@@ -76,11 +76,6 @@ class User implements UserInterface
     protected $sshKeys;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Repository", mappedBy="owner")
-     */
-    protected $repositories;
-
-    /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $userRolesProject;
@@ -188,11 +183,6 @@ class User implements UserInterface
     public function setRepositories(ArrayCollection $repositories)
     {
         $this->repositories = $repositories;
-    }
-
-    public function addRepository(Repository $repository)
-    {
-        $this->repositories->add($repository);
     }
 
     public function getUserRolesProject()

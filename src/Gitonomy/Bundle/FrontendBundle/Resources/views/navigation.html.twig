@@ -13,18 +13,6 @@
                         <li><a href="#">Create</a></li>
                     </ul>
                 </li>
-                {% if is_granted('AUTHENTICATED') %}
-                <li>
-                    <a href="#" class="dropdown-toggle">My repositories</a>
-                    <ul class="dropdown-menu">
-                        {% for repository in app.user.repositories %}
-                            <li><a href="#">{{ repository.project.name }}</a></li>
-                        {% endfor %}
-                        <li class="divider"></li>
-                        <li><a href="#">Create</a></li>
-                    </ul>
-                </li>
-                {% endif %}
                 <li>
                     <a href="#" class="dropdown-toggle">Users</a>
                     <ul class="dropdown-menu">

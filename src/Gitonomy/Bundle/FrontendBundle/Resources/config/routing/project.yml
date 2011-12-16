@@ -1,3 +1,8 @@
 gitonomyfrontend_project_show:
-    pattern: /{_locale}/{slug}
-    defaults: { _controller: "GitonomyFrontendBundle:Project:show" }
+    pattern: /{_locale}/project/{slug}/tree/{reference}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:show", reference: null }
+    requirements: { reference: ".*" }
+
+gitonomyfrontend_project_showCommit:
+    pattern: /{_locale}/project/{slug}/view-commit/{hash}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }

@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
  */
 class Project
 {
+    const SLUG_PATTERN = '[a-z0-9-_]+';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -37,9 +39,9 @@ class Project
     protected $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Repository", mappedBy="project", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=64)
      */
-    protected $repositories;
+    protected $mainBranch;
 
     /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="project", cascade={"persist", "remove"})
@@ -48,35 +50,23 @@ class Project
 
     public function __construct()
     {
-        $this->repositories = new ArrayCollection();
-        $this->userRoles    = new ArrayCollection();
+        $this->mainBranch = 'master';
+        $this->userRoles  = new ArrayCollection();
+    }
+
+    public function getMainBranch()
+    {
+        return $this->mainBranch;
+    }
+
+    public function setMainBranch($mainBranch)
+    {
+        $this->mainBranch = $mainBranch;
     }
 
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function getUserRepository($username)
-    {
-        foreach ($this->repositories as $repository) {
-            if (!$repository->getIsProjectRepository() && $repository->getOwner()->getUsername() === $username) {
-                return $repository;
-            }
-        }
-
-        return null;
-    }
-
-    public function getMainRepository()
-    {
-        foreach ($this->repositories as $repository) {
-            if ($repository->getIsProjectRepository()) {
-                return $repository;
-            }
-        }
-
-        throw new \RuntimeException(sprintf('No main repository for project %s', $this->name));
     }
 
     public function getId()
@@ -102,21 +92,6 @@ class Project
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    }
-
-    public function getRepositories()
-    {
-        return $this->repositories;
-    }
-
-    public function setRepositories(ArrayCollection $repositories)
-    {
-        $this->repositories = $repositories;
-    }
-
-    public function addRepository(Repository $repository)
-    {
-        $this->repositories->add($repository);
     }
 
     public function getUserRoles()

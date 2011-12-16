@@ -2,7 +2,7 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
-use Gitonomy\Bundle\CoreBundle\Entity\Repository;
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Git;
 
 /**
@@ -32,12 +32,12 @@ class RepositoryPool
     /**
      * Creates a new Git repository.
      *
-     * @param Gitonomy\Bundle\CoreBundle\Entity\Repository $repository A
-     * repository model instance
+     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
+     * project model instance
      */
-    public function create(Repository $repository)
+    public function create(Project $project)
     {
-        $path = $this->getPath($repository);
+        $path = $this->getPath($project);
 
         if (is_dir($path)) {
             throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
@@ -47,29 +47,23 @@ class RepositoryPool
     }
 
     /**
-     * Returns the Git repository associated the a model repository.
+     * Returns the Git repository associated the a model project.
      *
-     * @param Gitonomy\Bundle\CoreBundle\Entity\Repository $repository A
-     * repository model instance
+     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
+     * project model instance
      *
      * @return Gitonomy\Git\Repository A Git repository
      */
-    public function getGitRepository(Repository $repository)
+    public function getGitRepository(Project $project)
     {
-        return new Git\Repository($this->getPath($repository));
+        return new Git\Repository($this->getPath($project));
     }
 
     /**
-     * Computes the repository path for a given repository.
+     * Computes the repository path for a given project.
      */
-    protected function getPath(Repository $repository)
+    protected function getPath(Project $project)
     {
-        $slug = $repository->getProject()->getSlug();
-        if ($repository->getIsProjectRepository()) {
-            return $this->repositoryPath.'/projects/'.$slug.'.git';
-        } else {
-            $username = $repository->getOwner()->getUsername();
-            return $this->repositoryPath.'/users/'.$username.'/'.$slug.'.git';
-        }
+        return $this->repositoryPath.'/'.$project->getSlug().'.git';
     }
 }

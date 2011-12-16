@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
+
 /**
  * Wrapper for Git command.
  *
@@ -71,13 +73,12 @@ EOF
             throw new \RuntimeException('Sorry, seems the user your are using does not exists anymore');
         }
 
-        if (!preg_match('#^(git-(receive|upload)-pack) \'([a-z]+)(/([a-z]+))?.git\'#', $originalCommand, $vars)) {
+        if (!preg_match('#^(git-(receive|upload)-pack) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
             throw new \RuntimeException('Action seems illegal: '.$originalCommand);
         }
 
         $command     = $vars[1];
         $projectSlug = $vars[3];
-        $username    = isset($vars[5]) ? $vars[5] : null;
 
         $isReading = $command == 'git-upload-pack';
 
@@ -90,18 +91,8 @@ EOF
             throw new \RuntimeException(sprintf('No project with slug "%s" found', $projectSlug));
         }
 
-        if (null === $username) {
-            $repository = $project->getMainRepository();
-        } else {
-            $repository = $project->getUserRepository($username);
-
-            if (null === $repository) {
-                throw new \RuntimeException(sprintf('The repository "%s" wat not found for user "%s"', $projectSlug, $username));
-            }
-        }
-
         $pool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
 
-        $pool->getGitRepository($repository)->shell($command);
+        $pool->getGitRepository($project)->shell($command);
     }
 }

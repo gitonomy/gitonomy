@@ -1,0 +1,38 @@
+<ul class="tabs">
+    <li{% if active == "project" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">
+            Overview
+        </a>
+    </li>
+    <li><a href="#">Graph</a></li>
+    <li{% if active == "commits" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">
+            Last commits
+        </a>
+    </li>
+    <li><a href="#">Source</a></li>
+    <li class="dropdown" data-dropdown="dropdown">
+        <a href="#" class="dropdown-toggle">Tags/Branches</a>
+        <ul class="dropdown-menu">
+            {% for branch in repository.references.branches %}
+                <li>
+                    <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug, 'reference': branch.name }) }}">
+                        {{ branch.name }}
+                    </a>
+                </li>
+            {% else %}
+                <li><em>No branch</em></li>
+            {% endfor %}
+            <li class="divider"></li>
+            {% for tag in repository.references.tags %}
+                <li>
+                    <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug, 'reference': tag.name }) }}">
+                        {{ tag.name }}
+                    </a>
+                </li>
+            {% else %}
+                <li><a>No tag</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>

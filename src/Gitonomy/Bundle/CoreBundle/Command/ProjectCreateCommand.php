@@ -53,14 +53,10 @@ EOF
         $project->setName($input->getArgument('name'));
         $project->setSlug($input->getArgument('slug'));
 
-        $repository = new Repository();
-        $repository->setProject($project);
-
         $em->persist($project);
-        $em->persist($repository);
         $em->flush();
 
-        $pool->create($repository);
+        $pool->create($project);
 
         $output->writeln(sprintf('Project <info>%s</info> was created!', $project->getName()));
     }

@@ -36,13 +36,7 @@ class AdminProjectController extends BaseAdminController
 
     protected function postCreate($object)
     {
-        $repository = new Repository();
-        $repository->setProject($object);
-        $object->addRepository($repository);
-
-        $git = $this->get('gitonomy_core.git.repository_pool');
-        $git->create($repository);
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->get('gitonomy_core.git.repository_pool')->create($object);
     }
 
     public function editAction($id)

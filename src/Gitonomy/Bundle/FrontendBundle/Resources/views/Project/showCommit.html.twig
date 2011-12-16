@@ -6,7 +6,7 @@
     </div>
     {% for parent in commit.parents %}
         <ul>
-            <li><strong>parent:</strong> <a href="{{ path('gitonomyfrontend_repository_showCommit', {'id': repository.id, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
+            <li><strong>parent:</strong> <a href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
         </ul>
     {% endfor %}
     <pre>{{ commit.message }}</pre>

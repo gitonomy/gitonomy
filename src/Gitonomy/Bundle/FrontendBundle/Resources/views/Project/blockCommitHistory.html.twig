@@ -1,6 +1,6 @@
 {% for commit in commits %}
     <img src="{{ gravatar(commit.authorEmail, 50) }}" style="float:left; padding-right: 20px" />
-    <h5><a href="{{ path('gitonomyfrontend_repository_showCommit', {'id': repository.id, 'hash': commit.hash }) }}">{{ commit.shortMessage }}</a></h5>
+    <h5><a href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">{{ commit.shortMessage }}</a></h5>
     <p>{{ commit.authorName }} - {{ commit.authorDate | datetime_long }}</p>
     {% if commit.authorName != commit.committerName or commit.authorEmail != commit.committerEmail %}
         <p><strong>Committer</strong>: {{ commit.committerName }} &lt;{{ commit.committerEmail }}&gt;</p>

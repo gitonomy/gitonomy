@@ -19,8 +19,5 @@ _gitonomyfrontend_adminuser:
 _gitonomyfrontend_profile:
     resource: routing/profile.yml
 
-_gitonomyfrontend_repository:
-    resource: routing/repository.yml
-
 _gitonomyfrontend_project:
     resource: routing/project.yml
