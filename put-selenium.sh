@@ -1,5 +1,5 @@
 #!/bin/bash
-./app/console gitonomy:project-create Selenium selenium
+./app/console gitonomy:project-create --main-branch=webdriver Selenium selenium
 if [ -d app/cache/repositories/selenium.git ]; then
     rm -Rf app/cache/repositories/selenium.git
 fi
