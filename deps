@@ -47,3 +47,10 @@
 [DoctrineFixturesBundle]
     git=http://github.com/symfony/DoctrineFixturesBundle.git
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
+
+[OldSoundRabbitMqBundle]
+	git=http://github.com/videlalvaro/RabbitMqBundle.git
+    target=/bundles/OldSound/RabbitMqBundle
+
+[php-amqplib]
+	git=http://github.com/videlalvaro/php-amqplib.git
