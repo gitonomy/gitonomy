@@ -28,8 +28,7 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
                 'ROLE_ADMIN'    => array('ROLE_CREATE', 'ROLE_EDIT', 'ROLE_DELETE')
             ),
             'project' => array(
-                'PROJECT_CONTRIBUTE' => array(),
-                'PROJECT_COMMIT'     => array(),
+                'GIT_CONTRIBUTE' => array('GIT_READ',  'GIT_WRITE', 'GIT_FORCE', 'GIT_MAIN'),
             )
         );
     }

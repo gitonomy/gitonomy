@@ -1,14 +1,21 @@
+#
 "USER_ADMIN":         "Administrate users"
 "USER_CREATE":        "Create a user"
 "USER_EDIT":          "Edit a user"
 "USER_DELETE":        "Delete a user"
+#
+"PROJECT_ADMIN":      "Administrate projects"
 "PROJECT_CREATE":     "Create a project"
 "PROJECT_EDIT":       "Edit a project"
 "PROJECT_DELETE":     "Delete a project"
-"PROJECT_ADMIN":      "Administrate projects"
+#
+"ROLE_ADMIN":         "Administrate roles"
 "ROLE_CREATE":        "Create a role"
 "ROLE_EDIT":          "Edit a role"
 "ROLE_DELETE":        "Delete a role"
-"ROLE_ADMIN":         "Administrate roles"
-"PROJECT_CONTRIBUTE": "Contribute to a project"
-"PROJECT_COMMIT":     "Commit to the main project"
+#
+"GIT_CONTRIBUTE":     "Contributing with Git"
+"GIT_READ":           "Can read the repository"
+"GIT_WRITE":          "Can push to the repository"
+"GIT_FORCE":          "Can push non fast-forwardly"
+"GIT_MAIN":           "Can write on the main branch of repository"
