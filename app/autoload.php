@@ -17,6 +17,8 @@ $loader->registerNamespaces(array(
     'Metadata'         => __DIR__.'/../vendor/metadata/src',
     'PhpAmqpLib'       => __DIR__.'/../vendor/php-amqplib',
     'OldSound'         => __DIR__.'/../vendor/bundles',
+    'Snc'              => __DIR__.'/../vendor/bundles',
+    'Predis'           => __DIR__.'/../vendor/predis/lib',
 ));
 
 $loader->registerPrefixes(array(

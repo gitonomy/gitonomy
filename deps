@@ -54,3 +54,10 @@
 
 [php-amqplib]
 	git=http://github.com/videlalvaro/php-amqplib.git
+
+[SncRedisBundle]
+    git=git://github.com/snc/SncRedisBundle.git
+    target=/bundles/Snc/RedisBundle
+
+[predis]
+    git=git://github.com/nrk/predis.git
