@@ -162,8 +162,11 @@ class ReferenceBag
                 $reference = new Reference\Tag($this->repository, $fullname, $commitHash);
                 $this->references[$fullname] = $reference;
                 $this->tags[] = $reference;
+            } elseif (preg_match('#^refs/remotes/(.*)/(.*)#', $fullname, $vars)) {
+                $reference = new Reference\Remote($this->repository, $fullname, $commitHash);
+                $this->references[$fullname] = $reference;
             } else {
-                throw new \RuntimeException(sprintf('Unknown reference name: "%s"', $fullname));
+                throw new \RuntimeException(sprintf('Unable to parse "%s"', $fullname));
             }
         }
 
