@@ -76,19 +76,21 @@ class User implements UserInterface
     protected $sshKeys;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $userRolesProject;
+
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     * @ORM\JoinTable(name="user_roles_global")
      */
     protected $userRolesGlobal;
 
     public function __construct()
     {
-        $this->sshKeys      = new ArrayCollection();
-        $this->repositories = new ArrayCollection();
-        $this->userRoles    = new ArrayCollection();
+        $this->sshKeys         = new ArrayCollection();
+        $this->repositories    = new ArrayCollection();
+        $this->userRolesGlobal = new ArrayCollection();
         $this->regenerateSalt();
     }
 
@@ -175,24 +177,9 @@ class User implements UserInterface
         return $this->sshKeys;
     }
 
-    public function getRepositories()
-    {
-        return $this->repositories;
-    }
-
-    public function setRepositories(ArrayCollection $repositories)
-    {
-        $this->repositories = $repositories;
-    }
-
     public function getUserRolesProject()
     {
         return $this->userRolesProject;
-    }
-
-    public function setUserRolesProject(ArrayCollection $userRolesProject)
-    {
-        $this->userRolesProject = $userRolesProject;
     }
 
     public function getUserRolesGlobal()
@@ -200,9 +187,14 @@ class User implements UserInterface
         return $this->userRolesGlobal;
     }
 
-    public function setUserRolesGlobal(ArrayCollection $userRolesGlobal)
+    public function setUserRolesGlobal($userRolesGlobal)
     {
         $this->userRolesGlobal = $userRolesGlobal;
+    }
+
+    public function addUserRoleGlobal(Role $userRoleGlobal)
+    {
+        $this->userRolesGlobal->add($userRoleGlobal);
     }
 
     public function getTimezone()

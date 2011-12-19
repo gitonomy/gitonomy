@@ -45,15 +45,15 @@ class Role
     protected $userRolesProject;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal", mappedBy="role")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="userRolesGlobal")
      */
-    protected $userRolesGlobal;
+    protected $usersGlobal;
 
     public function __construct()
     {
         $this->permissions      = new ArrayCollection();
         $this->userRolesProject = new ArrayCollection();
-        $this->userRolesGlobal  = new ArrayCollection();
+        $this->users            = new ArrayCollection();
     }
 
     public function __toString()
@@ -106,9 +106,9 @@ class Role
         return $this->userRolesProject;
     }
 
-    public function getUserRolesGlobal()
+    public function getUserGlobal()
     {
-        return $this->userRolesGlobal;
+        return $this->userGlobal;
     }
 
     public function getIsGlobal()
