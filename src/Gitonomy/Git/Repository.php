@@ -92,6 +92,11 @@ class Repository
         return $this->objects[$hash];
     }
 
+    public function getLog($reference, $limit = null)
+    {
+        return new Log($this, $reference, $limit);
+    }
+
     /**
      * Executes a shell command on the repository, using PHP pipes.
      *

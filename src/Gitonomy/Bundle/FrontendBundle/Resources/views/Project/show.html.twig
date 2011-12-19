@@ -20,7 +20,7 @@
             <div class="page-header">
                 <h2>Branches</h2>
             </div>
-            <p>@todo Display all the branches, most recent/actives</p>
+            {% render "GitonomyFrontendBundle:Project:blockBranchesActivity" with {'slug': project.slug} %}
         </div>
         <div class="span10">
             <div class="page-header">

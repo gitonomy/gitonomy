@@ -139,7 +139,7 @@ class ReferenceBag
     {
         ob_start();
         system(sprintf(
-            'cd %s && git show-ref',
+            'cd %s && git show-ref --tags --heads',
             escapeshellarg($this->repository->getPath())
         ), $return);
         $result = ob_get_clean();
@@ -162,9 +162,6 @@ class ReferenceBag
                 $reference = new Reference\Tag($this->repository, $fullname, $commitHash);
                 $this->references[$fullname] = $reference;
                 $this->tags[] = $reference;
-            } elseif (preg_match('#^refs/remotes/(.*)/(.*)#', $fullname, $vars)) {
-                $reference = new Reference\Remote($this->repository, $fullname, $commitHash);
-                $this->references[$fullname] = $reference;
             } else {
                 throw new \RuntimeException(sprintf('Unable to parse "%s"', $fullname));
             }

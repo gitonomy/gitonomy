@@ -1,0 +1,14 @@
+<ul>
+    <li>
+        <strong>{{ main.name }}</strong>
+        <br />
+        <em>{{ main.lastModification | date_long }}</em>
+    </li>
+    {% for row in rows %}
+        <li>
+            <strong>{{ row.branch.name }}</strong> -{{ row.behind }}+{{row.above}}
+            <br />
+            <em>{{ row.branch.lastModification | date_long }}</em>
+        </li>
+    {% endfor %}
+</ul>

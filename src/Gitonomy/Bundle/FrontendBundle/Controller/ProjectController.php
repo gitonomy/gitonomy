@@ -104,6 +104,43 @@ class ProjectController extends BaseController
         }
     }
 
+    public function blockBranchesActivityAction($slug)
+    {
+        $project = $this->getProject($slug);
+        $mainBranch = $project->getMainBranch();
+
+        $repository = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
+        ;
+
+        $references = $repository->getReferences();
+
+        $mainBranch = $references->getBranch($mainBranch);
+
+        $rows = array();
+        foreach ($references->getBranches() as $branch) {
+            if ($branch == $mainBranch) {
+                continue;
+            }
+
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$mainBranch->getFullname());
+            $logAbove = $repository->getLog($mainBranch->getFullname().'..'.$branch->getFullname());
+
+            $rows[] = array(
+                'branch'           => $branch,
+                'above'            => count($logAbove->getCommits()),
+                'behind'           => count($logBehind->getCommits()),
+                'lastModification' => $branch->getLastModification()
+            );
+        }
+
+        return $this->render('GitonomyFrontendBundle:Project:blockBranchesActivity.html.twig', array(
+            'main' => $mainBranch,
+            'rows' => $rows
+        ));
+    }
+
     /**
      * @return Gitonomy\Bundle\CoreBundle\Entity\Project
      */
