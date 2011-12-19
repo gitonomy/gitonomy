@@ -24,12 +24,34 @@
                 <div class="page-header">
                     <h2>Project roles</h2>
                 </div>
-                {{ form_widget(form.projectUserRoles) }}
-                <input type="button" id="add-projectuserrole" class="btn" value="Add to a new project" />
+                {% if object.userRolesProject|length > 0 %}
+                    <table class="bordered-table zebra-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for userRole in object.userRolesProject %}
+                                <tr>
+                                    <td>{{ userRole.project }}</td>
+                                    <td>{{ userRole.role }}</td>
+                                    <td>delete</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="span">
+                        <em>User not associated to a project.</em>
+                    </div>
+                {% endif %}
                 <div class="page-header">
                     <h2>Global roles</h2>
                 </div>
-                {{ form_row(form.globalUserRoles) }}
+                {{ form_widget(form.userRolesGlobal) }}
             </div>
         </div>
         <hr />
@@ -38,8 +60,4 @@
         <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
         <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
     </form>
-{% endblock %}
-
-{% block content_javascript %}
-    <script type="text/javascript" src="{{ asset('bundles/gitonomyfrontend/js/admin_user_form.js') }}"></script>
 {% endblock %}

@@ -15,22 +15,8 @@ class UserType extends AbstractType
             ->add('fullname', 'text')
             ->add('email', 'email')
             ->add('timezone', 'timezone')
-            ->add('projectUserRoles', 'collection', array(
-                'type'            => 'adminuserrole',
-                'prototype'       => true,
-                'by_reference'    => false,
-                'label'           => 'Project user roles',
-                'allow_add'       => true,
-                'allow_delete'    => true,
-                'options'         => array('from_adminuser' => true),
-            ))
-            ->add('globalUserRoles', 'entity', array(
+            ->add('userRolesGlobal', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('r')
-                        ->where('r.isGlobal = true')
-                        ->orderBy('r.name', 'ASC');
-                },
                 'multiple' => true,
                 'expanded' => true,
             ))

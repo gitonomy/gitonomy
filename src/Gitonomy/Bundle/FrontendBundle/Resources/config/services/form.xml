@@ -12,7 +12,8 @@
         <parameter key="gitonomy_frontend.form.type.adminuser.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminproject.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminrole.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\RoleType</parameter>
-        <parameter key="gitonomy_frontend.form.type.adminuserrole.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminuserroleproject.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleProjectType</parameter>
+        <parameter key="gitonomy_frontend.form.type.adminuserroleglobal.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleGlobalType</parameter>
     </parameters>
 
     <services>
@@ -37,8 +38,11 @@
         <service id="gitonomy_frontend.form.type.adminrole" class="%gitonomy_frontend.form.type.adminrole.class%">
             <tag name="form.type" alias="adminrole" />
         </service>
-        <service id="gitonomy_frontend.form.type.adminprojectuserrole" class="%gitonomy_frontend.form.type.adminuserrole.class%">
-            <tag name="form.type" alias="adminuserrole" />
+        <service id="gitonomy_frontend.form.type.adminuserroleproject" class="%gitonomy_frontend.form.type.adminuserroleproject.class%">
+            <tag name="form.type" alias="adminuserroleproject" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminuserroleglobal" class="%gitonomy_frontend.form.type.adminuserroleglobal.class%">
+            <tag name="form.type" alias="adminuserroleglobal" />
         </service>
     </services>
 
