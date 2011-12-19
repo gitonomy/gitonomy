@@ -16,8 +16,8 @@ abstract class BaseAdminController extends BaseController
 {
     public function listAction()
     {
-        $className  = $this->getRepository()->getClassName();
         $repository = $this->getRepository();
+        $className  = $repository->getClassName();
         $objects    = $repository->findAll();
 
         return $this->render('list', array(
