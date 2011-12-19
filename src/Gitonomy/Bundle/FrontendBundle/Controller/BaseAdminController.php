@@ -57,7 +57,7 @@ abstract class BaseAdminController extends BaseController
         ));
     }
 
-    public function editAction($id)
+    public function editAction($id, $vars)
     {
         $className = $this->getRepository()->getClassName();
 
@@ -86,9 +86,11 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render('edit', array(
-            'object' => $object,
-            'form'   => $form->createView(),
+        return $this->render('edit', array_merge(
+            array(
+                'object' => $object,
+                'form'   => $form->createView(),
+            ), $vars
         ));
     }
 

@@ -1,0 +1,28 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Create new '~object_type %}
+{% set navigation_active = null %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Create new {{ object_type }}</h1>
+    </div>
+    <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" novalidate>
+        <div class="row">
+            {{ form_errors(form) }}
+            <div class="span6">
+                <div class="page-header">
+                    <h2>User informations</h2>
+                </div>
+                {{ form_row(form.username) }}
+                {{ form_row(form.fullname) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.timezone) }}
+            </div>
+        </div>
+        <hr />
+        {{ form_rest(form) }}
+        <input type="submit" class="btn success" value="Update" />
+        <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
+    </form>
+{% endblock %}

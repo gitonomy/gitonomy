@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\ProjectRepository")
  * @ORM\Table(name="project")
  *
  * @AssertDoctrine\UniqueEntity(fields="name",groups={"admin"})

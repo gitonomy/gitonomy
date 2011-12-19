@@ -24,30 +24,29 @@
                 <div class="page-header">
                     <h2>Project roles</h2>
                 </div>
-                {% if object.userRolesProject|length > 0 %}
-                    <table class="bordered-table zebra-striped">
-                        <thead>
+                <table class="bordered-table zebra-striped">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for userRole in object.userRolesProject %}
                             <tr>
-                                <th>Project</th>
-                                <th>Role</th>
-                                <th>Action</th>
+                                <td>{{ userRole.project }}</td>
+                                <td>{{ userRole.role }}</td>
+                                <td>delete</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for userRole in object.userRolesProject %}
-                                <tr>
-                                    <td>{{ userRole.project }}</td>
-                                    <td>{{ userRole.role }}</td>
-                                    <td>delete</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <div class="span">
-                        <em>User not associated to a project.</em>
-                    </div>
-                {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td>{{ form_widget(form_userrole.project) }}</td>
+                            <td>{{ form_widget(form_userrole.role) }}</td>
+                            <td><input type="submit" /></td>
+                        </tr>
+                    </tbody>
+                </table>
                 <div class="page-header">
                     <h2>Global roles</h2>
                 </div>

@@ -4,9 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\CoreBundle\Entity\Role;
-use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 
 /**
  * Controller for user actions.
@@ -48,11 +46,31 @@ class AdminUserController extends BaseAdminController
         return parent::createAction();
     }
 
-    public function editAction($id)
+    public function editAction($id, $vars = array())
     {
         $this->assertPermission('USER_EDIT');
 
-        return parent::editAction($id);
+
+        if (!$user = $this->getRepository()->find($id)) {
+            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
+        }
+
+        $userRoleProject = new UserRoleProject();
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $projects = $em->getRepository('GitonomyCoreBundle:Project')->findUsedProjectsForUser($user);
+
+        $usedProjects = array();
+        foreach ($projects as $project) {
+            $usedProjects[] = $project->getId();
+        }
+
+        $form = $this->createForm('adminuserroleproject', $userRoleProject, array(
+            'usedProjects' => $usedProjects
+        ));
+        $vars = array('form_userrole' => $form->createView());
+
+        return parent::editAction($id, $vars);
     }
 
     public function deleteAction($id)

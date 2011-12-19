@@ -82,7 +82,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
-     * @ORM\JoinTable(name="user_roles_global")
+     * @ORM\JoinTable(name="user_role_global")
      */
     protected $userRolesGlobal;
 
