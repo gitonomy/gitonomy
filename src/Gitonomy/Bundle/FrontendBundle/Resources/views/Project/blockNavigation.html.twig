@@ -4,7 +4,11 @@
             Overview
         </a>
     </li>
-    <li><a href="#">Graph</a></li>
+    <li{% if active == "graph" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_showGraph', {'slug': project.slug }) }}">
+            Graph
+        </a>
+    </li>
     <li{% if active == "commits" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': project.mainBranch }) }}">
             Last commits
