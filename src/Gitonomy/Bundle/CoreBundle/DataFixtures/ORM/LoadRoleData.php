@@ -71,6 +71,6 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 30;
+        return 210;
     }
 }

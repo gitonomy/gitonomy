@@ -39,6 +39,6 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 40;
+        return 100;
     }
 }

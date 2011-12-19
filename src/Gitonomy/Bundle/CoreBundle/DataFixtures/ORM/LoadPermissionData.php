@@ -60,7 +60,7 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
      */
     public function getOrder()
     {
-        return 20;
+        return 200;
     }
 
     protected function createPermission($name, $isGlobal, $parent = null)

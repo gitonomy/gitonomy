@@ -43,6 +43,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $admin->setEmail('admin@example.org');
         $admin->setTimezone('Europe/Paris');
         $this->setPassword($admin, 'admin');
+        $admin->addUserRoleGlobal($this->getReference('role-admin'));
         $manager->persist($admin);
         $this->setReference('user-admin', $admin);
 
@@ -81,7 +82,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function getOrder()
     {
-        return 10;
+        return 220;
     }
 
     /**
