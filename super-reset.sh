@@ -18,6 +18,5 @@ fi
 
 ./app/console gitonomy:user-role-create julien "Lead developer" gitonomy
 ./app/console gitonomy:user-role-create alex   "Lead developer" gitonomy
-./app/console gitonomy:user-role-create alex   "Lead developer" selenium
 
 
