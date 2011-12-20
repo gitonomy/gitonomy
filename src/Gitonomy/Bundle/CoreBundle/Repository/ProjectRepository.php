@@ -21,7 +21,6 @@ SQL
             ->setParameter('userId', $user->getId())
         ;
 
-
         return $query->getResult();
     }
 }

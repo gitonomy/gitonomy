@@ -17,17 +17,6 @@ class MailSender
         $this->mailTo   = $parameters['to'];
     }
 
-    public function user(Entity\User $user)
-    {
-        $this->mailer->send(
-            $this->mailer->renderMessage('GitonomyFrontendBundle:Mail:user.mail.twig', array(
-                'user' => $user
-            )),
-            $this->getFrom(),
-            $this->getTo($user->getEmail())
-        );
-    }
-
     protected function getFrom($from = null)
     {
         if(null !== $from) {

@@ -7,10 +7,10 @@
     <div class="page-header">
         <h1>Edit {{ object_type }} {{ object }}</h1>
     </div>
-    <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" novalidate>
-        <div class="row">
-            {{ form_errors(form) }}
-            <div class="span6">
+    <div class="row">
+        {{ form_errors(form) }}
+        <div class="span6">
+            <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" novalidate>
                 <div class="page-header">
                     <h2>User informations</h2>
                 </div>
@@ -18,45 +18,19 @@
                 {{ form_row(form.fullname) }}
                 {{ form_row(form.email) }}
                 {{ form_row(form.timezone) }}
-                <a href="{{ path(route_prefix~'_mail', {'id':object.id}) }}" class="btn">Send an email</a>
-            </div>
-            <div class="span9">
-                <div class="page-header">
-                    <h2>Project roles</h2>
-                </div>
-                <table class="bordered-table zebra-striped">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for userRole in object.userRolesProject %}
-                            <tr>
-                                <td>{{ userRole.project }}</td>
-                                <td>{{ userRole.role }}</td>
-                                <td>delete</td>
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td>{{ form_widget(form_userrole.project) }}</td>
-                            <td>{{ form_widget(form_userrole.role) }}</td>
-                            <td><input type="submit" /></td>
-                        </tr>
-                    </tbody>
-                </table>
                 <div class="page-header">
                     <h2>Global roles</h2>
                 </div>
                 {{ form_widget(form.userRolesGlobal) }}
-            </div>
+                {{ form_rest(form) }}
+                <hr />
+                <input type="submit" class="btn success" value="Update" />
+                <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
+                <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+            </form>
         </div>
-        <hr />
-        {{ form_rest(form) }}
-        <input type="submit" class="btn success" value="Update" />
-        <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
-        <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
-    </form>
+        <div class="span9">
+            {% render 'GitonomyFrontendBundle:AdminUser:projectRoles' with {'userId': object.id} %}
+        </div>
+    </div>
 {% endblock %}

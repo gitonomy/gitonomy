@@ -20,7 +20,7 @@ abstract class BaseAdminController extends BaseController
         $className  = $repository->getClassName();
         $objects    = $repository->findAll();
 
-        return $this->render('list', array(
+        return $this->renderView('list', array(
            'objects' => $objects,
         ));
     }
@@ -52,12 +52,12 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render('create', array(
+        return $this->renderView('create', array(
            'form' => $form->createView(),
         ));
     }
 
-    public function editAction($id, $vars)
+    public function editAction($id)
     {
         $className = $this->getRepository()->getClassName();
 
@@ -86,11 +86,9 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render('edit', array_merge(
-            array(
-                'object' => $object,
-                'form'   => $form->createView(),
-            ), $vars
+        return $this->renderView('edit', array(
+            'object' => $object,
+            'form'   => $form->createView(),
         ));
     }
 
@@ -124,7 +122,7 @@ abstract class BaseAdminController extends BaseController
             }
         }
 
-        return $this->render('delete', array(
+        return $this->renderView('delete', array(
             'object' => $object,
             'form'   => $form->createView(),
         ));
@@ -137,13 +135,13 @@ abstract class BaseAdminController extends BaseController
         return 'admin'.$className;
     }
 
-    protected function getRouteName($route)
+    protected function getRouteName($routeSufix)
     {
         $className = get_class($this);
         $route     = $this->getIdentifier($className);
         $route     = strtolower(preg_replace('/Controller$/', '', $route));
 
-        return 'gitonomyfrontend_'.$route.'_list';
+        return 'gitonomyfrontend_'.$route.'_'.$routeSufix;
     }
 
     protected function getViewName($className, $view)
@@ -158,7 +156,7 @@ abstract class BaseAdminController extends BaseController
         return substr($className, strrpos($className, '\\') + 1);
     }
 
-    public function render($view, array $parameters = array(), Response $response = null)
+    public function renderView($view, array $parameters = array(), Response $response = null)
     {
         $className     = $this->getRepository()->getClassName();
         $objectType    = $this->getIdentifier($className);

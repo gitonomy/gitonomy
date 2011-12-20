@@ -27,6 +27,7 @@ class UserType extends AbstractType
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'user'       => null,
         );
     }
 

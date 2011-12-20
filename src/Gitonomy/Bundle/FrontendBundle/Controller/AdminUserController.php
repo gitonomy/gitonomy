@@ -14,24 +14,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 
 class AdminUserController extends BaseAdminController
 {
-    public function mailAction($id)
-    {
-        if (!$user = $this->getRepository()->find($id)) {
-            throw new HttpException(404, sprintf('No user found with id "%d".', $id));
-        }
-        // send a notification per mail
-        $this->get('gitonomy_frontend.mail_sender')->user($user);
-
-
-        $this->get('session')->setFlash('success',
-            sprintf('Mail sent for user "%s".',
-                $user->__toString()
-            )
-        );
-
-        return $this->redirect($this->generateUrl($this->getRouteName('list')));
-    }
-
     public function listAction()
     {
         $this->assertPermission('USER_ADMIN');
@@ -50,27 +32,52 @@ class AdminUserController extends BaseAdminController
     {
         $this->assertPermission('USER_EDIT');
 
+        return parent::editAction($id);
+    }
 
-        if (!$user = $this->getRepository()->find($id)) {
+    /**
+     * Action to create a new user role project for an user
+     */
+    public function projectRolesAction($userId)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        if (!$user = $this->getRepository()->find($userId)) {
             throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
         }
 
         $userRoleProject = new UserRoleProject();
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $projects = $em->getRepository('GitonomyCoreBundle:Project')->findUsedProjectsForUser($user);
-
-        $usedProjects = array();
-        foreach ($projects as $project) {
-            $usedProjects[] = $project->getId();
-        }
+        $em              = $this->getDoctrine()->getEntityManager();
+        $usedProjects    = $em->getRepository('GitonomyCoreBundle:Project')->findUsedProjectsForUser($user);
+        $request         = $this->getRequest();
 
         $form = $this->createForm('adminuserroleproject', $userRoleProject, array(
             'usedProjects' => $usedProjects
         ));
-        $vars = array('form_userrole' => $form->createView());
 
-        return parent::editAction($id, $vars);
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $userRoleProject->setUser($user);
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($userRoleProject);
+                $em->flush();
+
+                $this->get('session')->setFlash('success',
+                    sprintf('%s.',
+                        $userRoleProject->__toString()
+                    )
+                );
+
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                    'id' => $user->getId()
+                )));
+            }
+        }
+        return $this->render('GitonomyFrontendBundle:AdminUser:projectroles.html.twig', array(
+            'user'         => $user,
+            'form'         => $form->createView(),
+        ));
     }
 
     public function deleteAction($id)

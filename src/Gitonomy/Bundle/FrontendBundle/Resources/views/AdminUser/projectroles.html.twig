@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h2>Project roles</h2>
+</div>
+<form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" novalidate>
+{{ form_errors(form) }}
+    <table class="bordered-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for projectRole in user.userRolesProject %}
+                <tr>
+                    <td>{{ projectRole.project }}</td>
+                    <td>{{ projectRole.role }}</td>
+                    <td>delete</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td>{{ form_widget(form.project) }}</td>
+                <td>{{ form_widget(form.role) }}</td>
+                <td><input type="submit" /></td>
+            </tr>
+        </tbody>
+    </table>
+{{ form_rest(form) }}
+</form>

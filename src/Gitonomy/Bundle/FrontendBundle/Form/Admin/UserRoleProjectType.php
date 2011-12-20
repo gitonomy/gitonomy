@@ -12,7 +12,12 @@ class UserRoleProjectType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $usedProjects = $options['usedProjects'];
+        $projects = $options['usedProjects'];
+
+        $usedProjects = array();
+        foreach ($projects as $project) {
+            $usedProjects[] = $project->getId();
+        }
 
         $builder
             ->add('project', 'entity', array(
