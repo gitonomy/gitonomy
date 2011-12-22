@@ -39,10 +39,10 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleLeadDev->setName('Lead developer');
         $roleLeadDev->setDescription('Merge leader');
         $roleLeadDev->setIsGlobal(false);
-        $roleAdmin->addPermission($this->getReference('permission-GIT_READ'));
-        $roleAdmin->addPermission($this->getReference('permission-GIT_WRITE'));
-        $roleAdmin->addPermission($this->getReference('permission-GIT_FORCE'));
-        $roleAdmin->addPermission($this->getReference('permission-GIT_MAIN'));
+        $roleLeadDev->addPermission($this->getReference('permission-GIT_READ'));
+        $roleLeadDev->addPermission($this->getReference('permission-GIT_WRITE'));
+        $roleLeadDev->addPermission($this->getReference('permission-GIT_FORCE'));
+        $roleLeadDev->addPermission($this->getReference('permission-GIT_MAIN'));
         $manager->persist($roleLeadDev);
         $this->setReference('role-lead-developer', $roleLeadDev);
 
