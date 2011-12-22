@@ -10,7 +10,3 @@ gitonomyfrontend_project_showLastCommits:
 gitonomyfrontend_project_showCommit:
     pattern: /{_locale}/project/{slug}/view-commit/{hash}
     defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }
-
-gitonomyfrontend_project_showGraph:
-    pattern: /{_locale}/project/{slug}/graph
-    defaults: { _controller: "GitonomyFrontendBundle:Project:showGraph" }

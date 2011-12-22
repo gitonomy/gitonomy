@@ -55,23 +55,6 @@ class ProjectController extends BaseController
         ));
     }
 
-    public function showGraphAction($slug)
-    {
-        $project = $this->getProject($slug);
-
-        $repository = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-        ;
-
-        $graph = $this->get('gitonomy_core.git.repository_graph_pool')->get($repository);
-
-        return $this->render('GitonomyFrontendBundle:Project:showGraph.html.twig', array(
-            'project' => $project,
-            'graph'   => $graph
-        ));
-    }
-
     public function blockNavigationAction($slug, $active)
     {
         $project = $this->getProject($slug);

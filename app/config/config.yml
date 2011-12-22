@@ -59,12 +59,12 @@ swiftmailer:
 
 snc_redis:
     connections:
-        git_graph:
-            alias:    git_graph
+        default:
+            alias:    default
             host:     localhost
             port:     6379
             database: 0
     clients:
-        git_graph:
-            alias:      git_graph
-            connection: git_graph
+        default:
+            alias:      default
+            connection: default
