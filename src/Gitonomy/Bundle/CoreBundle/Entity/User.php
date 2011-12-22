@@ -12,7 +12,9 @@ use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="username", columns={"username"})
+ * })
  *
  * @AssertDoctrine\UniqueEntity(fields="username",groups={"registration", "admin"})
  * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration", "admin"})
