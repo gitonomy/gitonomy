@@ -48,12 +48,8 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-        $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleGlobal')->findOneBy(array(
-            'user' => $user,
-            'role' => $role,
-        ));
 
-        $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal', $userRole);
+        $this->assertTrue($user->getUserRolesGlobal()->contains($role));
     }
 
     public function testProjectRoleIncorrect()

@@ -83,11 +83,16 @@ EOF
         if ($project) {
             $userRole = new UserRoleProject();
             $userRole->setProject($project);
+            $userRole->setUser($user);
+            $userRole->setRole($role);
+
+            $em->persist($userRole);
+            $em->flush();
         } else {
-            $userRole = new UserRoleGlobal();
+            $user->addUserRoleGlobal($role);
+            $em->persist($user);
+            $em->flush();
         }
-        $userRole->setUser($user);
-        $userRole->setRole($role);
 
         $output->writeln(sprintf(
             'Added succesfully <info>%s</info> as <info>%s</info>%s',
@@ -96,7 +101,5 @@ EOF
             $project ? sprintf(' to <info>%s</info>', $project->getName()) : ''
         ));
 
-        $em->persist($userRole);
-        $em->flush();
     }
 }
