@@ -6,12 +6,17 @@
 
     <parameters>
         <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Git\RepositoryPool</parameter>
+        <parameter key="gitonomy_core.git.shell_handler.class">Gitonomy\Bundle\CoreBundle\Git\ShellHandler</parameter>
         <parameter key="gitonomy_core.git.shell_command">php %kernel.root_dir%/console gitonomy:git</parameter>
     </parameters>
 
     <services>
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
             <argument>%gitonomy_core.git.repository_path%</argument>
+        </service>
+
+        <service id="gitonomy_core.git.shell_handler" class="%gitonomy_core.git.shell_handler.class%">
+            <argument type="service" id="gitonomy_core.git.repository_pool" />
         </service>
     </services>
 

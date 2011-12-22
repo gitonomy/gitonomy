@@ -5,9 +5,11 @@ namespace Gitonomy\Bundle\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
  * Wrapper for Git command.
@@ -26,6 +28,7 @@ class GitCommand extends ContainerAwareCommand
         $this
             ->setName('gitonomy:git')
             ->addArgument('username', InputArgument::REQUIRED, 'Authenticated user')
+            ->addOption('stderr', null, InputOption::VALUE_OPTIONAL, 'Use stderr for errors ?', true)
             ->setDescription('Wraps the Git command to ensure authorization')
             ->setHelp(<<<EOF
 The <info>gitonomy:git</info> command wraps Git to check the authorizations of
@@ -51,7 +54,11 @@ EOF
         try {
             $this->doExecute($input, $output);
         } catch (\Exception $e) {
-            fputs(STDERR, sprintf("An error occurred during execution:\n\n  %s\n\n", $e->getMessage()));
+            if (true === $input->getOption('stderr')) {
+                fputs(STDERR, sprintf("An error occurred during execution:\n\n  %s\n\n", $e->getMessage()));
+            } else {
+                throw $e;
+            }
         }
     }
 
@@ -60,39 +67,78 @@ EOF
      */
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
-        $originalCommand = $_SERVER['SSH_ORIGINAL_COMMAND'];
+        $user = $this->getUser($input->getArgument('username'));
 
-        $username = $input->getArgument('username');
-
-        $user = $this->getContainer()->get('doctrine')
-            ->getRepository('GitonomyCoreBundle:User')
-            ->findOneByUsername($username)
-        ;
-
-        if (!$user) {
-            throw new \RuntimeException('Sorry, seems the user your are using does not exists anymore');
-        }
+        $shellHandler = $this->getContainer()->get('gitonomy_core.git.shell_handler');
+        $originalCommand = $shellHandler->getOriginalCommand();
 
         if (!preg_match('#^(git-(receive|upload)-pack) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
             throw new \RuntimeException('Action seems illegal: '.$originalCommand);
         }
 
-        $command     = $vars[1];
-        $projectSlug = $vars[3];
+        $command = $vars[1];
+        $project = $this->getProject($vars[3]);
 
-        $isReading = $command == 'git-upload-pack';
+        $this->checkPermission($user, $project, $command);
 
+        $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $command);
+    }
+
+    /**
+     * Returns a user by username.
+     *
+     * @param string $username A username
+     *
+     * @throws \RuntimeException User does not exists
+     */
+    protected function getUser($username)
+    {
+        $user = $this->getContainer()->get('doctrine')
+            ->getRepository('GitonomyCoreBundle:User')
+            ->findOneByUsername($username)
+        ;
+
+        if (null === $user) {
+            throw new \RuntimeException('Sorry, seems the user your are using does not exists anymore');
+        }
+
+        return $user;
+    }
+
+    /**
+     * Returns a project by slug.
+     *
+     * @param string $slug A project slug
+     *
+     * @throws \RuntimeException Project does not exists
+     */
+    protected function getProject($slug)
+    {
         $project = $this->getContainer()->get('doctrine')
             ->getRepository('GitonomyCoreBundle:Project')
-            ->findOneBySlug($projectSlug)
+            ->findOneBySlug($slug)
         ;
 
         if (!$project) {
-            throw new \RuntimeException(sprintf('No project with slug "%s" found', $projectSlug));
+            throw new \RuntimeException(sprintf('No project with slug "%s" found', $slug));
         }
 
-        $pool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
+        return $project;
+    }
 
-        $pool->getGitRepository($project)->shell($command);
+    /**
+     * Verify permissions of a user for a project, executing a command.
+     *
+     * @param Gitonomy\CoreBundle\Entity\User $user A user
+     *
+     * @param Gitonomy\CoreBundle\Entity\Project $project A project
+     *
+     * @param string $command A git command
+     *
+     * @throw RuntimeException Command is not allowed
+     */
+    protected function checkPermission(User $user, Project $project, $command)
+    {
+        $isReading = $command == 'git-upload-pack';
     }
 }
