@@ -10,6 +10,10 @@
     <div class="row">
         <div class="span6">
             <div class="page-header">
+                <h2>SSH Access</h2>
+                <pre>{{ project_ssh(project) }}</pre>
+            </div>
+            <div class="page-header">
                 <h2>Users on the project</h2>
             </div>
             {% for userRole in project.userRoles %}

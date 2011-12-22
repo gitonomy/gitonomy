@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Gitonomy\Bundle\CoreBundle\Entity\Repository;
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class GitonomyExtension extends \Twig_Extension
@@ -34,7 +34,8 @@ class GitonomyExtension extends \Twig_Extension
         return array(
             'gravatar'     => new \Twig_Function_Method($this, 'getGravatar'),
             'project_list' => new \Twig_Function_Method($this, 'getProjectList'),
-            'user_list'    => new \Twig_Function_Method($this, 'getUserList')
+            'user_list'    => new \Twig_Function_Method($this, 'getUserList'),
+            'project_ssh'  => new \Twig_Function_Method($this, 'getProjectSsh'),
         );
     }
 
@@ -56,5 +57,10 @@ class GitonomyExtension extends \Twig_Extension
     public function getGravatar($email, $size = 100)
     {
         return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
+    }
+
+    public function getProjectSsh(Project $project)
+    {
+        return sprintf('%s:%s.git', $this->sshAccess, $project->getSlug());
     }
 }
