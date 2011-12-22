@@ -2,3 +2,9 @@ body
 {
     padding-top: 50px;
 }
+
+input[type="checkbox"]
+{
+    float:left;
+    margin-right:5px;
+}
