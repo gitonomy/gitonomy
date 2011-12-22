@@ -73,7 +73,7 @@ class User implements UserInterface
     protected $timezone;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey", mappedBy="user", cascade={"persist", "remove"}))
      */
     protected $sshKeys;
 

@@ -61,6 +61,7 @@ class MainControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/en_US');
         $this->assertEquals(0, $crawler->filter('.nav .projects')->count());
+        $this->assertEquals(0, $crawler->filter('.nav .admin')->count());
     }
 
     public function testNavigationMenuAsAlice()
@@ -72,6 +73,7 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.nav .projects a:contains("Foobar")')->count());
         $this->assertEquals(1, $crawler->filter('.nav .projects a:contains("Barbaz")')->count());
         $this->assertEquals(0, $crawler->filter('.nav .projects a:contains("Create")')->count());
+        $this->assertEquals(0, $crawler->filter('.nav .admin')->count());
     }
 
     public function testNavigationMenuAsBob()
@@ -83,6 +85,7 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.nav .projects a:contains("Foobar")')->count());
         $this->assertEquals(0, $crawler->filter('.nav .projects a:contains("Barbaz")')->count());
         $this->assertEquals(0, $crawler->filter('.nav .projects a:contains("Create")')->count());
+        $this->assertEquals(0, $crawler->filter('.nav .admin')->count());
     }
 
     public function testNavigationMenuAsAdmin()
@@ -92,5 +95,6 @@ class MainControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/en_US');
         $this->assertEquals(1, $crawler->filter('.nav .projects')->count());
         $this->assertEquals(1, $crawler->filter('.nav .projects a:contains("Create")')->count());
+        $this->assertEquals(4, $crawler->filter('.nav .admin a')->count());
     }
 }

@@ -2,7 +2,7 @@
     <h2>Project roles</h2>
 </div>
 {% if displayForm %}
-    <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" novalidate>
+    <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" id="user_role_project" novalidate>
     {{ form_errors(form) }}
 {% endif %}
     <table class="bordered-table zebra-striped">

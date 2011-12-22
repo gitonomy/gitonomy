@@ -7,7 +7,7 @@
     <div class="page-header">
         <h1>Create new {{ object_type }}</h1>
     </div>
-    <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" novalidate>
+    <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" id="user" novalidate>
         <div class="row">
             {{ form_errors(form) }}
             <div class="span6">
