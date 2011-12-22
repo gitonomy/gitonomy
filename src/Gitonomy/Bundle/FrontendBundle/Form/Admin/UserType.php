@@ -17,6 +17,14 @@ class UserType extends AbstractType
             ->add('timezone', 'timezone')
             ->add('userRolesGlobal', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+                'query_builder' => function(EntityRepository $er) {
+                    $query = $er
+                        ->createQueryBuilder('R')
+                        ->where('R.isGlobal = true')
+                        ->orderBy('R.name', 'ASC');
+
+                    return $query;
+                },
                 'multiple' => true,
                 'expanded' => true,
             ))

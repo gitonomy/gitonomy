@@ -37,6 +37,14 @@ class UserRoleProjectType extends AbstractType
             ))
             ->add('role', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+                'query_builder' => function(EntityRepository $er) {
+                    $query = $er
+                        ->createQueryBuilder('R')
+                        ->where('R.isGlobal = false')
+                        ->orderBy('R.name', 'ASC');
+
+                    return $query;
+                },
             ))
         ;
     }
