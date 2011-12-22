@@ -104,6 +104,7 @@ class Client extends BaseClient
     {
         if (null !== $this->connection) {
             $this->connection->rollback();
+            $this->connection->close();
         }
 
         $this->connection = null;
