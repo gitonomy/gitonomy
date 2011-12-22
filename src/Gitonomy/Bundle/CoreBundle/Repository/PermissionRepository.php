@@ -12,11 +12,12 @@ class PermissionRepository extends EntityRepository
         $count = $this
             ->createQueryBuilder('permission')
             ->select('COUNT(permission.id)')
+            ->leftJoin('permission.parent', 'permission_parent')
             ->leftJoin('permission.roles', 'role')
-            ->leftJoin('role.userRoles', 'user_role')
-            ->leftJoin('user_role.user', 'user')
-            ->leftJoin('user_role.project', 'project')
-            ->where('user.id = :user_id AND project.id = :project_id AND permission.name = :permission')
+            ->leftJoin('role.userRolesProject', 'user_role_project')
+            ->leftJoin('user_role_project.user', 'user')
+            ->leftJoin('user_role_project.project', 'project')
+            ->where('user.id = :user_id AND project.id = :project_id AND ( permission.name = :permission OR permission_parent.name = :permission )')
             ->setParameters(array(
                 'user_id'    => $user->getId(),
                 'project_id' => $project->getId(),

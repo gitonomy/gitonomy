@@ -2,6 +2,10 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+
 /**
  * Controller for project displaying.
  *
@@ -146,10 +150,19 @@ class ProjectController extends BaseController
      */
     protected function getProject($slug)
     {
-        $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
+        $user = $this->get('security.context')->getToken()->getUser();
+        if (!$user instanceof User) {
+            throw new AccessDeniedException('You must be connected to access a project');
+        }
 
+        $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
         if (null === $project) {
             throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
+        }
+
+        $right = $this->get('gitonomy_frontend.security.right');
+        if (!$right->isGrantedForProject($user, $project, 'GIT_CONTRIBUTE')) {
+            throw new AccessDeniedException('You are not a contributor of the project');
         }
 
         return $project;
