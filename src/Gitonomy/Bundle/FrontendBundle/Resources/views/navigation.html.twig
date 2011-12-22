@@ -3,17 +3,24 @@
         <div class="container-fluid">
             <a class="brand" href="{{ path('gitonomyfrontend_main_homepage') }}">{{ gitonomy.name }}</a>
             <ul class="nav">
-                <li>
-                    <a href="#" class="dropdown-toggle">Projects</a>
-                    <ul class="dropdown-menu">
-                        {% for project in project_list() %}
-                            <li><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></li>
-                        {% endfor %}
-                        <li class="divider"></li>
-                        <li><a href="#">Create</a></li>
-                    </ul>
-                </li>
-                <li>
+                {% set projects = project_list() %}
+                {% if projects|length or is_granted('PROJECT_CREATE') %}
+                    <li class="projects">
+                        <a href="#" class="dropdown-toggle">Projects</a>
+                        <ul class="dropdown-menu">
+                            {% for project in projects %}
+                                <li><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></li>
+                            {% endfor %}
+                            {% if projects|length and is_granted('PROJECT_CREATE') %}
+                                <li class="divider"></li>
+                            {% endif %}
+                            {% if is_granted('PROJECT_CREATE') %}
+                                <li><a href="#">Create</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endif %}
+                <li class="users">
                     <a href="#" class="dropdown-toggle">Users</a>
                     <ul class="dropdown-menu">
                         {% for user in user_list() %}
@@ -24,7 +31,7 @@
                     </ul>
                 </li>
                 {% if is_granted(['USER_ADMIN', 'PROJECT_ADMIN', 'ROLE_ADMIN']) %}
-                    <li>
+                    <li class="admin">
                         <a href="#" class="dropdown-toggle">Administration</a>
                         <ul class="dropdown-menu">
                             {% if is_granted(['USER_ADMIN']) %}
@@ -41,7 +48,7 @@
                 {% endif %}
             </ul>
             <ul class="nav secondary-nav">
-                <li class="dropdown">
+                <li class="lang">
                     <a href="#" class="dropdown-toggle">Lang</a>
                     <ul class="dropdown-menu">
                         {% for locale, name in {
@@ -53,7 +60,7 @@
                     </ul>
                 </li>
                 {% if is_granted('AUTHENTICATED') %}
-                    <li class="dropdown">
+                    <li class="account">
                         <a href="#" class="dropdown-toggle">{{ app.user.username }}</a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('gitonomyfrontend_profile_index') }}">Configuration</a></li>

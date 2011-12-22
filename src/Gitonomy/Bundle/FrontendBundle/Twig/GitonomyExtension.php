@@ -46,7 +46,13 @@ class GitonomyExtension extends \Twig_Extension
 
     public function getProjectList()
     {
-        return $this->container->get('doctrine')->getRepository('GitonomyCoreBundle:Project')->findAll();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if ($user instanceof User) {
+            return $this->container->get('doctrine')->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
+        } else {
+            return array();
+        }
     }
 
     public function getUserList()
