@@ -48,7 +48,7 @@ class AdminUserController extends BaseAdminController
 
         $userRoleProject = new UserRoleProject();
         $em              = $this->getDoctrine()->getEntityManager();
-        $usedProjects    = $em->getRepository('GitonomyCoreBundle:Project')->findUsedProjectsForUser($user);
+        $usedProjects    = $em->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
         $request         = $this->getRequest();
 
         $form = $this->createForm('adminuserroleproject', $userRoleProject, array(

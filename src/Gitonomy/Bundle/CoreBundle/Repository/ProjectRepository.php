@@ -7,7 +7,7 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class ProjectRepository extends EntityRepository
 {
-    public function findUsedProjectsForUser(Entity\User $user)
+    public function findByUser(Entity\User $user)
     {
         $em    = $this->getEntityManager();
         $query = $em
