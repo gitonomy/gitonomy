@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SecurityControllerTest extends WebTestCase
+class ProjectControllerTest extends WebTestCase
 {
     protected $client;
 
