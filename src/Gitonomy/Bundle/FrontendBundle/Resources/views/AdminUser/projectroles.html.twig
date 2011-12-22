@@ -1,8 +1,10 @@
 <div class="page-header">
     <h2>Project roles</h2>
 </div>
-<form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" novalidate>
-{{ form_errors(form) }}
+{% if displayForm %}
+    <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" novalidate>
+    {{ form_errors(form) }}
+{% endif %}
     <table class="bordered-table zebra-striped">
         <thead>
             <tr>
@@ -16,15 +18,19 @@
                 <tr>
                     <td>{{ projectRole.project }}</td>
                     <td>{{ projectRole.role }}</td>
-                    <td>delete</td>
+                    <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}">delete</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td>{{ form_widget(form.project) }}</td>
-                <td>{{ form_widget(form.role) }}</td>
-                <td><input type="submit" /></td>
-            </tr>
+            {% if displayForm %}
+                <tr>
+                    <td>{{ form_widget(form.project) }}</td>
+                    <td>{{ form_widget(form.role) }}</td>
+                    <td><input type="submit" /></td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
-{{ form_rest(form) }}
+{% if displayForm %}
+    {{ form_rest(form) }}
+{% endif %}
 </form>

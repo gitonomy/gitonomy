@@ -48,11 +48,13 @@ class AdminUserController extends BaseAdminController
 
         $userRoleProject = new UserRoleProject();
         $em              = $this->getDoctrine()->getEntityManager();
-        $usedProjects    = $em->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
+        $repository      = $em->getRepository('GitonomyCoreBundle:Project');
+        $usedProjects    = $repository->findByUser($user);
+        $totalProjects   = $repository->findAll();
         $request         = $this->getRequest();
 
         $form = $this->createForm('adminuserroleproject', $userRoleProject, array(
-            'usedProjects' => $usedProjects
+            'usedProjects' => $usedProjects,
         ));
 
         if ('POST' == $request->getMethod()) {
@@ -75,7 +77,46 @@ class AdminUserController extends BaseAdminController
             }
         }
         return $this->render('GitonomyFrontendBundle:AdminUser:projectroles.html.twig', array(
-            'user'         => $user,
+            'user'        => $user,
+            'form'        => $form->createView(),
+            'displayForm' => $totalProjects > $usedProjects,
+        ));
+    }
+
+    public function deleteUserRoleAction($id)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $em         = $this->getDoctrine()->getEntityManager();
+        $repository = $em->getRepository('GitonomyCoreBundle:UserRoleProject');
+
+        if (!$userRole = $repository->find($id)) {
+            throw new HttpException(404, sprintf('No UserRole found with id "%d".', $id));
+        }
+
+        $form    = $this->createFormBuilder()->getForm();
+        $request = $this->getRequest();
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em   = $this->getDoctrine()->getEntityManager();
+                $em->remove($userRole);
+                $em->flush();
+
+                $this->get('session')->setFlash('success',
+                    sprintf('Role "%s" deleted.', $userRole->__toString())
+                );
+
+
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                    'id' => $userRole->getUser()->getId()
+                )));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:AdminRole:deleteUserRole.html.twig', array(
+            'object'       => $userRole,
             'form'         => $form->createView(),
         ));
     }
