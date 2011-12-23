@@ -30,9 +30,18 @@ class RepositoryPool
         $this->repositoryPath = $repositoryPath;
     }
 
+    /**
+     * Method called when a project is created
+     */
     public function onProjectCreate(ProjectCreateEvent $event)
     {
-        $this->create($event->getProject());
+        $path = $this->getPath($event->getProject());
+
+        if (is_dir($path)) {
+            throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
+        }
+
+        Git\Admin::init($path);
     }
 
     /**
@@ -46,23 +55,6 @@ class RepositoryPool
     public function getGitRepository(Project $project)
     {
         return new Git\Repository($this->getPath($project));
-    }
-
-    /**
-     * Creates a new Git repository.
-     *
-     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
-     * project model instance
-     */
-    protected function create(Project $project)
-    {
-        $path = $this->getPath($project);
-
-        if (is_dir($path)) {
-            throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
-        }
-
-        Git\Admin::init($path);
     }
 
     /**
