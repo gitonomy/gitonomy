@@ -73,7 +73,7 @@ class AdminUserControllerTest extends WebTestCase
     public function testCreate()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/4/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user input[type=submit]')->form(array(
@@ -87,6 +87,21 @@ class AdminUserControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/list'));
+    }
+
+    public function testCreateEmailExists()
+    {
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('#user input[type=submit]')->form(array(
+            'adminuser[email]'              => 'admin@example.org',
+        ));
+
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(1, $crawler->filter('#adminuser_email_field p:contains("This value is already used")')->count());
     }
 
     public function testEditAsAnonymous()
@@ -182,5 +197,18 @@ class AdminUserControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/list'));
+    }
+
+    public function testDeleteUserRole()
+    {
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/userrole/3/delete');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('input[type=submit][value=Delete]')->form();
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/4/edit'));
     }
 }

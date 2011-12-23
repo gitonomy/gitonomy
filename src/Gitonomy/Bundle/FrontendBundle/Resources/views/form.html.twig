@@ -1,6 +1,6 @@
 {% block field_row %}
 {% spaceless %}
-    <div class="clearfix{% if errors|length %} error{% endif %}">
+    <div id="{{ id }}_field" class="clearfix{% if errors|length %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
         {{ form_widget(form, {'attr': field_attr|default({})}) }}
         {{ form_errors(form) }}
