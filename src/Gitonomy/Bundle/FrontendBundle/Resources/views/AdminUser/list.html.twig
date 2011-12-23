@@ -4,8 +4,11 @@
 {% set navigation_active = null %}
 
 {% block content %}
-    <h1>Users</h1>
+    <div class="page-header">
+        <h1>Users</h1>
+    </div>
     <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn success">Create</a>
+    <hr />
     <table class="zebra-striped" id="sortTableExample">
         <thead>
             <tr>
@@ -32,5 +35,6 @@
             {% endfor %}
         </tbody>
     </table>
+    <hr />
     <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn success">Create</a>
 {% endblock %}
