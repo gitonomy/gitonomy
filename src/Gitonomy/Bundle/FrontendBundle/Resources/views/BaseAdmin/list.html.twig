@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>{{ object_type~' management' }}</h1>
+        <h1>{{ object_type|capitalize~' management' }}</h1>
     </div>
     <a href="{{ path(route_prefix~'_create') }}" class="btn success">Create</a>
     <table class="zebra-striped" id="sortTableExample">

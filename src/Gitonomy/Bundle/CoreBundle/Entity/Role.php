@@ -4,10 +4,13 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints as AssertDoctrine;
 
 /**
  * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\RoleRepository")
  * @ORM\Table(name="role")
+ *
+ * @AssertDoctrine\UniqueEntity(fields="name",groups={"admin"})
  */
 class Role
 {

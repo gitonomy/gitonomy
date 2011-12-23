@@ -21,6 +21,7 @@ class RoleType extends AbstractType
                     return $repository->createQueryBuilder('p')->where('p.parent is not null');
                 }
             ))
+            ->add('isGlobal', 'checkbox')
         ;
     }
 

@@ -5,9 +5,9 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>Edit {{ object_type }} {{ object }}</h1>
+        <h1>Edit {{ object_type }} "{{ object }}"</h1>
     </div>
-    <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" novalidate>
+    <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" id="{{ object_type }}" novalidate>
         {% block actions '' %}
         {% include [controller_prefix~':form.html.twig', 'GitonomyFrontendBundle:BaseAdmin:form.html.twig'] with { 'form': form } only %}
 
