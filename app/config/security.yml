@@ -7,16 +7,21 @@ security:
 
     providers:
         entity:
-            entity: { class: "Gitonomy\Bundle\CoreBundle\Entity\User", property: "username" }
+            entity: { class: Gitonomy\Bundle\CoreBundle\Entity\User, property: "username" }
 
     firewalls:
         main:
             security:   true
             form_login:
-              login_path:          gitonomyfrontend_security_login
-              check_path:          gitonomyfrontend_security_loginCheck
-              default_target_path: gitonomyfrontend_main_homepage
+                login_path:          gitonomyfrontend_security_login
+                check_path:          gitonomyfrontend_security_loginCheck
+                default_target_path: gitonomyfrontend_main_homepage
+            remember_me:
+                key:      Fj_p1rmÉ!
+                lifetime: 31536000
+                path:     /
+                domain:   ~
             logout:
-              path:   gitonomyfrontend_security_logout
-              target: gitonomyfrontend_main_homepage
+                path:   gitonomyfrontend_security_logout
+                target: gitonomyfrontend_main_homepage
             anonymous:  true

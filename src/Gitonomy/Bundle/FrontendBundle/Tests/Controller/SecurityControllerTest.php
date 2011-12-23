@@ -25,7 +25,7 @@ class SecurityControllerTest extends WebTestCase
 
         $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
             '_username' => 'foo',
-            '_password' => 'bar'
+            '_password' => 'bar',
         ));
 
         $this->client->submit($form);
@@ -36,6 +36,36 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertEquals('Unable to login:', $crawler->filter('.alert-message strong')->text());
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("Login")')->count());
+    }
+
+    public function testRememberme()
+    {
+        $crawler = $this->client->request('GET', '/en_US/login');
+
+        $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
+            '_username'    => 'alice',
+            '_password'    => 'alice',
+            '_remember_me' => true,
+        ));
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US'));
+        $crawler = $this->client->followRedirect();
+
+        $cookieJar = $this->client->getCookieJar();
+        $this->assertNotNull($cookieJar->get('REMEMBERME'));
+
+        $cookieJar->expire('PHPSESSID');
+
+        $crawler = $this->client->request('GET', '/en_US');
+        $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+
+        $cookieJar->expire('PHPSESSID');
+        $cookieJar->expire('REMEMBERME');
+
+        $crawler = $this->client->request('GET', '/en_US');
+        $this->assertEquals(0, $crawler->filter('.topbar a:contains("alice")')->count());
     }
 
     public function testLogout()
