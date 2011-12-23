@@ -10,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\Repository;
+use Gitonomy\Bundle\CoreBundle\EventListener\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
 
 /**
  * Shell command for creating a project.
@@ -56,7 +58,6 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em   = $this->getContainer()->get('doctrine')->getEntityManager();
-        $pool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
 
         $project = new Project();
         $project->setName($input->getArgument('name'));
@@ -69,7 +70,8 @@ EOF
         $em->persist($project);
         $em->flush();
 
-        $pool->create($project);
+        $event = new ProjectCreateEvent($project);
+        $this->getContainer()->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, $event);
 
         $output->writeln(sprintf('Project <info>%s</info> was created!', $project->getName()));
     }

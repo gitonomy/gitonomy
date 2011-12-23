@@ -30,7 +30,7 @@ class ProjectCreateCommandTest extends CommandTestCase
     {
         $this->repositoryPool
             ->expects($this->once())
-            ->method('create')
+            ->method('onProjectCreate')
         ;
 
         $output = $this->runCommand($this->client, 'gitonomy:project-create "Sample name" sample-name');
@@ -51,7 +51,7 @@ class ProjectCreateCommandTest extends CommandTestCase
     {
         $this->repositoryPool
             ->expects($this->once())
-            ->method('create')
+            ->method('onProjectCreate')
         ;
 
         $output = $this->runCommand($this->client, 'gitonomy:project-create --main-branch=develop "Sample name" sample-name');

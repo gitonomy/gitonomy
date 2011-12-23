@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
 use Gitonomy\Git;
 
 /**
@@ -29,21 +30,9 @@ class RepositoryPool
         $this->repositoryPath = $repositoryPath;
     }
 
-    /**
-     * Creates a new Git repository.
-     *
-     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
-     * project model instance
-     */
-    public function create(Project $project)
+    public function onProjectCreate(ProjectCreateEvent $event)
     {
-        $path = $this->getPath($project);
-
-        if (is_dir($path)) {
-            throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
-        }
-
-        Git\Admin::init($path);
+        $this->create($event->getProject());
     }
 
     /**
@@ -57,6 +46,23 @@ class RepositoryPool
     public function getGitRepository(Project $project)
     {
         return new Git\Repository($this->getPath($project));
+    }
+
+    /**
+     * Creates a new Git repository.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
+     * project model instance
+     */
+    protected function create(Project $project)
+    {
+        $path = $this->getPath($project);
+
+        if (is_dir($path)) {
+            throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
+        }
+
+        Git\Admin::init($path);
     }
 
     /**

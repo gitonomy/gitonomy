@@ -7,6 +7,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 use Gitonomy\Bundle\CoreBundle\Entity\Repository;
+use Gitonomy\Bundle\CoreBundle\EventListener\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
 
 /**
  * Controller for repository actions.
@@ -36,7 +38,7 @@ class AdminProjectController extends BaseAdminController
 
     protected function postCreate($object)
     {
-        $this->get('gitonomy_core.git.repository_pool')->create($object);
+        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectCreateEvent($object));
     }
 
     public function editAction($id)
