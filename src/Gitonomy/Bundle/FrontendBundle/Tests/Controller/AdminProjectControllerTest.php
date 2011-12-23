@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AdminRoleControllerTest extends WebTestCase
+class AdminProjectControllerTest extends WebTestCase
 {
     protected $client;
 
@@ -21,7 +21,7 @@ class AdminRoleControllerTest extends WebTestCase
 
     public function testListAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/list');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/list');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
@@ -29,7 +29,7 @@ class AdminRoleControllerTest extends WebTestCase
     public function testListAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/list');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/list');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -37,17 +37,17 @@ class AdminRoleControllerTest extends WebTestCase
     public function testListAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/list');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/list');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Role management', $crawler->filter('h1')->text());
-        $this->assertEquals(4, $crawler->filter('table thead tr th')->count());
+        $this->assertEquals('Project management', $crawler->filter('h1')->text());
+        $this->assertEquals(2, $crawler->filter('table thead tr th')->count());
     }
 
     public function testCreateAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
@@ -55,7 +55,7 @@ class AdminRoleControllerTest extends WebTestCase
     public function testCreateAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -63,50 +63,47 @@ class AdminRoleControllerTest extends WebTestCase
     public function testCreateAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Create new role', $crawler->filter('h1')->text());
+        $this->assertEquals('Create new project', $crawler->filter('h1')->text());
     }
 
     public function testCreate()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
 
-        $form = $crawler->filter('#role input[type=submit]')->form(array(
-            'adminrole[name]'        => 'test',
-            'adminrole[description]' => 'test',
-            'adminrole[permissions]' => array(1,2,3),
+        $form = $crawler->filter('#project input[type=submit]')->form(array(
+            'adminproject[name]' => 'test',
+            'adminproject[slug]' => 'test',
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
     }
 
     public function testCreateNameExists()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
 
-        $form = $crawler->filter('#role input[type=submit]')->form(array(
-            'adminrole[name]'        => 'Administrator',
-            'adminrole[description]' => 'test',
-            'adminrole[permissions]' => array(1,2,3),
+        $form = $crawler->filter('#project input[type=submit]')->form(array(
+            'adminproject[name]'        => 'Foobar',
         ));
 
         $crawler = $this->client->submit($form);
 
-        $this->assertEquals(1, $crawler->filter('#adminrole_name_field p:contains("This value is already used")')->count());
+        $this->assertEquals(1, $crawler->filter('#adminproject_name_field p:contains("This value is already used")')->count());
     }
 
     public function testEditAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
@@ -114,7 +111,7 @@ class AdminRoleControllerTest extends WebTestCase
     public function testEditAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -122,33 +119,32 @@ class AdminRoleControllerTest extends WebTestCase
     public function testEditAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Edit role "Administrator"', $crawler->filter('h1')->text());
+        $this->assertEquals('Edit project "Foobar"', $crawler->filter('h1')->text());
     }
 
-    public function testEditAdministrator()
+    public function testEditFoobar()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
 
-        $form = $crawler->filter('#role input[type=submit]')->form(array(
-            'adminrole[permissions]' => array(),
+        $form = $crawler->filter('#project input[type=submit]')->form(array(
+            'adminproject[name]' => 'test',
+            'adminproject[slug]' => 'test',
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/list'));
-        $this->client->followRedirect();
-        $this->assertEquals(403, $this->client->getResponse()->getStatusCode());
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
     }
 
     public function testDeleteAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/delete');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
@@ -156,7 +152,7 @@ class AdminRoleControllerTest extends WebTestCase
     public function testDeleteAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/1/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/delete');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -164,23 +160,23 @@ class AdminRoleControllerTest extends WebTestCase
     public function testDeleteAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/3/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/2/delete');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete role "Project manager" ?', $crawler->filter('h1')->text());
+        $this->assertEquals('Delete project "Barbaz" ?', $crawler->filter('h1')->text());
     }
 
-    public function testDeleteLeadDev()
+    public function testDeleteFoobar()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminrole/3/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/2/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
     }
 }
