@@ -11,6 +11,12 @@ class AdminProjectControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = self::createClient();
+        $this->repositoryPool = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\RepositoryPool')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->client->setRepositoryPool($this->repositoryPool);
+
         $this->client->startIsolation();
     }
 
@@ -72,6 +78,11 @@ class AdminProjectControllerTest extends WebTestCase
 
     public function testCreate()
     {
+        $this->repositoryPool
+            ->expects($this->once())
+            ->method('onProjectCreate')
+        ;
+
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
@@ -124,6 +135,7 @@ class AdminProjectControllerTest extends WebTestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Edit project "Foobar"', $crawler->filter('h1')->text());
+        $this->assertEquals(0, $crawler->filter("#adminproject_slug")->count(), 'no slug field when project edition');
     }
 
     public function testEditFoobar()
@@ -134,12 +146,40 @@ class AdminProjectControllerTest extends WebTestCase
 
         $form = $crawler->filter('#project input[type=submit]')->form(array(
             'adminproject[name]' => 'test',
-            'adminproject[slug]' => 'test',
         ));
 
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
+    }
+
+    public function testEditRoleProject()
+    {
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('#user_role_project input[type=submit]')->form(array(
+            'adminuserroleproject[user]' => '1',
+            'adminuserroleproject[role]' => '4',
+        ));
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/1/edit'));
+    }
+
+    public function testDeleteProjectRole()
+    {
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/userrole/4/delete');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('input[type=submit][value=Delete]')->form();
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/2/edit'));
     }
 
     public function testDeleteAsAnonymous()

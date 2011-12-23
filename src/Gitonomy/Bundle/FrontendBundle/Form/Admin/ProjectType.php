@@ -9,14 +9,10 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder
-            ->add('name', 'text')
-            ->add('slug', 'text')
-            ->add('userRoles', 'entity', array(
-                'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
-                'multiple' => true,
-            ))
-        ;
+        $builder->add('name', 'text');
+        if ('create' === $options['action']) {
+            $builder->add('slug', 'text');
+        }
     }
 
     public function getDefaultOptions(array $options)

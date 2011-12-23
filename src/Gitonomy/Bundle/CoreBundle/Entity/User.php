@@ -11,7 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\UserRepository")
+ *
  * @ORM\Table(name="user", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="username", columns={"username"})
  * })
@@ -80,7 +81,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"})
      */
-    protected $userRolesProject;
+    protected $projectRoles;
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
@@ -179,9 +180,14 @@ class User implements UserInterface
         return $this->sshKeys;
     }
 
-    public function getUserRolesProject()
+    public function getProjectRoles()
     {
-        return $this->userRolesProject;
+        return $this->projectRoles;
+    }
+
+    public function setProjectRoles($projectRoles)
+    {
+        $this->projectRoles = $projectRoles;
     }
 
     public function getUserRolesGlobal()

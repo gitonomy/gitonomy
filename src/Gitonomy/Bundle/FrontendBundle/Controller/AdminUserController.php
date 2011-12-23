@@ -38,7 +38,7 @@ class AdminUserController extends BaseAdminController
     /**
      * Action to create a new user role project for an user
      */
-    public function projectRolesAction($userId)
+    public function userRolesAction($userId)
     {
         $this->assertPermission('USER_EDIT');
 
@@ -55,13 +55,13 @@ class AdminUserController extends BaseAdminController
 
         $form = $this->createForm('adminuserroleproject', $userRoleProject, array(
             'usedProjects' => $usedProjects,
+            'from'         => 'user'
         ));
 
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $userRoleProject->setUser($user);
-                $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($userRoleProject);
                 $em->flush();
 
@@ -100,14 +100,12 @@ class AdminUserController extends BaseAdminController
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em   = $this->getDoctrine()->getEntityManager();
                 $em->remove($userRole);
                 $em->flush();
 
                 $this->get('session')->setFlash('success',
                     sprintf('Role "%s" deleted.', $userRole->__toString())
                 );
-
 
                 return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
                     'id' => $userRole->getUser()->getId()

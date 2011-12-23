@@ -145,7 +145,7 @@ class AdminUserControllerTest extends WebTestCase
     }
 
 
-    public function testEditRoleProject()
+    public function testEditRoleUser()
     {
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminuser/1/edit');
@@ -202,7 +202,7 @@ class AdminUserControllerTest extends WebTestCase
     public function testDeleteUserRole()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/userrole/3/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/projectrole/3/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();

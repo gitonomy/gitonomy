@@ -12,15 +12,15 @@ class UserRoleProjectType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $projects = $options['usedProjects'];
 
-        $usedProjects = array();
-        foreach ($projects as $project) {
-            $usedProjects[] = $project->getId();
-        }
+        if ('user' === $options['from']) {
+            $projects     = $options['usedProjects'];
+            $usedProjects = array();
+            foreach ($projects as $project) {
+                $usedProjects[] = $project->getId();
+            }
 
-        $builder
-            ->add('project', 'entity', array(
+            $builder->add('project', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
                 'query_builder' => function(EntityRepository $er) use ($usedProjects) {
                     $query = $er
@@ -34,7 +34,35 @@ class UserRoleProjectType extends AbstractType
 
                     return $query;
                 },
-            ))
+            ));
+        }
+
+        if ('project' === $options['from']) {
+            $users     = $options['usedUsers'];
+            $usedUsers = array();
+            foreach ($users as $user) {
+                $usedUsers[] = $user->getId();
+            }
+
+            $builder->add('user', 'entity', array(
+                'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+                'query_builder' => function(EntityRepository $er) use ($usedUsers) {
+                    $query = $er
+                        ->createQueryBuilder('U')
+                        ->orderBy('U.fullname', 'ASC');
+                    if (count($usedUsers) > 0) {
+                        $query
+                            ->where('U.id NOT IN (:userIds)')
+                            ->setParameter('userIds', $usedUsers);
+                    }
+
+                    return $query;
+                },
+            ));
+        }
+
+
+        $builder
             ->add('role', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
                 'query_builder' => function(EntityRepository $er) {
@@ -54,6 +82,8 @@ class UserRoleProjectType extends AbstractType
         return array(
             'data_class'   => 'Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject',
             'usedProjects' => array(),
+            'usedUsers'    => array(),
+            'from'         => null,
         );
     }
 

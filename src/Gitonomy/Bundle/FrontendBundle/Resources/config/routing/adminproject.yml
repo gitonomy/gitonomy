@@ -17,3 +17,15 @@ gitonomyfrontend_adminproject_delete:
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:delete" }
     requirements:
         id:  \d+
+
+gitonomyfrontend_adminproject_userroles:
+    pattern: /{_locale}/adminproject/{projectId}/projectrole
+    defaults: { _controller: "GitonomyFrontendBundle:AdminProject:projectRoles" }
+    requirements:
+        projectId:  \d+
+
+gitonomyfrontend_adminproject_userroles_delete:
+    pattern: /{_locale}/adminproject/userrole/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminProject:deleteProjectRole" }
+    requirements:
+        id:  \d+

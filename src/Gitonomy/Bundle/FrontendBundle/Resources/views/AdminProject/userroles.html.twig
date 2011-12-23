@@ -1,0 +1,36 @@
+<div class="page-header">
+    <h2>Project roles</h2>
+</div>
+{% if displayForm %}
+    <form class="form" action="{{ path('gitonomyfrontend_adminproject_userroles', {'projectId':project.id}) }}" method="POST" id="user_role_project" novalidate>
+    {{ form_errors(form) }}
+{% endif %}
+    <table class="bordered-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for userRole in project.userRoles %}
+                <tr>
+                    <td>{{ userRole.user }}</td>
+                    <td>{{ userRole.role }}</td>
+                    <td><a href="{{ path('gitonomyfrontend_adminproject_userroles_delete', {'id': userRole.id }) }}">delete</td>
+                </tr>
+            {% endfor %}
+            {% if displayForm %}
+                <tr>
+                    <td>{{ form_widget(form.user) }}</td>
+                    <td>{{ form_widget(form.role) }}</td>
+                    <td><input type="submit" /></td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% if displayForm %}
+    {{ form_rest(form) }}
+{% endif %}
+</form>

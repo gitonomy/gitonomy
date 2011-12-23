@@ -10,7 +10,8 @@ class BaseAdminType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'validation_groups' => array('admin')
+            'validation_groups' => array('admin'),
+            'action'            => null,
         );
     }
 
