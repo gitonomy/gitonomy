@@ -7,8 +7,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 use Gitonomy\Bundle\CoreBundle\Entity\Repository;
-use Gitonomy\Bundle\CoreBundle\EventListener\GitonomyEvents;
-use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
 
 /**
  * Controller for repository actions.

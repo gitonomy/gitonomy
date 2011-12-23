@@ -3,7 +3,7 @@
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
 use Gitonomy\Git;
 
 /**

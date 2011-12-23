@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\EventListener;
+namespace Gitonomy\Bundle\CoreBundle\EventDispatcher;
 
 final class GitonomyEvents
 {

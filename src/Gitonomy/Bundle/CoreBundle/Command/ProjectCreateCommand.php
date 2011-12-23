@@ -10,8 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\Repository;
-use Gitonomy\Bundle\CoreBundle\EventListener\GitonomyEvents;
-use Gitonomy\Bundle\CoreBundle\EventListener\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
 
 /**
  * Shell command for creating a project.

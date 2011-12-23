@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\EventListener\Event;
+namespace Gitonomy\Bundle\CoreBundle\EventDispatcher\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
