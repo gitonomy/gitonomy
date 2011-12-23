@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\CoreBundle\Test;
 use Symfony\Bundle\FrameworkBundle\Client as BaseClient;
 
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
+use Gitonomy\Bundle\CoreBundle\Git\HookInjector;
 
 /**
  * Test client for Gitonomy application.
@@ -22,6 +23,11 @@ class Client extends BaseClient
      * The repository pool
      */
     protected $repositoryPool;
+
+    /**
+     * The hook injector
+     */
+    protected $hookInjector;
 
     /**
      * Was this client already requested?
@@ -78,6 +84,14 @@ class Client extends BaseClient
     }
 
     /**
+     * Defines the hook injector to use for the client.
+     */
+    public function setHookInjector(HookInjector $hookInjector)
+    {
+        $this->hookInjector = $hookInjector;
+    }
+
+    /**
      * Starts the isolation process of the client.
      */
     public function startIsolation()
@@ -90,6 +104,10 @@ class Client extends BaseClient
 
         if (null !== $this->repositoryPool) {
             $this->getContainer()->set('gitonomy_core.git.repository_pool', $this->repositoryPool);
+        }
+
+        if (null !== $this->hookInjector) {
+            $this->getContainer()->set('gitonomy_core.git.hook_injector', $this->hookInjector);
         }
 
         if (false === $this->requested) {

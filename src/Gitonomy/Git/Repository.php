@@ -102,10 +102,25 @@ class Repository
      *
      * @param string $command The command to execute
      */
-    public function shell($command)
+    public function shell($command, array $env = array())
     {
         $argument = sprintf('%s \'%s\'', $command, $this->path);
 
-        proc_open('git shell -c '.escapeshellarg($argument), array(STDIN, STDOUT, STDERR), $pipes);
+        $prefix = '';
+        foreach ($env as $name => $value) {
+            $prefix .= sprintf('export %s=%s;', escapeshellarg($name), escapeshellarg($value));
+        }
+
+        proc_open($prefix.'git shell -c '.escapeshellarg($argument), array(STDIN, STDOUT, STDERR), $pipes);
+    }
+
+    /**
+     * Returns the hooks object.
+     *
+     * @return Gitonomy\Git\Hooks
+     */
+    public function getHooks()
+    {
+        return new Hooks($this);
     }
 }

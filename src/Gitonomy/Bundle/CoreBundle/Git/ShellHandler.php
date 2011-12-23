@@ -38,8 +38,8 @@ class ShellHandler
     /**
      * Handles the git pack.
      */
-    public function handle(Project $project, $command)
+    public function handle(Project $project, $command, array $env = array())
     {
-        $this->repositoryPool->getGitRepository($project)->shell($command);
+        $this->repositoryPool->getGitRepository($project)->shell($command, $env);
     }
 }

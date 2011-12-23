@@ -81,7 +81,10 @@ EOF
 
         $this->checkPermission($user, $project, $command);
 
-        $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $command);
+        $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $command, array(
+            'gitonomy_project' => $project->getSlug(),
+            'gitonomy_user'    => $user->getUsername(),
+        ));
     }
 
     /**

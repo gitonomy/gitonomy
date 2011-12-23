@@ -1,0 +1,34 @@
+#!/usr/bin/env php
+<?php
+if (!isset($_SERVER['gitonomy_user']) || !isset($_SERVER['gitonomy_project'])) {
+   echo "Gitonomy context missing !";
+}
+
+$username = $_SERVER['gitonomy_user'];
+$project  = $_SERVER['gitonomy_project'];
+
+$fp = fopen('php://stdin', 'r');
+while (!feof($fp)) {
+    $content .= fgets($fp, 4096);
+}
+fclose($fp);
+list($before, $after, $rev) = explode(' ', $content);
+
+$console = realpath(__DIR__.'/../../console');
+
+ob_start();
+system(sprintf(
+    'php %s gitonomy:pre-receive %s %s %s %s %s',
+    $console,
+    escapeshellarg($project),
+    escapeshellarg($username),
+    escapeshellarg($before),
+    escapeshellarg($after),
+    escapeshellarg($rev)
+));
+$result = ob_get_clean();
+
+if (0 !== $return) {
+    echo $result;
+    exit(1);
+}

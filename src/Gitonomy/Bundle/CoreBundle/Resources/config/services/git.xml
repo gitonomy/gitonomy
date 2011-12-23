@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Git\RepositoryPool</parameter>
         <parameter key="gitonomy_core.git.shell_handler.class">Gitonomy\Bundle\CoreBundle\Git\ShellHandler</parameter>
+        <parameter key="gitonomy_core.git.hook_injector.class">Gitonomy\Bundle\CoreBundle\Git\HookInjector</parameter>
         <parameter key="gitonomy_core.git.shell_command">php %kernel.root_dir%/console gitonomy:git</parameter>
     </parameters>
 
@@ -18,6 +19,14 @@
 
         <service id="gitonomy_core.git.shell_handler" class="%gitonomy_core.git.shell_handler.class%">
             <argument type="service" id="gitonomy_core.git.repository_pool" />
+        </service>
+
+        <service id="gitonomy_core.git.hook_injector" class="%gitonomy_core.git.hook_injector.class%">
+            <tag name="kernel.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
+            <argument type="service" id="gitonomy_core.git.repository_pool" />
+            <argument type="collection">
+                <argument key="pre-receive">%kernel.root_dir%/Resources/hooks/pre-receive</argument>
+            </argument>
         </service>
     </services>
 

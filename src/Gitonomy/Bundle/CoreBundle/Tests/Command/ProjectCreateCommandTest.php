@@ -8,6 +8,7 @@ class ProjectCreateCommandTest extends CommandTestCase
 {
     protected $client;
     protected $repositoryPool;
+    protected $hookInjector;
 
     public function setUp()
     {
@@ -16,7 +17,12 @@ class ProjectCreateCommandTest extends CommandTestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
+        $this->hookInjector = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\HookInjector')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
         $this->client->setRepositoryPool($this->repositoryPool);
+        $this->client->setHookInjector($this->hookInjector);
 
         $this->client->startIsolation();
     }
@@ -29,6 +35,10 @@ class ProjectCreateCommandTest extends CommandTestCase
     public function testSimpleCase()
     {
         $this->repositoryPool
+            ->expects($this->once())
+            ->method('onProjectCreate')
+        ;
+        $this->hookInjector
             ->expects($this->once())
             ->method('onProjectCreate')
         ;
@@ -50,6 +60,11 @@ class ProjectCreateCommandTest extends CommandTestCase
     public function testMainBranch()
     {
         $this->repositoryPool
+            ->expects($this->once())
+            ->method('onProjectCreate')
+        ;
+
+        $this->hookInjector
             ->expects($this->once())
             ->method('onProjectCreate')
         ;
