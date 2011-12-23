@@ -15,7 +15,12 @@ class AdminProjectControllerTest extends WebTestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
+        $this->hookInjector = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\HookInjector')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
         $this->client->setRepositoryPool($this->repositoryPool);
+        $this->client->setHookInjector($this->hookInjector);
 
         $this->client->startIsolation();
     }
