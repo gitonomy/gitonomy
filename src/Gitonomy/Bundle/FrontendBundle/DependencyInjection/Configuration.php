@@ -35,6 +35,15 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('to')->isRequired()->end()
                     ->end()
                 ->end()
+                ->arrayNode('locales')
+                    ->useAttributeAsKey('locale')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('country')->isRequired()->end()
+                            ->scalarNode('language')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

@@ -51,11 +51,8 @@
                 <li class="lang">
                     <a href="#" class="dropdown-toggle">Lang</a>
                     <ul class="dropdown-menu">
-                        {% for locale, name in {
-                            'fr_FR': 'Français',
-                            'en_EN': 'English'
-                        }%}
-                            <li><a href="{{ path('gitonomyfrontend_main_setLocale', {'locale': locale}) }}">{{ name }}</a></li>
+                        {% for locale, name in gitonomy.locales %}
+                            <li><a href="{{ path('gitonomyfrontend_main_setLocale', {'locale': locale}) }}">{{ name.language }} ({{ name.country }})</a></li>
                         {% endfor %}
                     </ul>
                 </li>
