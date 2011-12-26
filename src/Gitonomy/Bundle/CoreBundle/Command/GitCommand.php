@@ -68,25 +68,42 @@ EOF
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
         $user = $this->getUser($input->getArgument('username'));
+        $right = $this->getContainer()->get('gitonomy_frontend.security.right');
 
         $shellHandler = $this->getContainer()->get('gitonomy_core.git.shell_handler');
         $originalCommand = $shellHandler->getOriginalCommand();
 
-        if (null === $originalCommand)
-        {
+        if (null === $originalCommand) {
             $this->outputUserInformations($output, $user);
 
             return;
         }
 
-        if (!preg_match('#^(git-(receive|upload)-pack) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
-            throw new \RuntimeException('Action seems illegal: '.$originalCommand);
+        if (!preg_match('#^(.*) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
+            throw new \RuntimeException('Command seems illegal: '.$originalCommand);
         }
 
-        $command = $vars[1];
-        $project = $this->getProject($vars[3]);
+        $action = $vars[1];
+        $project = $this->getProject($vars[2]);
 
-        $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $command, array(
+        switch ($action) {
+            case 'git-receive-pack':
+                if (!$right->isGrantedForProject($user, $project, 'GIT_READ')) {
+                    throw new \RuntimeException('You are not allowed');
+                }
+                break;
+
+            case 'git-upload-pack':
+                if (!$right->isGrantedForProject($user, $project, 'GIT_WRITE')) {
+                    throw new \RuntimeException('You are not allowed');
+                }
+                break;
+
+            default:
+                throw new \RuntimeException('Action seems illegal: '.$action);
+        }
+
+        $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $action, array(
             'gitonomy_project' => $project->getSlug(),
             'gitonomy_user'    => $user->getUsername(),
         ));
@@ -107,8 +124,8 @@ EOF
 
         $output->writeln(sprintf("   %-32s %-32s %s", "Project", "Your role", "Checkout URL"));
         $output->writeln(sprintf("   %-32s %-32s %s", "-------", "---------", "------------"));
-        foreach ($projectRoles as $projectRole)
-        {
+
+        foreach ($projectRoles as $projectRole) {
             $projectName = $projectRole->getProject()->getName();
             $projectSlug = $projectRole->getProject()->getSlug();
             $projectUrl  = $sshAccess.':'.$projectSlug.'.git';
@@ -159,21 +176,5 @@ EOF
         }
 
         return $project;
-    }
-
-    /**
-     * Verify permissions of a user for a project, executing a command.
-     *
-     * @param Gitonomy\CoreBundle\Entity\User $user A user
-     *
-     * @param Gitonomy\CoreBundle\Entity\Project $project A project
-     *
-     * @param string $command A git command
-     *
-     * @throw RuntimeException Command is not allowed
-     */
-    protected function checkPermission(User $user, Project $project, $command)
-    {
-        $isReading = $command == 'git-upload-pack';
     }
 }
