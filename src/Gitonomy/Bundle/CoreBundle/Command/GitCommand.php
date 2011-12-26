@@ -88,14 +88,14 @@ EOF
 
         switch ($action) {
             case 'git-receive-pack':
-                if (!$right->isGrantedForProject($user, $project, 'GIT_READ')) {
-                    throw new \RuntimeException('You are not allowed');
+                if (!$right->isGrantedForProject($user, $project, 'GIT_WRITE')) {
+                    throw new \RuntimeException('You are not allowed to write on this repository');
                 }
                 break;
 
             case 'git-upload-pack':
-                if (!$right->isGrantedForProject($user, $project, 'GIT_WRITE')) {
-                    throw new \RuntimeException('You are not allowed');
+                if (!$right->isGrantedForProject($user, $project, 'GIT_READ')) {
+                    throw new \RuntimeException('You are not allowed to read on this repository');
                 }
                 break;
 
