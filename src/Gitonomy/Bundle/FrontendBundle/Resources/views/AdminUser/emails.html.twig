@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h2>Emails</h2>
+</div>
+<form class="form" action="{{ path('gitonomyfrontend_adminuser_emails', {'userId':user.id}) }}" method="POST" id="user_email" novalidate>
+    {{ form_errors(form) }}
+    <table class="bordered-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Default</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for email in user.emails %}
+                <tr>
+                    <td>{{ email.email }}</td>
+                    <td>{{ email.isDefault }}</td>
+                    <td><a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': email.id }) }}">delete</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td>{{ form_widget(form.email) }}</td>
+                <td>{{ form_widget(form.isDefault) }}</td>
+                <td><input type="submit" /></td>
+            </tr>
+        </tbody>
+    </table>
+    {{ form_rest(form) }}
+</form>

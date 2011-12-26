@@ -16,7 +16,6 @@
                 </div>
                 {{ form_row(form.username) }}
                 {{ form_row(form.fullname) }}
-                {{ form_row(form.email) }}
                 {{ form_row(form.timezone) }}
                 <div class="page-header">
                     <h2>Global roles</h2>
@@ -30,6 +29,7 @@
             </form>
         </div>
         <div class="span9">
+            {% render 'GitonomyFrontendBundle:AdminUser:emails' with {'userId': object.id} %}
             {% render 'GitonomyFrontendBundle:AdminUser:userRoles' with {'userId': object.id} %}
         </div>
     </div>

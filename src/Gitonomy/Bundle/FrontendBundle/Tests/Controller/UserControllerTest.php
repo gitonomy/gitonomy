@@ -40,7 +40,7 @@ class UserControllerTest extends WebTestCase
         $form = $crawler->filter('form input[type=submit]')->form(array(
             'user_registration[username]'         => 'test',
             'user_registration[fullname]'         => 'Test example',
-            'user_registration[email]'            => 'test@example.org',
+            'user_registration[defaultEmail]'     => 'test@example.org',
             'user_registration[password][first]'  => 'test',
             'user_registration[password][second]' => 'test',
         ));

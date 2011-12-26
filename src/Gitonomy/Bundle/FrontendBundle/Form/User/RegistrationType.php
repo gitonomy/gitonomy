@@ -12,7 +12,9 @@ class RegistrationType extends AbstractType
         $builder
             ->add('username', 'text')
             ->add('fullname', 'text')
-            ->add('email', 'email')
+            ->add('defaultEmail', 'email', array(
+                'label' => 'Email',
+            ))
             ->add('timezone', 'timezone')
             ->add('password', 'repeated',array('type' => 'password'))
         ;

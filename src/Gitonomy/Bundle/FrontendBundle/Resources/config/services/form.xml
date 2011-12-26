@@ -14,6 +14,7 @@
         <parameter key="gitonomy_frontend.form.type.adminrole.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\RoleType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminuserroleproject.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleProjectType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminuserroleglobal.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleGlobalType</parameter>
+        <parameter key="gitonomy_frontend.form.type.useremail.class">Gitonomy\Bundle\FrontendBundle\Form\User\UserEmailType</parameter>
     </parameters>
 
     <services>
@@ -43,6 +44,9 @@
         </service>
         <service id="gitonomy_frontend.form.type.adminuserroleglobal" class="%gitonomy_frontend.form.type.adminuserroleglobal.class%">
             <tag name="form.type" alias="adminuserroleglobal" />
+        </service>
+        <service id="gitonomy_frontend.form.type.useremail" class="%gitonomy_frontend.form.type.useremail.class%">
+            <tag name="form.type" alias="useremail" />
         </service>
     </services>
 

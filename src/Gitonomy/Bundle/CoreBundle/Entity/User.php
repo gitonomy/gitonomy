@@ -18,7 +18,6 @@ use Doctrine\ORM\PersistentCollection;
  * })
  *
  * @AssertDoctrine\UniqueEntity(fields="username",groups={"registration", "admin"})
- * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration", "admin"})
  */
 class User implements UserInterface
 {
@@ -59,13 +58,6 @@ class User implements UserInterface
     protected $fullname;
 
     /**
-     * @ORM\Column(type="string",length=256,unique=true)
-     *
-     * @Assert\NotBlank(groups={"registration", "admin"})
-     */
-    protected $email;
-
-    /**
      * @ORM\Column(type="string",length=64)
      *
      * @Assert\NotBlank(groups={"registration", "profile_informations"})
@@ -74,12 +66,17 @@ class User implements UserInterface
     protected $timezone;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey", mappedBy="user", cascade={"persist", "remove"}))
+     * @ORM\OneToMany(targetEntity="UserSshKey", mappedBy="user", cascade={"persist", "remove"}))
      */
     protected $sshKeys;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Email", mappedBy="user", cascade={"persist", "remove"}))
+     */
+    protected $emails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserRoleProject", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $projectRoles;
 
@@ -94,6 +91,7 @@ class User implements UserInterface
         $this->sshKeys         = new ArrayCollection();
         $this->repositories    = new ArrayCollection();
         $this->userRolesGlobal = new ArrayCollection();
+        $this->emails          = new ArrayCollection();
         $this->regenerateSalt();
     }
 
@@ -125,6 +123,11 @@ class User implements UserInterface
         return $this->salt = md5(uniqid().microtime());
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUsername()
     {
         return $this->username;
@@ -153,21 +156,6 @@ class User implements UserInterface
     public function setFullname($fullname)
     {
         $this->fullname = $fullname;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getSalt()
@@ -215,6 +203,21 @@ class User implements UserInterface
         $this->timezone = $timezone;
     }
 
+    public function getEmails()
+    {
+        return $this->emails;
+    }
+
+    public function setEmails($emails)
+    {
+        $this->emails = $emails;
+    }
+
+    public function addEmail(Email $email)
+    {
+        $this->emails->add($email);
+    }
+
     public function getGlobalPermissions()
     {
         $permissions = array();
@@ -233,4 +236,32 @@ class User implements UserInterface
 
         return $permissions;
     }
+
+    public function getDefaultEmail()
+    {
+        foreach ($this->getEmails() as $email) {
+            if ($email->isDefault()) {
+                return $email->getEmail();
+            }
+        }
+    }
+
+    public function hasDefaultEmail()
+    {
+        return null !== $this->getDefaultEmail();
+    }
+
+    public function setDefaultEmail($mail)
+    {
+        if ($this->hasDefaultEmail()) {
+            throw new \LogicException(sprintf('User "%s" has already a default email address : "%s"', $this, $this->getDefaultEmail()));
+        }
+
+        $email = new Email();
+        $email->setEmail($mail);
+        $email->setUser($this);
+        $email->setIsDefault(true);
+        $this->addEmail($email);
+    }
+
 }

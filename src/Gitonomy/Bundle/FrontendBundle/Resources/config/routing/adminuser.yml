@@ -29,3 +29,15 @@ gitonomyfrontend_adminuser_projectroles_delete:
     defaults: { _controller: "GitonomyFrontendBundle:AdminUser:deleteUserRole" }
     requirements:
         id:  \d+
+
+gitonomyfrontend_adminuser_emails:
+    pattern: /{_locale}/adminuser/{userId}/emails
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:emails" }
+    requirements:
+        userId:  \d+
+
+gitonomyfrontend_adminuser_email_delete:
+    pattern: /{_locale}/adminuser/email/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:deleteEmail" }
+    requirements:
+        id:  \d+

@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 /**
  * Controller for user actions.
@@ -114,8 +115,88 @@ class AdminUserController extends BaseAdminController
         }
 
         return $this->render('GitonomyFrontendBundle:AdminRole:deleteUserRole.html.twig', array(
-            'object'       => $userRole,
-            'form'         => $form->createView(),
+            'object' => $userRole,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Action to create an email for an user
+     */
+    public function emailsAction($userId)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        if (!$user = $this->getRepository()->find($userId)) {
+            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
+        }
+
+        $email   = new Email();
+        $em      = $this->getDoctrine()->getEntityManager();
+        $request = $this->getRequest();
+
+        $form = $this->createForm('useremail', $email);
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $email->setUser($user);
+                $em->persist($email);
+                $em->flush();
+
+                $this->get('session')->setFlash('success',
+                    sprintf('%s.',
+                        $email->__toString()
+                    )
+                );
+
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                    'id' => $user->getId()
+                )));
+            }
+        }
+        return $this->render('GitonomyFrontendBundle:AdminUser:emails.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Action to delete an email for a user
+     */
+    public function deleteEmailAction($id)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $em         = $this->getDoctrine()->getEntityManager();
+        $repository = $em->getRepository('GitonomyCoreBundle:Email');
+
+        if (!$email = $repository->find($id)) {
+            throw new HttpException(404, sprintf('No Email found with id "%d".', $id));
+        }
+
+        $form    = $this->createFormBuilder()->getForm();
+        $request = $this->getRequest();
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em->remove($email);
+                $em->flush();
+
+                $this->get('session')->setFlash('success',
+                    sprintf('Email "%s" deleted.', $email->__toString())
+                );
+
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                    'id' => $email->getUser()->getId()
+                )));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:AdminUser:deleteEmail.html.twig', array(
+            'object' => $email,
+            'form'   => $form->createView(),
         ));
     }
 

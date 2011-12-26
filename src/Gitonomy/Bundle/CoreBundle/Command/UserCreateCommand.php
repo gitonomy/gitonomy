@@ -54,7 +54,7 @@ EOF
 
         $user->setUsername($input->getArgument('username'));
         $user->setPassword($input->getArgument('password'));
-        $user->setEmail($input->getArgument('email'));
+        $user->setDefaultEmail($input->getArgument('email'));
         $user->setFullname($input->getArgument('fullname'));
         $user->setTimezone($input->getArgument('timezone'));
         $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));

@@ -33,7 +33,7 @@ class UserCreateCommandTest extends CommandTestCase
 
         $this->assertInstanceOf('Gitonomy\Bundle\CoreBundle\Entity\User', $user);
 
-        $this->assertEquals('foo@example.org', $user->getEmail());
+        $this->assertEquals('foo@example.org', $user->getDefaultEmail());
         $this->assertEquals('Foo', $user->getFullname());
     }
 }

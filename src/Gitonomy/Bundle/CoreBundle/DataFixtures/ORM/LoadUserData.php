@@ -9,11 +9,13 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 /**
  * Loads the fixtures for user object.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <julien@jdidier.net>
  */
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -40,7 +42,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setFullname('Admin');
-        $admin->setEmail('admin@example.org');
+        $email = new Email($admin);
+        $admin->setDefaultEmail('admin@example.org');
         $admin->setTimezone('Europe/Paris');
         $this->setPassword($admin, 'admin');
         $admin->addUserRoleGlobal($this->getReference('role-admin'));
@@ -50,7 +53,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $lead = new User();
         $lead->setUsername('lead');
         $lead->setFullname('Lead');
-        $lead->setEmail('lead@example.org');
+        $lead->setDefaultEmail('lead@example.org');
         $lead->setTimezone('Europe/Paris');
         $this->setPassword($lead, 'lead');
         $manager->persist($lead);
@@ -59,7 +62,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $alice = new User();
         $alice->setUsername('alice');
         $alice->setFullname('Alice');
-        $alice->setEmail('alice@example.org');
+        $alice->setDefaultEmail('alice@example.org');
         $alice->setTimezone('Europe/Paris');
         $this->setPassword($alice, 'alice');
         $manager->persist($alice);
@@ -68,7 +71,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $bob = new User();
         $bob->setUsername('bob');
         $bob->setFullname('Bob');
-        $bob->setEmail('bob@example.org');
+        $bob->setDefaultEmail('bob@example.org');
         $bob->setTimezone('Europe/Paris');
         $this->setPassword($bob, 'bob');
         $manager->persist($bob);

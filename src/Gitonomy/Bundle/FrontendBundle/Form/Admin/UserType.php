@@ -13,7 +13,6 @@ class UserType extends AbstractType
         $builder
             ->add('username', 'text')
             ->add('fullname', 'text')
-            ->add('email', 'email')
             ->add('timezone', 'timezone')
             ->add('userRolesGlobal', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',

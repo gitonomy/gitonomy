@@ -17,11 +17,3 @@
     {% endif %}
 {% endspaceless %}
 {% endblock field_errors %}
-
-{% block adminuserrole_widget %}
-    {% if prototype is defined %}
-        {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
-    {% endif %}
-    {{ block('form_widget') }}
-    <input type="button" class="discard btn danger" value="Remove" />
-{% endblock adminuserrole_widget %}
