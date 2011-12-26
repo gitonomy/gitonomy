@@ -72,6 +72,13 @@ EOF
         $shellHandler = $this->getContainer()->get('gitonomy_core.git.shell_handler');
         $originalCommand = $shellHandler->getOriginalCommand();
 
+        if (null === $originalCommand)
+        {
+            $this->outputUserInformations($output, $user);
+
+            return;
+        }
+
         if (!preg_match('#^(git-(receive|upload)-pack) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
             throw new \RuntimeException('Action seems illegal: '.$originalCommand);
         }
@@ -79,12 +86,37 @@ EOF
         $command = $vars[1];
         $project = $this->getProject($vars[3]);
 
-        $this->checkPermission($user, $project, $command);
-
         $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $command, array(
             'gitonomy_project' => $project->getSlug(),
             'gitonomy_user'    => $user->getUsername(),
         ));
+    }
+
+    protected function outputUserInformations(OutputInterface $output, User $user)
+    {
+        $projectName     = $this->getContainer()->getParameter('gitonomy_frontend.project.name');
+        $projectBaseline = $this->getContainer()->getParameter('gitonomy_frontend.project.baseline');
+        $sshAccess       = $this->getContainer()->getParameter('gitonomy_frontend.ssh_access');
+
+        $output->writeln(sprintf("<info>%s</info> - %s", $projectName, $projectBaseline));
+        $output->writeln("");
+        $output->writeln("You are identified as ".$user->getUsername());
+        $output->writeln("");
+
+        $projectRoles = $user->getProjectRoles();
+
+        $output->writeln(sprintf("   %-32s %-32s %s", "Project", "Your role", "Checkout URL"));
+        $output->writeln(sprintf("   %-32s %-32s %s", "-------", "---------", "------------"));
+        foreach ($projectRoles as $projectRole)
+        {
+            $projectName = $projectRole->getProject()->getName();
+            $projectSlug = $projectRole->getProject()->getSlug();
+            $projectUrl  = $sshAccess.':'.$projectSlug.'.git';
+            $roleName    = $projectRole->getRole()->getName();
+            $output->writeln(sprintf("   %-32s %-32s %s", $projectName, $roleName, $projectUrl));
+        }
+
+        $output->writeln("");
     }
 
     /**

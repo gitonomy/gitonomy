@@ -32,7 +32,7 @@ class ShellHandler
      */
     public function getOriginalCommand()
     {
-        return $_SERVER['SSH_ORIGINAL_COMMAND'];
+        return isset($_SERVER['SSH_ORIGINAL_COMMAND']) ? $_SERVER['SSH_ORIGINAL_COMMAND'] : null;
     }
 
     /**
