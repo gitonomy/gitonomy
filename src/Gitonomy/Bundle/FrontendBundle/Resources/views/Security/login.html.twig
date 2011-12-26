@@ -16,7 +16,7 @@
     {% if error %}
         <div class="alert-message warning">
             <p>
-                <strong>Unable to login:</strong>
+                <strong>{{ 'security.login_unable'|trans({}, 'security') }}:</strong>
                 {{ error.message }}
             </p>
         </div>
@@ -24,20 +24,20 @@
     <form class="form-stacked" action="{{ path('gitonomyfrontend_security_loginCheck') }}" method="POST" novalidate>
         <div class="well">
             <div class="clearfix">
-                <label for="username">Username :</label>
+                <label for="username">{{ 'security.username'|trans({}, 'security') }}:</label>
                 <input type="text" id="username" name="_username" value="{{ last_username }}" />
             </div>
             <div class="clearfix">
-                <label for="password">Password :</label>
+                <label for="password">{{ 'security.password'|trans({}, 'security') }}:</label>
                 <input type="password" id="password" name="_password" />
             </div>
             <div class="clearfix">
                 <input name="_remember_me" id="rememberMe" type="checkbox">
-                <label for="rememberMe" >{{ 'security.remember_me'|trans }}</label>
+                <label for="rememberMe" >{{ 'security.remember_me'|trans({}, 'security') }}</label>
             </div>
 
             <p>
-                <input class="btn primary" type="submit" name="login" value="Login" />
+                <input class="btn primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" />
             </p>
         </div>
     </form>
