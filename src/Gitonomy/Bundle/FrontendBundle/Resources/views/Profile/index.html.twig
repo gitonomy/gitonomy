@@ -9,7 +9,13 @@
     </div>
     <ul>
         <li><strong>Username:</strong> {{ app.user.username }}</li>
-        <li><strong>Email:</strong> {{ app.user.email }}</li>
+        <li><strong>Emails:</strong>
+            <ul>
+                {% for email in app.user.emails %}
+                    <li>{{ email.email }}{% if email.isDefault %} <em>(default)</em>{% endif %}</li>
+                {% endfor %}
+            </ul>
+        </li>
     </ul>
     <hr />
     <form action="{{ path('gitonomyfrontend_profile_index') }}" method="POST" novalidate class="form-stacked">
