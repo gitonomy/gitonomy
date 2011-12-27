@@ -35,6 +35,7 @@ class Email
      * @ORM\Column(type="string",length=256,unique=true, nullable=false)
      *
      * @Assert\NotBlank(groups={"registration", "admin"})
+     * @Assert\Email(groups={"registration", "admin"})
      */
     protected $email;
 
