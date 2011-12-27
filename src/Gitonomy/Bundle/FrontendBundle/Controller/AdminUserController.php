@@ -56,7 +56,7 @@ class AdminUserController extends BaseAdminController
 
         $form = $this->createForm('adminuserroleproject', $userRoleProject, array(
             'usedProjects' => $usedProjects,
-            'from'         => 'user'
+            'from'         => 'user',
         ));
 
         if ('POST' == $request->getMethod()) {
@@ -66,11 +66,7 @@ class AdminUserController extends BaseAdminController
                 $em->persist($userRoleProject);
                 $em->flush();
 
-                $this->get('session')->setFlash('success',
-                    sprintf('%s.',
-                        $userRoleProject->__toString()
-                    )
-                );
+                $this->get('session')->setFlash('success', sprintf('"%s".', $userRoleProject->__toString()));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
                     'id' => $user->getId()
@@ -135,7 +131,9 @@ class AdminUserController extends BaseAdminController
         $em      = $this->getDoctrine()->getEntityManager();
         $request = $this->getRequest();
 
-        $form = $this->createForm('useremail', $email);
+        $form = $this->createForm('useremail', $email, array(
+            'validation_groups' => 'admin',
+        ));
 
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
@@ -145,9 +143,15 @@ class AdminUserController extends BaseAdminController
                 $em->flush();
 
                 $this->get('session')->setFlash('success',
-                    sprintf('%s.',
-                        $email->__toString()
-                    )
+                    sprintf('Email "%s" added.', $email->__toString())
+                );
+
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                    'id' => $user->getId()
+                )));
+            } else {
+                $this->get('session')->setFlash('warning',
+                    sprintf('Email you filled is not valid.')
                 );
 
                 return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
@@ -155,10 +159,47 @@ class AdminUserController extends BaseAdminController
                 )));
             }
         }
+
         return $this->render('GitonomyFrontendBundle:AdminUser:emails.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * Action to make as default an email
+     */
+    public function defaultEmailAction($id)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $em         = $this->getDoctrine()->getEntityManager();
+        $repository = $em->getRepository('GitonomyCoreBundle:Email');
+
+        if (!$email = $repository->find($id)) {
+            throw new HttpException(404, sprintf('No Email found with id "%d".', $id));
+        }
+
+        $user = $email->getUser();
+
+        foreach ($user->getEmails() as $mail) {
+            if ($mail->isDefault()) {
+                $mail->setIsDefault(false);
+            }
+        }
+
+        $email->setIsDefault(true);
+
+        $em->flush();
+
+        $this->get('session')->setFlash('success',
+            sprintf('Email "%s" as default.', $email->__toString())
+        );
+
+        return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+            'id' => $user->getId()
+        )));
+
     }
 
     /**

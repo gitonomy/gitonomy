@@ -10,9 +10,6 @@ class UserEmailType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('email', 'email');
-        if ('register' !== $options['action']) {
-            $builder->add('isDefault', 'checkbox');
-        }
     }
 
     public function getName()
@@ -24,7 +21,6 @@ class UserEmailType extends AbstractType
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Email',
-            'action'     => '',
         );
     }
 }
