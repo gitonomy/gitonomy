@@ -50,7 +50,7 @@ abstract class BaseAdminController extends BaseController
                     )
                 );
 
-                return $this->redirect($this->generateUrl($this->getRouteName('list')));
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array('id' => $object->getId())));
             }
         }
 
@@ -86,7 +86,7 @@ abstract class BaseAdminController extends BaseController
                     )
                 );
 
-                return $this->redirect($this->generateUrl($this->getRouteName('list')));
+                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array('id' => $object->getId())));
             }
         }
 

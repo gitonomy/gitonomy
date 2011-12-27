@@ -84,7 +84,7 @@ class AdminRoleControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/5/edit'));
     }
 
     public function testCreateNameExists()
@@ -141,7 +141,7 @@ class AdminRoleControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/1/edit'));
         $this->client->followRedirect();
         $this->assertEquals(403, $this->client->getResponse()->getStatusCode());
     }

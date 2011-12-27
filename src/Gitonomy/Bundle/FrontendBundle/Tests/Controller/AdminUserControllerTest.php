@@ -85,7 +85,7 @@ class AdminUserControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/6/edit'));
     }
 
     public function testCreateEmailExists()
@@ -168,7 +168,7 @@ class AdminUserControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/4/edit'));
     }
 
 

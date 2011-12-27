@@ -99,7 +99,7 @@ class AdminProjectControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/5/edit'));
     }
 
     public function testCreateNameExists()
@@ -155,7 +155,7 @@ class AdminProjectControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/1/edit'));
     }
 
     public function testEditRoleProject()
