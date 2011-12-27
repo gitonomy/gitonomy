@@ -38,11 +38,11 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
 
         $form = $crawler->filter('form input[type=submit]')->form(array(
-            'user_registration[username]'         => 'test',
-            'user_registration[fullname]'         => 'Test example',
-            'user_registration[defaultEmail]'     => 'test@example.org',
-            'user_registration[password][first]'  => 'test',
-            'user_registration[password][second]' => 'test',
+            'user_registration[username]'            => 'test',
+            'user_registration[fullname]'            => 'Test example',
+            'user_registration[defaultEmail][email]' => 'test@example.org',
+            'user_registration[password][first]'     => 'test',
+            'user_registration[password][second]'    => 'test',
         ));
 
         $crawler  = $this->client->submit($form);

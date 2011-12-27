@@ -41,7 +41,7 @@ class Email
     /**
      * @ORM\Column(name="is_default", type="boolean")
      *
-     * @Assert\NotBlank(groups={"registration", "admin"})
+     * @Assert\NotBlank(groups={"admin"})
      */
     protected $isDefault;
 

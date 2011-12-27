@@ -251,14 +251,12 @@ class User implements UserInterface
         return null !== $this->getDefaultEmail();
     }
 
-    public function setDefaultEmail($mail)
+    public function setDefaultEmail(Email $email)
     {
         if ($this->hasDefaultEmail()) {
             throw new \LogicException(sprintf('User "%s" has already a default email address : "%s"', $this, $this->getDefaultEmail()));
         }
 
-        $email = new Email();
-        $email->setEmail($mail);
         $email->setUser($this);
         $email->setIsDefault(true);
         $this->addEmail($email);

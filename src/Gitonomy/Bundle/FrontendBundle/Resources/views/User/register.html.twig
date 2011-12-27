@@ -6,7 +6,13 @@
 {% block content %}
     <h1>Register</h1>
     <form class="form-stacked" action="{{ path('gitonomyfrontend_user_register') }}" method="POST" novalidate>
-        {{ form_widget(form) }}
-        <input type="submit" class="btn" value="Register" />
+        {{ form_errors(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.fullname) }}
+        {{ form_row(form.defaultEmail.email) }}
+        {{ form_row(form.timezone) }}
+        {{ form_row(form.password) }}
+        {{ form_rest(form) }}
+        <input type="submit" class="btn success" value="Register" />
     </form>
 {% endblock %}

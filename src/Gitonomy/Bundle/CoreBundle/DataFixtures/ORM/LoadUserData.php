@@ -42,8 +42,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setFullname('Admin');
-        $email = new Email($admin);
-        $admin->setDefaultEmail('admin@example.org');
+        $email = new Email();
+        $email->setEmail('admin@example.org');
+        $admin->setDefaultEmail($email);
         $admin->setTimezone('Europe/Paris');
         $this->setPassword($admin, 'admin');
         $admin->addUserRoleGlobal($this->getReference('role-admin'));
@@ -53,7 +54,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $lead = new User();
         $lead->setUsername('lead');
         $lead->setFullname('Lead');
-        $lead->setDefaultEmail('lead@example.org');
+        $email = new Email();
+        $email->setEmail('lead@example.org');
+        $lead->setDefaultEmail($email);
         $lead->setTimezone('Europe/Paris');
         $this->setPassword($lead, 'lead');
         $manager->persist($lead);
@@ -62,7 +65,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $alice = new User();
         $alice->setUsername('alice');
         $alice->setFullname('Alice');
-        $alice->setDefaultEmail('alice@example.org');
+        $email = new Email();
+        $email->setEmail('alice@example.org');
+        $alice->setDefaultEmail($email);
         $alice->setTimezone('Europe/Paris');
         $this->setPassword($alice, 'alice');
         $manager->persist($alice);
@@ -71,7 +76,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $bob = new User();
         $bob->setUsername('bob');
         $bob->setFullname('Bob');
-        $bob->setDefaultEmail('bob@example.org');
+        $email = new Email();
+        $email->setEmail('bob@example.org');
+        $bob->setDefaultEmail($email);
         $bob->setTimezone('Europe/Paris');
         $this->setPassword($bob, 'bob');
         $manager->persist($bob);

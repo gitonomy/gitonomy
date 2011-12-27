@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 /**
  * Shell command for creating a user.
@@ -48,13 +49,15 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em   = $this->getContainer()->get('doctrine')->getEntityManager();
-        $user = new User();
+        $em      = $this->getContainer()->get('doctrine')->getEntityManager();
+        $user    = new User();
+        $email   = new Email();
         $encoder = $this->getContainer()->get('security.encoder_factory')->getEncoder($user);
 
+        $email->setEmail($input->getArgument('email'));
         $user->setUsername($input->getArgument('username'));
         $user->setPassword($input->getArgument('password'));
-        $user->setDefaultEmail($input->getArgument('email'));
+        $user->setDefaultEmail($email);
         $user->setFullname($input->getArgument('fullname'));
         $user->setTimezone($input->getArgument('timezone'));
         $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
