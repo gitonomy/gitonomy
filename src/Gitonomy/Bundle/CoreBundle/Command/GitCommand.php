@@ -104,8 +104,8 @@ EOF
         }
 
         $this->getContainer()->get('gitonomy_core.git.shell_handler')->handle($project, $action, array(
-            'gitonomy_project' => $project->getSlug(),
-            'gitonomy_user'    => $user->getUsername(),
+            'GITONOMY_PROJECT' => $project->getSlug(),
+            'GITONOMY_USER'    => $user->getUsername(),
         ));
     }
 
