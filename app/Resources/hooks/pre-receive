@@ -1,34 +1,58 @@
-#!/usr/bin/env php
-<?php
-if (!isset($_SERVER['gitonomy_user']) || !isset($_SERVER['gitonomy_project'])) {
-   echo "Gitonomy context missing !";
+#!/bin/sh
+
+# Check the context informations
+if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
+    echo >&2 "Context informations missing"
+    exit 1
+fi
+
+# Gitonomy console
+command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
+
+check_reference()
+{
+	before="$(git rev-parse $1)"
+	after="$(git rev-parse $2)"
+	reference="$3"
+
+	case "$reference" in
+		refs/heads/*)
+			branch=$(expr "$reference" : "refs/heads/\(.*\)")
+			if [ "$after" = "0000000000000000000000000000000000000000" ]; then
+                GITONOMY_REQUEST="GIT_DELETE"
+			else
+    			if [ "$before" = "0000000000000000000000000000000000000000" ]; then
+                        GITONOMY_REQUEST="GIT_WRITE"
+                else
+                    if [ "$before" != "$(git merge-base $before $after)" ]; then
+                        GITONOMY_REQUEST="GIT_FORCE"
+                    else
+                        GITONOMY_REQUEST="GIT_WRITE"
+                    fi
+                fi
+			fi
+			;;
+		refs/tags/*)
+		    tag=$(expr "$reference" : "refs/tags/\(.*\)")
+			topictag=$(expr "$tag" : "\(.*/.*\)")
+			if [ 0 -ne $(expr "$after" : "0*$") ]; then
+                GITONOMY_REQUEST="GIT_DELETE"
+			fi
+			;;
+		*)
+			echo >&2 "Woops, I don't understand what you're meaning..."
+            exit 1
+			;;
+	esac
+
+    $command gitonomy:permission-check --project="$GITONOMY_PROJECT" "$GITONOMY_USER" "$GITONOMY_REQUEST"
+    if [ "$?" != 0 ]; then
+        echo  >&2 "Permission denied"
+        exit 1
+    fi
 }
 
-$username = $_SERVER['gitonomy_user'];
-$project  = $_SERVER['gitonomy_project'];
-
-$fp = fopen('php://stdin', 'r');
-while (!feof($fp)) {
-    $content .= fgets($fp, 4096);
-}
-fclose($fp);
-list($before, $after, $rev) = explode(' ', $content);
-
-$console = realpath(__DIR__.'/../../console');
-
-ob_start();
-system(sprintf(
-    'php %s gitonomy:pre-receive %s %s %s %s %s',
-    $console,
-    escapeshellarg($project),
-    escapeshellarg($username),
-    escapeshellarg($before),
-    escapeshellarg($after),
-    escapeshellarg($rev)
-));
-$result = ob_get_clean();
-
-if (0 !== $return) {
-    echo $result;
-    exit(1);
-}
+while read before after reference
+do
+    check_reference $before $after $reference
+done
