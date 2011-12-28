@@ -37,10 +37,6 @@ class RepositoryPool
     {
         $path = $this->getPath($event->getProject());
 
-        if (is_dir($path)) {
-            throw new \RuntimeException(sprintf('The folder "%s" already exists', $path));
-        }
-
         Git\Admin::init($path);
     }
 
