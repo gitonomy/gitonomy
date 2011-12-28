@@ -18,4 +18,4 @@
 "GIT_READ":           "Can read the repository"
 "GIT_WRITE":          "Can push to the repository"
 "GIT_FORCE":          "Can push non fast-forwardly"
-"GIT_MAIN":           "Can write on the main branch of repository"
+"GIT_DELETE":         "Can delete branches/tags"

@@ -42,7 +42,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleLeadDev->addPermission($this->getReference('permission-GIT_READ'));
         $roleLeadDev->addPermission($this->getReference('permission-GIT_WRITE'));
         $roleLeadDev->addPermission($this->getReference('permission-GIT_FORCE'));
-        $roleLeadDev->addPermission($this->getReference('permission-GIT_MAIN'));
+        $roleLeadDev->addPermission($this->getReference('permission-GIT_DELETE'));
         $manager->persist($roleLeadDev);
         $this->setReference('role-lead-developer', $roleLeadDev);
 
