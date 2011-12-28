@@ -25,8 +25,8 @@ class HookInjector
         $repository = $this->repositoryPool->getGitRepository($event->getProject());
         $hooks = $repository->getHooks();
 
-        foreach ($this->hooks as $name => $content) {
-            $hooks->setSymlink($name, $content);
+        foreach ($this->hooks as $name => $file) {
+            $hooks->setSymlink($name, $file);
         }
     }
 }
