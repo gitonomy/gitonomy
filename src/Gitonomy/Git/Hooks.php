@@ -31,7 +31,9 @@ class Hooks
             throw new \RuntimeException(sprintf('A hook "%s" is already defined', $name));
         }
 
-        symlink($file, $path);
+        if (false === symlink($file, $path)) {
+            throw new \RuntimeException(sprintf('Unable to create hook "%s"', $name, $path));
+        }
     }
 
     function set($name, $content)
