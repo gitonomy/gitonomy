@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Client as BaseClient;
 
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 use Gitonomy\Bundle\CoreBundle\Git\HookInjector;
+use Gitonomy\Bundle\CoreBundle\Git\ShellHandler;
 
 /**
  * Test client for Gitonomy application.
@@ -23,6 +24,11 @@ class Client extends BaseClient
      * The repository pool
      */
     protected $repositoryPool;
+
+    /**
+     * The shell handler
+     */
+    protected $shellHandler;
 
     /**
      * The hook injector
@@ -92,6 +98,14 @@ class Client extends BaseClient
     }
 
     /**
+     * Defines the shell handler to use for the client.
+     */
+    public function setShellHandler(ShellHandler $shellHandler)
+    {
+        $this->shellHandler = $shellHandler;
+    }
+
+    /**
      * Starts the isolation process of the client.
      */
     public function startIsolation()
@@ -108,6 +122,10 @@ class Client extends BaseClient
 
         if (null !== $this->hookInjector) {
             $this->getContainer()->set('gitonomy_core.git.hook_injector', $this->hookInjector);
+        }
+
+        if (null !== $this->shellHandler) {
+            $this->getContainer()->set('gitonomy_core.git.shell_handler', $this->shellHandler);
         }
 
         if (false === $this->requested) {
