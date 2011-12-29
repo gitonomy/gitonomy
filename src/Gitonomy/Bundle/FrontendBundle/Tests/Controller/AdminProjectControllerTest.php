@@ -71,16 +71,6 @@ class AdminProjectControllerTest extends WebTestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testCreateAsAdmin()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Create new project', $crawler->filter('h1')->text());
-    }
-
     public function testCreate()
     {
         $this->repositoryPool
@@ -92,6 +82,9 @@ class AdminProjectControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/en_US/adminproject/create');
         $response = $this->client->getResponse();
 
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('Create new project', $crawler->filter('h1')->text());
+
         $form = $crawler->filter('#project input[type=submit]')->form(array(
             'adminproject[name]' => 'test',
             'adminproject[slug]' => 'test',
@@ -99,7 +92,12 @@ class AdminProjectControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/5/edit'));
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('test');
+
+        $this->assertNotEmpty($project);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/edit'));
     }
 
     public function testCreateNameExists()
@@ -119,35 +117,38 @@ class AdminProjectControllerTest extends WebTestCase
 
     public function testEditAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/edit');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
 
     public function testEditAsAlice()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
         $this->client->connect('alice');
         $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testEditAsAdmin()
+    public function testEdit()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
         $this->client->connect('admin');
+
         $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Edit project "Foobar"', $crawler->filter('h1')->text());
         $this->assertEquals(0, $crawler->filter("#adminproject_slug")->count(), 'no slug field when project edition');
-    }
-
-    public function testEditFoobar()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
-        $response = $this->client->getResponse();
 
         $form = $crawler->filter('#project input[type=submit]')->form(array(
             'adminproject[name]' => 'test',
@@ -156,72 +157,99 @@ class AdminProjectControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/1/edit'));
+
+        $em->refresh($project);
+        $this->assertEquals('test', $project->getName());
     }
 
     public function testEditRoleProject()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+        $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
+        $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
+
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/edit');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_role_project input[type=submit]')->form(array(
-            'adminuserroleproject[user]' => '1',
-            'adminuserroleproject[role]' => '4',
+            'adminuserroleproject[user]' => $user->getId(),
+            'adminuserroleproject[role]' => $role->getId(),
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/1/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/edit'));
+
+        $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
+            'user'    => $user,
+            'project' => $project
+        ));
+        $this->assertEquals($userRole->getRole()->getName(), $role->getName());
     }
 
     public function testDeleteProjectRole()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+        $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('alice');
+        $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
+            'user'    => $user,
+            'project' => $project
+        ));
+
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/userrole/4/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/userrole/'.$userRole->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/2/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/edit'));
     }
 
     public function testDeleteAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/delete');
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/delete');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
 
     public function testDeleteAsAlice()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/1/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/delete');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testDeleteAsAdmin()
+    public function testDeleteFoobar()
     {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
+
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/2/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/delete');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Delete project "Barbaz" ?', $crawler->filter('h1')->text());
-    }
-
-    public function testDeleteFoobar()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/2/delete');
-        $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/list'));
+
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
+        $this->assertNull($project);
     }
 }

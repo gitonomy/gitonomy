@@ -52,7 +52,7 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
 
-    public function testCreateAsAlice()
+    public function testCreateAsConnected()
     {
         $this->client->connect('alice');
         $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
@@ -60,32 +60,30 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testCreateAsAdmin()
+    public function testCreate()
     {
         $this->client->connect('admin');
+
         $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Create new user', $crawler->filter('h1')->text());
-    }
-
-    public function testCreate()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
-        $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user input[type=submit]')->form(array(
             'adminuser[username]'           => 'test',
             'adminuser[fullname]'           => 'test',
             'adminuser[timezone]'           => 'Europe/Paris',
-            'adminuser[userRolesGlobal][1]' => false,
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/6/edit'));
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('test');
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
+
+        $this->assertNotEmpty($user);
     }
 
     public function testCreateEmailExists()
@@ -149,26 +147,21 @@ class AdminUserControllerTest extends WebTestCase
     public function testEditAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/edit');
+
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/edit');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Edit user "Admin"', $crawler->filter('h1')->text());
-    }
+        $this->assertEquals('Edit user "Bob"', $crawler->filter('h1')->text());
 
-    public function testEditBob()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/4/edit');
-        $response = $this->client->getResponse();
-
-        $form = $crawler->filter('#user input[type=submit]')->form(array(
-            'adminuser[userRolesGlobal][1]' => true,
-        ));
+        $form = $crawler->filter('#user input[type=submit]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/4/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
     }
 
 
@@ -190,7 +183,11 @@ class AdminUserControllerTest extends WebTestCase
 
     public function testDeleteAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/delete');
+
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
@@ -198,25 +195,23 @@ class AdminUserControllerTest extends WebTestCase
     public function testDeleteAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/delete');
+
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    public function testDeleteAsAdmin()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/delete');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete user "Admin" ?', $crawler->filter('h1')->text());
     }
 
     public function testDeleteBob()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/4/delete');
+
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
@@ -229,13 +224,22 @@ class AdminUserControllerTest extends WebTestCase
     public function testDeleteUserRole()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/projectrole/3/delete');
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+
+        $user        = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('alice');
+        $project     = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+        $projectRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
+            'user'    => $user,
+            'project' => $project
+        ));
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/projectrole/'.$projectRole->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/4/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
     }
 }

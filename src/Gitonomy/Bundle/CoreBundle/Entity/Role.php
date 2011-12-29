@@ -43,7 +43,7 @@ class Role
     protected $isGlobal;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="role")
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="role", cascade={"remove"})
      */
     protected $userRolesProject;
 
