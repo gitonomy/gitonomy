@@ -123,4 +123,39 @@ class GitCommandTest extends CommandTestCase
 
         $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
     }
+
+    public function testReaderCannotPush()
+    {
+        $this->shellHandler
+            ->expects($this->once())
+            ->method('getOriginalCommand')
+            ->will($this->returnValue('git-receive-pack \'foobar.git\''))
+        ;
+
+        $this->shellHandler
+            ->expects($this->never())
+            ->method('handle')
+        ;
+
+        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
+
+        $this->assertContains('You are not allowed', $return);
+    }
+
+    public function testReaderCanPull()
+    {
+        $this->shellHandler
+            ->expects($this->once())
+            ->method('getOriginalCommand')
+            ->will($this->returnValue('git-upload-pack \'foobar.git\''))
+        ;
+
+        $this->shellHandler
+            ->expects($this->once())
+            ->method('handle')
+        ;
+
+        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
+    }
+
 }

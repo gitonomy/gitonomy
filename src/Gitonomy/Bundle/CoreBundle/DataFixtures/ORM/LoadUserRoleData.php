@@ -31,9 +31,10 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
     {
         return array(
             // Foobar
-            array('user-lead',  'role-lead-developer', 'project-foobar'),
-            array('user-alice', 'role-developer',      'project-foobar'),
-            array('user-bob',   'role-developer',      'project-foobar'),
+            array('user-lead',    'role-lead-developer',  'project-foobar'),
+            array('user-alice',   'role-developer',       'project-foobar'),
+            array('user-bob',     'role-developer',       'project-foobar'),
+            array('user-charlie', 'role-project-manager', 'project-foobar'),
             // Barbaz
             array('user-alice', 'role-lead-developer', 'project-barbaz')
         );
