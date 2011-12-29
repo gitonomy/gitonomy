@@ -36,11 +36,11 @@ class GitCommandTest extends CommandTestCase
             ->will($this->returnValue(null))
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no alice');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no alice');
 
-        $this->assertContains('You are identified as alice', $return);
-        $this->assertRegexp('/Foobar[ ]+Developer[ ]/', $return);
-        $this->assertRegexp('/Barbaz[ ]+Lead developer[ ]/', $return);
+        $this->assertContains('You are identified as alice', $output);
+        $this->assertRegexp('/Foobar[ ]+Developer[ ]/', $output);
+        $this->assertRegexp('/Barbaz[ ]+Lead developer[ ]/', $output);
     }
 
     public function testIllegalAction()
@@ -51,9 +51,9 @@ class GitCommandTest extends CommandTestCase
             ->will($this->returnValue('git-bla-pack \'foobar.git\''))
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no alice');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no alice');
 
-        $this->assertContains('Action seems illegal', $return);
+        $this->assertContains('Action seems illegal', $output);
     }
 
     public function testPullNonAuthorizedProject()
@@ -69,9 +69,9 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
 
-        $this->assertContains('You are not allowed', $return);
+        $this->assertContains('You are not allowed', $output);
     }
 
     public function testPullAuthorizedProject()
@@ -87,7 +87,7 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
     }
 
     public function testPushNonAuthorizedProject()
@@ -103,9 +103,9 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
 
-        $this->assertContains('You are not allowed', $return);
+        $this->assertContains('You are not allowed', $output);
     }
 
     public function testPushAuthorizedProject()
@@ -121,7 +121,7 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no bob');
     }
 
     public function testReaderCannotPush()
@@ -137,9 +137,9 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
 
-        $this->assertContains('You are not allowed', $return);
+        $this->assertContains('You are not allowed', $output);
     }
 
     public function testReaderCanPull()
@@ -155,7 +155,7 @@ class GitCommandTest extends CommandTestCase
             ->method('handle')
         ;
 
-        $return = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git --stderr=no charlie');
     }
 
 }

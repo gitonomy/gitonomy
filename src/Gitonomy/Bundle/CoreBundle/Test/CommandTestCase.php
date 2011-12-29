@@ -27,15 +27,15 @@ abstract class CommandTestCase extends WebTestCase
         $input = new StringInput($command);
         $output = new StreamOutput($fp);
 
-        $application->run($input, $output);
+        $statusCode = $application->run($input, $output);
 
         fseek($fp, 0);
-        $output = '';
+        $result = '';
         while (!feof($fp)) {
-            $output = fread($fp, 4096);
+            $result = fread($fp, 4096);
         }
         fclose($fp);
 
-        return $output;
+        return array($statusCode, $result);
     }
 }

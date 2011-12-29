@@ -43,7 +43,7 @@ class ProjectCreateCommandTest extends CommandTestCase
             ->method('onProjectCreate')
         ;
 
-        $output = $this->runCommand($this->client, 'gitonomy:project-create "Sample name" sample-name');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:project-create "Sample name" sample-name');
 
         $this->assertEquals("Project Sample name was created!\n", $output);
 
@@ -69,7 +69,7 @@ class ProjectCreateCommandTest extends CommandTestCase
             ->method('onProjectCreate')
         ;
 
-        $output = $this->runCommand($this->client, 'gitonomy:project-create --main-branch=develop "Sample name" sample-name');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:project-create --main-branch=develop "Sample name" sample-name');
 
         $this->assertEquals("Project Sample name was created!\n", $output);
 

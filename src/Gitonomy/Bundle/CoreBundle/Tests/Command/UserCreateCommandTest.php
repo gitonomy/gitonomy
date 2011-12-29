@@ -21,7 +21,7 @@ class UserCreateCommandTest extends CommandTestCase
 
     public function testSimpleCase()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-create foo bar "foo@example.org" "Foo"');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-create foo bar "foo@example.org" "Foo"');
 
         $this->assertEquals("The user foo was successfully created!\n", $output);
 

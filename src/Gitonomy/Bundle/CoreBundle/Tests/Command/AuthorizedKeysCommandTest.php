@@ -21,7 +21,7 @@ class AuthorizedKeysCommandTest extends CommandTestCase
 
     public function testDefaultDoesNotInstall()
     {
-        $output = $this->runCommand($this->client, "gitonomy:authorized-keys");
+        list($statusCode ,$output) = $this->runCommand($this->client, "gitonomy:authorized-keys");
 
         $this->assertContains('app/console gitonomy:git alice" alice-key',           $output);
         $this->assertContains('app/console gitonomy:git bob" bob-key-installed',     $output);
@@ -42,7 +42,7 @@ class AuthorizedKeysCommandTest extends CommandTestCase
 
     public function testOptionInstall()
     {
-        $output = $this->runCommand($this->client, "gitonomy:authorized-keys -i");
+        list($statusCode ,$output) = $this->runCommand($this->client, "gitonomy:authorized-keys -i");
 
         $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
 

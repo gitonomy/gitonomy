@@ -21,7 +21,7 @@ class UserSshKeyCreateCommandTest extends CommandTestCase
 
     public function testSimpleCase()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-ssh-key-create "alice" foo bar');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-ssh-key-create "alice" foo bar');
 
         $this->assertEquals("The key named foo was successfully added to user alice!\n", $output);
 
@@ -40,7 +40,7 @@ class UserSshKeyCreateCommandTest extends CommandTestCase
 
     public function testNonExistingUser()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-ssh-key-create "foo" bar baz');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-ssh-key-create "foo" bar baz');
 
         $this->assertContains('User with username "foo" not found', $output);
     }

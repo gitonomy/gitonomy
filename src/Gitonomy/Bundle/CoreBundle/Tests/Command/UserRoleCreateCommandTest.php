@@ -21,7 +21,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
     public function testProjectRole()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-role-create bob Developer barbaz');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Developer barbaz');
 
         $this->assertEquals("Added succesfully Bob as Developer to Barbaz\n", $output);
 
@@ -40,7 +40,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
     public function testGlobalRole()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-role-create bob Administrator');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Administrator');
 
         $this->assertEquals("Added succesfully Bob as Administrator\n", $output);
 
@@ -54,14 +54,14 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
     public function testProjectRoleIncorrect()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-role-create bob Administrator barbaz');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Administrator barbaz');
 
         $this->assertContains("Cannot add a global role to a project", $output);
     }
 
     public function testGlobalRoleIncorrect()
     {
-        $output = $this->runCommand($this->client, 'gitonomy:user-role-create bob Developer');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Developer');
 
         $this->assertContains("Cannot add a project role without project slug", $output);
     }
