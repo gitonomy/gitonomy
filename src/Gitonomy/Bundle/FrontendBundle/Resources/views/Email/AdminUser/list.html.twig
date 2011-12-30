@@ -18,7 +18,9 @@
                     <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                     <td>
                         {% if not email.isDefault %}
-                            <a href="{{ path('gitonomyfrontend_email_adminuser_default', {'id': email.id }) }}" class="btn">as default</a>
+                            {% if email.isActived %}
+                                <a href="{{ path('gitonomyfrontend_email_adminuser_default', {'id': email.id }) }}" class="btn">as default</a>
+                            {% endif %}
                             <a href="{{ path('gitonomyfrontend_email_adminuser_delete', {'id': email.id }) }}" class="btn danger">delete</a>
                         {% endif %}
                     </td>
