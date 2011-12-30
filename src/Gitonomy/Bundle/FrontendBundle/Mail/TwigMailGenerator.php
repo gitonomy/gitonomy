@@ -3,6 +3,8 @@
 namespace Gitonomy\Bundle\FrontendBundle\Mail;
 
 /**
+ * Service to generate mail templating from twig
+ *
  * @author Julien DIDIER <julien@jdidier.net>
  */
 class TwigMailGenerator

@@ -3,7 +3,7 @@
 namespace Gitonomy\Bundle\FrontendBundle\Mail;
 
 /**
- * Controller for repositories actions.
+ * Service to send emails
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
@@ -11,11 +11,15 @@ class Mailer
 {
     protected $mailer;
     protected $mailGenerator;
+    protected $mailFrom;
+    protected $mailTo;
 
-    public function __construct(\Swift_Mailer $mailer, TwigMailGenerator $mailGenerator)
+    public function __construct(\Swift_Mailer $mailer, TwigMailGenerator $mailGenerator, array $parameters)
     {
         $this->mailer        = $mailer;
         $this->mailGenerator = $mailGenerator;
+        $this->mailFrom      = $parameters['from'];
+        $this->mailTo        = $parameters['to'];
     }
 
     public function renderMessage($template, $parameters = array())
@@ -39,6 +43,10 @@ class Mailer
 
     protected function setFrom(\Swift_Message $message, $from)
     {
+        if(null === $from) {
+            $from = $this->mailFrom;
+        }
+
         if (is_array($from)) {
             list($email, $name) = $from;
             $message->setFrom($email, $name);
@@ -50,6 +58,10 @@ class Mailer
 
     protected function setTo(\Swift_Message $message, $to)
     {
+        if(null === $to) {
+            $to = $this->mailTo;
+        }
+
         if (is_array($to)) {
             list($email, $name) = $to;
             $message->setTo($email, $name);

@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="gitonomy_frontend.mail_generator.class">Gitonomy\Bundle\FrontendBundle\Mail\TwigMailGenerator</parameter>
         <parameter key="gitonomy_frontend.mailer.class">Gitonomy\Bundle\FrontendBundle\Mail\Mailer</parameter>
-        <parameter key="gitonomy_frontend.mail_sender.class">Gitonomy\Bundle\FrontendBundle\Mail\MailSender</parameter>
     </parameters>
     <services>
         <service id="gitonomy_frontend.mail_generator" class="%gitonomy_frontend.mail_generator.class%">
@@ -16,9 +15,6 @@
         <service id="gitonomy_frontend.mailer" class="%gitonomy_frontend.mailer.class%">
             <argument type="service" id="mailer" />
             <argument type="service" id="gitonomy_frontend.mail_generator" />
-        </service>
-        <service id="gitonomy_frontend.mail_sender" class="%gitonomy_frontend.mail_sender.class%" public="true">
-            <argument type="service" id="gitonomy_frontend.mailer" />
             <argument>%gitonomy_frontend.mailer%</argument>
         </service>
     </services>
