@@ -7,6 +7,21 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class UserRepository extends EntityRepository
 {
+    public function findOneByEmail($email)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->leftJoin('u.emails', 'e')
+            ->where('e.email = :email')
+            ->setParameters(array(
+                'email' => $email
+            ))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
     public function findByProject(Entity\Project $project)
     {
         $em    = $this->getEntityManager();

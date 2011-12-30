@@ -66,6 +66,16 @@ class User implements UserInterface
     protected $timezone;
 
     /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    protected $forgotPasswordToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $forgotPasswordCreatedAt;
+
+    /**
      * @ORM\OneToMany(targetEntity="UserSshKey", mappedBy="user", cascade={"persist", "remove"}))
      */
     protected $sshKeys;
@@ -241,7 +251,7 @@ class User implements UserInterface
     {
         foreach ($this->getEmails() as $email) {
             if ($email->isDefault()) {
-                return $email->getEmail();
+                return $email;
             }
         }
     }
@@ -262,4 +272,29 @@ class User implements UserInterface
         $this->addEmail($email);
     }
 
+    public function getForgotPasswordToken()
+    {
+        return $this->forgotPasswordToken;
+    }
+
+    public function setForgotPasswordToken($forgotPasswordToken)
+    {
+        $this->forgotPasswordToken = $forgotPasswordToken;
+    }
+
+    public function getForgotPasswordCreatedAt()
+    {
+        return $this->forgotPasswordCreatedAt;
+    }
+
+    public function setForgotPasswordCreatedAt(\DateTime $forgotPasswordCreatedAt)
+    {
+        $this->forgotPasswordCreatedAt = $forgotPasswordCreatedAt;
+    }
+
+    public function createForgotPasswordToken()
+    {
+        $this->forgotPasswordToken     = md5(uniqid().microtime());
+        $this->forgotPasswordCreatedAt = new \DateTime();
+    }
 }

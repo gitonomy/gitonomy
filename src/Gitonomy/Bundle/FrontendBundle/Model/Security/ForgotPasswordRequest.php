@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Gitonomy\Bundle\FrontendBundle\Validation\Constraints as GitonomyAssert;
 
-class ForgotPassword
+class ForgotPasswordRequest
 {
     /**
      * @Assert\NotBlank

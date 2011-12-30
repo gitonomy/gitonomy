@@ -5,7 +5,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class ForgotPasswordType extends AbstractType
+class ForgotPasswordRequestType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
@@ -14,6 +14,6 @@ class ForgotPasswordType extends AbstractType
 
     public function getName()
     {
-        return 'forgot_password';
+        return 'forgot_password_request';
     }
 }
