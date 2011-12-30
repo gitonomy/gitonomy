@@ -18,6 +18,8 @@
         </li>
     </ul>
     <hr />
+    {% render 'GitonomyFrontendBundle:Email:profileList' with {'userId': app.user.id} %}
+    <hr />
     <form action="{{ path('gitonomyfrontend_profile_index') }}" method="POST" novalidate class="form-stacked">
         {{ form_widget(form) }}
         <input class="btn primary" type="submit" value="Save all those informations" />

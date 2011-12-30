@@ -1,7 +1,7 @@
 <div class="page-header">
     <h2>Emails</h2>
 </div>
-<form class="form" action="{{ path('gitonomyfrontend_adminuser_emails', {'userId':user.id}) }}" method="POST" id="user_email" novalidate>
+<form class="form" action="{{ path('gitonomyfrontend_email_profile_list', {'userId':user.id}) }}" method="POST" id="user_email" novalidate>
     {{ form_errors(form) }}
     <table class="bordered-table zebra-striped">
         <thead>
@@ -18,8 +18,8 @@
                     <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                     <td>
                         {% if not email.isDefault %}
-                            <a href="{{ path('gitonomyfrontend_adminuser_email_default', {'id': email.id }) }}" class="btn">as default</a>
-                            <a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': email.id }) }}" class="btn danger">delete</a>
+                            <a href="{{ path('gitonomyfrontend_email_profile_default', {'id': email.id }) }}" class="btn">as default</a>
+                            <a href="{{ path('gitonomyfrontend_email_profile_delete', {'id': email.id }) }}" class="btn danger">delete</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -1,0 +1,34 @@
+<div class="page-header">
+    <h2>Emails</h2>
+</div>
+<form class="form" action="{{ path('gitonomyfrontend_email_adminuser_list', {'userId':user.id}) }}" method="POST" id="user_email" novalidate>
+    {{ form_errors(form) }}
+    <table class="bordered-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Default</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for email in user.emails %}
+                <tr>
+                    <td>{{ email.email }}</td>
+                    <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                    <td>
+                        {% if not email.isDefault %}
+                            <a href="{{ path('gitonomyfrontend_email_adminuser_default', {'id': email.id }) }}" class="btn">as default</a>
+                            <a href="{{ path('gitonomyfrontend_email_adminuser_delete', {'id': email.id }) }}" class="btn danger">delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2">{{ form_widget(form.email) }}</td>
+                <td><input type="submit" class="btn success" value="Add" /></td>
+            </tr>
+        </tbody>
+    </table>
+    {{ form_rest(form) }}
+</form>

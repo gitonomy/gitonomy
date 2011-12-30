@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(name="email", columns={"email"})
  * })
  *
- * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration", "admin"})
+ * @AssertDoctrine\UniqueEntity(fields="email",groups={"registration", "admin", "profile"})
  */
 class Email
 {
@@ -34,8 +34,8 @@ class Email
     /**
      * @ORM\Column(type="string",length=256,unique=true, nullable=false)
      *
-     * @Assert\NotBlank(groups={"registration", "admin"})
-     * @Assert\Email(groups={"registration", "admin"})
+     * @Assert\NotBlank(groups={"registration", "admin", "profile"})
+     * @Assert\Email(groups={"registration", "admin", "profile"})
      */
     protected $email;
 

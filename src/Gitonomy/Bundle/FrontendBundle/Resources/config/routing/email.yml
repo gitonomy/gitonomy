@@ -1,0 +1,35 @@
+gitonomyfrontend_email_adminuser_list:
+    pattern: /{_locale}/email/adminuser/{userId}/list
+    defaults: { _controller: "GitonomyFrontendBundle:Email:adminUserList" }
+    requirements:
+        userId:  \d+
+
+gitonomyfrontend_email_adminuser_default:
+    pattern: /{_locale}/email/adminuser/{id}/default
+    defaults: { _controller: "GitonomyFrontendBundle:Email:adminUserDefault" }
+    requirements:
+        id:  \d+
+
+gitonomyfrontend_email_adminuser_delete:
+    pattern: /{_locale}/email/adminuser/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:Email:adminUserDelete" }
+    requirements:
+        id:  \d+
+
+gitonomyfrontend_email_profile_list:
+    pattern: /{_locale}/email/profile/{userId}/list
+    defaults: { _controller: "GitonomyFrontendBundle:Email:profileList" }
+    requirements:
+        userId:  \d+
+
+gitonomyfrontend_email_profile_default:
+    pattern: /{_locale}/email/profile/{id}/default
+    defaults: { _controller: "GitonomyFrontendBundle:Email:profileDefault" }
+    requirements:
+        id:  \d+
+
+gitonomyfrontend_email_profile_delete:
+    pattern: /{_locale}/email/profile/{id}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:Email:profileDelete" }
+    requirements:
+        id:  \d+
