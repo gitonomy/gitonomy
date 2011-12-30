@@ -112,4 +112,10 @@ class Email
     {
         return null === $this->activation;
     }
+
+    public function generateActivationHash()
+    {
+        $timestamp = new \DateTime();
+        $this->activation = md5($timestamp->format('U').$this->email.$this->getUser()->__toString());
+    }
 }

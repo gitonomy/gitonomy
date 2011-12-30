@@ -180,9 +180,21 @@ class EmailController extends BaseController
     protected function saveEmail(User $user, Email $email)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $email->setUser($user);
-        $em->persist($email);
-        $em->flush();
+        try {
+            $em->getConnection()->beginTransaction();
+            $email->setUser($user);
+            $email->generateActivationHash();
+            $em->persist($email);
+            $mailer = $this->get('gitonomy_frontend.mailer');
+            $mailer->send(
+                $mailer->renderMessage('GitonomyFrontendBundle:Mail:activateEmail.mail.twig', array('email' => $email)),
+                null,
+                $email->getEmail()
+            );
+            $em->flush();
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     protected function failAndRedirect(User $user, $route, $message)
