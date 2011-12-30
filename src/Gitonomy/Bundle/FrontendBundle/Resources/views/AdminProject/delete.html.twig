@@ -1,0 +1,11 @@
+{% extends "GitonomyFrontendBundle:BaseAdmin:delete.html.twig" %}
+
+{% block admin_before_delete_form_end %}
+    <p>By clicking the button <strong>Delete</strong> below, <strong>you will loose</strong>:</p>
+    <ul>
+        <li>Every informations about the repository</li>
+        <li>The Git repository</li>
+        <li>All history of the project</li>
+    </ul>
+    <p><strong>If you understand <strong>you will loose the Git repository</strong>, click Delete:</strong></p>
+{% endblock %}
