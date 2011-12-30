@@ -14,6 +14,7 @@
     <services>
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
             <tag name="kernel.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
+            <tag name="kernel.event_listener" event="gitonomy.project_delete" method="onProjectDelete" />
             <argument>%gitonomy_core.git.repository_path%</argument>
         </service>
 

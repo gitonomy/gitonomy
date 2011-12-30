@@ -41,6 +41,27 @@ class RepositoryPool
     }
 
     /**
+     * Method called when a project is deleted
+     */
+    public function onProjectDelete(ProjectEvent $event)
+    {
+        $path = $this->getPath($event->getProject());
+
+        $flags = \FilesystemIterator::SKIP_DOTS;
+        $iterator = new \RecursiveDirectoryIterator($path, $flags);
+        $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
+
+        foreach ($iterator as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            } else {
+                rmdir($file);
+            }
+        }
+        rmdir($path);
+    }
+
+    /**
      * Returns the Git repository associated the a model project.
      *
      * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project A
