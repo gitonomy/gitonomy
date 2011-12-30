@@ -56,15 +56,3 @@ swiftmailer:
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-
-snc_redis:
-    connections:
-        default:
-            alias:    default
-            host:     localhost
-            port:     6379
-            database: 0
-    clients:
-        default:
-            alias:      default
-            connection: default

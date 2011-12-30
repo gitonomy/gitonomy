@@ -47,17 +47,3 @@
 [DoctrineFixturesBundle]
     git=https://github.com/symfony/DoctrineFixturesBundle.git
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
-
-[OldSoundRabbitMqBundle]
-    git=https://github.com/videlalvaro/RabbitMqBundle.git
-    target=/bundles/OldSound/RabbitMqBundle
-
-[php-amqplib]
-    git=https://github.com/videlalvaro/php-amqplib.git
-
-[SncRedisBundle]
-    git=https://github.com/snc/SncRedisBundle.git
-    target=/bundles/Snc/RedisBundle
-
-[predis]
-    git=https://github.com/nrk/predis.git

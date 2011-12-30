@@ -16,8 +16,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
-            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new Snc\RedisBundle\SncRedisBundle(),
 
             new Gitonomy\Bundle\CoreBundle\GitonomyCoreBundle(),
             new Gitonomy\Bundle\FrontendBundle\GitonomyFrontendBundle(),
