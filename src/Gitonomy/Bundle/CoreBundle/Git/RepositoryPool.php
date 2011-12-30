@@ -3,7 +3,7 @@
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Git;
 
 /**
@@ -33,7 +33,7 @@ class RepositoryPool
     /**
      * Method called when a project is created
      */
-    public function onProjectCreate(ProjectCreateEvent $event)
+    public function onProjectCreate(ProjectEvent $event)
     {
         $path = $this->getPath($event->getProject());
 

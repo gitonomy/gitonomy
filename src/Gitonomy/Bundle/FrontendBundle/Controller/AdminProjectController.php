@@ -6,9 +6,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
-use Gitonomy\Bundle\CoreBundle\Entity\Repository;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 
@@ -124,7 +123,12 @@ class AdminProjectController extends BaseAdminController
 
     protected function postCreate($object)
     {
-        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectCreateEvent($object));
+        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($object));
+    }
+
+    protected function preDelete($object)
+    {
+        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($object));
     }
 
     public function editAction($id)

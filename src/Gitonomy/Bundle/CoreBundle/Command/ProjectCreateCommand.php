@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 
 /**
  * Shell command for creating a project.
@@ -58,7 +58,7 @@ EOF
         $em->persist($project);
         $em->flush();
 
-        $event = new ProjectCreateEvent($project);
+        $event = new ProjectEvent($project);
         $this->getContainer()->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, $event);
 
         $output->writeln(sprintf('Project <info>%s</info> was created!', $project->getName()));

@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\Event;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 
-class ProjectCreateEvent extends Event
+class ProjectEvent extends Event
 {
     protected $project;
 

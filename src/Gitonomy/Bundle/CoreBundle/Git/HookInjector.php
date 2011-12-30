@@ -2,7 +2,7 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 
 class HookInjector
@@ -20,7 +20,7 @@ class HookInjector
         $this->repositoryPool = $repositoryPool;
     }
 
-    public function onProjectCreate(ProjectCreateEvent $event)
+    public function onProjectCreate(ProjectEvent $event)
     {
         $repository = $this->repositoryPool->getGitRepository($event->getProject());
         $hooks = $repository->getHooks();
