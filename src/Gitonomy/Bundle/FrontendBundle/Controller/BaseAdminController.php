@@ -111,8 +111,11 @@ abstract class BaseAdminController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
+
+                $this->preDelete($object);
                 $em->remove($object);
                 $em->flush();
+                $this->postDelete($object);
 
                 $this->get('session')->setFlash('success',
                     sprintf('%s "%s" deleted.',
@@ -188,12 +191,18 @@ abstract class BaseAdminController extends BaseController
 
     protected function postCreate($object)
     {
-        return null;
     }
 
     protected function postEdit($object)
     {
-        return null;
+    }
+
+    protected function preDelete($object)
+    {
+    }
+
+    protected function postDelete($object)
+    {
     }
 
     abstract protected function getRepository();
