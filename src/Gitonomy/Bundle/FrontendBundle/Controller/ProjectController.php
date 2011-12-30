@@ -16,10 +16,9 @@ class ProjectController extends BaseController
     /**
      * Displays the project main page
      */
-    public function showAction($slug, $reference = null)
+    public function showAction($slug, $reference = 'master')
     {
         $project = $this->getProject($slug);
-        $reference = null === $reference ? $project->getMainBranch() : $reference;
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project'   => $project,
@@ -80,16 +79,14 @@ class ProjectController extends BaseController
      *
      * @todo Separate two cases: the requested revision does not exists and no commit.
      */
-    public function blockCommitHistoryAction($slug, $reference = null, $limit = 10)
+    public function blockCommitHistoryAction($slug, $reference = 'master', $limit = 10)
     {
         $project = $this->getProject($slug);
-
-        $revision = null === $reference ? $project->getMainBranch() : $reference;
 
         $revision = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
-            ->getRevision($revision)
+            ->getRevision($reference)
         ;
 
         try {
@@ -111,7 +108,6 @@ class ProjectController extends BaseController
     public function blockBranchesActivityAction($slug)
     {
         $project = $this->getProject($slug);
-        $mainBranch = $project->getMainBranch();
 
         $repository = $this
             ->get('gitonomy_core.git.repository_pool')
@@ -120,16 +116,16 @@ class ProjectController extends BaseController
 
         $references = $repository->getReferences();
 
-        $mainBranch = $references->getBranch($mainBranch);
+        $master = $references->getBranch('master');
 
         $rows = array();
         foreach ($references->getBranches() as $branch) {
-            if ($branch == $mainBranch) {
+            if ($branch == $master) {
                 continue;
             }
 
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$mainBranch->getFullname());
-            $logAbove = $repository->getLog($mainBranch->getFullname().'..'.$branch->getFullname());
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$master->getFullname());
+            $logAbove = $repository->getLog($master->getFullname().'..'.$branch->getFullname());
 
             $rows[] = array(
                 'branch'           => $branch,
@@ -140,7 +136,7 @@ class ProjectController extends BaseController
         }
 
         return $this->render('GitonomyFrontendBundle:Project:blockBranchesActivity.html.twig', array(
-            'main' => $mainBranch,
+            'main' => $master,
             'rows' => $rows
         ));
     }

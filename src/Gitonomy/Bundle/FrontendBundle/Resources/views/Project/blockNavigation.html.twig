@@ -5,7 +5,7 @@
         </a>
     </li>
     <li{% if active == "commits" %} class="active"{% endif %}>
-        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': project.mainBranch }) }}">
+        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {'slug': project.slug, 'reference': 'master' }) }}">
             Last commits
         </a>
     </li>

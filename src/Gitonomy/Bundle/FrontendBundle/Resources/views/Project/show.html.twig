@@ -28,7 +28,7 @@
         </div>
         <div class="span10">
             <div class="page-header">
-                <h2>Last commits on branch {{ project.mainBranch }}</h2>
+                <h2>Last commits on branch master</h2>
             </div>
             {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'limit': 2 } %}
         </div>

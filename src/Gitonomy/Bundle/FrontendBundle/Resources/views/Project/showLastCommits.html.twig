@@ -8,7 +8,7 @@
     </div>
     {% render "GitonomyFrontendBundle:Project:blockNavigation" with {'slug': project.slug, 'active': 'commits' } %}
     <div class="page-header">
-        <h2>Last commits on branch {{ project.mainBranch }}</h2>
+        <h2>Last commits on branch master</h2>
     </div>
     {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'reference': reference } %}
 {% endblock %}

@@ -56,31 +56,4 @@ class ProjectCreateCommandTest extends CommandTestCase
 
         $this->assertNotEmpty($project);
     }
-
-    public function testMainBranch()
-    {
-        $this->repositoryPool
-            ->expects($this->once())
-            ->method('onProjectCreate')
-        ;
-
-        $this->hookInjector
-            ->expects($this->once())
-            ->method('onProjectCreate')
-        ;
-
-        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:project-create --main-branch=develop "Sample name" sample-name');
-
-        $this->assertEquals("Project Sample name was created!\n", $output);
-
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
-
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBy(array(
-            'name' => 'Sample name',
-            'slug' => 'sample-name'
-        ));
-
-        $this->assertNotEmpty($project);
-        $this->assertEquals("develop", $project->getMainBranch());
-    }
 }

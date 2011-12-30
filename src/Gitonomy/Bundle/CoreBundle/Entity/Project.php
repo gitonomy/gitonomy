@@ -39,29 +39,13 @@ class Project
     protected $slug;
 
     /**
-     * @ORM\Column(type="string", length=64)
-     */
-    protected $mainBranch;
-
-    /**
      * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $userRoles;
 
     public function __construct()
     {
-        $this->mainBranch = 'master';
         $this->userRoles  = new ArrayCollection();
-    }
-
-    public function getMainBranch()
-    {
-        return $this->mainBranch;
-    }
-
-    public function setMainBranch($mainBranch)
-    {
-        $this->mainBranch = $mainBranch;
     }
 
     public function __toString()
