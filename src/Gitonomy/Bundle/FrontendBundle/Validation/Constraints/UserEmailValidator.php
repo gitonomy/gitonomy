@@ -24,6 +24,10 @@ class UserEmailValidator extends ConstraintValidator
             return true;
         }
 
+        if (false === filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        }
+
         $count = $this->doctrineRegistry
             ->getRepository('GitonomyCoreBundle:Email')
             ->createQueryBuilder('e')
