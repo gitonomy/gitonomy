@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class AdminProjectControllerTest extends WebTestCase
 {
     protected $client;
+    protected $repositoryPool;
+    protected $hookInjector;
 
     public function setUp()
     {
@@ -235,6 +237,11 @@ class AdminProjectControllerTest extends WebTestCase
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
+
+        $this->repositoryPool
+            ->expects($this->once())
+            ->method('onProjectDelete')
+        ;
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/delete');
