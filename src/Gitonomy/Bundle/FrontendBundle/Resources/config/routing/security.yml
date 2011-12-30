@@ -9,3 +9,7 @@ gitonomyfrontend_security_loginCheck:
 gitonomyfrontend_security_logout:
     pattern: /{_locale}/logout
     defaults: { _controller: "GitonomyFrontendBundle:Security:logout" }
+
+gitonomyfrontend_security_forgotPassword:
+    pattern: /{_locale}/password
+    defaults: { _controller: "GitonomyFrontendBundle:Security:forgotPassword" }

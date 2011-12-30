@@ -10,6 +10,7 @@
         <import resource="services/twig.xml" />
         <import resource="services/listener.xml" />
         <import resource="services/mailer.xml" />
+        <import resource="services/validation.xml" />
     </imports>
 
 </container>

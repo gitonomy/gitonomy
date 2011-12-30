@@ -4,6 +4,8 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\Security\Core\SecurityContext;
 
+use Gitonomy\Bundle\FrontendBundle\Model\Security\ForgotPassword;
+
 /**
  * Controller for security actions.
  *
@@ -37,5 +39,24 @@ class SecurityController extends BaseController
     public function loginCheckAction()
     {
         throw new \LogicException("You should not view this page !");
+    }
+
+    public function forgotPasswordAction()
+    {
+        $forgotPassword = new ForgotPassword();
+        $form = $this->createForm('forgot_password', $forgotPassword);
+
+        $request = $this->getRequest();
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                die($forgotPassword->getEmail());
+            }
+        }
+
+
+        return $this->render('GitonomyFrontendBundle:Security:forgotPassword.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 }
