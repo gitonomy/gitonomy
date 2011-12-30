@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\Entity\Repository;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectCreateEvent;
 
