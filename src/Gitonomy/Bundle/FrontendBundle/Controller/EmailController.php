@@ -205,6 +205,10 @@ class EmailController extends BaseController
 
     protected function setDefaultEmail(Email $defaultEmail)
     {
+        if (!$defaultEmail->isActived()) {
+            throw new \LogicException(sprintf('Email "%s" cannot be set as default : email is not validated yet!', $email->__toString()));
+        }
+
         $em   = $this->getDoctrine()->getEntityManager();
         $user = $defaultEmail->getUser();
 

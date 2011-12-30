@@ -86,6 +86,10 @@ class Email
 
     public function setIsDefault($isDefault)
     {
+        if (true === $isDefault && !$this->isActived()) {
+            throw new \LogicException(sprintf('Email "%s" cannot be set as default : email is not validated yet!', $this->__toString()));
+        }
+
         $this->isDefault = $isDefault;
     }
 
@@ -102,5 +106,10 @@ class Email
     public function setActivation($activation)
     {
         $this->activation = $activation;
+    }
+
+    public function isActived()
+    {
+        return null === $this->activation;
     }
 }
