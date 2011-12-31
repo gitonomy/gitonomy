@@ -8,6 +8,7 @@
             <tr>
                 <th>Email</th>
                 <th>Default</th>
+                <th>Activated</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,10 +17,13 @@
                 <tr>
                     <td>{{ email.email }}</td>
                     <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                    <td>{% if email.isActived == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                     <td>
                         {% if not email.isDefault %}
                             {% if email.isActived %}
                                 <a href="{{ path('gitonomyfrontend_email_profile_default', {'id': email.id }) }}" class="btn">as default</a>
+                            {% else %}
+                                <a href="{{ path('gitonomyfrontend_email_profile_sendactivation', {'id': email.id }) }}" class="btn">send activation</a>
                             {% endif %}
                             <a href="{{ path('gitonomyfrontend_email_profile_delete', {'id': email.id }) }}" class="btn danger">delete</a>
                         {% endif %}
@@ -27,7 +31,7 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td colspan="2">{{ form_widget(form.email) }}</td>
+                <td colspan="3">{{ form_widget(form.email) }}</td>
                 <td><input type="submit" class="btn success" value="Add" /></td>
             </tr>
         </tbody>

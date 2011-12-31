@@ -4,6 +4,12 @@ gitonomyfrontend_email_adminuser_list:
     requirements:
         userId:  \d+
 
+gitonomyfrontend_email_adminuser_sendactivation:
+    pattern: /{_locale}/email/adminuser/{id}/send-activation
+    defaults: { _controller: "GitonomyFrontendBundle:Email:adminUserSendActivation" }
+    requirements:
+        id:  \d+
+
 gitonomyfrontend_email_adminuser_default:
     pattern: /{_locale}/email/adminuser/{id}/default
     defaults: { _controller: "GitonomyFrontendBundle:Email:adminUserDefault" }
@@ -21,6 +27,12 @@ gitonomyfrontend_email_profile_list:
     defaults: { _controller: "GitonomyFrontendBundle:Email:profileList" }
     requirements:
         userId:  \d+
+
+gitonomyfrontend_email_profile_sendactivation:
+    pattern: /{_locale}/email/profile/{id}/send-activation
+    defaults: { _controller: "GitonomyFrontendBundle:Email:profileSendActivation" }
+    requirements:
+        id:  \d+
 
 gitonomyfrontend_email_profile_default:
     pattern: /{_locale}/email/profile/{id}/default
