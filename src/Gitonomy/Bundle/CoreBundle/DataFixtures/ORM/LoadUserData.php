@@ -80,6 +80,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $email->setEmail('alice@example.org');
         $alice->setDefaultEmail($email);
         $alice->setTimezone('Europe/Paris');
+        $alice->setForgotPasswordToken('forgottokenalice');
+        $alice->setForgotPasswordCreatedAt(new \DateTime());
         $this->setPassword($alice, 'alice');
         $manager->persist($alice);
         $this->setReference('user-alice', $alice);
@@ -91,6 +93,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $email->setEmail('bob@example.org');
         $bob->setDefaultEmail($email);
         $bob->setTimezone('Europe/Paris');
+        $bob->setForgotPasswordToken('forgottokenbob');
+        $bob->setForgotPasswordCreatedAt(new \DateTime('-3 days'));
         $this->setPassword($bob, 'bob');
         $manager->persist($bob);
         $this->setReference('user-bob', $bob);

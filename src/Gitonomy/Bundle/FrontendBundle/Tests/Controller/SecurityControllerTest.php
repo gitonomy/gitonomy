@@ -144,6 +144,41 @@ class SecurityControllerTest extends WebTestCase
 
     public function testChangePassword()
     {
-        
+        $crawler  = $this->client->request('GET', '/en_US/password/alice/forgottokenalice');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertEquals('Change password for Alice', $crawler->filter('h1')->text());
+
+        $form = $crawler->filter('form input[type=submit]')->form(array(
+            'change_password[password][first]'  => 'foobar',
+            'change_password[password][second]' => 'foobar'
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US'));
+
+        $crawler = $this->client->connect('alice', 'foobar');
+
+        $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+    }
+
+    public function testChangePasswordWithExpiredToken()
+    {
+        $crawler  = $this->client->request('GET', '/en_US/password/bob/forgottokenbob');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    public function testChangePasswordWithWrongToken()
+    {
+        $crawler  = $this->client->request('GET', '/en_US/password/alice/foobar');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
     }
 }
