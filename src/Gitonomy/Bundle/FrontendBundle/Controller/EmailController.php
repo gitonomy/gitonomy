@@ -200,6 +200,8 @@ class EmailController extends BaseController
 
     public function activateAction($username, $hash)
     {
+        $this->assertPermission('AUTHENTICATED');
+
         $em   = $this->getDoctrine();
         $repo = $em->getRepository('GitonomyCoreBundle:Email');
         if (!$email = $repo->getEmailFromActivation($username, $hash)) {
@@ -228,6 +230,8 @@ class EmailController extends BaseController
         if (!$email) {
             throw $this->createNotFoundException(sprintf('No Email found with id "%d".', $id));
         }
+
+        return $email;
     }
 
     protected function saveEmail(User $user, Email $email)

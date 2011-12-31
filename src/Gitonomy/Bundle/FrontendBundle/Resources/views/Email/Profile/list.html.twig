@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             {% for email in user.emails %}
-                <tr>
+                <tr id="email_{{ email.id }}">
                     <td>{{ email.email }}</td>
                     <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                     <td>{% if email.isActived == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>

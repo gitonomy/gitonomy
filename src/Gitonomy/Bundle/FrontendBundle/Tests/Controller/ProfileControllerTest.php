@@ -40,15 +40,15 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/profile');
-        $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
             'useremail[email]' => 'admin@example.org',
         ));
 
-        $crawler = $this->client->submit($form);
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+        $this->assertTrue($response->isRedirect('/en_US/profile'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.warning p');
@@ -61,13 +61,35 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/profile');
-        $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
             'useremail[email]' => 'admin@mydomain.tld',
         ));
 
         $crawler   = $this->client->submit($form);
+        $response  = $this->client->getResponse();
+        $profile   = $this->client->getProfile();
+        $collector = $profile->getCollector('swiftmailer');
+
+        $this->assertEquals(1, $collector->getMessageCount());
+
+        $this->assertTrue($response->isRedirect('/en_US/profile'));
+
+        $crawler = $this->client->followRedirect();
+        $node    = $crawler->filter('div.alert-message.success p');
+
+        $this->assertEquals(1, $node->count());
+        $this->assertEquals('Email "admin@mydomain.tld" added.', $node->text());
+    }
+
+    public function testSendEmailActivation()
+    {
+        $this->client->connect('alice');
+
+        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+
+        $crawler   = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/send-activation');
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
@@ -78,6 +100,56 @@ class ProfileControllerTest extends WebTestCase
         $node    = $crawler->filter('div.alert-message.success p');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email "admin@mydomain.tld" added.', $node->text());
+        $this->assertEquals('Activation mail for "'.$email->getEmail().'" sent.', $node->text());
+    }
+
+    public function testActiveEmail()
+    {
+        $this->client->connect('alice');
+
+        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+
+        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivation());
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+
+        $crawler = $this->client->followRedirect();
+        $node    = $crawler->filter('div.alert-message.success p');
+
+        $this->assertEquals(1, $node->count());
+        $this->assertEquals('Email "'.$email->getEmail().'" actived.', $node->text());
+
+        $link = $crawler->filter('#email_5 a:contains("as default")')->link();
+        $crawler = $this->client->click($link);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+        $crawler = $this->client->followRedirect();
+        $node    = $crawler->filter('div.alert-message.success p');
+
+        $this->assertEquals(1, $node->count());
+        $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());
+    }
+
+    public function testDeleteEmail()
+    {
+        $this->client->connect('alice');
+
+        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+
+        $crawler  = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/delete');
+        $form     = $crawler->filter('#delete input[type=submit]')->form();
+
+        $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US/profile'));
+
+        $crawler = $this->client->followRedirect();
+        $node    = $crawler->filter('div.alert-message.success p');
+
+        $this->assertEquals(1, $node->count());
+        $this->assertEquals('Email "'.$email->getEmail().'" deleted.', $node->text());
     }
 }
