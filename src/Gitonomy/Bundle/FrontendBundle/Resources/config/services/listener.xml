@@ -8,7 +8,6 @@
         <service id="gitonomy_frontend.listener.verify_locale" class="Gitonomy\Bundle\FrontendBundle\EventListener\VerifyLocaleListener">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
             <argument>%gitonomy_frontend.allowed_locales%</argument>
-            <argument>%kernel.default_locale%</argument>
         </service>
     </services>
 

@@ -9,12 +9,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class VerifyLocaleListener
 {
     protected $allowedLocales;
-    protected $defaultLocale;
 
-    public function __construct($allowedLocales, $defaultLocale)
+    public function __construct($allowedLocales)
     {
         $this->allowedLocales = $allowedLocales;
-        $this->defaultLocale  = $defaultLocale;
     }
 
     public function onKernelRequest(GetResponseEvent $e)
