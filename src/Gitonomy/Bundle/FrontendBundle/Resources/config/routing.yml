@@ -4,9 +4,6 @@ _gitonomyfrontend_main:
 _gitonomyfrontend_security:
     resource: routing/security.yml
 
-_gitonomyfrontend_user:
-    resource: routing/user.yml
-
 _gitonomyfrontend_adminrole:
     resource: routing/adminrole.yml
 

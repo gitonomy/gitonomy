@@ -199,15 +199,12 @@ class EmailController extends BaseController
             $email->setUser($user);
             $email->generateActivationHash();
             $em->persist($email);
-
-            $mailer = $this->get('gitonomy_frontend.mailer');
-            $mailer->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
-                array('email' => $email),
-                $email->getEmail()
-            );
-
             $em->flush();
-            $em->commit();
+            $this->get('gitonomy_frontend.mailer')->sendMessage(
+                'GitonomyFrontendBundle:Mail:activateEmail.mail.twig',
+                array('email' => $email),
+                array($email->getEmail() => $user->getFullname())
+            );
         } catch (\Exception $e) {
             throw $e;
         }

@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1>Register</h1>
-    <form class="form-stacked" action="{{ path('gitonomyfrontend_user_register') }}" method="POST" novalidate>
+    <form class="form-stacked" action="{{ path('gitonomyfrontend_security_register') }}" method="POST" novalidate>
         {{ form_errors(form) }}
         {{ form_row(form.username) }}
         {{ form_row(form.fullname) }}

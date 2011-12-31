@@ -297,4 +297,19 @@ class User implements UserInterface
         $this->forgotPasswordToken     = md5(uniqid().microtime());
         $this->forgotPasswordCreatedAt = new \DateTime();
     }
+
+    public function removeForgotPasswordToken()
+    {
+        $this->forgotPasswordToken     = null;
+        $this->forgotPasswordCreatedAt = null;
+    }
+
+    public function isForgotPasswordTokenExpired()
+    {
+        $max = clone $this->forgotPasswordCreatedAt;
+        $max->add(new \DateInterval('P2D')); // 2 days
+        $now = new \DateTime();
+
+        return $now->getTimestamp() > $max->getTimeStamp();
+    }
 }

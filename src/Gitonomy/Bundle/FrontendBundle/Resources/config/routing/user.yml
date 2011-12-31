@@ -1,3 +1,0 @@
-gitonomyfrontend_user_register:
-    pattern: /{_locale}/register
-    defaults: { _controller: "GitonomyFrontendBundle:User:register" }

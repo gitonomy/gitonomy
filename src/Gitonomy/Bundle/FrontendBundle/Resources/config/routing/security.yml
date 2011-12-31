@@ -1,3 +1,7 @@
+gitonomyfrontend_security_register:
+    pattern: /{_locale}/register
+    defaults: { _controller: "GitonomyFrontendBundle:Security:register" }
+
 gitonomyfrontend_security_login:
     pattern: /{_locale}/login
     defaults: { _controller: "GitonomyFrontendBundle:Security:login" }

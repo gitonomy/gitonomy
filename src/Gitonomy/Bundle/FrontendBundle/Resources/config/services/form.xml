@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="gitonomy_frontend.form.type.profile_ssh_key.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\SshKeyType</parameter>
         <parameter key="gitonomy_frontend.form.type.profile_informations.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\InformationsType</parameter>
-        <parameter key="gitonomy_frontend.form.type.user_registration.class">Gitonomy\Bundle\FrontendBundle\Form\User\RegistrationType</parameter>
+        <parameter key="gitonomy_frontend.form.type.user_registration.class">Gitonomy\Bundle\FrontendBundle\Form\Security\RegistrationType</parameter>
         <parameter key="gitonomy_frontend.form.type.baseadmin.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\BaseAdminType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminuser.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminproject.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectType</parameter>
@@ -16,6 +16,7 @@
         <parameter key="gitonomy_frontend.form.type.adminuserroleglobal.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserRoleGlobalType</parameter>
         <parameter key="gitonomy_frontend.form.type.useremail.class">Gitonomy\Bundle\FrontendBundle\Form\User\UserEmailType</parameter>
         <parameter key="gitonomy_frontend.form.type.forgot_password_request.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ForgotPasswordRequestType</parameter>
+        <parameter key="gitonomy_frontend.form.type.change_password.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ChangePasswordType</parameter>
     </parameters>
 
     <services>
@@ -51,6 +52,9 @@
         </service>
         <service id="gitonomy_frontend.form.type.forgot_password_request" class="%gitonomy_frontend.form.type.forgot_password_request.class%">
             <tag name="form.type" alias="forgot_password_request" />
+        </service>
+        <service id="gitonomy_frontend.form.type.change_password" class="%gitonomy_frontend.form.type.change_password.class%">
+            <tag name="form.type" alias="change_password" />
         </service>
     </services>
 

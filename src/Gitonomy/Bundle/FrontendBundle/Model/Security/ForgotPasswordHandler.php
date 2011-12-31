@@ -25,15 +25,17 @@ class ForgotPasswordHandler
 
     public function processRequest(ForgotPasswordRequest $request)
     {
-        $user = $this->doctrine
-            ->getRepository('GitonomyCoreBundle:User')
-            ->findOneByEmail($request->getEmail())
-        ;
+        $em = $this->doctrine->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\User');
+
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByEmail($request->getEmail());
 
         $email = $user->getDefaultEmail()->getEmail();
         $name = $user->getFullname();
 
         $user->createForgotPasswordToken();
+
+        $em->persist($user);
+        $em->flush();
 
         $this->mailer->sendMessage('GitonomyFrontendBundle:Security:forgotPassword.mail.twig', array(
                 'user' => $user
@@ -41,5 +43,24 @@ class ForgotPasswordHandler
                 $email => $name
             )
         );
+    }
+
+    public function getUserIfForgotPasswordTokenValid($username, $forgotPasswordToken)
+    {
+        $user = $this->doctrine->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+        if (null === $user) {
+            throw new \InvalidArgumentException(sprintf('The user with username "%s" was not found', $username));
+        }
+
+        if ($user->getForgotPasswordToken() !== $forgotPasswordToken) {
+            throw new \InvalidArgumentException('The token is not correct');
+        }
+
+        if ($user->isForgotPasswordTokenExpired()) {
+            throw new \InvalidArgumentException('The forgot password token has expired');
+        }
+
+        return $user;
     }
 }

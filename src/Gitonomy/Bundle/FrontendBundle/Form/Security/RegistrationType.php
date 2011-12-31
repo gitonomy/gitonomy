@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\User;
+namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
