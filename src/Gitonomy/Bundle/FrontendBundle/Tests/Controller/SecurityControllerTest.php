@@ -107,4 +107,43 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertEquals(1, $crawler->filter('a:contains("Login")')->count());
     }
+
+    public function testForgotPassword()
+    {
+        $crawler  = $this->client->request('GET', '/en_US/password');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('Forgot your password ?', $crawler->filter('h1')->text());
+
+        $form = $crawler->filter('form input[type=submit]')->form(array(
+            'forgot_password_request[email]' => 'alice@example.org'
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US/password'));
+
+        $profile = $this->client->getProfile();
+        $collector = $profile->getCollector('swiftmailer');
+        $this->assertEquals(1, $collector->getMessageCount());
+
+        $messages = $collector->getMessages();
+        $message = $messages[0];
+
+        $to = $message->getTo();
+        $this->assertTrue(isset($to['alice@example.org']));
+        $this->assertEquals('Alice', $to['alice@example.org']);
+        $this->assertContains('Retrieve your password', $message->getSubject());
+
+        $crawler = $this->client->followRedirect();
+
+        $this->assertEquals(1, $crawler->filter('.alert-message.success')->count());
+    }
+
+    public function testChangePassword()
+    {
+        
+    }
 }
