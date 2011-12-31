@@ -51,6 +51,9 @@ class SecurityController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->get('gitonomy_frontend.security.forgot_password_handler')->processRequest($forgotPasswordRequest);
+                $this->get('session')->setFlash('success', 'We send a mail with instructions. Read it, and click, now!');
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_security_forgotPassword'));
             }
         }
 

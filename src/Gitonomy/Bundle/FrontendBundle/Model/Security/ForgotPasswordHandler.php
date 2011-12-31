@@ -33,6 +33,8 @@ class ForgotPasswordHandler
         $email = $user->getDefaultEmail()->getEmail();
         $name = $user->getFullname();
 
+        $user->createForgotPasswordToken();
+
         $this->mailer->sendMessage('GitonomyFrontendBundle:Security:forgotPassword.mail.twig', array(
                 'user' => $user
             ), array(
