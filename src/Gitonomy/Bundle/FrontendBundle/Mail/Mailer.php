@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Mail;
 
+use Symfony\Component\Templating\EngineInterface;
+
 /**
  * Service to send emails
  *
@@ -10,63 +12,43 @@ namespace Gitonomy\Bundle\FrontendBundle\Mail;
 class Mailer
 {
     protected $mailer;
-    protected $mailGenerator;
+    protected $templateEngine;
     protected $mailFrom;
-    protected $mailTo;
 
-    public function __construct(\Swift_Mailer $mailer, TwigMailGenerator $mailGenerator, array $parameters)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templateEngine, array $from)
     {
-        $this->mailer        = $mailer;
-        $this->mailGenerator = $mailGenerator;
-        $this->mailFrom      = $parameters['from'];
-        $this->mailTo        = $parameters['to'];
+        $this->mailer         = $mailer;
+        $this->templateEngine = $templateEngine;
+        $this->mailFrom       = $from;
     }
 
-    public function renderMessage($template, $parameters = array())
+    public function sendMessage($template, $context = array(), $to)
     {
-        $this->mailGenerator->getTemplate($template);
+        $template = $this->templateEngine->loadTemplate($template);
+
+        $subject  = $this->renderTwigBlock($template, 'subject',   $context);
+        $bodyText = $this->renderTwigBlock($template, 'body_text', $context);
+        $bodyHtml = $this->renderTwigBlock($template, 'body_html', $context);
 
         return \Swift_Message::newInstance()
-            ->setSubject($this->mailGenerator->renderBlock('subject', $parameters))
-            ->setBody($this->mailGenerator->renderBlock('body_text', $parameters), 'text/plain')
-            ->addPart($this->mailGenerator->renderBlock('body_html', $parameters), 'text/html')
+            ->setSubject($subject)
+            ->setBody($bodyText, 'text/plain')
+            ->addPart($bodyHtml, 'text/html')
+            ->setFrom($this->mailFrom)
+            ->setTo($to)
         ;
-    }
-
-    public function send(\Swift_Message $message, $from = null, $to = null)
-    {
-        $this->setFrom($message, $from);
-        $this->setTo($message, $to);
 
         $this->mailer->send($message);
     }
 
-    protected function setFrom(\Swift_Message $message, $from)
+    protected function renderTwigBlock(\Twig_Template $template, $blockName, $context = array())
     {
-        if(null === $from) {
-            $from = $this->mailFrom;
+        foreach ($template->getEnvironment()->getGlobals() as $key => $value) {
+            if (!array_key_exists($key, $context)) {
+                $context[$key] = $value;
+            }
         }
 
-        if (is_array($from)) {
-            list($email, $name) = $from;
-            $message->setFrom($email, $name);
-            $message->setReplyTo($email, $name);
-        } else {
-            $message->setFrom($from);
-        }
-    }
-
-    protected function setTo(\Swift_Message $message, $to)
-    {
-        if(null === $to) {
-            $to = $this->mailTo;
-        }
-
-        if (is_array($to)) {
-            list($email, $name) = $to;
-            $message->setTo($email, $name);
-        } else {
-            $message->setTo($to);
-        }
+        return $template->renderBlock($blockName, $context);
     }
 }

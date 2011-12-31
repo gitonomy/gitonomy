@@ -1,0 +1,14 @@
+{% block subject gitonomy.name ~ ' - ' | raw %}
+
+{% block body_html %}
+    <h1>{{ gitonomy.name }}</h1>
+    <hr />
+    {% block content_html '' %}
+{% endblock %}
+
+{% block body_text %}
+{{ gitonomy.name }}
+-----------------------------
+
+{% block content_text '' %}
+{% endblock %}

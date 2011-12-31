@@ -6,6 +6,8 @@
 
     <parameters>
         <parameter key="gitonomy_frontend.twig_datetime_extension.class">Gitonomy\Bundle\FrontendBundle\Twig\DateTimeExtension</parameter>
+        <parameter key="debug.templating.engine.twig.class">Gitonomy\Bundle\FrontendBundle\Templating\TimedTwigEngine</parameter>
+        <parameter key="templating.engine.twig.class">Gitonomy\Bundle\FrontendBundle\Templating\TwigEngine</parameter>
     </parameters>
     <services>
         <service id="gitonomy_frontend.twig_extension" class="Gitonomy\Bundle\FrontendBundle\Twig\GitonomyExtension">

@@ -27,5 +27,5 @@ parameters:
   project_name:      gitonomy.sample
   project_baseline:  Git repositories inside infrastructure with a beautiful interface
   open_registration: true
-  mail_from:         noreply@example.org
-  mail_to:           admin@example.org
+  mailer_from_name:         gitonomy.sample
+  mailer_from_email:        noreply@example.org

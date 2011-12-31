@@ -9,8 +9,8 @@ gitonomy_frontend:
     ssh_access:        %ssh_access%
     allowed_locales:   [ fr_FR, en_US ]
     mailer:
-        from:          %mail_from%
-        to:            %mail_to%
+        from_name:     %mailer_from_name%
+        from_email:    %mailer_from_email%
 
     locales:
         fr_FR:

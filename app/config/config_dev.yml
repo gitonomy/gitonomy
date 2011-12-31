@@ -20,7 +20,7 @@ monolog:
             level: info
 
 swiftmailer:
-    delivery_address: julien@localhost
+    delivery_address: alex@alex-laptop
 
 assetic:
     use_controller: true

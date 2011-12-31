@@ -13,3 +13,7 @@ gitonomyfrontend_security_logout:
 gitonomyfrontend_security_forgotPassword:
     pattern: /{_locale}/password
     defaults: { _controller: "GitonomyFrontendBundle:Security:forgotPassword" }
+
+gitonomyfrontend_security_changePassword:
+    pattern: /{_locale}/password/{username}/{forgotPasswordToken}
+    defaults: { _controller: "GitonomyFrontendBundle:Security:changePassword" }

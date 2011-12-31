@@ -5,17 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="gitonomy_frontend.mail_generator.class">Gitonomy\Bundle\FrontendBundle\Mail\TwigMailGenerator</parameter>
         <parameter key="gitonomy_frontend.mailer.class">Gitonomy\Bundle\FrontendBundle\Mail\Mailer</parameter>
     </parameters>
     <services>
-        <service id="gitonomy_frontend.mail_generator" class="%gitonomy_frontend.mail_generator.class%">
-            <argument type="service" id="twig" />
-        </service>
         <service id="gitonomy_frontend.mailer" class="%gitonomy_frontend.mailer.class%">
             <argument type="service" id="mailer" />
-            <argument type="service" id="gitonomy_frontend.mail_generator" />
-            <argument>%gitonomy_frontend.mailer%</argument>
+            <argument type="service" id="templating" />
+            <argument>%gitonomy_frontend.mailer.from%</argument>
         </service>
     </services>
 
