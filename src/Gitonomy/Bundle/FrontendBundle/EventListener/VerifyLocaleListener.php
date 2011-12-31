@@ -32,6 +32,7 @@ class VerifyLocaleListener
             return;
         }
 
+        $e->stopPropagation();
         throw new NotFoundHttpException(sprintf('Locale "%s" not available', $locale));
     }
 }
