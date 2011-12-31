@@ -119,6 +119,11 @@ class AdminUserControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
 
+        // no mail sent
+        $profile   = $this->client->getProfile();
+        $collector = $profile->getCollector('swiftmailer');
+        $this->assertEquals(0, $collector->getMessageCount());
+
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/1/edit'));
 
         $crawler = $this->client->followRedirect();
@@ -126,7 +131,6 @@ class AdminUserControllerTest extends WebTestCase
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "admin@mydomain.tld" added.', $node->text());
-
     }
 
     public function testEditAsAnonymous()

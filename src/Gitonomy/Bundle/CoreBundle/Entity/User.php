@@ -225,6 +225,7 @@ class User implements UserInterface
 
     public function addEmail(Email $email)
     {
+        $email->setUser($this);
         $this->emails->add($email);
     }
 

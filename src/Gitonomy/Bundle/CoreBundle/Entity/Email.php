@@ -116,6 +116,6 @@ class Email
     public function generateActivationHash()
     {
         $timestamp = new \DateTime();
-        $this->activation = md5($timestamp->format('U').$this->email.$this->getUser()->__toString());
+        $this->activation = md5($timestamp->format('U').$this->email);
     }
 }

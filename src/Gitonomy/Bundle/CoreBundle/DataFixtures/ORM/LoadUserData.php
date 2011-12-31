@@ -79,6 +79,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $email = new Email();
         $email->setEmail('alice@example.org');
         $alice->setDefaultEmail($email);
+        $inactivedEmail = new Email();
+        $inactivedEmail->setEmail('derpina@example.org');
+        $inactivedEmail->generateActivationHash();
+        $alice->addEmail($inactivedEmail);
         $alice->setTimezone('Europe/Paris');
         $alice->setForgotPasswordToken('forgottokenalice');
         $alice->setForgotPasswordCreatedAt(new \DateTime());

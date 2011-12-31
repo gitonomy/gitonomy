@@ -26,12 +26,16 @@ class EmailController extends BaseController
 
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
+            $parameters = array('id' => $user->getId());
             if ($form->isValid()) {
                 $this->saveEmail($user, $email);
+                $message = sprintf('Email "%s" added.', $email->__toString());
 
-                return $this->successAndRedirect($user, 'gitonomyfrontend_adminuser_edit', sprintf('Email "%s" added.', $email->__toString()));
+                return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
             } else {
-                return $this->failAndRedirect($user, 'gitonomyfrontend_adminuser_edit', 'Email you filled is not valid.');
+                $message = 'Email you filled is not valid.';
+
+                return $this->failAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
             }
         }
 
@@ -61,10 +65,13 @@ class EmailController extends BaseController
             if ($form->isValid()) {
                 $this->saveEmail($user, $email);
                 $this->sendActivationMail($email);
+                $message = sprintf('Email "%s" added.', $email->__toString());
 
-                return $this->successAndRedirect($user, 'gitonomyfrontend_profile_index', sprintf('Email "%s" added.', $email->__toString()));
+                return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
             } else {
-                return $this->failAndRedirect($user, 'gitonomyfrontend_profile_index', 'Email you filled is not valid.');
+                $message = 'Email you filled is not valid.';
+
+                return $this->failAndRedirect($message, 'gitonomyfrontend_profile_index');
             }
         }
 
@@ -81,11 +88,13 @@ class EmailController extends BaseController
     {
         $this->assertPermission('USER_EDIT');
 
-        $email = $this->getEmail($id);
+        $email      = $this->getEmail($id);
+        $parameters = array('id' => $email->getUser()->getId());
 
         $this->setDefaultEmail($email);
+        $message = sprintf('Email "%s" now as default.', $email->__toString());
 
-        return $this->successAndRedirect($user, 'gitonomyfrontend_adminuser_edit', sprintf('Email "%s" now as default.', $email->__toString()));
+        return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
     }
 
     /**
@@ -99,8 +108,9 @@ class EmailController extends BaseController
         $email = $this->getEmail($id, $user);
 
         $this->setDefaultEmail($email);
+        $message = sprintf('Email "%s" now as default.', $email->__toString());
 
-        return $this->successAndRedirect($user, 'gitonomyfrontend_profile_index', sprintf('Email "%s" now as default.', $email->__toString()));
+        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
     }
 
     /**
@@ -118,8 +128,10 @@ class EmailController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->deleteEmail($email);
+                $parameters = array('id' => $email->getUser()->getId());
+                $message    = sprintf('Email "%s" deleted.', $email->__toString());
 
-                return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_adminuser_edit', sprintf('Email "%s" deleted.', $email->__toString()));
+                return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
             }
         }
 
@@ -146,8 +158,9 @@ class EmailController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->deleteEmail($email);
+                $message = sprintf('Email "%s" deleted.', $email->__toString());
 
-                return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_profile_index', sprintf('Email "%s" deleted.', $email->__toString()));
+                return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
             }
         }
 
@@ -165,8 +178,9 @@ class EmailController extends BaseController
         $email = $this->getEmail($id, $user);
 
         $this->sendActivationMail($email);
+        $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
 
-        return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_profile_index', sprintf('Activation mail for "%s" sent.', $email->__toString()));
+        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
     }
 
     public function adminUserSendActivationAction($id)
@@ -178,7 +192,10 @@ class EmailController extends BaseController
 
         $this->sendActivationMail($email);
 
-        return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_adminuser_edit', sprintf('Activation mail for "%s" sent.', $email->__toString()));
+        $message    = sprintf('Activation mail for "%s" sent.', $email->__toString());
+        $parameters = array('id' => $email->getUser()->getId());
+
+        return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
     }
 
     public function activateAction($username, $hash)
@@ -192,7 +209,9 @@ class EmailController extends BaseController
         $email->setActivation(null);
         $em->getEntityManager()->flush();
 
-        return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_profile_index', sprintf('Email "%s" actived.', $email->__toString()));
+        $message = sprintf('Email "%s" actived.', $email->__toString());
+
+        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
     }
 
     protected function getEmail($id, User $user = null)
@@ -234,22 +253,20 @@ class EmailController extends BaseController
         );
     }
 
-    protected function failAndRedirect(User $user, $route, $message)
+    protected function failAndRedirect($message, $route, array $parameters = null)
     {
         $this->get('session')->setFlash('warning', $message);
+        $parameters = (is_array($parameters) ? $parameters : array());
 
-        return $this->redirect($this->generateUrl($route, array(
-            'id' => $user->getId()
-        )));
+        return $this->redirect($this->generateUrl($route, $parameters));
     }
 
-    protected function successAndRedirect(User $user, $route, $message)
+    protected function successAndRedirect($message, $route, array $parameters = null)
     {
         $this->get('session')->setFlash('success', $message);
+        $parameters = (is_array($parameters) ? $parameters : array());
 
-        return $this->redirect($this->generateUrl($route, array(
-            'id' => $user->getId()
-        )));
+        return $this->redirect($this->generateUrl($route, $parameters));
     }
 
     protected function setDefaultEmail(Email $defaultEmail)
