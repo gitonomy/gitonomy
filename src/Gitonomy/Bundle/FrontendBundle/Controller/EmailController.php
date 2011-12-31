@@ -107,6 +107,10 @@ class EmailController extends BaseController
         $user  = $this->getUser();
         $email = $this->getEmail($id, $user);
 
+        if (!$email->isActived()) {
+            throw new \LogicException(sprintf('Email "%s" cannot be set as default : email is not validated yet!', $email->__toString()));
+        }
+
         $this->setDefaultEmail($email);
         $message = sprintf('Email "%s" now as default.', $email->__toString());
 
@@ -157,6 +161,10 @@ class EmailController extends BaseController
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
+                if ($email->isDefault()) {
+                    throw new \LogicException(sprintf('Email "%s" cannot be deleted : email is default email!', $email->__toString()));
+                }
+
                 $this->deleteEmail($email);
                 $message = sprintf('Email "%s" deleted.', $email->__toString());
 
@@ -200,8 +208,6 @@ class EmailController extends BaseController
 
     public function activateAction($username, $hash)
     {
-        $this->assertPermission('AUTHENTICATED');
-
         $em   = $this->getDoctrine();
         $repo = $em->getRepository('GitonomyCoreBundle:Email');
         if (!$email = $repo->getEmailFromActivation($username, $hash)) {
@@ -240,7 +246,7 @@ class EmailController extends BaseController
         try {
             $em->getConnection()->beginTransaction();
             $email->setUser($user);
-            $email->generateActivationHash();
+            $user->addEmail($email);
             $em->persist($email);
             $em->flush();
             $em->commit();
@@ -275,10 +281,6 @@ class EmailController extends BaseController
 
     protected function setDefaultEmail(Email $defaultEmail)
     {
-        if (!$defaultEmail->isActived()) {
-            throw new \LogicException(sprintf('Email "%s" cannot be set as default : email is not validated yet!', $email->__toString()));
-        }
-
         $em   = $this->getDoctrine()->getEntityManager();
         $user = $defaultEmail->getUser();
 
@@ -294,10 +296,6 @@ class EmailController extends BaseController
 
     protected function deleteEmail(Email $email)
     {
-        if ($email->isDefault()) {
-            throw new \LogicException(sprintf('Email "%s" cannot be deleted : email is default email!', $email->__toString()));
-        }
-
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($email);
         $em->flush();

@@ -225,6 +225,12 @@ class User implements UserInterface
 
     public function addEmail(Email $email)
     {
+        if (!$this->hasDefaultEmail()) {
+            $email->setIsDefault(true);
+        } else {
+            $email->generateActivationHash();
+        }
+
         $email->setUser($this);
         $this->emails->add($email);
     }

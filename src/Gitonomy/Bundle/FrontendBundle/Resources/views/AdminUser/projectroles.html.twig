@@ -18,14 +18,14 @@
                 <tr>
                     <td>{{ projectRole.project }}</td>
                     <td>{{ projectRole.role }}</td>
-                    <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}">delete</td>
+                    <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}" class="label important">delete</td>
                 </tr>
             {% endfor %}
             {% if displayForm %}
                 <tr>
                     <td>{{ form_widget(form.project) }}</td>
                     <td>{{ form_widget(form.role) }}</td>
-                    <td><input type="submit" /></td>
+                    <td><input type="submit" class="btn success" /></td>
                 </tr>
             {% endif %}
         </tbody>

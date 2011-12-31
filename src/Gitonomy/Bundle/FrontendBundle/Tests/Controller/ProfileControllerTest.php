@@ -131,6 +131,18 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());
     }
 
+    public function testAsDefaultUnactivedEmail()
+    {
+        $this->client->connect('alice');
+
+        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+
+        $crawler = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/default');
+
+        $this->assertEquals('500', $this->client->getResponse()->getStatusCode());
+    }
+
     public function testDeleteEmail()
     {
         $this->client->connect('alice');
