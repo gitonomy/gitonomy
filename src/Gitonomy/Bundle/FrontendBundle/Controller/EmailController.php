@@ -177,6 +177,20 @@ class EmailController extends BaseController
         ));
     }
 
+    public function activateAction($username, $hash)
+    {
+        $em   = $this->getDoctrine();
+        $repo = $em->getRepository('GitonomyCoreBundle:Email');
+        if (!$email = $repo->getEmailFromActivation($username, $hash)) {
+            throw $this->createNotFoundException('There is no mail to activate with this link. Have you already activate it?');
+        }
+
+        $email->setActivation(null);
+        $em->getEntityManager()->flush();
+
+        return $this->successAndRedirect($email->getUser(), 'gitonomyfrontend_profile_index', sprintf('Email "%s" actived.', $email->__toString()));
+    }
+
     protected function saveEmail(User $user, Email $email)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -185,13 +199,15 @@ class EmailController extends BaseController
             $email->setUser($user);
             $email->generateActivationHash();
             $em->persist($email);
+
             $mailer = $this->get('gitonomy_frontend.mailer');
-            $mailer->send(
-                $mailer->renderMessage('GitonomyFrontendBundle:Mail:activateEmail.mail.twig', array('email' => $email)),
-                null,
+            $mailer->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
+                array('email' => $email),
                 $email->getEmail()
             );
+
             $em->flush();
+            $em->commit();
         } catch (\Exception $e) {
             throw $e;
         }

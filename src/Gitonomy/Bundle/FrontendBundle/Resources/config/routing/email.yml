@@ -35,8 +35,8 @@ gitonomyfrontend_email_profile_delete:
         id:  \d+
 
 gitonomyfrontend_email_activate:
-    pattern: /{_locale}/email/{id}/activate/{hash}
+    pattern: /{_locale}/email/{username}/activate/{hash}
     defaults: { _controller: "GitonomyFrontendBundle:Email:activate" }
     requirements:
-        userId:  \d+
-        userId:  \w+
+        username: \w+
+        hash:     \w+

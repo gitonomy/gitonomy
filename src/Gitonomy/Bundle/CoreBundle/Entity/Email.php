@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Gitonomy\Bundle\CoreBundle\Repository\EmailRepository")
  *
  * @ORM\Table(name="email", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="email", columns={"email"})
