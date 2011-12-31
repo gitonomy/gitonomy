@@ -25,7 +25,7 @@ class GitonomyExtension extends \Twig_Extension
                 'name'              => $this->container->getParameter('gitonomy_frontend.project.name'),
                 'baseline'          => $this->container->getParameter('gitonomy_frontend.project.baseline'),
                 'open_registration' => $this->container->getParameter('gitonomy_frontend.user.open_registration'),
-                'locales'           => $this->container->getParameter('gitonomy_frontend.locales'),
+                'locales'           => $this->container->getParameter('gitonomy_frontend.allowed_locales'),
             )
         );
     }

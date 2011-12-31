@@ -35,15 +35,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('from_email')->cannotBeEmpty()->end()
                     ->end()
                 ->end()
-                ->arrayNode('locales')
-                    ->useAttributeAsKey('locale')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('country')->isRequired()->end()
-                            ->scalarNode('language')->isRequired()->end()
-                        ->end()
-                    ->end()
-                ->end()
             ->end()
         ;
 

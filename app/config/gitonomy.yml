@@ -12,14 +12,6 @@ gitonomy_frontend:
         from_name:     %mailer_from_name%
         from_email:    %mailer_from_email%
 
-    locales:
-        fr_FR:
-            country:  France
-            language: Français
-        en_US:
-            country:  United States
-            language: English
-
 twig:
     form:
         resources: [ "GitonomyFrontendBundle::form.html.twig" ]
