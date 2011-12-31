@@ -30,7 +30,7 @@ class Mailer
         $bodyText = $this->renderTwigBlock($template, 'body_text', $context);
         $bodyHtml = $this->renderTwigBlock($template, 'body_html', $context);
 
-        return \Swift_Message::newInstance()
+        $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setBody($bodyText, 'text/plain')
             ->addPart($bodyHtml, 'text/html')
