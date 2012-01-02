@@ -201,4 +201,25 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo")')->count());
         $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo") + pre + p span.notice')->count());
     }
+
+    public function testSshKeyCreateInvalid()
+    {
+        $this->client->connect('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
+        $response = $this->client->getResponse();
+
+        // Create
+        $form = $crawler->filter('form')->form(array(
+            'profile_ssh_key[title]'   => 'foo',
+            'profile_ssh_key[content]' => 'bar'."\n"."baz"
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertFalse($response->isRedirect());
+
+        $this->assertEquals("No newline permitted", $crawler->filter('#profile_ssh_key_content + p span.help-inline')->text());
+    }
 }

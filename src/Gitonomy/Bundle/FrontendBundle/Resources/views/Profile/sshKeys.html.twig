@@ -8,15 +8,17 @@
         <h2>SSH Keys <small>Manage your keyring</small></h2>
     </div>
     {% for key in sshKeys %}
-        <h3>{{ key.title }}</h3>
-        <pre>{{ key.content }}</pre>
-        <p>
-            <a class="btn danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
-            {% if not key.isInstalled %}
-                <span class="label warn notice">INSTALLING</span>
-            {% endif %}
-        </p>
-        <hr />
+        <div class="ssh-key">
+            <h3>{{ key.title }}</h3>
+            <pre>{{ key.content }}</pre>
+            <p>
+                <a class="btn danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
+                {% if not key.isInstalled %}
+                    <span class="label warn notice">INSTALLING</span>
+                {% endif %}
+            </p>
+            <hr />
+        </div>
     {% endfor %}
     <h3>New key</h3>
     <form action="{{ path('gitonomyfrontend_profile_createSshKey') }}" method="POST" class="form-stacked" novalidate>

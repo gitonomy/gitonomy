@@ -36,6 +36,7 @@ class UserSshKey
      * @ORM\Column(type="text")
      *
      * @Assert\NotBlank
+     * @Assert\Regex(match=false,pattern="/\n/",message="No newline permitted")
      */
     protected $content;
 
