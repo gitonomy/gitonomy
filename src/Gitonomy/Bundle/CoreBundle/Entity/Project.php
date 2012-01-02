@@ -43,6 +43,11 @@ class Project
      */
     protected $userRoles;
 
+    /**
+     * @ORM\Column(type="integer",nullable=true)
+     */
+    protected $repositorySize;
+
     public function __construct()
     {
         $this->userRoles  = new ArrayCollection();
@@ -76,6 +81,16 @@ class Project
     public function setSlug($slug)
     {
         $this->slug = $slug;
+    }
+
+    public function getRepositorySize()
+    {
+        return $this->repositorySize;
+    }
+
+    public function setRepositorySize($repositorySize)
+    {
+        $this->repositorySize = $repositorySize;
     }
 
     public function getUserRoles()
