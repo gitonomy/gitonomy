@@ -22,12 +22,14 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
         $foobar = new Project();
         $foobar->setName('Foobar');
         $foobar->setSlug('foobar');
+        $foobar->setRepositorySize(256);
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
 
         $barbaz = new Project();
         $barbaz->setName('Barbaz');
         $barbaz->setSlug('barbaz');
+        $barbaz->setRepositorySize(352);
         $manager->persist($barbaz);
         $this->setReference('project-barbaz', $barbaz);
 
