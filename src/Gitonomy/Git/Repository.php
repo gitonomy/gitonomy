@@ -98,6 +98,28 @@ class Repository
     }
 
     /**
+     * Returns the size of repository, in kilobytes.
+     *
+     * @return int A sum, in kilobytes
+     */
+    public function getSize()
+    {
+        ob_start();
+        system(sprintf('du -skc %s', escapeshellarg($this->path)), $return);
+        $result = ob_get_clean();
+
+        if (0 !== $return) {
+            throw new \RuntimeException('Unable to compute filesize');
+        }
+
+        if (!preg_match('/(\d+)\s+total$/', $result, $vars)) {
+            throw new \RuntimeException('Unable to parse repository size output');
+        }
+
+        return $vars[1];
+    }
+
+    /**
      * Executes a shell command on the repository, using PHP pipes.
      *
      * @param string $command The command to execute
