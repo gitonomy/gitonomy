@@ -61,6 +61,14 @@ class RepositoryPool
         rmdir($path);
     }
 
+    public function onProjectPush(ProjectEvent $event)
+    {
+        $project = $event->getProject();
+        $repository = $this->getGitRepository($project);
+
+        $project->setRepositorySize($repository->getSize());
+    }
+
     /**
      * Returns the Git repository associated the a model project.
      *
