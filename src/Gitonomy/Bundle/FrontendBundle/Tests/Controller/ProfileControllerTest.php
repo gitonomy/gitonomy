@@ -164,4 +164,41 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "'.$email->getEmail().'" deleted.', $node->text());
     }
+
+    public function testSshKeyListAndCreate()
+    {
+        $this->client->connect('bob');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
+        $response = $this->client->getResponse();
+
+        // List
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertEquals(2, $crawler->filter('.ssh-key')->count());
+
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Installed key")')->count());
+        $this->assertEquals(0, $crawler->filter('.ssh-key h3:contains("Installed key") + pre + p span.notice')->count());
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Not installed key")')->count());
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Not installed key") + pre + p span.notice')->count());
+
+        // Create
+        $form = $crawler->filter('form')->form(array(
+            'profile_ssh_key[title]'   => 'foo',
+            'profile_ssh_key[content]' => 'bar'
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US/profile/ssh-keys'));
+
+        $crawler  = $this->client->followRedirect();
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(3, $crawler->filter('.ssh-key')->count());
+
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo")')->count());
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo") + pre + p span.notice')->count());
+    }
 }
