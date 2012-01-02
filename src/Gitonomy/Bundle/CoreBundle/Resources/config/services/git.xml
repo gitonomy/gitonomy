@@ -28,6 +28,7 @@
             <argument type="service" id="gitonomy_core.git.repository_pool" />
             <argument type="collection">
                 <argument key="pre-receive">%kernel.root_dir%/Resources/hooks/pre-receive</argument>
+                <argument key="post-receive">%kernel.root_dir%/Resources/hooks/post-receive</argument>
             </argument>
         </service>
     </services>

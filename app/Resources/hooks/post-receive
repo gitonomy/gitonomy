@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Check the context informations
+if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
+    echo >&2 "Context informations missing"
+    exit 1
+fi
+
+# Gitonomy console
+command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
+
+$command gitonomy:project-notify-push "$GITONOMY_USER" "$GITONOMY_PROJECT"
