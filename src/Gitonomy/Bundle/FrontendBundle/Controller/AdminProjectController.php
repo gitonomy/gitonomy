@@ -124,7 +124,7 @@ class AdminProjectController extends BaseAdminController
     protected function postCreate($object)
     {
         $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($object));
-        $em = $this->get('doctrine')->getEntityManagerForClass('Gitonomy\Entity\CoreBundle\Entity\Project');
+        $em = $this->get('doctrine')->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\Project');
 
         $em->persist($object);
         $em->flush();
