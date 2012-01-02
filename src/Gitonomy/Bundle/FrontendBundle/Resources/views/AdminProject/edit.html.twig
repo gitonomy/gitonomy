@@ -14,6 +14,9 @@
                 <div class="page-header">
                     <h2>Project informations</h2>
                 </div>
+
+                <h4><strong>Project size:</strong> {{ (object.repositorySize/1024)|number_format(2) }}MB</h4>
+
                 {{ form_row(form.name) }}
                 {{ form_rest(form) }}
                 <hr />
