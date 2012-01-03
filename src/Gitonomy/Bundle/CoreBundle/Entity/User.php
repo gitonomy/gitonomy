@@ -319,4 +319,11 @@ class User implements UserInterface
 
         return $now->getTimestamp() > $max->getTimeStamp();
     }
+
+    public function markAllKeysAsUninstalled()
+    {
+        foreach ($this->sshKeys as $sshKey) {
+            $sshKey->setIsInstalled(false);
+        }
+    }
 }

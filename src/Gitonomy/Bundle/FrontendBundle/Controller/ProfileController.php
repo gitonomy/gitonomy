@@ -54,6 +54,7 @@ class ProfileController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $user->markAllKeysAsUninstalled();
                 $em->persist($user);
                 $em->flush();
 
