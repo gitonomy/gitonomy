@@ -17,6 +17,7 @@
         <parameter key="gitonomy_frontend.form.type.useremail.class">Gitonomy\Bundle\FrontendBundle\Form\User\UserEmailType</parameter>
         <parameter key="gitonomy_frontend.form.type.forgot_password_request.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ForgotPasswordRequestType</parameter>
         <parameter key="gitonomy_frontend.form.type.change_password.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ChangePasswordType</parameter>
+        <parameter key="gitonomy_frontend.form.type.change_username.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ChangeUsernameType</parameter>
     </parameters>
 
     <services>
@@ -55,6 +56,9 @@
         </service>
         <service id="gitonomy_frontend.form.type.change_password" class="%gitonomy_frontend.form.type.change_password.class%">
             <tag name="form.type" alias="change_password" />
+        </service>
+        <service id="gitonomy_frontend.form.type.change_username" class="%gitonomy_frontend.form.type.change_username.class%">
+            <tag name="form.type" alias="change_username" />
         </service>
     </services>
 

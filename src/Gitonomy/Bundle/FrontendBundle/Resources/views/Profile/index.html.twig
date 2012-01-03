@@ -7,14 +7,7 @@
         <h1>Profile <small>Edit your personal informations</small></h1>
     </div>
     <ul>
-        <li><strong>Username:</strong> {{ app.user.username }}</li>
-        <li><strong>Emails:</strong>
-            <ul>
-                {% for email in app.user.emails %}
-                    <li>{{ email.email }}{% if email.isDefault %} <em>(default)</em>{% endif %}</li>
-                {% endfor %}
-            </ul>
-        </li>
+        <li><strong>Username:</strong> {{ app.user.username }} - <a href="{{ path('gitonomyfrontend_profile_changeUsername') }}">change my username</a></li>
     </ul>
     <hr />
     <form action="{{ path('gitonomyfrontend_profile_index') }}" method="POST" novalidate class="form-stacked">

@@ -42,8 +42,36 @@ class ProfileController extends BaseController
         ));
     }
 
+    public function changeUsernameAction()
+    {
+        $this->assertPermission('AUTHENTICATED');
+
+        $user = $this->getUser();
+        $form = $this->createForm('change_username', $user);
+
+        $request = $this->getRequest();
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                $this->get('session')->setFlash('success', 'Woaw, you have a new username!');
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:changeUsername.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
     public function emailsAction()
     {
+        $this->assertPermission('AUTHENTICATED');
+
         return $this->render('GitonomyFrontendBundle:Profile:emails.html.twig');
     }
 

@@ -17,3 +17,7 @@ gitonomyfrontend_profile_deleteSshKey:
 gitonomyfrontend_profile_createSshKey:
     pattern: /{_locale}/profile/create-ssh-key
     defaults: { _controller: "GitonomyFrontendBundle:Profile:createSshKey" }
+
+gitonomyfrontend_profile_changeUsername:
+    pattern: /{_locale}/profile/change-username
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:changeUsername" }
