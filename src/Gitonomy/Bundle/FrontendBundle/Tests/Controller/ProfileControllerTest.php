@@ -223,4 +223,29 @@ class ProfileControllerTest extends WebTestCase
 
         $this->assertEquals("No newline permitted", $crawler->filter('#profile_ssh_key_content + p span.help-inline')->text());
     }
+
+    public function testChangeUsername()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('Change username', $crawler->filter('h1')->text());
+
+        $form = $crawler->filter('form input[type=submit]')->form(array(
+            'change_username[username]' => 'foobar'
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US/profile/change-username'));
+
+        $crawler  = $this->client->followRedirect();
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(1, $crawler->filter('.topbar a:contains("foobar")')->count());
+    }
 }
