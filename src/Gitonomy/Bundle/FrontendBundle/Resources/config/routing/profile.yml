@@ -7,7 +7,7 @@ gitonomyfrontend_profile_sshKeys:
     defaults: { _controller: "GitonomyFrontendBundle:Profile:sshKeys" }
 
 gitonomyfrontend_profile_emails:
-    pattern: /{_locale}/profile/mails
+    pattern: /{_locale}/profile/emails
     defaults: { _controller: "GitonomyFrontendBundle:Profile:emails" }
 
 gitonomyfrontend_profile_deleteSshKey:
