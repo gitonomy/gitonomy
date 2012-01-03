@@ -57,9 +57,9 @@ class ProfileController extends BaseController
                 $em->persist($user);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', 'Woaw, you have a new username!');
+                $this->get('session')->setFlash('success', 'This new username is so cool!');
 
-                return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_changeUsername'));
             }
         }
 

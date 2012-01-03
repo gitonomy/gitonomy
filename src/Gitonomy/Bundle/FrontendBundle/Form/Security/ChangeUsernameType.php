@@ -14,6 +14,13 @@ class ChangeUsernameType extends AbstractType
         ;
     }
 
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'validation_groups' => array('change_username')
+        );
+    }
+
     public function getName()
     {
         return 'change_username';

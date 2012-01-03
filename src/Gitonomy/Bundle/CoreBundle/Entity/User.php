@@ -31,10 +31,10 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string",length=32,unique=true)
      *
-     * @Assert\NotBlank(groups={"registration", "admin"})
-     * @Assert\MinLength(limit=3,groups={"registration", "admin"})
-     * @Assert\MaxLength(limit=32,groups={"registration", "admin"})
-     * @Assert\Regex(pattern="/[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]/",groups={"registration", "admin"})
+     * @Assert\NotBlank(groups={"registration", "admin", "change_username"})
+     * @Assert\MinLength(limit=3,groups={"registration", "admin", "change_username"})
+     * @Assert\MaxLength(limit=32,groups={"registration", "admin", "change_username"})
+     * @Assert\Regex(pattern="/^[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]$/",groups={"registration", "admin", "change_username"},message="Only letters, numbers, -, _")
      */
     protected $username;
 
