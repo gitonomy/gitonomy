@@ -39,7 +39,7 @@ class ProfileControllerTest extends WebTestCase
     public function testCreateEmailExists()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/profile');
+        $crawler  = $this->client->request('GET', '/en_US/profile/emails');
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
             'useremail[email]' => 'admin@example.org',
@@ -48,7 +48,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile'));
+        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.warning p');
@@ -60,7 +60,7 @@ class ProfileControllerTest extends WebTestCase
     public function testCreateEmail()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/profile');
+        $crawler  = $this->client->request('GET', '/en_US/profile/emails');
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
             'useremail[email]' => 'admin@mydomain.tld',
@@ -73,7 +73,7 @@ class ProfileControllerTest extends WebTestCase
 
         $this->assertEquals(1, $collector->getMessageCount());
 
-        $this->assertTrue($response->isRedirect('/en_US/profile'));
+        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.success p');
@@ -88,13 +88,14 @@ class ProfileControllerTest extends WebTestCase
 
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+        $this->assertNotEmpty($email);
 
         $crawler   = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/send-activation');
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.success p');
@@ -112,7 +113,7 @@ class ProfileControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivation());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.success p');
@@ -123,7 +124,7 @@ class ProfileControllerTest extends WebTestCase
         $link = $crawler->filter('#email_5 a:contains("as default")')->link();
         $crawler = $this->client->click($link);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.success p');
 
@@ -156,7 +157,7 @@ class ProfileControllerTest extends WebTestCase
         $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile'));
+        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-message.success p');
