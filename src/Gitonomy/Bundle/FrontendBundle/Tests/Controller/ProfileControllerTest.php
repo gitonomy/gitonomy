@@ -226,7 +226,7 @@ class ProfileControllerTest extends WebTestCase
 
     public function testChangeUsername()
     {
-        $this->client->connect('alice');
+        $this->client->connect('bob');
 
         $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
         $response = $this->client->getResponse();
@@ -247,11 +247,17 @@ class ProfileControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("foobar")')->count());
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
+        $response = $this->client->getResponse();
+
+        // Check the installed key is marked as not installed
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Installed key") + pre + p span.notice')->count());
     }
 
     public function testChangeWrongUsername()
     {
-        $this->client->connect('alice');
+        $this->client->connect('bob');
 
         $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
         $response = $this->client->getResponse();
