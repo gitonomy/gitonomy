@@ -248,4 +248,23 @@ class ProfileControllerTest extends WebTestCase
 
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("foobar")')->count());
     }
+
+    public function testChangeWrongUsername()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('form input[type=submit]')->form(array(
+            'change_username[username]' => 'foo bar'
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertFalse($response->isRedirect());
+
+        $this->assertEquals(1, $crawler->filter('#change_username_username_field.error')->count());
+    }
 }
