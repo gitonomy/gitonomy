@@ -21,3 +21,10 @@ gitonomyfrontend_profile_createSshKey:
 gitonomyfrontend_profile_changeUsername:
     pattern: /{_locale}/profile/change-username
     defaults: { _controller: "GitonomyFrontendBundle:Profile:changeUsername" }
+
+gitonomyfrontend_profile_activate:
+    pattern: /{_locale}/profile/{username}/activate/{token}
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:activate" }
+    requirements:
+        id:   \d+
+        hash: \w+

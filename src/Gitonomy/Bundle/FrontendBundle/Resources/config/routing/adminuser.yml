@@ -18,6 +18,12 @@ gitonomyfrontend_adminuser_delete:
     requirements:
         id:  \d+
 
+gitonomyfrontend_adminuser_activate:
+    pattern: /{_locale}/adminuser/{id}/activate
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:activate" }
+    requirements:
+        id:  \d+
+
 gitonomyfrontend_adminuser_projectroles:
     pattern: /{_locale}/adminuser/{userId}/userrole
     defaults: { _controller: "GitonomyFrontendBundle:AdminUser:userRoles" }

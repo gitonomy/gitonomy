@@ -76,6 +76,11 @@ class User implements UserInterface
     protected $forgotPasswordCreatedAt;
 
     /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    protected $activationToken;
+
+    /**
      * @ORM\OneToMany(targetEntity="UserSshKey", mappedBy="user", cascade={"persist", "remove"}))
      */
     protected $sshKeys;
@@ -325,5 +330,30 @@ class User implements UserInterface
         foreach ($this->sshKeys as $sshKey) {
             $sshKey->setIsInstalled(false);
         }
+    }
+
+    public function getActivationToken()
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken($activationToken)
+    {
+        $this->activationToken = $activationToken;
+    }
+
+    public function generateActivationToken()
+    {
+        $this->activationToken = md5(uniqid().microtime());
+    }
+
+    public function removeActivationToken()
+    {
+        $this->activationToken = null;
+    }
+
+    public function isActived()
+    {
+        return (null !== $this->password && null !== $this->activationToken);
     }
 }

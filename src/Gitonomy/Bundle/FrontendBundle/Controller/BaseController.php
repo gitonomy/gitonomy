@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
@@ -44,5 +45,10 @@ class BaseController extends Controller
         if (!$user instanceof User || !$this->get('gitonomy_frontend.security.right')->isGrantedForProject($user, $project, $permission)) {
             throw new AccessDeniedException($message);
         }
+    }
+
+    public function createException($message, $statusCode = 500)
+    {
+        return new HttpException($statusCode, $message);
     }
 }

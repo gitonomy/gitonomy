@@ -26,6 +26,7 @@
                 <input type="submit" class="btn success" value="Update" />
                 <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
                 <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+                <a href="{{ path(route_prefix~'_activate', {'id':object.id}) }}" class="btn info">Activate</a>
             </form>
         </div>
         <div class="span9">

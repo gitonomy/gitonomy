@@ -29,11 +29,48 @@ class AdminUserController extends BaseAdminController
         return parent::createAction();
     }
 
-    public function editAction($id, $vars = array())
+    public function editAction($id)
     {
         $this->assertPermission('USER_EDIT');
 
         return parent::editAction($id);
+    }
+
+    public function activateAction($id)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        if (!$user = $this->getRepository()->find($id)) {
+            throw $this->createNotFoundException(sprintf('No %s found with id "%d".', $className, $id));
+        }
+
+        if (!$user->hasDefaultEmail()) {
+            throw new HttpException(500, sprintf('User "%s" has no default email.', $id));
+        }
+
+        $em         = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+
+        try {
+            $em->beginTransaction();
+
+            $user->generateActivationToken();
+            $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:AdminUser:activate.mail.twig', array(
+                'user' => $user
+            ), $user->getDefaultEmail()->getEmail());
+
+            $em->flush();
+            $connection->commit();
+        } catch (\Exception $e) {
+            $connection->rollback();
+            $em->close();
+            throw $e;
+        }
+        $this->get('session')->setFlash('success', sprintf('"%s".', $user->__toString()));
+
+        return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+            'id' => $user->getId()
+        )));
     }
 
     /**
@@ -44,11 +81,11 @@ class AdminUserController extends BaseAdminController
         $this->assertPermission('USER_EDIT');
 
         if (!$user = $this->getRepository()->find($userId)) {
-            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
+            throw $this->createNotFoundException(sprintf('No %s found with id "%d".', $className, $id));
         }
 
         $userRoleProject = new UserRoleProject();
-        $em              = $this->getDoctrine()->getEntityManager();
+        $em              = $this->getDoctrine()->getManager();
         $repository      = $em->getRepository('GitonomyCoreBundle:Project');
         $usedProjects    = $repository->findByUser($user);
         $totalProjects   = $repository->findAll();
@@ -125,6 +162,6 @@ class AdminUserController extends BaseAdminController
 
     protected function getRepository()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository('GitonomyCoreBundle:User');
+        return $this->getDoctrine()->getManager()->getRepository('GitonomyCoreBundle:User');
     }
 }

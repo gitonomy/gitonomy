@@ -5,11 +5,13 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
  * Controller for user profile.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <julien@jdidier.net>
  */
 class ProfileController extends BaseController
 {
@@ -27,7 +29,7 @@ class ProfileController extends BaseController
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
@@ -100,7 +102,7 @@ class ProfileController extends BaseController
     {
         $this->assertPermission('AUTHENTICATED');
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em         = $this->getDoctrine()->getManager();
         $userSshKey = $em->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
 
         if (!$userSshKey) {
@@ -131,7 +133,7 @@ class ProfileController extends BaseController
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($userSshKey);
                 $em->flush();
 
@@ -143,5 +145,62 @@ class ProfileController extends BaseController
             'sshKeys' => $this->getUser()->getSshKeys(),
             'form'    => $form->createView()
         ));
+    }
+
+    /**
+     * Validate activation for a profile
+     */
+    public function activateAction($username, $token)
+    {
+//        $this->assertPermission('IS_AUTHENTICATED_ANONYMOUSLY');
+
+        $em   = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+        if (!$user) {
+            throw $this->createNotFoundException(sprintf('User "%s" not found!', $username));
+        }
+
+        if ($user->isActived()) {
+            throw $this->createException(sprintf('User "%s" is already actived!', $username));
+        }
+
+        if ($user->getActivationToken() !== $token) {
+            throw $this->createException('Bad activation token!');
+        }
+
+        $form = $this->createForm('change_password', $user);
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->encodePassword($user);
+                $user->removeActivationToken();
+                $em->flush();
+
+                $this->get('session')->setFlash('success', 'Profile updated!');
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_index'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:activate.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Encode the password of a user and save it.
+     *
+     * @param Gitonomy\Bundle\CoreBundle\Entity\User $user A user to register
+     */
+    protected function encodePassword(User $user)
+    {
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+        $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
+
+        $em = $this->getDoctrine()->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\User');
     }
 }
