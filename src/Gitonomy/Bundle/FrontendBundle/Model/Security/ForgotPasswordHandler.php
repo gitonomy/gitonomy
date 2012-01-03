@@ -25,7 +25,7 @@ class ForgotPasswordHandler
 
     public function processRequest(ForgotPasswordRequest $request)
     {
-        $em = $this->doctrine->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\User');
+        $em = $this->doctrine->getManager();
 
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByEmail($request->getEmail());
 

@@ -137,7 +137,7 @@ class SecurityController extends BaseController
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
         $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
 
-        $em = $this->getDoctrine()->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\User');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
     }
