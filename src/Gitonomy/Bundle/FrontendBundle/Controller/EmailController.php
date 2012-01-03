@@ -7,6 +7,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class EmailController extends BaseController
 {
+    const ROUTE_PROFILE = 'gitonomyfrontend_profile_emails';
     /**
      * Action to create an email from admin user
      */
@@ -67,11 +68,11 @@ class EmailController extends BaseController
                 $this->sendActivationMail($email);
                 $message = sprintf('Email "%s" added.', $email->__toString());
 
-                return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
+                return $this->successAndRedirect($message, self::ROUTE_PROFILE);
             } else {
                 $message = 'Email you filled is not valid.';
 
-                return $this->failAndRedirect($message, 'gitonomyfrontend_profile_index');
+                return $this->failAndRedirect($message, self::ROUTE_PROFILE);
             }
         }
 
@@ -114,7 +115,7 @@ class EmailController extends BaseController
         $this->setDefaultEmail($email);
         $message = sprintf('Email "%s" now as default.', $email->__toString());
 
-        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
+        return $this->successAndRedirect($message, self::ROUTE_PROFILE);
     }
 
     /**
@@ -168,7 +169,7 @@ class EmailController extends BaseController
                 $this->deleteEmail($email);
                 $message = sprintf('Email "%s" deleted.', $email->__toString());
 
-                return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
+                return $this->successAndRedirect($message, self::ROUTE_PROFILE);
             }
         }
 
@@ -188,7 +189,7 @@ class EmailController extends BaseController
         $this->sendActivationMail($email);
         $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
 
-        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
+        return $this->successAndRedirect($message, self::ROUTE_PROFILE);
     }
 
     public function adminUserSendActivationAction($id)
@@ -219,7 +220,7 @@ class EmailController extends BaseController
 
         $message = sprintf('Email "%s" actived.', $email->__toString());
 
-        return $this->successAndRedirect($message, 'gitonomyfrontend_profile_index');
+        return $this->successAndRedirect($message, self::ROUTE_PROFILE);
     }
 
     protected function getEmail($id, User $user = null)

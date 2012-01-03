@@ -1,0 +1,7 @@
+{% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
+
+{% block title 'Manage my mails' %}
+
+{% block column_right %}
+    {% render 'GitonomyFrontendBundle:Email:profileList' with {'userId': app.user.id} %}
+{% endblock %}

@@ -42,6 +42,11 @@ class ProfileController extends BaseController
         ));
     }
 
+    public function emailsAction()
+    {
+        return $this->render('GitonomyFrontendBundle:Profile:emails.html.twig');
+    }
+
     /**
      * List SSH keys and form for adding a new one.
      */
