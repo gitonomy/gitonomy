@@ -15,9 +15,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\Permission;
 class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Returns a verbose-less array with plan of userRole creation.
-     *
-     * @return array An array where is element is ('user-XXX', 'role-XXX', ?'project-XXX')
+     * Returns a verbose-less array with plan of permission creation.
      */
     protected function getData()
     {
