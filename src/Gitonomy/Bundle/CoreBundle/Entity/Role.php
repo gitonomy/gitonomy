@@ -62,6 +62,7 @@ class Role
         $this->permissions      = new ArrayCollection();
         $this->userRolesProject = new ArrayCollection();
         $this->users            = new ArrayCollection();
+        $this->gitAccesses      = new ArrayCollection();
     }
 
     public function __toString()
