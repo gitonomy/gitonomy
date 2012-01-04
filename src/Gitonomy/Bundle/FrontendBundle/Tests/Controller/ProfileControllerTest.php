@@ -121,7 +121,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "'.$email->getEmail().'" actived.', $node->text());
 
-        $link = $crawler->filter('#email_5 a:contains("as default")')->link();
+        $link = $crawler->filter('#email_'.$email->getId().' a:contains("as default")')->link();
         $crawler = $this->client->click($link);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
@@ -272,5 +272,22 @@ class ProfileControllerTest extends WebTestCase
         $this->assertFalse($response->isRedirect());
 
         $this->assertEquals(1, $crawler->filter('#change_username_username_field.error')->count());
+    }
+
+    public function testActivate()
+    {
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
+
+        $crawler = $this->client->request('GET', '/en_US/profile/'.$user->getUsername().'/activate/'.$user->getActivationToken());
+
+        $form = $crawler->filter('#user input[type=submit]')->form(array(
+            'change_password[password][first]'  => 'inactive',
+            'change_password[password][second]' => 'inactive',
+        ));
+
+        $crawler  = $this->client->submit($form);
+
+        $this->client->connect('inactive');
     }
 }

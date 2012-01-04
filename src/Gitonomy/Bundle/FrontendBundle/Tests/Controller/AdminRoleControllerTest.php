@@ -4,9 +4,6 @@ namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * @todo Remove static IDs
- */
 class AdminRoleControllerTest extends WebTestCase
 {
     protected $client;

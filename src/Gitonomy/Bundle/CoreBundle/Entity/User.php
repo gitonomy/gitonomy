@@ -232,8 +232,6 @@ class User implements UserInterface
     {
         if (!$this->hasDefaultEmail()) {
             $email->setIsDefault(true);
-        } else {
-            $email->generateActivationHash();
         }
 
         $email->setUser($this);

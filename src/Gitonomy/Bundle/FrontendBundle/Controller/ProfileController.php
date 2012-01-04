@@ -152,7 +152,9 @@ class ProfileController extends BaseController
      */
     public function activateAction($username, $token)
     {
-//        $this->assertPermission('IS_AUTHENTICATED_ANONYMOUSLY');
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createException('Permission denied', 403);
+        }
 
         $em   = $this->getDoctrine()->getManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);

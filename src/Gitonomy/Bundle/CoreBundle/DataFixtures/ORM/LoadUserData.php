@@ -103,6 +103,17 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $manager->persist($bob);
         $this->setReference('user-bob', $bob);
 
+        $inactive = new User();
+        $inactive->setUsername('inactive');
+        $inactive->setFullname('inactive');
+        $email = new Email();
+        $email->setEmail('inactive@example.org');
+        $inactive->setDefaultEmail($email);
+        $inactive->setTimezone('Europe/Paris');
+        $inactive->generateActivationToken();
+        $manager->persist($inactive);
+        $this->setReference('user-inactive', $inactive);
+
         $manager->flush();
     }
 

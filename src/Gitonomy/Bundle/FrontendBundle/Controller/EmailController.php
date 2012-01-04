@@ -64,6 +64,7 @@ class EmailController extends BaseController
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
+                $email->generateActivationHash();
                 $this->saveEmail($user, $email);
                 $this->sendActivationMail($email);
                 $message = sprintf('Email "%s" added.', $email->__toString());
@@ -190,21 +191,6 @@ class EmailController extends BaseController
         $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
 
         return $this->successAndRedirect($message, self::ROUTE_PROFILE);
-    }
-
-    public function adminUserSendActivationAction($id)
-    {
-        $this->assertPermission('USER_EDIT');
-
-        $user  = $this->getUser();
-        $email = $this->getEmail($id);
-
-        $this->sendActivationMail($email);
-
-        $message    = sprintf('Activation mail for "%s" sent.', $email->__toString());
-        $parameters = array('id' => $email->getUser()->getId());
-
-        return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
     }
 
     public function activateAction($username, $hash)
