@@ -28,7 +28,7 @@ class ProjectGitAccess
     protected $project;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role")
+     * @ORM\ManyToOne(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\Role", inversedBy="gitAccesses")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
     protected $role;

@@ -44,7 +44,7 @@ class Project
     protected $userRoles;
 
     /**
-     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess", mappedBy="project", cascade={"persist", "remove"}))
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess", mappedBy="project", cascade={"remove"}))
      */
     protected $gitAccesses;
 

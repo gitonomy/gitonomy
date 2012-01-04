@@ -48,6 +48,11 @@ class Role
     protected $userRolesProject;
 
     /**
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess", mappedBy="role", cascade={"remove"}))
+     */
+    protected $gitAccesses;
+
+    /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="userRolesGlobal")
      */
     protected $usersGlobal;
