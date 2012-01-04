@@ -44,13 +44,19 @@ class Project
     protected $userRoles;
 
     /**
+     * @ORM\OneToMany(targetEntity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess", mappedBy="project", cascade={"persist", "remove"}))
+     */
+    protected $gitAccesses;
+
+    /**
      * @ORM\Column(type="integer",nullable=true)
      */
     protected $repositorySize;
 
     public function __construct()
     {
-        $this->userRoles  = new ArrayCollection();
+        $this->userRoles   = new ArrayCollection();
+        $this->gitAccesses = new ArrayCollection();
     }
 
     public function __toString()
@@ -96,5 +102,10 @@ class Project
     public function getUserRoles()
     {
         return $this->userRoles;
+    }
+
+    public function getGitAccesses()
+    {
+        return $this->gitAccesses;
     }
 }
