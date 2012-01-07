@@ -172,17 +172,17 @@ class AdminProjectControllerTest extends WebTestCase
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
 
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/edit');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/user-roles');
         $response = $this->client->getResponse();
 
-        $form = $crawler->filter('#user_role_project input[type=submit]')->form(array(
+        $form = $crawler->filter('form input[type=submit]')->form(array(
             'adminuserroleproject[user]' => $user->getId(),
             'adminuserroleproject[role]' => $role->getId(),
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/user-roles'));
 
         $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
             'user'    => $user,
@@ -202,14 +202,14 @@ class AdminProjectControllerTest extends WebTestCase
         ));
 
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminproject/userrole/'.$userRole->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/user-roles/'.$userRole->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/user-roles'));
     }
 
     public function testDeleteAsAnonymous()
