@@ -18,6 +18,8 @@
         <parameter key="gitonomy_frontend.form.type.forgot_password_request.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ForgotPasswordRequestType</parameter>
         <parameter key="gitonomy_frontend.form.type.change_password.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ChangePasswordType</parameter>
         <parameter key="gitonomy_frontend.form.type.change_username.class">Gitonomy\Bundle\FrontendBundle\Form\Security\ChangeUsernameType</parameter>
+        <parameter key="gitonomy_frontend.form.type.project_git_accesses.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectGitAccessesType</parameter>
+        <parameter key="gitonomy_frontend.form.type.project_git_access.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\ProjectGitAccessType</parameter>
     </parameters>
 
     <services>
@@ -59,6 +61,12 @@
         </service>
         <service id="gitonomy_frontend.form.type.change_username" class="%gitonomy_frontend.form.type.change_username.class%">
             <tag name="form.type" alias="change_username" />
+        </service>
+        <service id="gitonomy_frontend.form.type.project_git_access" class="%gitonomy_frontend.form.type.project_git_access.class%">
+            <tag name="form.type" alias="project_git_access" />
+        </service>
+        <service id="gitonomy_frontend.form.type.project_git_accesses" class="%gitonomy_frontend.form.type.project_git_accesses.class%">
+            <tag name="form.type" alias="project_git_accesses" />
         </service>
     </services>
 
