@@ -18,15 +18,46 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
  */
 class AdminProjectController extends BaseAdminController
 {
-    /**
-     * Action to create a new user role project for an user
-     */
-    public function projectRolesAction($projectId)
+    public function gitAccessesAction($id)
     {
         $this->assertPermission('PROJECT_EDIT');
 
-        if (!$project = $this->getRepository()->find($projectId)) {
-            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
+        if (!$project = $this->getRepository()->find($id)) {
+            throw $this->createNotFoundException("Project not found");
+        }
+
+        $form = $this->createForm('project_git_accesses', $project->getGitAccesses());
+        $request = $this->getRequest();
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($project);
+                $em->flush();
+
+                $this->get('session')->setFlash('success', 'Accesses saved');
+
+                return $this->redirect($this->generateUrl($this->getRouteName('gitAccesses'), array(
+                    'id' => $project->getId()
+                )));
+            }
+        }
+        return $this->render('GitonomyFrontendBundle:AdminProject:gitAccesses.html.twig', array(
+            'object' => $project,
+            'form'   => $form->createView()
+        ));
+    }
+
+    /**
+     * Action to create a new user role project for an user
+     */
+    public function userRolesAction($id)
+    {
+        $this->assertPermission('PROJECT_EDIT');
+
+        if (!$project = $this->getRepository()->find($id)) {
+            throw $this->createNotFoundException(sprintf('No %s found with id "%d".', $className, $id));
         }
 
         $userRoleProject = new UserRoleProject();
@@ -54,27 +85,27 @@ class AdminProjectController extends BaseAdminController
                     )
                 );
 
-                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
+                return $this->redirect($this->generateUrl($this->getRouteName('userRoles'), array(
                     'id' => $project->getId()
                 )));
             }
         }
-        return $this->render('GitonomyFrontendBundle:AdminProject:userroles.html.twig', array(
-            'project'     => $project,
+        return $this->render('GitonomyFrontendBundle:AdminProject:userRoles.html.twig', array(
+            'object'      => $project,
             'form'        => $form->createView(),
             'displayForm' => $totalUsers > $usedUsers,
         ));
     }
 
-    public function deleteProjectRoleAction($id)
+    public function deleteUserRoleAction($id)
     {
         $this->assertPermission('PROJECT_EDIT');
 
         $em         = $this->getDoctrine()->getEntityManager();
         $repository = $em->getRepository('GitonomyCoreBundle:UserRoleProject');
 
-        if (!$projectRole = $repository->find($id)) {
-            throw new HttpException(404, sprintf('No ProjectRole found with id "%d".', $id));
+        if (!$userRole = $repository->find($id)) {
+            throw $this->createNotFoundException(sprintf('No UserRole found with id "%d".', $id));
         }
 
         $form    = $this->createFormBuilder()->getForm();
@@ -83,21 +114,22 @@ class AdminProjectController extends BaseAdminController
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em->remove($projectRole);
+                $em->remove($userRole);
                 $em->flush();
 
                 $this->get('session')->setFlash('success',
-                    sprintf('Role "%s" deleted.', $projectRole->__toString())
+                    sprintf('Role "%s" deleted.', $userRole->__toString())
                 );
 
-                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
-                    'id' => $projectRole->getProject()->getId()
+                return $this->redirect($this->generateUrl($this->getRouteName('userRoles'), array(
+                    'id' => $userRole->getProject()->getId()
                 )));
             }
         }
 
-        return $this->render('GitonomyFrontendBundle:AdminRole:deleteProjectRole.html.twig', array(
-            'object'       => $projectRole,
+        return $this->render('GitonomyFrontendBundle:AdminProject:deleteUserRole.html.twig', array(
+            'object'       => $userRole->getProject(),
+            'userRole'     => $userRole,
             'form'         => $form->createView(),
         ));
     }

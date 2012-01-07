@@ -1,0 +1,15 @@
+{% extends "GitonomyFrontendBundle:AdminProject:layout.html.twig" %}
+
+{% block title parent() ~ 'Git accesses' %}
+{% set navigation_active = 'gitAccesses' %}
+
+{% block content_right %}
+    <div class="page-header">
+        <h2>Git accesses</h2>
+    </div>
+    <form class="form" action="{{ path('gitonomyfrontend_adminproject_gitAccesses', {'id' :object.id}) }}" method="POST" id="project_git_accesses" novalidate>
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" class="btn primary" value="Save" />
+    </form>
+{% endblock %}

@@ -1,32 +1,23 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:AdminProject:layout.html.twig" %}
 
-{% block title 'Edit '~object_type~' '~object %}
-{% set navigation_active = null %}
+{% block title parent() ~ 'Informations' %}
+{% set navigation_active = 'edit' %}
 
-{% block content %}
+{% block content_right %}
     <div class="page-header">
-        <h1>Edit {{ object_type }} "{{ object }}"</h1>
+        <h2>Informations</h2>
     </div>
-    <div class="row">
-        {{ form_errors(form) }}
-        <div class="span6">
-            <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" id="project" novalidate>
-                <div class="page-header">
-                    <h2>Project informations</h2>
-                </div>
-
-                <h4><strong>Project size:</strong> {{ (object.repositorySize/1024)|number_format(2) }}MB</h4>
-
-                {{ form_row(form.name) }}
-                {{ form_rest(form) }}
-                <hr />
-                <input type="submit" class="btn success" value="Update" />
-                <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
-                <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
-            </form>
-        </div>
-        <div class="span9">
-            {% render 'GitonomyFrontendBundle:AdminProject:projectRoles' with {'projectId': object.id} %}
-        </div>
+    <h4><strong>Project size:</strong> {{ (object.repositorySize/1024)|number_format(2) }}MB</h4>
+    <p>{{ gitonomy.name }} does not provide a functionality to limit the project size. Please use system features (like quota) to restrict the size of a project.</p>
+    <div class="page-header">
+        <h2>Edit details</h2>
     </div>
+    <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" id="{{ object_type }}" novalidate>
+        {% block actions '' %}
+        {% include [controller_prefix~':form.html.twig', 'GitonomyFrontendBundle:BaseAdmin:form.html.twig'] with { 'form': form } only %}
+        <hr />
+        <input type="submit" class="btn success" value="Update" />
+        <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
+        <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+    </form>
 {% endblock %}

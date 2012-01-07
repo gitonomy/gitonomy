@@ -1,0 +1,35 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title object.name ~ ' | ' %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Edit project "{{ object }}"</h1>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <ul>
+                    <li>
+                        {{ navigation_active == 'edit' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_adminproject_edit', {'id': object.id }) }}">Informations</a>
+                        {{ navigation_active == 'edit' ? '</strong>' : '' }}
+                    </li>
+                    <li>
+                        {{ navigation_active == 'userRoles' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_adminproject_userRoles', {'id': object.id }) }}">User roles</a>
+                        {{ navigation_active == 'userRoles' ? '</strong>' : '' }}
+                    </li>
+                    <li>
+                        {{ navigation_active == 'gitAccesses' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_adminproject_gitAccesses', {'id': object.id }) }}">Git Accesses</a>
+                        {{ navigation_active == 'gitAccesses' ? '</strong>' : '' }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="span12">
+            {% block content_right '' %}
+        </div>
+    </div>
+{% endblock %}

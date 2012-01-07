@@ -45,10 +45,25 @@
 {% block project_git_access_widget %}
 <tr>
     <td>&nbsp;</td>
-    <td>{{ form_widget(form.role, {'attr': {'class':'span3' }}) }}</td>
-    <td>{{ form_widget(form.reference, {'attr': {'class':'span3' }}) }}</td>
-    <td>{{ form_widget(form.is_read) }}</td>
-    <td>{{ form_widget(form.is_write) }}</td>
-    <td>{{ form_widget(form.is_admin) }}</td>
+    <td>
+        {{ form_widget(form.role) }}
+        {{ form_errors(form.role) }}
+    </td>
+    <td>
+        {{ form_widget(form.reference) }}
+        {{ form_errors(form.reference) }}
+    </td>
+    <td>
+        {{ form_widget(form.is_read) }}
+        {{ form_errors(form.is_read) }}
+    </td>
+    <td>
+        {{ form_widget(form.is_write) }}
+        {{ form_errors(form.is_write) }}
+    </td>
+    <td>
+        {{ form_widget(form.is_admin) }}
+        {{ form_errors(form.is_admin) }}
+    </td>
 </tr>
 {% endblock %}
