@@ -18,10 +18,14 @@ gitonomyfrontend_adminproject_gitAccesses:
     pattern: /{_locale}/adminproject/{id}/git-accesses
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:gitAccesses" }
 
+gitonomyfrontend_adminproject_gitAccessDelete:
+    pattern: /{_locale}/adminproject/git-accesses/{gitAccessId}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminProject:gitAccessDelete" }
+
 gitonomyfrontend_adminproject_userRoles:
     pattern: /{_locale}/adminproject/{id}/user-roles
     defaults: { _controller: "GitonomyFrontendBundle:AdminProject:userRoles" }
 
-gitonomyfrontend_adminproject_userRoles_delete:
-    pattern: /{_locale}/adminproject/user-roles/{id}/delete
-    defaults: { _controller: "GitonomyFrontendBundle:AdminProject:deleteUserRole" }
+gitonomyfrontend_adminproject_userRoleDelete:
+    pattern: /{_locale}/adminproject/user-roles/{userRoleId}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminProject:userRoleDelete" }

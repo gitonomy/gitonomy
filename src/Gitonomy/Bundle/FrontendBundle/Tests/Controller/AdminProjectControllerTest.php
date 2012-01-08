@@ -164,7 +164,7 @@ class AdminProjectControllerTest extends WebTestCase
         $this->assertEquals('test', $project->getName());
     }
 
-    public function testEditRoleProject()
+    public function testUserRoles()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
@@ -191,7 +191,7 @@ class AdminProjectControllerTest extends WebTestCase
         $this->assertEquals($userRole->getRole()->getName(), $role->getName());
     }
 
-    public function testDeleteProjectRole()
+    public function testUserRoleDelete()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
@@ -205,11 +205,67 @@ class AdminProjectControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/en_US/adminproject/user-roles/'.$userRole->getId().'/delete');
         $response = $this->client->getResponse();
 
-        $form = $crawler->filter('input[type=submit][value=Delete]')->form();
+        $form = $crawler->filter('input[type=submit]')->form();
 
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/user-roles'));
+    }
+
+
+    public function testGitAccesses()
+    {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/'.$project->getId().'/git-accesses');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('form input[type=submit]')->form(array(
+            'project_git_access[role]'      => $role->getId(),
+            'project_git_access[reference]' => 'foobar',
+            'project_git_access[is_read]'   => true,
+            'project_git_access[is_write]'  => true,
+            'project_git_access[is_admin]'  => true,
+        ));
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/git-accesses'));
+
+        $gitAccess = $em->getRepository('GitonomyCoreBundle:ProjectGitAccess')->findOneBy(array(
+            'role'      => $role,
+            'reference' => 'foobar'
+        ));
+
+        $this->assertTrue($gitAccess->getIsRead());
+        $this->assertTrue($gitAccess->getIsWrite());
+        $this->assertTrue($gitAccess->getIsAdmin());
+    }
+
+    public function testGitAccessDelete()
+    {
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+        $gitAccess = $em->getRepository('GitonomyCoreBundle:ProjectGitAccess')->findOneBy(array(
+            'project'   => $project,
+            'role'      => $role,
+            'reference' => '*'
+        ));
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
+
+        $this->client->connect('admin');
+        $crawler  = $this->client->request('GET', '/en_US/adminproject/git-accesses/'.$gitAccess->getId().'/delete');
+        $response = $this->client->getResponse();
+
+        $form = $crawler->filter('input[type=submit]')->form();
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/git-accesses'));
     }
 
     public function testDeleteAsAnonymous()

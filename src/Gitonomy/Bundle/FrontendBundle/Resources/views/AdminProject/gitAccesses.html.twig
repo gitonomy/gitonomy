@@ -7,9 +7,59 @@
     <div class="page-header">
         <h2>Git accesses</h2>
     </div>
-    <form class="form" action="{{ path('gitonomyfrontend_adminproject_gitAccesses', {'id' :object.id}) }}" method="POST" id="project_git_accesses" novalidate>
+    <form class="form" action="{{ path('gitonomyfrontend_adminproject_gitAccesses', {'id'  :object.id}) }}" method="POST" id="project_git_accesses" novalidate>
         {{ form_errors(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" class="btn primary" value="Save" />
+        <table class="zebra-striped bordered-table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Reference</th>
+                    <th>Read?</th>
+                    <th>Write?</th>
+                    <th>Admin?</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gitAccess in object.gitAccesses %}
+                    <tr>
+                        <td>{{ gitAccess.role.name }}</td>
+                        <td>{{ gitAccess.reference }}</td>
+                        <td>{{ gitAccess.isRead ? 'yes' : 'no' }}</td>
+                        <td>{{ gitAccess.isWrite ? 'yes' : 'no' }}</td>
+                        <td>{{ gitAccess.isAdmin ? 'yes' : 'no' }}</td>
+                        <td><a class="label important" href="{{ path('gitonomyfrontend_adminproject_gitAccessDelete', {'gitAccessId': gitAccess.id }) }}">delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        {{ form_widget(form.role, { 'attr': {'class': 'span4' }}) }}
+                        {{ form_errors(form.role) }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.reference, { 'attr': {'class': 'span4' }}) }}
+                        {{ form_errors(form.reference) }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.is_read) }}
+                        {{ form_errors(form.is_read) }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.is_write) }}
+                        {{ form_errors(form.is_write) }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.is_admin) }}
+                        {{ form_errors(form.is_admin) }}
+                    </td>
+                    <td>
+                        <input type="submit" class="btn primary" value="Save" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        {{ form_rest(form) }}
     </form>
 {% endblock %}
