@@ -19,8 +19,18 @@ class UserControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testShow()
+    public function testShowAsAnonymous()
     {
+        $crawler  = $this->client->request('GET', '/en_US/user/alice');
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect());
+    }
+
+    public function testShowAsConnected()
+    {
+        $this->client->connect('bob');
+
         $crawler  = $this->client->request('GET', '/en_US/user/alice');
         $response = $this->client->getResponse();
 

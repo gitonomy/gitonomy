@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
@@ -28,6 +30,11 @@ class UserController extends BaseController
      */
     protected function getUserEntity($username)
     {
+        $securityUser = $this->get('security.context')->getToken()->getUser();
+        if (!$securityUser instanceof User) {
+            throw new AccessDeniedException('You must be connected to access a user page');
+        }
+
         $user = $this->getDoctrine()->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
         if (null === $user) {
             throw $this->createNotFoundException(sprintf('User "%s" not found', $username));
