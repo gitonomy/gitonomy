@@ -1,0 +1,22 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title 'Mail activated' %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Email active</h1>
+    </div>
+    <p>Your mail "<strong>{{ email.email }}</strong>" is now active.</p>
+    {% if is_granted('AUTHENTICATED') %}
+        <p>
+            You can set it as your default e-mail. For it, go to
+            <a href="{{ path('gitonomyfrontend_profile_emails') }}">the emails page</a>.
+        </p>
+    {% else %}
+    <p>
+        You are not connected to the website. For it, go to
+        <a href="{{ path('gitonomyfrontend_security_login') }}">login page</a>
+        and enter your credentials.
+    </p>
+    {% endif %}
+{% endblock %}

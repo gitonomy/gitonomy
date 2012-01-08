@@ -41,7 +41,7 @@ class AdminUserController extends BaseAdminController
         $this->assertPermission('USER_EDIT');
 
         if (!$user = $this->getRepository()->find($id)) {
-            throw $this->createNotFoundException(sprintf('No %s found with id "%d".', $className, $id));
+            throw $this->createNotFoundException(sprintf('No user found with id "%d".', $id));
         }
 
         if (!$user->hasDefaultEmail()) {

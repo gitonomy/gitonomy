@@ -44,6 +44,9 @@ class ProfileController extends BaseController
         ));
     }
 
+    /**
+     * Change the username.
+     */
     public function changeUsernameAction()
     {
         $this->assertPermission('AUTHENTICATED');
@@ -71,6 +74,9 @@ class ProfileController extends BaseController
         ));
     }
 
+    /**
+     * Manage emails.
+     */
     public function emailsAction()
     {
         $this->assertPermission('AUTHENTICATED');

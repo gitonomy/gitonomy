@@ -19,14 +19,14 @@ class ProfileControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testProfileAsAnonymous()
+    public function testIndexAsAnonymous()
     {
         $crawler  = $this->client->request('GET', '/en_US/profile');
         $response = $this->client->getResponse();
         $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
     }
 
-    public function testProfileAsAdmin()
+    public function testIndexAsAdmin()
     {
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/profile');
@@ -113,13 +113,10 @@ class ProfileControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivation());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('Email active', $crawler->filter('h1')->text());
 
-        $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
-
-        $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email "'.$email->getEmail().'" actived.', $node->text());
+        $crawler = $this->client->request('GET', '/en_US/profile/emails');
 
         $link = $crawler->filter('#email_'.$email->getId().' a:contains("as default")')->link();
         $crawler = $this->client->click($link);

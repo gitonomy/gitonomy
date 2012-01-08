@@ -8,6 +8,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
 class EmailController extends BaseController
 {
     const ROUTE_PROFILE = 'gitonomyfrontend_profile_emails';
+
     /**
      * Action to create an email from admin user
      */
@@ -204,9 +205,9 @@ class EmailController extends BaseController
         $email->setActivation(null);
         $em->getEntityManager()->flush();
 
-        $message = sprintf('Email "%s" actived.', $email->__toString());
-
-        return $this->successAndRedirect($message, self::ROUTE_PROFILE);
+        return $this->render('GitonomyFrontendBundle:Email:activate.html.twig', array(
+            'email' => $email
+        ));
     }
 
     protected function getEmail($id, User $user = null)
