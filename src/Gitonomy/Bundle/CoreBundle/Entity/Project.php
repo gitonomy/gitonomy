@@ -104,6 +104,24 @@ class Project
         return $this->userRoles;
     }
 
+    /**
+     * Returns the user role of a given user.
+     *
+     * @return Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject The user role on the project
+     *
+     * @throws InvalidArgumentException Throws an exception if no role was found for the given user on the project.
+     */
+    public function getUserRole(User $user)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($user->equals($userRole->getUser())) {
+                return $userRole;
+            }
+        }
+
+        throw new \InvalidArgumentException('No role for user on project');
+    }
+
     public function getGitAccesses()
     {
         return $this->gitAccesses;

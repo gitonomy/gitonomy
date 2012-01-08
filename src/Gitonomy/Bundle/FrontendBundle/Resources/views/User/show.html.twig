@@ -18,9 +18,12 @@
         <div class="span8">
             <h2>Projects</h2>
             {% for project in projects %}
-                <div class="well">
-                    <h3><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></h3>
-                </div>
+                {{ loop.first ? '<div class="well">' : '' }}
+                    <h3>
+                        <a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a>
+                        <small>{{ project.getUserRole(user).role.name }}</small>
+                    </h3>
+                {{ loop.last ? '</div>' : '' }}
             {% else %}
             <p><em>No project found</em></p>
             {% endfor %}
