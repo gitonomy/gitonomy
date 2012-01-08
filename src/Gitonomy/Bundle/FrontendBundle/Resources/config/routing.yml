@@ -21,3 +21,6 @@ _gitonomyfrontend_email:
 
 _gitonomyfrontend_project:
     resource: routing/project.yml
+
+_gitonomyfrontend_user:
+    resource: routing/user.yml

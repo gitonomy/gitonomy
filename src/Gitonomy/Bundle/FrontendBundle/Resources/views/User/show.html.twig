@@ -1,0 +1,9 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title user.fullname %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ user.username }}</h1>
+    </div>
+{% endblock %}
