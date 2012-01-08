@@ -19,9 +19,12 @@ class UserController extends BaseController
     public function showAction($username)
     {
         $user = $this->getUserEntity($username);
+        $securityUser = $this->getUser();
+        $projects = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findByUsers(array($user, $securityUser));
 
         return $this->render('GitonomyFrontendBundle:User:show.html.twig', array(
-            'user' => $user
+            'user'     => $user,
+            'projects' => $projects
         ));
     }
 

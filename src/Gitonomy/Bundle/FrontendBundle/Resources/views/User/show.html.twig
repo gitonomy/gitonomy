@@ -6,12 +6,24 @@
     <div class="page-header">
         <h1>{{ user.fullname }} <small>{{ user.username }}</small></h1>
     </div>
-    <h2>Informations</h2>
-    <ul>
-        <li><strong>Fullname:</strong> {{ user.fullname }}</li>
-        <li><strong>Timezone:</strong> {{ user.timezone }}</li>
-        <li><strong>Main email:</strong> {{ user.defaultEmail.email }}</li>
-    </ul>
-    <h2>Projects</h2>
-    <p>@todo (intersection user &amp; securityUser)</p>
+    <div class="row">
+        <div class="span8">
+            <h2>Informations</h2>
+            <ul>
+                <li><strong>Fullname:</strong> {{ user.fullname }}</li>
+                <li><strong>Timezone:</strong> {{ user.timezone }}</li>
+                <li><strong>Main email:</strong> {{ user.defaultEmail.email }}</li>
+            </ul>
+        </div>
+        <div class="span8">
+            <h2>Projects</h2>
+            {% for project in projects %}
+                <div class="well">
+                    <h3><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></h3>
+                </div>
+            {% else %}
+            <p><em>No project found</em></p>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
