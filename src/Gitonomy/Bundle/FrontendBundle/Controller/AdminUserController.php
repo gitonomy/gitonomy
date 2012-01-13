@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
  * Controller for user actions.
@@ -40,9 +41,7 @@ class AdminUserController extends BaseAdminController
     {
         $this->assertPermission('USER_EDIT');
 
-        if (!$user = $this->getRepository()->find($id)) {
-            throw $this->createNotFoundException(sprintf('No user found with id "%d".', $id));
-        }
+        $user = $this->findUser($id);
 
         if (!$user->hasDefaultEmail()) {
             throw new HttpException(500, sprintf('User "%s" has no default email.', $id));
@@ -80,10 +79,7 @@ class AdminUserController extends BaseAdminController
     {
         $this->assertPermission('USER_EDIT');
 
-        if (!$user = $this->getRepository()->find($userId)) {
-            throw $this->createNotFoundException(sprintf('No %s found with id "%d".', $className, $id));
-        }
-
+        $user            = $this->findUser($userId);
         $userRoleProject = new UserRoleProject();
         $em              = $this->getDoctrine()->getManager();
         $repository      = $em->getRepository('GitonomyCoreBundle:Project');
@@ -105,13 +101,13 @@ class AdminUserController extends BaseAdminController
 
                 $this->get('session')->setFlash('success', sprintf('"%s".', $userRoleProject->__toString()));
 
-                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
-                    'id' => $user->getId()
+                return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
+                    'userId' => $user->getId()
                 )));
             }
         }
         return $this->render('GitonomyFrontendBundle:AdminUser:projectroles.html.twig', array(
-            'user'        => $user,
+            'object'      => $user,
             'form'        => $form->createView(),
             'displayForm' => $totalProjects > $usedProjects,
         ));
@@ -141,8 +137,8 @@ class AdminUserController extends BaseAdminController
                     sprintf('Role "%s" deleted.', $userRole->__toString())
                 );
 
-                return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
-                    'id' => $userRole->getUser()->getId()
+                return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
+                    'userId' => $userRole->getUser()->getId()
                 )));
             }
         }
@@ -160,8 +156,136 @@ class AdminUserController extends BaseAdminController
         return parent::deleteAction($id);
     }
 
+    /**
+     * Action to create an email from admin user
+     */
+    public function emailsAction($id)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $user    = $this->findUser($id);
+        $email   = new Email();
+        $request = $this->getRequest();
+        $form    = $this->createForm('useremail', $email, array(
+            'validation_groups' => 'admin',
+        ));
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->saveEmail($user, $email);
+                $message = sprintf('Email "%s" added.', $email->__toString());
+
+                return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:AdminUser:emails.html.twig', array(
+            'object' => $user,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Action to make as default an email from admin user
+     */
+    public function emailDefaultAction($id, $emailId)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $defaultEmail = $this->findEmail($id, $emailId);
+        $em           = $this->getDoctrine()->getEntityManager();
+        $user         = $defaultEmail->getUser();
+
+        foreach ($user->getEmails() as $email) {
+            if ($email->isDefault()) {
+                $email->setIsDefault(false);
+            }
+        }
+
+        $defaultEmail->setIsDefault(true);
+        $em->flush();
+        $message = sprintf('Email "%s" now as default.', $email->__toString());
+
+        return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
+    }
+
+    /**
+     * Action to delete an email for a user from admin user
+     */
+    public function emailDeleteAction($id, $emailId)
+    {
+        $this->assertPermission('USER_EDIT');
+
+        $email   = $this->findEmail($id, $emailId);
+        $form    = $this->createFormBuilder()->getForm();
+        $request = $this->getRequest();
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->remove($email);
+                $em->flush();
+                $message = sprintf('Email "%s" deleted.', $email->__toString());
+
+                return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $email->getUser()->getId()));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:AdminUser:deleteEmail.html.twig', array(
+            'object' => $email,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    protected function findUser($id)
+    {
+        if (!$user = $this->getRepository()->find($id)) {
+            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
+        }
+
+        return $user;
+    }
+
+    protected function findEmail($userId, $emailId)
+    {
+        $user = $this->findUser($userId);
+        $em   = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository('GitonomyCoreBundle:Email');
+        if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $emailId))) {
+            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $emailId));
+        }
+
+        return $email;
+    }
+
     protected function getRepository()
     {
         return $this->getDoctrine()->getManager()->getRepository('GitonomyCoreBundle:User');
     }
+
+    protected function saveEmail(User $user, Email $email)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        try {
+            $em->getConnection()->beginTransaction();
+            $email->setUser($user);
+            $user->addEmail($email);
+            $em->persist($email);
+            $em->flush();
+            $em->commit();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    protected function sendActivationMail(Email $email)
+    {
+        $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
+            array('email' => $email),
+            $email->getEmail()
+        );
+    }
+
 }

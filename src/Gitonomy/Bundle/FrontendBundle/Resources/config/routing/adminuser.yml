@@ -35,3 +35,31 @@ gitonomyfrontend_adminuser_projectroles_delete:
     defaults: { _controller: "GitonomyFrontendBundle:AdminUser:deleteUserRole" }
     requirements:
         id:  \d+
+
+gitonomyfrontend_adminuser_email_list:
+    pattern: /{_locale}/adminuser/{id}/emails
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:emails" }
+    requirements:
+        id: \d+
+
+
+gitonomyfrontend_adminuser_email_default:
+    pattern: /{_locale}/adminuser/{id}/emails/{emailId}/default
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:emailDefault" }
+    requirements:
+        id:      \d+
+        emailId: \d+
+
+gitonomyfrontend_adminuser_email_sendactivation:
+    pattern: /{_locale}/adminuser/{id}/emails/{emailId}/send-activation
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:emailSendActivation" }
+    requirements:
+        id:      \d+
+        emailId: \d+
+
+gitonomyfrontend_adminuser_email_delete:
+    pattern: /{_locale}/adminuser/{id}/emails/{emailId}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:AdminUser:emailDelete" }
+    requirements:
+        id:      \d+
+        emailId: \d+

@@ -352,6 +352,6 @@ class User implements UserInterface
 
     public function isActived()
     {
-        return (null !== $this->password && null !== $this->activationToken);
+        return (null !== $this->password && null === $this->activationToken);
     }
 }

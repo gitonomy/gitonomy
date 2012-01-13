@@ -10,44 +10,6 @@ class EmailController extends BaseController
     const ROUTE_PROFILE = 'gitonomyfrontend_profile_emails';
 
     /**
-     * Action to create an email from admin user
-     */
-    public function adminUserListAction($userId)
-    {
-        $this->assertPermission('USER_EDIT');
-
-        if (!$user = $this->getDoctrine()->getRepository('GitonomyCoreBundle:User')->find($userId)) {
-            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
-        }
-
-        $email   = new Email();
-        $request = $this->getRequest();
-        $form    = $this->createForm('useremail', $email, array(
-            'validation_groups' => 'admin',
-        ));
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            $parameters = array('id' => $user->getId());
-            if ($form->isValid()) {
-                $this->saveEmail($user, $email);
-                $message = sprintf('Email "%s" added.', $email->__toString());
-
-                return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
-            } else {
-                $message = 'Email you filled is not valid.';
-
-                return $this->failAndRedirect($message, 'gitonomyfrontend_adminuser_edit', $parameters);
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:Email:AdminUser/list.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
      * Action to create an email from profile
      */
     public function profileListAction()
@@ -249,22 +211,6 @@ class EmailController extends BaseController
             array('email' => $email),
             $email->getEmail()
         );
-    }
-
-    protected function failAndRedirect($message, $route, array $parameters = null)
-    {
-        $this->get('session')->setFlash('warning', $message);
-        $parameters = (is_array($parameters) ? $parameters : array());
-
-        return $this->redirect($this->generateUrl($route, $parameters));
-    }
-
-    protected function successAndRedirect($message, $route, array $parameters = null)
-    {
-        $this->get('session')->setFlash('success', $message);
-        $parameters = (is_array($parameters) ? $parameters : array());
-
-        return $this->redirect($this->generateUrl($route, $parameters));
     }
 
     protected function setDefaultEmail(Email $defaultEmail)
