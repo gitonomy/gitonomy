@@ -1,0 +1,47 @@
+{% extends "GitonomyFrontendBundle:AdminUser:layout.html.twig" %}
+
+{% block title parent() ~ 'Emails' %}
+{% set navigation_active = 'emails' %}
+
+{% block content_right %}
+    <div class="page-header">
+        <h2>Emails</h2>
+    </div>
+    <form class="form" action="{{ path('gitonomyfrontend_adminuser_email_list', {'id':object.id}) }}" method="POST" id="user_email" novalidate>
+        {{ form_errors(form) }}
+        <table class="bordered-table zebra-striped">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Default</th>
+                    <th>Activated</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email in object.emails %}
+                    <tr id="email_{{ email.id }}">
+                        <td>{{ email.email }}</td>
+                        <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                        <td>{% if email.isActived == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                        <td>
+                            {% if not email.isDefault %}
+                                <a href="{{ path('gitonomyfrontend_adminuser_email_default', {'id': object.id, 'emailId': email.id }) }}" class="label success">as default</a>
+                                {% if email.isActived %}
+                                {% else %}
+                                    <a href="{{ path('gitonomyfrontend_adminuser_email_sendactivation', {'id': object.id, 'emailId': email.id }) }}" class="label notice">send activation</a>
+                                {% endif %}
+                            {% endif %}
+                            <a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': object.id, 'emailId': email.id }) }}" class="label important">delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">{{ form_widget(form.email) }}{{ form_errors(form.email) }}</td>
+                    <td><input type="submit" class="btn success" value="Add" /></td>
+                </tr>
+            </tbody>
+        </table>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
