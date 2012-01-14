@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <namespace prefix="DoctrineAssert">Symfony\Bridge\Doctrine\Validator\Constraints\</namespace>
+    <namespace prefix="Assert">Symfony\Component\Validator\Constraints\</namespace>
+
+    <class name="Gitonomy\Bundle\CoreBundle\Entity\User">
+        <!-- Make sure the email determines the user -->
+        <constraint name="DoctrineAssert:UniqueEntity">
+            <option name="fields">
+                <value>username</value>
+            </option>
+            <option name="groups">
+                <value>registration</value>
+                <value>admin</value>
+            </option>
+        </constraint>
+
+        <property name="username">
+            <constraint name="Assert:MinLength">
+                <option name="limit">3</option>
+                <option name="groups">
+                    <value>registration</value>
+                    <value>admin</value>
+                    <value>change_username</value>
+                </option>
+            </constraint>
+            <constraint name="Assert:MaxLength">
+                <option name="limit">32</option>
+                <option name="groups">
+                    <value>registration</value>
+                    <value>admin</value>
+                    <value>change_username</value>
+                </option>
+            </constraint>
+            <constraint name="Assert:Regex">
+                <option name="message">Only letters, numbers, -, _</option>
+                <option name="pattern">/^[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]$/</option>
+                <option name="groups">
+                    <value>registration</value>
+                    <value>admin</value>
+                    <value>change_username</value>
+                </option>
+            </constraint>
+        </property>
+
+        <property name="password">
+            <constraint name="Assert:NotBlank">
+                <option name="groups">
+                    <value>registration</value>
+                </option>
+            </constraint>
+        </property>
+
+        <property name="fullname">
+            <constraint name="Assert:NotBlank">
+                <option name="groups">
+                    <value>registration</value>
+                    <value>profile_informations</value>
+                    <value>admin</value>
+                </option>
+            </constraint>
+        </property>
+
+        <property name="timezone">
+            <constraint name="Assert:Choice">
+                <option name="callback">
+                    <value>DateTimeZone</value>
+                    <value>listIdentifiers</value>
+                </option>
+                <option name="groups">
+                    <value>registration</value>
+                    <value>profile_informations</value>
+                    <value>admin</value>
+                </option>
+            </constraint>
+        </property>
+
+    </class>
+</constraint-mapping>

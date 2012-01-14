@@ -1,0 +1,56 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="user" name="Gitonomy\Bundle\CoreBundle\Entity\User" repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\UserRepository">
+        <unique-constraints>
+            <unique-constraint name="username" columns="username" />
+        </unique-constraints>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="username" column="username" type="string" length="32" unique="true" />
+        <field name="fullname" column="fullname" type="string" length="64" />
+        <field name="password" column="password" type="string" length="128" nullable="true" />
+        <field name="salt" column="salt" type="string" length="32" />
+        <field name="timezone" column="timezone" type="string" length="64" />
+        <field name="forgotPasswordToken" column="forgot_password_token" type="string" length="32" nullable="true" />
+        <field name="forgotPasswordCreatedAt" column="forgot_password_creatd_at" type="datetime" nullable="true" />
+        <field name="activationToken" column="activation_token" type="string" length="32" nullable="true" />
+
+        <one-to-many field="sshKeys" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="emails" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Email" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <one-to-many field="projectRoles" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <many-to-many field="userRolesGlobal" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Role" inversed-by="users">
+            <join-table name="user_role_global">
+                <join-columns>
+                    <join-column name="user_id" referenced-column-name="id" nullable="false" unique="false" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="role_id" referenced-column-name="id"  />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+
+</doctrine-mapping>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\Repository;
+namespace Gitonomy\Bundle\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Gitonomy\Bundle\CoreBundle\Entity;

@@ -241,6 +241,7 @@ class ProfileController extends BaseController
         $userSshKey->setUser($this->getUser());
         $form = $this->createForm('profile_ssh_key', $userSshKey);
 
+
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);

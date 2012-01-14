@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="email" name="Gitonomy\Bundle\CoreBundle\Entity\Email" repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\EmailRepository">
+        <unique-constraints>
+            <unique-constraint name="email" columns="email" />
+        </unique-constraints>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="email" column="email" type="string" length="256" unique="true" />
+        <field name="isDefault" column="is_default" type="boolean" />
+        <field name="activation" column="activation" type="string" length="128" nullable="true" />
+
+        <many-to-one field="user" target-entity="User" inversed-by="emails">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

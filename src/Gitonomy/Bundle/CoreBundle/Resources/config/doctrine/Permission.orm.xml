@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="permission" name="Gitonomy\Bundle\CoreBundle\Entity\Permission" repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\PermissionRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY" />
+        </id>
+
+        <field name="name" type="string" column="name" length="50" unique="true" />
+        <field name="isGlobal" type="boolean" column="is_global" />
+
+        <many-to-one field="parent" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Permission" inversed-by="children">
+            <join-columns>
+                <join-column name="parent_id" referenced-column-name="id" nullable="true" />
+            </join-columns>
+        </many-to-one>
+
+        <one-to-many field="children" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Permission" mapped-by="parent" />
+        <many-to-many field="roles" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Role" mapped-by="permissions" />
+    </entity>
+</doctrine-mapping>

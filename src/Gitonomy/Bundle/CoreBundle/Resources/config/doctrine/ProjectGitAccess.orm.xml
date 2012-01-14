@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess" table="project_git_access">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY" />
+        </id>
+
+        <field name="reference" type="string" column="reference" length="128" />
+        <field name="isRead" type="boolean" column="is_read" />
+        <field name="isWrite" type="boolean" column="is_write" />
+        <field name="isAdmin" type="boolean" column="is_admin" />
+
+        <many-to-one field="project" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Project" inversed-by="gitAccesses">
+            <join-columns>
+                <join-column name="project_id" referenced-column-name="id" nullable="true" />
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="role" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Role" inversed-by="gitAccesses">
+            <join-columns>
+                <join-column name="role_id" referenced-column-name="id" nullable="true" />
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

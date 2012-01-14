@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\RoleRepository" name="Gitonomy\Bundle\CoreBundle\Entity\Role" table="role">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY" />
+        </id>
+
+        <field name="name" type="string" column="name" length="50" unique="true" />
+        <field name="description" type="string" column="description" length="50" />
+        <field name="isGlobal" type="boolean" column="is_global" />
+
+        <many-to-many field="permissions" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Permission" inversed-by="roles">
+            <join-table name="role_permission">
+                <join-columns>
+                    <join-column name="role_id" referenced-column-name="id" on-delete="CASCADE" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="permission_id" referenced-column-name="id" on-delete="CASCADE" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <one-to-many field="userRolesProject" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject" mapped-by="role">
+            <cascade>
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+        <one-to-many field="gitAccesses" target-entity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess" mapped-by="role">
+            <cascade>
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <many-to-many field="usersGlobal" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User" mapped-by="userRolesGlobal" />
+    </entity>
+</doctrine-mapping>
