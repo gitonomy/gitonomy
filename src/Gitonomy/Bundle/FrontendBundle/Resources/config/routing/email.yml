@@ -1,21 +1,3 @@
-gitonomyfrontend_email_profile_sendactivation:
-    pattern: /{_locale}/email/profile/{id}/send-activation
-    defaults: { _controller: "GitonomyFrontendBundle:Email:profileSendActivation" }
-    requirements:
-        id:  \d+
-
-gitonomyfrontend_email_profile_default:
-    pattern: /{_locale}/email/profile/{id}/default
-    defaults: { _controller: "GitonomyFrontendBundle:Email:profileDefault" }
-    requirements:
-        id:  \d+
-
-gitonomyfrontend_email_profile_delete:
-    pattern: /{_locale}/email/profile/{id}/delete
-    defaults: { _controller: "GitonomyFrontendBundle:Email:profileDelete" }
-    requirements:
-        id:  \d+
-
 gitonomyfrontend_email_activate:
     pattern: /{_locale}/email/{username}/activate/{hash}
     defaults: { _controller: "GitonomyFrontendBundle:Email:activate" }

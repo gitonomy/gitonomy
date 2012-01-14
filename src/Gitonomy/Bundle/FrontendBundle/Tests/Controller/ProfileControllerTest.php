@@ -46,15 +46,10 @@ class ProfileControllerTest extends WebTestCase
         ));
 
         $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
-
-        $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.warning p');
+        $node     = $crawler->filter('#user_email span.help-inline');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email you filled is not valid.', $node->text());
+        $this->assertEquals('This value is already used', $node->text());
     }
 
     public function testCreateEmail()
@@ -82,7 +77,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('Email "admin@mydomain.tld" added.', $node->text());
     }
 
-    public function testSendEmailActivation()
+    public function testEmailSendActivation()
     {
         $this->client->connect('alice');
 
@@ -90,7 +85,7 @@ class ProfileControllerTest extends WebTestCase
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
         $this->assertNotEmpty($email);
 
-        $crawler   = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/send-activation');
+        $crawler   = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/send-activation');
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
@@ -104,31 +99,6 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('Activation mail for "'.$email->getEmail().'" sent.', $node->text());
     }
 
-    public function testActiveEmail()
-    {
-        $this->client->connect('alice');
-
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
-
-        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivation());
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('Email active', $crawler->filter('h1')->text());
-
-        $crawler = $this->client->request('GET', '/en_US/profile/emails');
-
-        $link = $crawler->filter('#email_'.$email->getId().' a:contains("as default")')->link();
-        $crawler = $this->client->click($link);
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
-        $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
-
-        $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());
-    }
-
     public function testAsDefaultUnactivedEmail()
     {
         $this->client->connect('alice');
@@ -136,7 +106,7 @@ class ProfileControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/default');
+        $crawler = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/default');
 
         $this->assertEquals('500', $this->client->getResponse()->getStatusCode());
     }
@@ -148,7 +118,7 @@ class ProfileControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler  = $this->client->request('GET', '/en_US/email/profile/'.$email->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/delete');
         $form     = $crawler->filter('#delete input[type=submit]')->form();
 
         $this->client->submit($form);

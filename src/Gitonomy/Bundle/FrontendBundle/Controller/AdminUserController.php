@@ -52,7 +52,6 @@ class AdminUserController extends BaseAdminController
 
         try {
             $em->beginTransaction();
-
             $user->generateActivationToken();
             $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:AdminUser:activate.mail.twig', array(
                 'user' => $user
@@ -65,10 +64,25 @@ class AdminUserController extends BaseAdminController
             $em->close();
             throw $e;
         }
-        $this->get('session')->setFlash('success', sprintf('"%s".', $user->__toString()));
+        $this->get('session')->setFlash('success', sprintf('Activation mail for "%s" sent.', $user->__toString()));
 
         return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
             'id' => $user->getId()
+        )));
+    }
+
+    public function emailSendActivationAction($id, $emailId)
+    {
+        $this->assertPermission('AUTHENTICATED');
+
+        $email = $this->findEmail($id, $emailId);
+        $this->sendActivationMail($email);
+
+        $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
+        $this->get('session')->setFlash('success', $message);
+
+        return $this->redirect($this->generateUrl($this->getRouteName('email_list'), array(
+            'id' => $email->getUser()->getId()
         )));
     }
 
@@ -254,7 +268,7 @@ class AdminUserController extends BaseAdminController
         $em   = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository('GitonomyCoreBundle:Email');
         if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $emailId))) {
-            throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $emailId));
+            throw new HttpException(404, sprintf('No Email found with id "%d".', $emailId));
         }
 
         return $email;

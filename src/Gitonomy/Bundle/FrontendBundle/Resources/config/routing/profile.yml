@@ -26,5 +26,28 @@ gitonomyfrontend_profile_activate:
     pattern: /{_locale}/profile/{username}/activate/{token}
     defaults: { _controller: "GitonomyFrontendBundle:Profile:activate" }
     requirements:
-        id:   \d+
-        hash: \w+
+        username: \w+
+        hash:     \w+
+
+gitonomyfrontend_profile_email_list:
+    pattern: /{_locale}/profile/emails
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:emails" }
+
+
+gitonomyfrontend_profile_email_default:
+    pattern: /{_locale}/profile/emails/{emailId}/default
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:emailDefault" }
+    requirements:
+        emailId: \d+
+
+gitonomyfrontend_profile_email_sendactivation:
+    pattern: /{_locale}/profile/emails/{emailId}/send-activation
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:emailSendActivation" }
+    requirements:
+        emailId: \d+
+
+gitonomyfrontend_profile_email_delete:
+    pattern: /{_locale}/profile/emails/{emailId}/delete
+    defaults: { _controller: "GitonomyFrontendBundle:Profile:emailDelete" }
+    requirements:
+        emailId: \d+
