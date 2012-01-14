@@ -5,9 +5,21 @@
         <div class="span4">
             <div class="well">
                 <ul>
-                    <li><a href="{{ path('gitonomyfrontend_profile_index') }}">Profile</a></li>
-                    <li><a href="{{ path('gitonomyfrontend_profile_sshKeys') }}">SSH keys</a></li>
-                    <li><a href="{{ path('gitonomyfrontend_profile_emails') }}">Mails</a></li>
+                    <li>
+                        {{ navigation_active == 'index' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_profile_index') }}">Profile</a>
+                        {{ navigation_active == 'index' ? '</strong>' : '' }}
+                    </li>
+                    <li>
+                        {{ navigation_active == 'sshKeys' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_profile_sshKeys') }}">SSH keys</a>
+                        {{ navigation_active == 'sshKeys' ? '</strong>' : '' }}
+                    </li>
+                    <li>
+                        {{ navigation_active == 'emails' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_profile_emails') }}">Emails</a>
+                        {{ navigation_active == 'emails' ? '</strong>' : '' }}
+                    </li>
                 </ul>
             </div>
         </div>

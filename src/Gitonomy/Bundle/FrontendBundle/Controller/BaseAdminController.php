@@ -206,4 +206,17 @@ abstract class BaseAdminController extends BaseController
     }
 
     abstract protected function getRepository();
+
+    protected function fail($message)
+    {
+        $this->get('session')->setFlash('warning', $message);
+    }
+
+    protected function successAndRedirect($message, $route, array $parameters = null)
+    {
+        $this->get('session')->setFlash('success', $message);
+        $parameters = (is_array($parameters) ? $parameters : array());
+
+        return $this->redirect($this->generateUrl($route, $parameters));
+    }
 }

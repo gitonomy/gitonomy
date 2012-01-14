@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 /**
  * Controller for user profile.
@@ -81,7 +82,112 @@ class ProfileController extends BaseController
     {
         $this->assertPermission('AUTHENTICATED');
 
-        return $this->render('GitonomyFrontendBundle:Profile:emails.html.twig');
+        $user    = $this->getUser();
+        $email   = new Email();
+        $request = $this->getRequest();
+
+        $form = $this->createForm('useremail', $email, array(
+            'validation_groups' => 'profile',
+        ));
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                try {
+                    $em->getConnection()->beginTransaction();
+                    $email->generateActivationHash();
+                    $email->setUser($user);
+                    $user->addEmail($email);
+                    $em->persist($email);
+                    $em->flush();
+                    $this->sendActivationMail($email);
+                    $em->commit();
+                } catch (\Exception $e) {
+                    throw $e;
+                }
+                $message = sprintf('Email "%s" added.', $email->__toString());
+                $this->get('session')->setFlash('success', $message);
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_emails'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:emails.html.twig', array(
+            'object' => $user,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Action to delete an email for a user from admin user
+     */
+    public function emailDeleteAction($emailId)
+    {
+        $this->assertPermission('AUTHENTICATED');
+
+        $email   = $this->findEmail($emailId);
+        $form    = $this->createFormBuilder()->getForm();
+        $request = $this->getRequest();
+
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->remove($email);
+                $em->flush();
+                $message = sprintf('Email "%s" deleted.', $email->__toString());
+                $this->get('session')->setFlash('success', $message);
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:deleteEmail.html.twig', array(
+            'object' => $email,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function emailSendActivationAction($emailId)
+    {
+        $this->assertPermission('AUTHENTICATED');
+
+        $email = $this->findEmail($emailId);
+        $this->sendActivationMail($email);
+
+        $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
+        $this->get('session')->setFlash('success', $message);
+
+        return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
+    }
+
+    /**
+     * Action to make as default an email from admin user
+     */
+    public function emailDefaultAction($emailId)
+    {
+        $this->assertPermission('AUTHENTICATED');
+
+        $defaultEmail = $this->findEmail($emailId);
+        $user         = $defaultEmail->getUser();
+        $em           = $this->getDoctrine()->getEntityManager();
+
+        if (!$defaultEmail->isActived()) {
+            throw $this->createException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
+        }
+        foreach ($user->getEmails() as $email) {
+            if ($email->isDefault()) {
+                $email->setIsDefault(false);
+            }
+        }
+
+        $defaultEmail->setIsDefault(true);
+        $em->flush();
+        $message = sprintf('Email "%s" now as default.', $email->__toString());
+        $this->get('session')->setFlash('success', $message);
+
+        return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
     }
 
     /**
@@ -197,6 +303,27 @@ class ProfileController extends BaseController
             'user' => $user,
             'form' => $form->createView(),
         ));
+    }
+
+
+    protected function findEmail($emailId)
+    {
+        $user = $this->getUser();
+        $em   = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository('GitonomyCoreBundle:Email');
+        if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $emailId))) {
+            throw $this->createNotFoundException(sprintf('No Email found with id "%d".', $emailId));
+        }
+
+        return $email;
+    }
+
+    protected function sendActivationMail(Email $email)
+    {
+        $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
+            array('email' => $email),
+            $email->getEmail()
+        );
     }
 
     /**

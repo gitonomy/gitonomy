@@ -1,13 +1,13 @@
-{% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:AdminUser:layout.html.twig" %}
 
-{% block title 'Manage my emails' %}
+{% block title parent() ~ 'Emails' %}
 {% set navigation_active = 'emails' %}
 
-{% block column_right %}
+{% block content_right %}
     <div class="page-header">
         <h2>Emails</h2>
     </div>
-    <form class="form" action="{{ path('gitonomyfrontend_profile_email_list') }}" method="POST" id="user_email" novalidate>
+    <form class="form" action="{{ path('gitonomyfrontend_adminuser_email_list', {'id':object.id}) }}" method="POST" id="user_email" novalidate>
         {{ form_errors(form) }}
         <table class="bordered-table zebra-striped">
             <thead>
@@ -26,13 +26,13 @@
                         <td>{% if email.isActived == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                         <td>
                             {% if not email.isDefault %}
+                                <a href="{{ path('gitonomyfrontend_adminuser_email_default', {'id': object.id, 'emailId': email.id }) }}" class="label success">as default</a>
                                 {% if email.isActived %}
-                                    <a href="{{ path('gitonomyfrontend_profile_email_default', {'emailId': email.id }) }}" class="label success">as default</a>
                                 {% else %}
-                                    <a href="{{ path('gitonomyfrontend_profile_email_sendactivation', {'emailId': email.id }) }}" class="label notice">send activation</a>
+                                    <a href="{{ path('gitonomyfrontend_adminuser_email_sendactivation', {'id': object.id, 'emailId': email.id }) }}" class="label notice">send activation</a>
                                 {% endif %}
-                                <a href="{{ path('gitonomyfrontend_profile_email_delete', {'emailId': email.id }) }}" class="label important">delete</a>
                             {% endif %}
+                            <a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': object.id, 'emailId': email.id }) }}" class="label important">delete</a>
                         </td>
                     </tr>
                 {% endfor %}

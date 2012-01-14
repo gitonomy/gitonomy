@@ -1,36 +1,43 @@
-<div class="page-header">
-    <h2>Project roles</h2>
-</div>
-{% if displayForm %}
-    <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':user.id}) }}" method="POST" id="user_role_project" novalidate>
-    {{ form_errors(form) }}
-{% endif %}
-    <table class="bordered-table zebra-striped">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for projectRole in user.projectRoles %}
+{% extends "GitonomyFrontendBundle:AdminUser:layout.html.twig" %}
+
+{% block title parent() ~ 'Project roles' %}
+{% set navigation_active = 'projectRoles' %}
+
+{% block content_right %}
+    <div class="page-header">
+        <h2>Project roles</h2>
+    </div>
+    {% if displayForm %}
+        <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':object.id}) }}" method="POST" id="user_role_project" novalidate>
+        {{ form_errors(form) }}
+    {% endif %}
+        <table class="bordered-table zebra-striped">
+            <thead>
                 <tr>
-                    <td>{{ projectRole.project }}</td>
-                    <td>{{ projectRole.role }}</td>
-                    <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}" class="label important">delete</td>
+                    <th>Project</th>
+                    <th>Role</th>
+                    <th>Action</th>
                 </tr>
-            {% endfor %}
-            {% if displayForm %}
-                <tr>
-                    <td>{{ form_widget(form.project) }}</td>
-                    <td>{{ form_widget(form.role) }}</td>
-                    <td><input type="submit" class="btn success" /></td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-{% if displayForm %}
-    {{ form_rest(form) }}
-{% endif %}
-</form>
+            </thead>
+            <tbody>
+                {% for projectRole in object.projectRoles %}
+                    <tr>
+                        <td>{{ projectRole.project }}</td>
+                        <td>{{ projectRole.role }}</td>
+                        <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}" class="label important">delete</td>
+                    </tr>
+                {% endfor %}
+                {% if displayForm %}
+                    <tr>
+                        <td>{{ form_widget(form.project) }}</td>
+                        <td>{{ form_widget(form.role) }}</td>
+                        <td><input type="submit" class="btn primary" value="Save" /></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    {% if displayForm %}
+        {{ form_rest(form) }}
+    {% endif %}
+    </form>
+{% endblock %}
