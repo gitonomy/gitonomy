@@ -4,6 +4,8 @@ namespace Gitonomy\Bundle\CoreBundle\Entity\Base;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword;
+
 abstract class BaseUser
 {
     protected $id;
@@ -12,13 +14,12 @@ abstract class BaseUser
     protected $salt;
     protected $fullname;
     protected $timezone;
-    protected $forgotPasswordToken;
-    protected $forgotPasswordCreatedAt;
     protected $activationToken;
     protected $sshKeys;
     protected $emails;
     protected $projectRoles;
     protected $globalRoles;
+    protected $forgotPassword;
 
     public function __construct()
     {
@@ -128,26 +129,6 @@ abstract class BaseUser
         $this->emails = $emails;
     }
 
-    public function getForgotPasswordToken()
-    {
-        return $this->forgotPasswordToken;
-    }
-
-    public function setForgotPasswordToken($forgotPasswordToken)
-    {
-        $this->forgotPasswordToken = $forgotPasswordToken;
-    }
-
-    public function getForgotPasswordCreatedAt()
-    {
-        return $this->forgotPasswordCreatedAt;
-    }
-
-    public function setForgotPasswordCreatedAt(\DateTime $forgotPasswordCreatedAt)
-    {
-        $this->forgotPasswordCreatedAt = $forgotPasswordCreatedAt;
-    }
-
     public function getActivationToken()
     {
         return $this->activationToken;
@@ -156,5 +137,15 @@ abstract class BaseUser
     public function setActivationToken($activationToken)
     {
         $this->activationToken = $activationToken;
+    }
+
+    public function getForgotPassword()
+    {
+        return $this->forgotPassword;
+    }
+
+    public function setForgotPassword(UserForgotPassword $forgotPassword)
+    {
+        $this->forgotPassword = $forgotPassword;
     }
 }

@@ -47,6 +47,6 @@ class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterf
      */
     public function getOrder()
     {
-        return 230;
+        return 250;
     }
 }

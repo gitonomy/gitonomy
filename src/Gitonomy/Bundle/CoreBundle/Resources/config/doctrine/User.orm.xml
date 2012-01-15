@@ -16,9 +16,14 @@
         <field name="password" column="password" type="string" length="128" nullable="true" />
         <field name="salt" column="salt" type="string" length="32" nullable="true" />
         <field name="timezone" column="timezone" type="string" length="64" />
-        <field name="forgotPasswordToken" column="forgot_password_token" type="string" length="32" nullable="true" />
-        <field name="forgotPasswordCreatedAt" column="forgot_password_creatd_at" type="datetime" nullable="true" />
         <field name="activationToken" column="activation_token" type="string" length="32" nullable="true" />
+
+        <one-to-one field="forgotPassword" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-one>
 
         <one-to-many field="sshKeys" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey" mapped-by="user">
             <cascade>

@@ -3,7 +3,9 @@
 namespace Gitonomy\Bundle\FrontendBundle\Model\Security;
 
 use Symfony\Bundle\DoctrineBundle\Registry;
+
 use Gitonomy\Bundle\FrontendBundle\Mail\Mailer;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class ForgotPasswordHandler
 {
@@ -47,20 +49,25 @@ class ForgotPasswordHandler
 
     public function getUserIfForgotPasswordTokenValid($username, $forgotPasswordToken)
     {
-        $user = $this->doctrine->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
-
-        if (null === $user) {
+        if (!$user = $this->doctrine->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username)) {
             throw new \InvalidArgumentException(sprintf('The user with username "%s" was not found', $username));
         }
 
-        if ($user->getForgotPasswordToken() !== $forgotPasswordToken) {
+        $userForgotPassword = $user->getForgotPassword();
+
+        if ($userForgotPassword->getToken() !== $forgotPasswordToken) {
             throw new \InvalidArgumentException('The token is not correct');
         }
 
-        if ($user->isForgotPasswordTokenExpired()) {
+        if ($userForgotPassword->isTokenExpired()) {
             throw new \InvalidArgumentException('The forgot password token has expired');
         }
 
         return $user;
+    }
+
+    public function removeForgotPasswordToken(User $user)
+    {
+        $this->doctrine->getEntityManager()->remove($user->getForgotPassword());
     }
 }

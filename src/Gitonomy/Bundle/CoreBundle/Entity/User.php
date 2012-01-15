@@ -124,31 +124,11 @@ class User extends Base\BaseUser implements UserInterface
      */
     public function createForgotPasswordToken()
     {
-        $this->forgotPasswordToken     = md5(uniqid().microtime());
-        $this->forgotPasswordCreatedAt = new \DateTime();
-    }
-
-    /**
-     * Removes values associated to the forgot password token.
-     */
-    public function removeForgotPasswordToken()
-    {
-        $this->forgotPasswordToken     = null;
-        $this->forgotPasswordCreatedAt = null;
-    }
-
-    /**
-     * Tests if the forgot password token is expired.
-     *
-     * @return boolean Result of test
-     */
-    public function isForgotPasswordTokenExpired()
-    {
-        $max = clone $this->forgotPasswordCreatedAt;
-        $max->add(new \DateInterval('P2D')); // 2 days
-        $now = new \DateTime();
-
-        return $now->getTimestamp() > $max->getTimeStamp();
+        if (!$this->getForgotPassword() instanceof UserForgotPassword) {
+            $forgotPasswordToken = new UserForgotPassword($this);
+            $this->setForgotPassword($forgotPasswordToken);
+        }
+        $this->getForgotPassword()->generateToken();
     }
 
     /**
