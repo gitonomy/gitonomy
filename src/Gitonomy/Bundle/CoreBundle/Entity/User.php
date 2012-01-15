@@ -4,18 +4,25 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * User in Gitonomy.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com
+ * @author Julien DIDIER <julien@jdidier.net>
+ */
 class User extends Base\BaseUser implements UserInterface
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->regenerateSalt(); // @todo No sense?
-    }
+    /**
+     * @inheritdoc
+     */
     public function __toString()
     {
         return $this->fullname;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function equals(UserInterface $user)
     {
         if (!$user instanceof User) {
@@ -25,21 +32,25 @@ class User extends Base\BaseUser implements UserInterface
         return $user->getUsername() === $this->username;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function eraseCredentials()
     {
     }
 
-    public function getRoles()
-    {
-        return array_merge($this->getGlobalPermissions(), array('AUTHENTICATED' => 'AUTHENTICATED'));
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function regenerateSalt()
     {
         return $this->salt = md5(uniqid().microtime());
     }
 
-    public function getGlobalPermissions()
+    /**
+     * @inheritdoc
+     */
+    public function getRoles()
     {
         $permissions = array();
 
@@ -55,9 +66,14 @@ class User extends Base\BaseUser implements UserInterface
             }
         }
 
-        return $permissions;
+        return array_merge($permissions, array('AUTHENTICATED' => 'AUTHENTICATED'));
     }
 
+    /**
+     * Returns the default email.
+     *
+     * @return Email The default e-mail or null if not found.
+     */
     public function getDefaultEmail()
     {
         foreach ($this->getEmails() as $email) {
@@ -67,11 +83,24 @@ class User extends Base\BaseUser implements UserInterface
         }
     }
 
+    /**
+     * Tests if a default email exists for the user.
+     *
+     * @return boolean Result of test
+     */
     public function hasDefaultEmail()
     {
         return null !== $this->getDefaultEmail();
     }
 
+    /**
+     * Defines an mail as default.
+     *
+     * @param Email $email An email to mark as default
+     *
+     * @throws \LogicException An exceptions is thrown if a default mail already
+     * exists for this user.
+     */
     public function setDefaultEmail(Email $email)
     {
         if ($this->hasDefaultEmail()) {
@@ -83,18 +112,29 @@ class User extends Base\BaseUser implements UserInterface
         $this->addEmail($email);
     }
 
+    /**
+     * Fills fields to create a new forgot password token.
+     */
     public function createForgotPasswordToken()
     {
         $this->forgotPasswordToken     = md5(uniqid().microtime());
         $this->forgotPasswordCreatedAt = new \DateTime();
     }
 
+    /**
+     * Removes values associated to the forgot password token.
+     */
     public function removeForgotPasswordToken()
     {
         $this->forgotPasswordToken     = null;
         $this->forgotPasswordCreatedAt = null;
     }
 
+    /**
+     * Tests if the forgot password token is expired.
+     *
+     * @return boolean Result of test
+     */
     public function isForgotPasswordTokenExpired()
     {
         $max = clone $this->forgotPasswordCreatedAt;
@@ -104,6 +144,9 @@ class User extends Base\BaseUser implements UserInterface
         return $now->getTimestamp() > $max->getTimeStamp();
     }
 
+    /**
+     * Marks all SSH keys of the user as uninstalled.
+     */
     public function markAllKeysAsUninstalled()
     {
         foreach ($this->sshKeys as $sshKey) {
@@ -111,26 +154,47 @@ class User extends Base\BaseUser implements UserInterface
         }
     }
 
+    /**
+     * Generates a new activation token.
+     */
     public function generateActivationToken()
     {
         $this->activationToken = md5(uniqid().microtime());
     }
 
+    /**
+     * Removes the activation token from the user.
+     */
     public function removeActivationToken()
     {
         $this->activationToken = null;
     }
 
+    /**
+     * Tests of the account is activated.
+     *
+     * @return boolean Result of the test
+     */
     public function isActived()
     {
         return (null !== $this->password && null === $this->activationToken);
     }
 
+    /**
+     * Adds a new global role to the user.
+     *
+     * @param Role $userRoleGlobal The role to add
+     */
     public function addUserRoleGlobal(Role $userRoleGlobal)
     {
         $this->userRolesGlobal->add($userRoleGlobal);
     }
 
+    /**
+     * Adds a new email to the user.
+     *
+     * @param Email $email The email to add.
+     */
     public function addEmail(Email $email)
     {
         if (!$this->hasDefaultEmail()) {
