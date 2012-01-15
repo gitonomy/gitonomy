@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\CoreBundle\Tests\Git;
+namespace Gitonomy\Bundle\CoreBundle\Tests\Git;
 
 use Gitonomy\Bundle\CoreBundle\Git\AuthorizedKeysGenerator;
 
