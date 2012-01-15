@@ -30,7 +30,6 @@ class GitonomyFrontendExtension extends Extension
         $container->setParameter('gitonomy_frontend.project.baseline', $config['project_baseline']);
         $container->setParameter('gitonomy_frontend.ssh_access', $config['ssh_access']);
         $container->setParameter('gitonomy_frontend.allowed_locales', $config['allowed_locales']);
-
         $container->setParameter('gitonomy_frontend.mailer.from', array($config['mailer']['from_email'] => $config['mailer']['from_name']));
     }
 }
