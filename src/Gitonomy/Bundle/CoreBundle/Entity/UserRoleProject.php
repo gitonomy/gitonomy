@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Gitonomy\Bundle\CoreBundle\Security\ProjectRole;
+
 class UserRoleProject extends Base\BaseUserRoleProject
 {
     public function __toString()
