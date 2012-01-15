@@ -23,10 +23,10 @@
                     <tr id="email_{{ email.id }}">
                         <td>{{ email.email }}</td>
                         <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
-                        <td>{% if email.isActived == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                        <td>{% if email.isActivated == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                         <td>
                             {% if not email.isDefault %}
-                                {% if email.isActived %}
+                                {% if email.isActivated %}
                                     <a href="{{ path('gitonomyfrontend_profile_email_default', {'emailId': email.id }) }}" class="label success">as default</a>
                                 {% else %}
                                     <a href="{{ path('gitonomyfrontend_profile_email_sendactivation', {'emailId': email.id }) }}" class="label notice">send activation</a>

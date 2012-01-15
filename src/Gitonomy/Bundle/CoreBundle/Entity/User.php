@@ -175,7 +175,7 @@ class User extends Base\BaseUser implements UserInterface
      *
      * @return boolean Result of the test
      */
-    public function isActived()
+    public function isActivated()
     {
         return (null !== $this->password && null === $this->activationToken);
     }

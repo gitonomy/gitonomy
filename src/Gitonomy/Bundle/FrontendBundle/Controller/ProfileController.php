@@ -173,7 +173,7 @@ class ProfileController extends BaseController
         $user         = $defaultEmail->getUser();
         $em           = $this->getDoctrine()->getEntityManager();
 
-        if (!$defaultEmail->isActived()) {
+        if (!$defaultEmail->isActivated()) {
             throw $this->createException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
         }
         foreach ($user->getEmails() as $email) {
@@ -276,7 +276,7 @@ class ProfileController extends BaseController
             throw $this->createNotFoundException(sprintf('User "%s" not found!', $username));
         }
 
-        if ($user->isActived()) {
+        if ($user->isActivated()) {
             throw $this->createException(sprintf('User "%s" is already actived!', $username));
         }
 

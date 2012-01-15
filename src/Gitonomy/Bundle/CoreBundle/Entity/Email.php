@@ -15,7 +15,7 @@ class Email extends Base\BaseEmail
         return $this->email;
     }
 
-    public function isActived()
+    public function isActivated()
     {
         return null === $this->activation;
     }
