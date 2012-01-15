@@ -13,7 +13,6 @@ abstract class BaseRole
     protected $permissions;
     protected $userRolesProject;
     protected $gitAccesses;
-    protected $usersGlobal;
 
     public function __construct()
     {
@@ -91,15 +90,5 @@ abstract class BaseRole
     public function setGitAccesses(ArrayCollection $gitAccesses)
     {
         $this->gitAccesses = $gitAccesses;
-    }
-
-    public function getUsersGlobal()
-    {
-        return $this->usersGlobal;
-    }
-
-    public function setUsersGlobal(ArrayCollection $usersGlobal)
-    {
-        $this->usersGlobal = $usersGlobal;
     }
 }

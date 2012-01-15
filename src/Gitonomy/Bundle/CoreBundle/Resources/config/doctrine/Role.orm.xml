@@ -28,12 +28,12 @@
                 <cascade-remove />
             </cascade>
         </one-to-many>
+
         <one-to-many field="gitAccesses" target-entity="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess" mapped-by="role">
             <cascade>
                 <cascade-remove />
             </cascade>
         </one-to-many>
 
-        <many-to-many field="usersGlobal" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User" mapped-by="userRolesGlobal" />
     </entity>
 </doctrine-mapping>
