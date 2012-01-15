@@ -89,7 +89,7 @@ EOF
             $em->persist($userRole);
             $em->flush();
         } else {
-            $user->addUserRoleGlobal($role);
+            $user->addGlobalRole($role);
             $em->persist($user);
             $em->flush();
         }

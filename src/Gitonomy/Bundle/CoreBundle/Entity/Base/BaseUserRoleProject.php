@@ -37,6 +37,9 @@ abstract class BaseUserRoleProject
         $this->user = $user;
     }
 
+    /**
+     * @return Role
+     */
     public function getRole()
     {
         return $this->role;
@@ -47,6 +50,9 @@ abstract class BaseUserRoleProject
         $this->role = $role;
     }
 
+    /**
+     * @return Project
+     */
     public function getProject()
     {
         return $this->project;

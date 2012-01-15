@@ -18,14 +18,14 @@ abstract class BaseUser
     protected $sshKeys;
     protected $emails;
     protected $projectRoles;
-    protected $userRolesGlobal;
+    protected $globalRoles;
 
     public function __construct()
     {
-        $this->sshKeys         = new ArrayCollection();
-        $this->repositories    = new ArrayCollection();
-        $this->userRolesGlobal = new ArrayCollection();
-        $this->emails          = new ArrayCollection();
+        $this->sshKeys      = new ArrayCollection();
+        $this->repositories = new ArrayCollection();
+        $this->globalRoles  = new ArrayCollection();
+        $this->emails       = new ArrayCollection();
     }
 
     public function getId()
@@ -98,14 +98,14 @@ abstract class BaseUser
         $this->projectRoles = $projectRoles;
     }
 
-    public function getUserRolesGlobal()
+    public function getGlobalRoles()
     {
-        return $this->userRolesGlobal;
+        return $this->globalRoles;
     }
 
-    public function setUserRolesGlobal(ArrayCollection $userRolesGlobal)
+    public function setGlobalRoles($globalRoles)
     {
-        $this->userRolesGlobal = $userRolesGlobal;
+        $this->globalRoles = $globalRoles;
     }
 
     public function getTimezone()

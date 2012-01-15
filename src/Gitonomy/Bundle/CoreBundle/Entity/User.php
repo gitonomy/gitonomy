@@ -52,9 +52,16 @@ class User extends Base\BaseUser implements UserInterface
      */
     public function getRoles()
     {
+        $roles = array();
+
+        foreach ($this->getProjectRoles() as $projectRole) {
+            $roles = array_merge($roles, $projectRole->getSecurityRoles());
+        }
+
+
         $permissions = array();
 
-        foreach ($this->getUserRolesGlobal() as $userRole) {
+        foreach ($this->getGlobalRoles() as $userRole) {
             foreach ($userRole->getPermissions() as $permission) {
                 if ($permission->hasParent()) {
                     $perm = $permission->getParent()->getName();
@@ -183,11 +190,11 @@ class User extends Base\BaseUser implements UserInterface
     /**
      * Adds a new global role to the user.
      *
-     * @param Role $userRoleGlobal The role to add
+     * @param Role $globalRole The role to add
      */
-    public function addUserRoleGlobal(Role $userRoleGlobal)
+    public function addGlobalRole(Role $globalRole)
     {
-        $this->userRolesGlobal->add($userRoleGlobal);
+        $this->globalRoles->add($globalRole);
     }
 
     /**

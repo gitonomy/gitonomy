@@ -14,7 +14,7 @@ class UserType extends AbstractType
             ->add('username', 'text')
             ->add('fullname', 'text')
             ->add('timezone', 'timezone')
-            ->add('userRolesGlobal', 'entity', array(
+            ->add('globalRoles', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
                 'query_builder' => function(EntityRepository $er) {
                     $query = $er
