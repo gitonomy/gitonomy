@@ -43,4 +43,16 @@ class EmailControllerTest extends WebTestCase
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());
     }
+
+    public function testActiveEmailIncorrectHash()
+    {
+        $this->client->connect('alice');
+
+        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
+
+        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/azerty');
+
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
 }

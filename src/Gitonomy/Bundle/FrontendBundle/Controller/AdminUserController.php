@@ -44,7 +44,11 @@ class AdminUserController extends BaseAdminController
         $user = $this->findUser($id);
 
         if (!$user->hasDefaultEmail()) {
-            throw new HttpException(500, sprintf('User "%s" has no default email.', $id));
+            throw $this->createException(sprintf('User #%d has no default email.', $id));
+        }
+
+        if ($user->isActivated()) {
+            throw $this->createException(sprintf('User #%d already actived!', $id));
         }
 
         $em         = $this->getDoctrine()->getManager();
@@ -64,7 +68,7 @@ class AdminUserController extends BaseAdminController
             $em->close();
             throw $e;
         }
-        $this->get('session')->setFlash('success', sprintf('Activation mail for "%s" sent.', $user->__toString()));
+        $this->get('session')->setFlash('success', sprintf('Activation mail for user "%s" sent.', $user->__toString()));
 
         return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
             'id' => $user->getId()
@@ -78,7 +82,7 @@ class AdminUserController extends BaseAdminController
         $email = $this->findEmail($id, $emailId);
         $this->sendActivationMail($email);
 
-        $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
+        $message = sprintf('Activation mail for email "%s" sent.', $email->__toString());
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl($this->getRouteName('email_list'), array(

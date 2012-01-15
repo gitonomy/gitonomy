@@ -121,21 +121,69 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
     }
 
+    public function testSendActivationForAdmin()
+    {
+        $this->client->connect('admin');
+
+        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/activate');
+        $response = $this->client->getResponse();
+
+        // no mail sent
+        $profile   = $this->client->getProfile();
+        $collector = $profile->getCollector('swiftmailer');
+        $this->assertEquals(0, $collector->getMessageCount());
+
+        $this->assertEquals(500, $response->getStatusCode());
+
+    }
+
+    public function testSendActivation()
+    {
+        $this->client->connect('admin');
+
+        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/activate');
+        $response = $this->client->getResponse();
+
+        // no mail sent
+        $profile   = $this->client->getProfile();
+        $collector = $profile->getCollector('swiftmailer');
+        $this->assertEquals(1, $collector->getMessageCount());
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
+
+        $crawler = $this->client->followRedirect();
+        $node    = $crawler->filter('div.alert-message.success p');
+
+        $this->assertEquals(1, $node->count());
+        $this->assertEquals('Activation mail for user "'.$user->__toString().'" sent.', $node->text());
+    }
 
     public function testEditRoleUser()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/userrole');
+
+        $em      = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
+        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneByName('Barbaz');
+        $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
+
+        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/userrole');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_role_project input[type=submit]')->form(array(
-            'adminuserroleproject[project]' => '2',
-            'adminuserroleproject[role]'    => '4',
+            'adminuserroleproject[project]' => $project->getId(),
+            'adminuserroleproject[role]'    => $role->getId(),
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/1/userrole'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/userrole'));
     }
 
     public function testAdminCreateEmailExists()
@@ -212,7 +260,7 @@ class AdminUserControllerTest extends WebTestCase
         $node    = $crawler->filter('div.alert-message.success p');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Activation mail for "'.$email->getEmail().'" sent.', $node->text());
+        $this->assertEquals('Activation mail for email "'.$email->getEmail().'" sent.', $node->text());
     }
 
     public function testDeleteAsAnonymous()

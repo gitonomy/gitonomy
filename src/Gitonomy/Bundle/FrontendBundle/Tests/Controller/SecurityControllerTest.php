@@ -65,6 +65,20 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("Login")')->count());
     }
 
+    public function testInactiveLogin()
+    {
+        $crawler = $this->client->request('GET', '/en_US/login');
+
+        $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
+            '_username' => 'inactive',
+            '_password' => 'inactive',
+        ));
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US/login'));
+    }
+
     public function testRememberme()
     {
         $crawler = $this->client->request('GET', '/en_US/login');
