@@ -17,7 +17,8 @@ class ChangeUsernameType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'validation_groups' => array('change_username')
+            'validation_groups' => array('change_username'),
+            'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
         );
     }
 

@@ -180,6 +180,22 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
     }
 
+    public function testChangePasswordWithNoPassword()
+    {
+        $crawler  = $this->client->request('GET', '/en_US/password/alice/forgottokenalice');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertEquals('Change password for Alice', $crawler->filter('h1')->text());
+
+        $form = $crawler->filter('form input[type=submit]')->form();
+
+        $crawler  = $this->client->submit($form);
+
+        $this->assertEquals(1, $crawler->filter('#change_password p:contains("This value should not be blank")')->count());
+    }
+
     public function testChangePasswordWithExpiredToken()
     {
         $crawler  = $this->client->request('GET', '/en_US/password/bob/forgottokenbob');

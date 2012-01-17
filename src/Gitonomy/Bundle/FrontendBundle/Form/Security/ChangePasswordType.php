@@ -10,8 +10,18 @@ class ChangePasswordType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('password', 'repeated',array('type' => 'password'))
+            ->add('password', 'repeated', array(
+                'type'     => 'password',
+            ))
         ;
+    }
+
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'validation_groups' => array('change_password'),
+            'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+        );
     }
 
     public function getName()
