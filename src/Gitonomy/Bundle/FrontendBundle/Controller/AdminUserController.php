@@ -44,11 +44,11 @@ class AdminUserController extends BaseAdminController
         $user = $this->findUser($id);
 
         if (!$user->hasDefaultEmail()) {
-            throw $this->createException(sprintf('User #%d has no default email.', $id));
+            throw new \LogicException(sprintf('User #%d has no default email.', $id));
         }
 
         if ($user->isActivated()) {
-            throw $this->createException(sprintf('User #%d already actived!', $id));
+            throw new \LogicException(sprintf('User #%d already actived!', $id));
         }
 
         $em         = $this->getDoctrine()->getManager();

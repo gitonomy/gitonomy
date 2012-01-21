@@ -156,11 +156,6 @@ class ProjectController extends BaseController
             throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
         }
 
-        $right = $this->get('gitonomy_frontend.security.right');
-        if (!$right->isGrantedForProject($user, $project, 'GIT_CONTRIBUTE')) {
-            throw new AccessDeniedException('You are not a contributor of the project');
-        }
-
         return $project;
     }
 }

@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Doctrine\ORM\EntityRepository;
 
 class RoleType extends AbstractType
 {
@@ -16,6 +17,13 @@ class RoleType extends AbstractType
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
                 'multiple' => true,
                 'translation_domain' => 'permissions',
+                'query_builder' => function (EntityRepository $repository) use ($options) {
+                    return $repository
+                        ->createQueryBuilder('r')
+                        ->where('r.isGlobal = :isGlobal')
+                        ->setParameters(array('isGlobal' => $options['is_global']))
+                    ;
+                }
             ))
             ->add('isGlobal', 'checkbox')
         ;
@@ -25,6 +33,7 @@ class RoleType extends AbstractType
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+            'is_global'  => true
         );
     }
 

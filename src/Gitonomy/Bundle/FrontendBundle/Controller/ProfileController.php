@@ -174,7 +174,7 @@ class ProfileController extends BaseController
         $em           = $this->getDoctrine()->getEntityManager();
 
         if (!$defaultEmail->isActivated()) {
-            throw $this->createException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
+            throw new \LogicException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
         }
         foreach ($user->getEmails() as $email) {
             if ($email->isDefault()) {
@@ -266,7 +266,7 @@ class ProfileController extends BaseController
     public function activateAction($username, $token)
     {
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createException('Permission denied', 403);
+            throw new \LogicException('Permission denied', 403);
         }
 
         $em   = $this->getDoctrine()->getManager();
@@ -277,11 +277,11 @@ class ProfileController extends BaseController
         }
 
         if ($user->isActivated()) {
-            throw $this->createException(sprintf('User "%s" is already actived!', $username));
+            throw new \LogicException(sprintf('User "%s" is already actived!', $username));
         }
 
         if ($user->getActivationToken() !== $token) {
-            throw $this->createException('Bad activation token!');
+            throw new \LogicException('Bad activation token!');
         }
 
         $form = $this->createForm('change_password', $user);
