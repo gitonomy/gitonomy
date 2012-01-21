@@ -64,7 +64,7 @@ class AdminRoleControllerTest extends WebTestCase
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
 
-        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_ADMIN');
+        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('ROLE_ADMIN');
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
