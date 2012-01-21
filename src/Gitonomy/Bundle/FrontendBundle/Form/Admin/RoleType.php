@@ -15,11 +15,7 @@ class RoleType extends AbstractType
             ->add('permissions', 'entity', array(
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
                 'multiple' => true,
-                'translation_domain' => 'admin_roles',
-                'group_by' => 'parent',
-                'query_builder' => function ($repository) {
-                    return $repository->createQueryBuilder('p')->where('p.parent is not null');
-                }
+                'translation_domain' => 'permissions',
             ))
             ->add('isGlobal', 'checkbox')
         ;

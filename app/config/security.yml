@@ -5,6 +5,15 @@ security:
             encode-as-base64: true
             iterations:       5
 
+    role_hierarchy:
+        # Global permissions
+        PROJECT_ADMIN:          [ PROJECT_CREATE, PROJECT_EDIT, PROJECT_DELETE ]
+        USER_ADMIN:             [ USER_CREATE, USER_EDIT, USER_DELETE ]
+        ROLE_ADMIN:             [ ROLE_CREATE, ROLE_EDIT, ROLE_DELETE ]
+        PROJECTS_GIT_SUPERUSER: [ PROJECTS_COLLABORATOR ]
+        # Project permissions
+        PROJECT_GIT_SUPERUSER:  [ PROJECT_COLLABORATOR ]
+
     providers:
         entity:
             entity: { class: Gitonomy\Bundle\CoreBundle\Entity\User, property: "username" }

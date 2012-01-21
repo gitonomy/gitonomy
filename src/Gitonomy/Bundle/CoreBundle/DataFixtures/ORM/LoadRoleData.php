@@ -23,15 +23,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleAdmin->setName('Administrator');
         $roleAdmin->setDescription('Master of the application');
         $roleAdmin->setIsGlobal(true);
-        $roleAdmin->addPermission($this->getReference('permission-USER_CREATE'));
-        $roleAdmin->addPermission($this->getReference('permission-USER_EDIT'));
-        $roleAdmin->addPermission($this->getReference('permission-USER_DELETE'));
-        $roleAdmin->addPermission($this->getReference('permission-PROJECT_CREATE'));
-        $roleAdmin->addPermission($this->getReference('permission-PROJECT_EDIT'));
-        $roleAdmin->addPermission($this->getReference('permission-PROJECT_DELETE'));
-        $roleAdmin->addPermission($this->getReference('permission-ROLE_CREATE'));
-        $roleAdmin->addPermission($this->getReference('permission-ROLE_EDIT'));
-        $roleAdmin->addPermission($this->getReference('permission-ROLE_DELETE'));
+        $roleAdmin->addPermission($this->getReference('permission-ADMIN'));
         $manager->persist($roleAdmin);
         $this->setReference('role-admin', $roleAdmin);
 
@@ -39,10 +31,6 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleLeadDev->setName('Lead developer');
         $roleLeadDev->setDescription('Merge leader');
         $roleLeadDev->setIsGlobal(false);
-        $roleLeadDev->addPermission($this->getReference('permission-GIT_READ'));
-        $roleLeadDev->addPermission($this->getReference('permission-GIT_WRITE'));
-        $roleLeadDev->addPermission($this->getReference('permission-GIT_FORCE'));
-        $roleLeadDev->addPermission($this->getReference('permission-GIT_DELETE'));
         $manager->persist($roleLeadDev);
         $this->setReference('role-lead-developer', $roleLeadDev);
 
@@ -50,7 +38,6 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleProjectManager->setName('Project manager');
         $roleProjectManager->setDescription('Manage the project and the team');
         $roleProjectManager->setIsGlobal(false);
-        $roleProjectManager->addPermission($this->getReference('permission-GIT_READ'));
         $manager->persist($roleProjectManager);
         $this->setReference('role-project-manager', $roleProjectManager);
 
@@ -58,8 +45,6 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleDeveloper->setName('Developer');
         $roleDeveloper->setDescription('Fork the project and commit to it');
         $roleDeveloper->setIsGlobal(false);
-        $roleDeveloper->addPermission($this->getReference('permission-GIT_READ'));
-        $roleDeveloper->addPermission($this->getReference('permission-GIT_WRITE'));
         $manager->persist($roleDeveloper);
         $this->setReference('role-developer', $roleDeveloper);
 

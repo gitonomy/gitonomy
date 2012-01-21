@@ -11,6 +11,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\Permission;
  * Loads the fixtures for user object.
  *
  * @author Julien DIDIER <julien@jdidier.net>
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -20,14 +21,8 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     protected function getData()
     {
         return array(
-            'global' => array(
-                'USER_ADMIN'    => array('USER_CREATE', 'USER_EDIT', 'USER_DELETE'),
-                'PROJECT_ADMIN' => array('PROJECT_CREATE', 'PROJECT_EDIT', 'PROJECT_DELETE'),
-                'ROLE_ADMIN'    => array('ROLE_CREATE', 'ROLE_EDIT', 'ROLE_DELETE')
-            ),
-            'project' => array(
-                'GIT_CONTRIBUTE' => array('GIT_READ',  'GIT_WRITE', 'GIT_FORCE', 'GIT_DELETE'),
-            )
+            'global'  => array('ROLE_ADMIN'),
+            'project' => array('PROJECT_CONTRIBUTE')
         );
     }
 
@@ -38,15 +33,14 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     {
         $data = $this->getData();
 
-        foreach ($data as $case => $rows) {
+        foreach ($data as $case => $permissions) {
             $isGlobal = $case == 'global';
-            foreach ($rows as $parentName => $children) {
-                $parentPermission = $this->createPermission($parentName, $isGlobal);
-                foreach ($children as $childName) {
-                    $permission = $this->createPermission($childName, $isGlobal, $parentName);
-                    $manager->persist($permission);
-                }
-                $manager->persist($parentPermission);
+            foreach ($permissions as $name) {
+                $permission = new Permission();
+                $permission->setName($name);
+                $permission->setIsGlobal($isGlobal);
+                $this->setReference('permission-'.$name, $permission);
+                $manager->persist($permission);
             }
         }
 
@@ -60,19 +54,4 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     {
         return 200;
     }
-
-    protected function createPermission($name, $isGlobal, $parent = null)
-    {
-        $object = new Permission();
-        $object->setName($name);
-        $object->setIsGlobal($isGlobal);
-
-        if (null !== $parent) {
-            $object->setParent($this->getReference('permission-'.$parent));
-        }
-        $this->setReference('permission-'.$name, $object);
-
-        return $object;
-    }
-
 }
