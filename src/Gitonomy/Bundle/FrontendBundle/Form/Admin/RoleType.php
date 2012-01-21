@@ -16,6 +16,7 @@ class RoleType extends AbstractType
             ->add('permissions', 'entity', array(
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
                 'multiple' => true,
+                'expanded' => true,
                 'translation_domain' => 'permissions',
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     return $repository
