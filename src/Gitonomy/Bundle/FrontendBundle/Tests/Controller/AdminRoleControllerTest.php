@@ -64,9 +64,7 @@ class AdminRoleControllerTest extends WebTestCase
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
 
-        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_READ');
-        $permissionB = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_WRITE');
-        $permissionC = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_FORCE');
+        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_ADMIN');
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
@@ -79,9 +77,7 @@ class AdminRoleControllerTest extends WebTestCase
             'adminrole[name]'        => 'test',
             'adminrole[description]' => 'test',
             'adminrole[permissions]' => array(
-                $permissionA->getId(),
-                $permissionB->getId(),
-                $permissionC->getId()
+                $permissionA->getId()
             ),
         ));
 
@@ -89,7 +85,7 @@ class AdminRoleControllerTest extends WebTestCase
 
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('test');
 
-        $this->assertCount(3, $role->getPermissions());
+        $this->assertCount(1, $role->getPermissions());
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/'.$role->getId().'/edit'));
     }

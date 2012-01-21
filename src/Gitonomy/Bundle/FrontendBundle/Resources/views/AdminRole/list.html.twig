@@ -1,44 +1,20 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:BaseAdmin:list.html.twig" %}
 
-{% block title object_type~' management' %}
-{% set navigation_active = null %}
-
-{% block content %}
-    <div class="page-header">
-        <h1>{{ object_type|capitalize~' management' }}</h1>
-    </div>
-    <a href="{{ path(route_prefix~'_create') }}" class="btn success">Create</a>
-    <hr />
-    <table class="zebra-striped" id="sortTableExample">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Permissions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for object in objects %}
-                <tr>
-                    <td>{{ object.id }}</td>
-                    <td>
-                        <a href="{{ path(route_prefix~'_edit', {'id': object.id}) }}">{{ object.name }}</a>
-                    </td>
-                    <td>{{ object.description }}</td>
-                    <td>
-                        {% for permission in object.permissions %}
-                            {{ permission }}{% if not loop.last  %}, {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            {% else %}
-                <tr colspan="3">
-                    <td>No {{ object_type }} to display</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <hr />
-    <a href="{{ path(route_prefix~'_create') }}" class="btn success">Create</a>
+{% block admin_list_thead %}
+<tr>
+    <th>Name</th>
+    <th>Description</th>
+</tr>
 {% endblock %}
+
+{% block admin_list_row %}
+<tr>
+    <td>
+        <a href="{{ path(route_prefix~'_edit', {'id': object.id}) }}">
+            {{ object.name }}
+        </a>
+    </td>
+    <td>{{ object.description }}</td>
+</tr>
+{% endblock %}
+
