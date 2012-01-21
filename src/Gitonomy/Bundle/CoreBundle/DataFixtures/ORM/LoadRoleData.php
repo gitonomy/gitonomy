@@ -23,7 +23,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $roleAdmin->setName('Administrator');
         $roleAdmin->setDescription('Master of the application');
         $roleAdmin->setIsGlobal(true);
-        $roleAdmin->addPermission($this->getReference('permission-ADMIN'));
+        $roleAdmin->addPermission($this->getReference('permission-ROLE_ADMIN'));
         $manager->persist($roleAdmin);
         $this->setReference('role-admin', $roleAdmin);
 

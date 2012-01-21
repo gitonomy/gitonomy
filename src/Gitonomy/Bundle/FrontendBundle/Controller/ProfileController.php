@@ -21,7 +21,7 @@ class ProfileController extends BaseController
      */
     public function indexAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
         $form = $this->createForm('profile_informations', $user);
@@ -50,7 +50,7 @@ class ProfileController extends BaseController
      */
     public function changeUsernameAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
         $form = $this->createForm('change_username', $user);
@@ -80,7 +80,7 @@ class ProfileController extends BaseController
      */
     public function emailsAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user    = $this->getUser();
         $email   = new Email();
@@ -124,7 +124,7 @@ class ProfileController extends BaseController
      */
     public function emailDeleteAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $email   = $this->findEmail($emailId);
         $form    = $this->createFormBuilder()->getForm();
@@ -151,7 +151,7 @@ class ProfileController extends BaseController
 
     public function emailSendActivationAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $email = $this->findEmail($emailId);
         $this->sendActivationMail($email);
@@ -167,7 +167,7 @@ class ProfileController extends BaseController
      */
     public function emailDefaultAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $defaultEmail = $this->findEmail($emailId);
         $user         = $defaultEmail->getUser();
@@ -195,7 +195,7 @@ class ProfileController extends BaseController
      */
     public function sshKeysAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $form = $this->createForm('profile_ssh_key');
 
@@ -212,7 +212,7 @@ class ProfileController extends BaseController
      */
     public function deleteSshKeyAction($id)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $em         = $this->getDoctrine()->getManager();
         $userSshKey = $em->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
@@ -235,7 +235,7 @@ class ProfileController extends BaseController
      */
     public function createSshKeyAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $userSshKey = new UserSshKey();
         $userSshKey->setUser($this->getUser());
