@@ -45,5 +45,9 @@
     git=https://github.com/doctrine/data-fixtures.git
 
 [DoctrineFixturesBundle]
-    git=https://github.com/symfony/DoctrineFixturesBundle.git
-    target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
+    git=https://github.com/doctrine/DoctrineFixturesBundle.git
+    target=/bundles/Doctrine/Bundle/FixturesBundle
+
+[DoctrineBundle]
+    git=https://github.com/doctrine/DoctrineBundle.git
+    target=/bundles/Doctrine/Bundle/DoctrineBundle
