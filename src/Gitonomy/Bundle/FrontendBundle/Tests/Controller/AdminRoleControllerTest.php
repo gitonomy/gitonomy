@@ -174,14 +174,14 @@ class AdminRoleControllerTest extends WebTestCase
     public function testDelete()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Project manager');
+        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Visitor');
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminrole/'.$role->getId().'/delete');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete role "Project manager" ?', $crawler->filter('h1')->text());
+        $this->assertEquals('Delete role "Visitor" ?', $crawler->filter('h1')->text());
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 

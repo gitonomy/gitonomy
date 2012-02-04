@@ -4,6 +4,8 @@ namespace Gitonomy\Bundle\CoreBundle\Security;
 
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
+
 /**
  * User role on a project.
  *
@@ -16,7 +18,8 @@ class ProjectRole implements RoleInterface
 
     public function __construct($projectId, $projectRole)
     {
-        $this->projectId   = $projectId instanceof Project ? $projectId->getId() : $projectId;
+        $this->projectId   = is_object($projectId) ? $projectId->getId() : $projectId;
+
         $this->projectRole = $projectRole;
     }
 
@@ -26,7 +29,7 @@ class ProjectRole implements RoleInterface
             $projectId = $projectId->getId();
         }
 
-        return $projectId == $this->projectId;
+        return $projectId == $this->getProjectId();
     }
 
     public function getProjectId()

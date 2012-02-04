@@ -23,7 +23,7 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
         return array(
             array('foobar', 'lead-developer',  '*', true, true,  true),
             array('foobar', 'developer',       '*', true, true,  false),
-            array('foobar', 'project-manager', '*', true, false, false),
+            array('foobar', 'visitor',         '*', true, false, false),
         );
     }
 

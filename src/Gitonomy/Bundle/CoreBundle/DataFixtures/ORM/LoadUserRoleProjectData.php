@@ -14,7 +14,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
  * @author Julien DIDIER <julien@jdidier.net>
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Current instance of manager.
@@ -35,7 +35,7 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
             array('user-lead',    'role-lead-developer',  'project-foobar'),
             array('user-alice',   'role-developer',       'project-foobar'),
             array('user-bob',     'role-developer',       'project-foobar'),
-            array('user-charlie', 'role-project-manager', 'project-foobar'),
+            array('user-charlie', 'role-visitor',         'project-foobar'),
             // Barbaz
             array('user-alice', 'role-lead-developer', 'project-barbaz')
         );
@@ -51,7 +51,7 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
         foreach ($this->getData() as $row) {
             list($userReferenceName, $roleReferenceName, $projectReferenceName)  = $row;
 
-            $userRole = $this->createUserRole($userReferenceName, $roleReferenceName, $projectReferenceName);
+            $userRole = $this->createUserRoleProject($userReferenceName, $roleReferenceName, $projectReferenceName);
 
             $manager->persist($userRole);
         }
@@ -77,7 +77,7 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
      * @param type $projectReferenceName
      * @return UserRole
      */
-    protected function createUserRole($userReferenceName, $roleReferenceName, $projectReferenceName = null)
+    protected function createUserRoleProject($userReferenceName, $roleReferenceName, $projectReferenceName)
     {
         $userRole = new UserRoleProject();
         $userRole->setProject($this->manager->merge($this->getReference($projectReferenceName)));

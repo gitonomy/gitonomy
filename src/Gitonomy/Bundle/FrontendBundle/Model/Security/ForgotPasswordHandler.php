@@ -2,7 +2,7 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Model\Security;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 use Gitonomy\Bundle\FrontendBundle\Mail\Mailer;
 use Gitonomy\Bundle\CoreBundle\Entity\User;

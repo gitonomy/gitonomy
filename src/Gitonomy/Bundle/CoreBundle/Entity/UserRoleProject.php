@@ -18,7 +18,7 @@ class UserRoleProject extends Base\BaseUserRoleProject
 
         foreach ($this->role->getPermissions() as $permission) {
             $name = $permission->getName();
-            $roles[$name] = new ProjectRole($project, $name);
+            $roles[] = new ProjectRole($project, $name);
         }
 
         return $roles;
