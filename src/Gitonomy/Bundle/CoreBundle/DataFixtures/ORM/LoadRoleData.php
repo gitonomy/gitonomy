@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 
@@ -17,7 +18,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $roleAdmin = new Role();
         $roleAdmin->setName('Administrator');

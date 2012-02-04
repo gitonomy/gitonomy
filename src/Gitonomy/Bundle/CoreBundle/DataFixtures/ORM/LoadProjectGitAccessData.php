@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 
@@ -29,7 +30,7 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         foreach ($this->getData() as $row) {
             list($projectSlug, $roleSlug, $reference, $isRead, $isWrite, $isAdmin) = $row;
