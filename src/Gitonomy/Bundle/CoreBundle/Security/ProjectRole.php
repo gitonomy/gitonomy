@@ -20,6 +20,15 @@ class ProjectRole implements RoleInterface
         $this->projectRole = $projectRole;
     }
 
+    public function isProjectId($projectId)
+    {
+        if ($projectId instanceof Project) {
+            $projectId = $projectId->getId();
+        }
+
+        return $projectId == $this->projectId;
+    }
+
     public function getProjectId()
     {
         return $this->projectId;
