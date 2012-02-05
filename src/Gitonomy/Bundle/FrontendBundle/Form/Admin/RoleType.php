@@ -4,6 +4,8 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormEvents;
+
 use Doctrine\ORM\EntityRepository;
 
 class RoleType extends AbstractType

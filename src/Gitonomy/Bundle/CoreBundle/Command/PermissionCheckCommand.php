@@ -65,12 +65,7 @@ EOF
         }
 
         $permission = $input->getArgument('permission');
-
-        if (null !== $project) {
-            $test = $this->getContainer()->get('gitonomy_frontend.security.right')->isGrantedForProject($user, $project, $permission);
-        } else {
-            $test = $this->getContainer()->get('gitonomy_frontend.security.right')->isGranted($user, $permission);
-        }
+        $test = false;
 
         return $test ? 0 : 1;
     }

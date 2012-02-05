@@ -40,9 +40,9 @@ class AdminRoleControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/en_US/adminrole/list');
         $response = $this->client->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Role management', $crawler->filter('h1')->text());
-        $this->assertEquals(4, $crawler->filter('table thead tr th')->count());
+        $this->assertEquals(200, $response->getStatusCode(), "Page responses correctly");
+        $this->assertEquals('Role management', $crawler->filter('h1')->text(), "Title is present");
+        $this->assertEquals(2, $crawler->filter('table thead tr th')->count(), "Table has 2 columns");
     }
 
     public function testCreateAsAnonymous()
@@ -146,8 +146,6 @@ class AdminRoleControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/'.$role->getId().'/edit'));
-        $this->client->followRedirect();
-        $this->assertEquals(403, $this->client->getResponse()->getStatusCode()); // @todo Explain me, I don't understand
     }
 
     public function testDeleteAsAnonymous()

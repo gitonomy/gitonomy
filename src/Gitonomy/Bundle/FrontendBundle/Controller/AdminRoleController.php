@@ -47,4 +47,10 @@ class AdminRoleController extends BaseAdminController
 
         return parent::deleteAction($id);
     }
+
+    protected function createAdminForm($object, $options = array()) {
+        $options['is_global'] = $object->getIsGlobal();
+
+        return parent::createAdminForm($object, $options);
+    }
 }

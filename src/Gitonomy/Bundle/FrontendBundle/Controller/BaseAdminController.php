@@ -29,9 +29,7 @@ abstract class BaseAdminController extends BaseController
     {
         $className = $this->getRepository()->getClassName();
         $object    = new $className();
-        $form      = $this->createForm($this->getFormType($className), $object, array(
-            'action' => 'create',
-        ));
+        $form      = $this->createAdminForm($object, array('action' => 'create'));
         $request   = $this->getRequest();
 
         if ('POST' == $request->getMethod()) {
@@ -67,9 +65,7 @@ abstract class BaseAdminController extends BaseController
             throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
         }
 
-        $form    = $this->createForm($this->getFormType($className), $object, array(
-            'action' => 'edit',
-        ));
+        $form      = $this->createAdminForm($object, array('action' => 'edit'));
         $request = $this->getRequest();
 
         if ('POST' == $request->getMethod()) {
@@ -218,5 +214,11 @@ abstract class BaseAdminController extends BaseController
         $parameters = (is_array($parameters) ? $parameters : array());
 
         return $this->redirect($this->generateUrl($route, $parameters));
+    }
+
+    protected function createAdminForm($object, $options = array())
+    {
+        $className = $this->getRepository()->getClassName();
+        return $this->createForm($this->getFormType($className), $object, $options);
     }
 }

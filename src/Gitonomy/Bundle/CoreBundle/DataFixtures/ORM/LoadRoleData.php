@@ -37,7 +37,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $this->setReference('role-lead-developer', $roleLeadDev);
 
         $roleVisitor = new Role();
-        $roleVisitor->setName('Visitors');
+        $roleVisitor->setName('Visitor');
         $roleVisitor->setDescription('Read-only viewers');
         $roleVisitor->setIsGlobal(false);
         $roleVisitor->addPermission($manager->merge($this->getReference('permission-PROJECT_CONTRIBUTE')));
