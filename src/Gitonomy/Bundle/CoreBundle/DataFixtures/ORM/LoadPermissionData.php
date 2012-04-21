@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Permission;
 
@@ -34,7 +35,7 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $data = $this->getData();
 

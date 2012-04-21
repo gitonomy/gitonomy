@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
@@ -37,7 +38,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $admin = new User();
         $admin->setUsername('admin');

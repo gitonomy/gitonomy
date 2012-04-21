@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilder;
 
 class BaseAdminType extends AbstractType
 {
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'validation_groups' => array('admin'),

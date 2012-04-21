@@ -16,7 +16,7 @@ class ChangePasswordType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'validation_groups' => array('change_password'),

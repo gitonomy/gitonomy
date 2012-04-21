@@ -75,7 +75,7 @@ class AdminRoleControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Create new role', $crawler->filter('h1')->text());
 
-        $form = $crawler->filter('#role input[type=submit]')->form(array(
+        $this->client->submit($crawler->filter('#role input[type=submit]')->form(), array(
             'adminrole[name]'        => 'test',
             'adminrole[description]' => 'test',
             'adminrole[permissions]' => array(
@@ -134,24 +134,24 @@ class AdminRoleControllerTest extends WebTestCase
     public function testEdit()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
+        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
 
         $this->client->connect('admin');
+
         $crawler  = $this->client->request('GET', '/en_US/adminrole/'.$role->getId().'/edit');
         $response = $this->client->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Edit role "Administrator"', $crawler->filter('h1')->text());
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('Edit role "Developer"', $crawler->filter('h1')->text());
 
-        $form = $crawler->filter('#role input[type=submit]')->form(array(
-            'adminrole[permissions]' => array(),
+        $this->client->submit($crawler->filter('#role input[type=submit]')->form(), array(
+            'adminrole[name]'        => $role->getName(),
+            'adminrole[description]' => $role->getDescription(),
         ));
-
-        $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/'.$role->getId().'/edit'));
         $this->client->followRedirect();
-        $this->assertEquals(403, $this->client->getResponse()->getStatusCode()); // @todo Explain me, I don't understand
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 
     public function testDeleteAsAnonymous()

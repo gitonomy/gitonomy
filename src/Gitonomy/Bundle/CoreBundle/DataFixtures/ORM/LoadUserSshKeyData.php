@@ -4,6 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 
@@ -17,7 +18,7 @@ class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterf
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $alice = $manager->merge($this->getReference('user-alice'));
         $aliceKey = new UserSshKey();

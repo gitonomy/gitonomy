@@ -20,7 +20,7 @@ class InformationsType extends AbstractType
         return 'profile_informations';
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'validation_groups' => array('profile_informations')

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**
  * Base class for testing the CLI tools.
@@ -23,18 +24,13 @@ abstract class CommandTestCase extends WebTestCase
         $application = new Application($client->getKernel());
         $application->setAutoExit(false);
 
-        $fp = tmpfile();
         $input = new StringInput($command);
-        $output = new StreamOutput($fp);
+        $output = new StreamOutput(fopen('php://memory', 'w', false));
 
         $statusCode = $application->run($input, $output);
 
-        fseek($fp, 0);
-        $result = '';
-        while (!feof($fp)) {
-            $result = fread($fp, 4096);
-        }
-        fclose($fp);
+        rewind($output->getStream());
+        $result = stream_get_contents($output->getStream());
 
         return array($statusCode, $result);
     }

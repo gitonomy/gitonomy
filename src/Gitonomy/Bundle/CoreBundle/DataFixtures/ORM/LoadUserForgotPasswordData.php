@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword;
@@ -36,7 +37,7 @@ class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtu
     /**
      * @inheritdoc
      */
-    public function load($manager)
+    public function load(ObjectManager $manager)
     {
         $aliceForgotPassword = new UserForgotPassword($this->getReference('user-alice'));
         $aliceForgotPassword->setToken('forgottokenalice');

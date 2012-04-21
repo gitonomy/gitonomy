@@ -17,7 +17,7 @@ class UserEmailType extends AbstractType
         return 'useremail';
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Email',

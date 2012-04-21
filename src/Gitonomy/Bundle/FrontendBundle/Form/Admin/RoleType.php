@@ -16,7 +16,7 @@ class RoleType extends AbstractType
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
                 'multiple' => true,
                 'translation_domain' => 'admin_roles',
-                'group_by' => 'parent',
+                // 'group_by' => 'parent.name',
                 'query_builder' => function ($repository) {
                     return $repository->createQueryBuilder('p')->where('p.parent is not null');
                 }
@@ -25,7 +25,7 @@ class RoleType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
         return array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
