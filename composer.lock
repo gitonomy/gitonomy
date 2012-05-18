@@ -1,0 +1,125 @@
+{
+    "hash": "467b0250a4e9fa6e1db931e2948402df",
+    "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "2.2.2"
+        },
+        {
+            "package": "doctrine/data-fixtures",
+            "version": "dev-master",
+            "source-reference": "f201391349f3dc6bd9c9c698927ea7c78104c461"
+        },
+        {
+            "package": "doctrine/dbal",
+            "version": "2.2.2"
+        },
+        {
+            "package": "doctrine/doctrine-bundle",
+            "version": "dev-master",
+            "source-reference": "5dad4a6ae187c6d345ec2b02be20ccc33779f53e"
+        },
+        {
+            "package": "doctrine/doctrine-fixtures-bundle",
+            "version": "dev-master",
+            "source-reference": "33b267d3068d6c2f8daa0b417285cf76e7f82fc4"
+        },
+        {
+            "package": "doctrine/orm",
+            "version": "2.2.0"
+        },
+        {
+            "package": "kriswallsmith/assetic",
+            "version": "dev-master",
+            "source-reference": "1a1b5f963db158a1065343fab617d25ce351a2dc",
+            "alias-pretty-version": "1.1.x-dev",
+            "alias-version": "1.1.9999999.9999999-dev"
+        },
+        {
+            "package": "kriswallsmith/assetic",
+            "version": "dev-master",
+            "source-reference": "1a1b5f963db158a1065343fab617d25ce351a2dc"
+        },
+        {
+            "package": "monolog/monolog",
+            "version": "1.1.0"
+        },
+        {
+            "package": "sensio/distribution-bundle",
+            "version": "dev-master",
+            "source-reference": "6517345b6b28021efad311123413000792e892ee"
+        },
+        {
+            "package": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source-reference": "57789082d1d53529dcf8cd3ca132d9787a59afee"
+        },
+        {
+            "package": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source-reference": "57789082d1d53529dcf8cd3ca132d9787a59afee",
+            "alias-pretty-version": "4.1.x-dev",
+            "alias-version": "4.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/assetic-bundle",
+            "version": "dev-master",
+            "source-reference": "61c9f363e73b4ecbb72f81eb62675260a1132048"
+        },
+        {
+            "package": "symfony/monolog-bundle",
+            "version": "dev-master",
+            "source-reference": "4d5a969dc5b34c8b0cea3521ce7fbb43b965af3f"
+        },
+        {
+            "package": "symfony/swiftmailer-bridge",
+            "version": "dev-master",
+            "source-reference": "509901cb13f43a6319a55804f787d206aa649ab4"
+        },
+        {
+            "package": "symfony/swiftmailer-bridge",
+            "version": "dev-master",
+            "source-reference": "509901cb13f43a6319a55804f787d206aa649ab4",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/swiftmailer-bundle",
+            "version": "dev-master",
+            "source-reference": "1c6b57fe57210e9dcb5b4586d6572f47d17a25d7"
+        },
+        {
+            "package": "symfony/symfony",
+            "version": "dev-master",
+            "source-reference": "1e15f2109633723b710e87184643cad88004b1b9"
+        },
+        {
+            "package": "symfony/symfony",
+            "version": "dev-master",
+            "source-reference": "1e15f2109633723b710e87184643cad88004b1b9",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "twig/extensions",
+            "version": "dev-master",
+            "source-reference": "446d870272cd87a720e95242eade38a2acf56eaa"
+        },
+        {
+            "package": "twig/twig",
+            "version": "dev-master",
+            "source-reference": "875fa010ce597edf97c04ce6490be950068e9372"
+        },
+        {
+            "package": "twig/twig",
+            "version": "dev-master",
+            "source-reference": "875fa010ce597edf97c04ce6490be950068e9372",
+            "alias-pretty-version": "1.8.x-dev",
+            "alias-version": "1.8.9999999.9999999-dev"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ]
+}
