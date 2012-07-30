@@ -3,11 +3,12 @@
 namespace Gitonomy\Bundle\FrontendBundle\Form\User;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserEmailType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email', 'email');
     }
@@ -17,10 +18,10 @@ class UserEmailType extends AbstractType
         return 'useremail';
     }
 
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Email',
-        );
+        ));
     }
 }

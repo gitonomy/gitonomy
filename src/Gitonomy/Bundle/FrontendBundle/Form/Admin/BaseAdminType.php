@@ -3,16 +3,16 @@
 namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class BaseAdminType extends AbstractType
 {
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'validation_groups' => array('admin'),
             'action'            => null,
-        );
+        ));
     }
 
     public function getName()
