@@ -210,6 +210,17 @@ class Commit
         return $this->treeHash;
     }
 
+    public function getTree()
+    {
+        $this->initialize();
+
+        if (null === $this->tree) {
+            $this->tree = new Tree($this->repository, $this->treeHash);
+        }
+
+        return $this->tree;
+    }
+
     /**
      * Returns the first line of the commit, and the first 80 characters.
      *
