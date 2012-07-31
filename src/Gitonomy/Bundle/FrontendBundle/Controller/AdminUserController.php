@@ -18,37 +18,37 @@ class AdminUserController extends BaseAdminController
 {
     public function listAction()
     {
-        $this->assertPermission('USER_ADMIN');
+        $this->assertGranted('ROLE_USER_LIST');
 
         return parent::listAction();
     }
 
     public function createAction()
     {
-        $this->assertPermission('USER_CREATE');
+        $this->assertGranted('ROLE_USER_CREATE');
 
         return parent::createAction();
     }
 
     public function editAction($id)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_EDIT');
 
         return parent::editAction($id);
     }
 
     public function activateAction($id)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_ACTIVATE');
 
         $user = $this->findUser($id);
 
         if (!$user->hasDefaultEmail()) {
-            throw $this->createException(sprintf('User #%d has no default email.', $id));
+            throw new \LogicException(sprintf('User #%d has no default email.', $id));
         }
 
         if ($user->isActivated()) {
-            throw $this->createException(sprintf('User #%d already actived!', $id));
+            throw new \LogicException(sprintf('User #%d already actived!', $id));
         }
 
         $em         = $this->getDoctrine()->getManager();
@@ -77,7 +77,7 @@ class AdminUserController extends BaseAdminController
 
     public function emailSendActivationAction($id, $emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('ROLE_USER_EDIT');
 
         $email = $this->findEmail($id, $emailId);
         $this->sendActivationMail($email);
@@ -95,7 +95,7 @@ class AdminUserController extends BaseAdminController
      */
     public function userRolesAction($userId)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_EDIT');
 
         $user            = $this->findUser($userId);
         $userRoleProject = new UserRoleProject();
@@ -133,7 +133,7 @@ class AdminUserController extends BaseAdminController
 
     public function deleteUserRoleAction($id)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_PROJECT_DELETE');
 
         $em         = $this->getDoctrine()->getEntityManager();
         $repository = $em->getRepository('GitonomyCoreBundle:UserRoleProject');
@@ -169,7 +169,7 @@ class AdminUserController extends BaseAdminController
 
     public function deleteAction($id)
     {
-        $this->assertPermission('USER_DELETE');
+        $this->assertGranted('ROLE_USER_DELETE');
 
         return parent::deleteAction($id);
     }
@@ -179,7 +179,7 @@ class AdminUserController extends BaseAdminController
      */
     public function emailsAction($id)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_EMAIL_LIST');
 
         $user    = $this->findUser($id);
         $email   = new Email();
@@ -189,6 +189,7 @@ class AdminUserController extends BaseAdminController
         ));
 
         if ('POST' == $request->getMethod()) {
+            $this->assertGranted('ROLE_USER_EMAIL_CREATE');
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->saveEmail($user, $email);
@@ -209,7 +210,7 @@ class AdminUserController extends BaseAdminController
      */
     public function emailDefaultAction($id, $emailId)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_EMAIL_SET_DEFAULT');
 
         $defaultEmail = $this->findEmail($id, $emailId);
         $em           = $this->getDoctrine()->getEntityManager();
@@ -233,7 +234,7 @@ class AdminUserController extends BaseAdminController
      */
     public function emailDeleteAction($id, $emailId)
     {
-        $this->assertPermission('USER_EDIT');
+        $this->assertGranted('ROLE_USER_EMAIL_DELETE');
 
         $email   = $this->findEmail($id, $emailId);
         $form    = $this->createFormBuilder()->getForm();

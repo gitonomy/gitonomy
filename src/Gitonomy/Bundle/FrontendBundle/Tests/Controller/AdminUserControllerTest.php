@@ -147,8 +147,11 @@ class AdminUserControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
 
+        $this->client->followRedirects(false);
         $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/activate');
         $response = $this->client->getResponse();
+        $this->assertNotEquals(500, $response->getStatusCode());
+        $this->client->followRedirects(true);
 
         // no mail sent
         $profile   = $this->client->getProfile();

@@ -22,18 +22,17 @@ class PermissionCheckCommandTest extends CommandTestCase
     public function provideSimpleCase()
     {
         return array(
-            array('alice', 'GIT_WRITE',      true,  'foobar'),
-            array('alice', 'GIT_FORCE',      false, 'foobar'),
-            array('alice', 'GIT_WRITE',      true,  'barbaz'),
-            array('alice', 'GIT_FORCE',      true,  'barbaz'),
-            array('admin', 'PROJECT_CREATE', true,  null),
+            array('alice', 'PROJECT_CONTRIBUTE', 'foobar', true  ),
+            array('bob',   'PROJECT_CONTRIBUTE', 'barbaz', false ),
+            array('admin', 'ROLE_ADMIN', null, true ),
+            array('alice', 'ROLE_ADMIN', null, false ),
         );
     }
 
     /**
      * @dataProvider provideSimpleCase
      */
-    public function testSimpleCase($username, $permission, $expected, $projectSlug)
+    public function testSimpleCase($username, $permission, $projectSlug, $expected)
     {
         $projectSuffix = $projectSlug === null ? '' : '--project='.$projectSlug;
 

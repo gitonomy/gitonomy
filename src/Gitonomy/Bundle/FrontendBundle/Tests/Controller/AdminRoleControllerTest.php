@@ -40,9 +40,9 @@ class AdminRoleControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/en_US/adminrole/list');
         $response = $this->client->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Role management', $crawler->filter('h1')->text());
-        $this->assertEquals(4, $crawler->filter('table thead tr th')->count());
+        $this->assertEquals(200, $response->getStatusCode(), "Page responses correctly");
+        $this->assertEquals('Role management', $crawler->filter('h1')->text(), "Title is present");
+        $this->assertEquals(2, $crawler->filter('table thead tr th')->count(), "Table has 2 columns");
     }
 
     public function testCreateAsAnonymous()
@@ -64,9 +64,7 @@ class AdminRoleControllerTest extends WebTestCase
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
 
-        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_READ');
-        $permissionB = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_WRITE');
-        $permissionC = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('GIT_FORCE');
+        $permissionA = $em->getRepository('GitonomyCoreBundle:Permission')->findOneByName('ROLE_ADMIN');
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminrole/create');
@@ -79,17 +77,13 @@ class AdminRoleControllerTest extends WebTestCase
             'adminrole[name]'        => 'test',
             'adminrole[description]' => 'test',
             'adminrole[permissions]' => array(
-                $permissionA->getId(),
-                $permissionB->getId(),
-                $permissionC->getId()
+                $permissionA->getId()
             ),
         ));
 
-        $this->client->submit($form);
-
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('test');
 
-        $this->assertCount(3, $role->getPermissions());
+        $this->assertCount(1, $role->getPermissions());
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/'.$role->getId().'/edit'));
     }
@@ -178,14 +172,14 @@ class AdminRoleControllerTest extends WebTestCase
     public function testDelete()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Project manager');
+        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Visitor');
 
         $this->client->connect('admin');
         $crawler  = $this->client->request('GET', '/en_US/adminrole/'.$role->getId().'/delete');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete role "Project manager" ?', $crawler->filter('h1')->text());
+        $this->assertEquals('Delete role "Visitor" ?', $crawler->filter('h1')->text());
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 

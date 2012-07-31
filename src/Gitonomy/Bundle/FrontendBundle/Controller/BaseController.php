@@ -16,39 +16,10 @@ use Gitonomy\Bundle\CoreBundle\Entity\Project;
  */
 class BaseController extends Controller
 {
-    /**
-     * Checks the current security context grants a given role.
-     *
-     * @param string $permission The permission to check (can be an array, meaning OR)
-     * @param string $message An error message (internal, will not be displayed)
-     */
-    protected function assertPermission($permission, $message = 'Access Denied')
+    protected function assertGranted($attributes, $object = null)
     {
-        $user = $this->getUser();
-
-        if (!$user instanceof User || !$this->get('gitonomy_frontend.security.right')->isGranted($user, $permission)) {
-            throw new AccessDeniedException($message);
+        if (!$this->get('security.context')->isGranted($attributes, $object)) {
+            throw new AccessDeniedException();
         }
-    }
-
-    /**
-     * Checks the current security context grants a given role to the user for a project.
-     *
-     * @param Gitonomy\Bundle\CoreBundle\Entity\Project $project The project to check
-     * @param mixed $permission A permission name (or an array, meaning OR)
-     * @param string $message An error message (internal, will not be displayed)
-     */
-    protected function assertProjectPermission(Project $project, $permission, $message = 'Access Denied')
-    {
-        $user = $this->getUser();
-
-        if (!$user instanceof User || !$this->get('gitonomy_frontend.security.right')->isGrantedForProject($user, $project, $permission)) {
-            throw new AccessDeniedException($message);
-        }
-    }
-
-    public function createException($message, $statusCode = 500)
-    {
-        return new HttpException($statusCode, $message);
     }
 }

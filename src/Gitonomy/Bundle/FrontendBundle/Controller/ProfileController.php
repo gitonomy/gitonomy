@@ -21,7 +21,7 @@ class ProfileController extends BaseController
      */
     public function indexAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
         $form = $this->createForm('profile_informations', $user);
@@ -50,7 +50,7 @@ class ProfileController extends BaseController
      */
     public function changeUsernameAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
         $form = $this->createForm('change_username', $user);
@@ -80,7 +80,7 @@ class ProfileController extends BaseController
      */
     public function emailsAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user    = $this->getUser();
         $email   = new Email();
@@ -124,7 +124,7 @@ class ProfileController extends BaseController
      */
     public function emailDeleteAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $email   = $this->findEmail($emailId);
         $form    = $this->createFormBuilder()->getForm();
@@ -151,7 +151,7 @@ class ProfileController extends BaseController
 
     public function emailSendActivationAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $email = $this->findEmail($emailId);
         $this->sendActivationMail($email);
@@ -167,14 +167,14 @@ class ProfileController extends BaseController
      */
     public function emailDefaultAction($emailId)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $defaultEmail = $this->findEmail($emailId);
         $user         = $defaultEmail->getUser();
         $em           = $this->getDoctrine()->getEntityManager();
 
         if (!$defaultEmail->isActivated()) {
-            throw $this->createException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
+            throw new \LogicException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
         }
         foreach ($user->getEmails() as $email) {
             if ($email->isDefault()) {
@@ -195,7 +195,7 @@ class ProfileController extends BaseController
      */
     public function sshKeysAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $form = $this->createForm('profile_ssh_key');
 
@@ -212,7 +212,7 @@ class ProfileController extends BaseController
      */
     public function deleteSshKeyAction($id)
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $em         = $this->getDoctrine()->getManager();
         $userSshKey = $em->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
@@ -235,7 +235,7 @@ class ProfileController extends BaseController
      */
     public function createSshKeyAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $userSshKey = new UserSshKey();
         $userSshKey->setUser($this->getUser());
@@ -266,7 +266,7 @@ class ProfileController extends BaseController
     public function activateAction($username, $token)
     {
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createException('Permission denied', 403);
+            throw new \LogicException('Permission denied', 403);
         }
 
         $em   = $this->getDoctrine()->getManager();
@@ -277,11 +277,11 @@ class ProfileController extends BaseController
         }
 
         if ($user->isActivated()) {
-            throw $this->createException(sprintf('User "%s" is already actived!', $username));
+            throw new \LogicException(sprintf('User "%s" is already actived!', $username));
         }
 
         if ($user->getActivationToken() !== $token) {
-            throw $this->createException('Bad activation token!');
+            throw new \LogicException('Bad activation token!');
         }
 
         $form = $this->createForm('change_password', $user);

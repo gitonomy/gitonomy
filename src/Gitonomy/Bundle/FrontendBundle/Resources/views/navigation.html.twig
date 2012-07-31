@@ -4,17 +4,17 @@
             <a class="brand" href="{{ path('gitonomyfrontend_main_homepage') }}">{{ gitonomy.name }}</a>
             <ul class="nav">
                 {% set projects = project_list() %}
-                {% if projects|length or is_granted('PROJECT_CREATE') %}
+                {% if projects|length or is_granted('ROLE_PROJECT_CREATE') %}
                     <li class="projects">
                         <a href="#" class="dropdown-toggle">Projects</a>
                         <ul class="dropdown-menu">
                             {% for project in projects %}
                                 <li><a href="{{ path('gitonomyfrontend_project_show', {'slug': project.slug }) }}">{{ project.name }}</a></li>
                             {% endfor %}
-                            {% if projects|length and is_granted('PROJECT_CREATE') %}
+                            {% if projects|length and is_granted('ROLE_PROJECT_CREATE') %}
                                 <li class="divider"></li>
                             {% endif %}
-                            {% if is_granted('PROJECT_CREATE') %}
+                            {% if is_granted('ROLE_PROJECT_CREATE') %}
                                 <li><a href="#">Create</a></li>
                             {% endif %}
                         </ul>
@@ -30,17 +30,17 @@
                         <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
                     </ul>
                 </li>
-                {% if is_granted(['USER_ADMIN', 'PROJECT_ADMIN', 'ROLE_ADMIN']) %}
+                {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') %}
                     <li class="admin">
                         <a href="#" class="dropdown-toggle">Administration</a>
                         <ul class="dropdown-menu">
-                            {% if is_granted(['USER_ADMIN']) %}
+                            {% if is_granted('ROLE_USER_LIST') %}
                                 <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
                             {% endif %}
-                            {% if is_granted(['PROJECT_ADMIN']) %}
+                            {% if is_granted('ROLE_PROJECT_LIST') %}
                                 <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
                             {% endif %}
-                            {% if is_granted(['ROLE_ADMIN']) %}
+                            {% if is_granted(['ROLE_ROLE_LIST']) %}
                                 <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
                             {% endif %}
                         </ul>
@@ -56,7 +56,7 @@
                         {% endfor %}
                     </ul>
                 </li>
-                {% if is_granted('AUTHENTICATED') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="account">
                         <a href="#" class="dropdown-toggle">{{ app.user.username }}</a>
                         <ul class="dropdown-menu">
@@ -66,7 +66,7 @@
                         </ul>
                     </li>
                 {% else %}
-                    {% if gitonomy.open_registration%}
+                    {% if gitonomy.open_registration %}
                         <li><a href="{{ path('gitonomyfrontend_security_register') }}">Register</a></li>
                     {% endif %}
                     <li><a href="{{ path('gitonomyfrontend_security_login') }}">Login</a></li>

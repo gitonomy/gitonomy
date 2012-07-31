@@ -4,11 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <imports>
-        <import resource="services/git.xml" />
-        <import resource="services/security.xml" />
-        <import resource="services/test.xml" />
-        <import resource="services/validator.xml" />
-    </imports>
-
+    <services>
+        <service id="gitonomy_core.security.project_role_voter" class="Gitonomy\Bundle\CoreBundle\Security\ProjectRoleVoter" public="false">
+            <tag name="security.voter" />
+        </service>
+    </services>
 </container>

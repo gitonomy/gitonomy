@@ -58,22 +58,11 @@ class User extends Base\BaseUser implements UserInterface
             $roles = array_merge($roles, $projectRole->getSecurityRoles());
         }
 
-
-        $permissions = array();
-
-        foreach ($this->getGlobalRoles() as $userRole) {
-            foreach ($userRole->getPermissions() as $permission) {
-                if ($permission->hasParent()) {
-                    $perm = $permission->getParent()->getName();
-                    $permissions[$perm] = $perm;
-                }
-
-                $perm = $permission->getName();
-                $permissions[$perm] = $perm;
-            }
+        foreach ($this->getGlobalRoles() as $globalRole) {
+            $roles = array_merge($roles, $globalRole->getSecurityRoles());
         }
 
-        return array_merge($permissions, array('AUTHENTICATED' => 'AUTHENTICATED'));
+        return $roles;
     }
 
     /**

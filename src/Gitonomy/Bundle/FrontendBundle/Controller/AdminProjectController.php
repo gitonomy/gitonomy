@@ -25,7 +25,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function gitAccessesAction($id)
     {
-        $this->assertPermission('PROJECT_EDIT');
+        $this->assertGranted('ROLE_GIT_ACCESS_LIST');
         $project = $this->getProject($id);
 
         $gitAccess = new ProjectGitAccess();
@@ -33,6 +33,7 @@ class AdminProjectController extends BaseAdminController
 
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
+            $this->assertGranted('ROLE_GIT_ACCESS_CREATE');
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $gitAccess->setProject($project);
@@ -54,7 +55,7 @@ class AdminProjectController extends BaseAdminController
 
     public function gitAccessDeleteAction($gitAccessId)
     {
-        $this->assertPermission('PROJECT_EDIT');
+        $this->assertGranted('ROLE_GIT_ACCESS_DELETE');
 
         $em         = $this->getDoctrine()->getEntityManager();
         $repository = $em->getRepository('GitonomyCoreBundle:ProjectGitAccess');
@@ -92,7 +93,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function userRolesAction($id)
     {
-        $this->assertPermission('PROJECT_EDIT');
+        $this->assertGranted('ROLE_USER_PROJECT_LIST');
         $project = $this->getProject($id);
 
         $userRoleProject = new UserRoleProject();
@@ -108,6 +109,7 @@ class AdminProjectController extends BaseAdminController
         ));
 
         if ('POST' == $request->getMethod()) {
+            $this->assertGranted('ROLE_USER_PROJECT_CREATE');
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $userRoleProject->setProject($project);
@@ -129,7 +131,7 @@ class AdminProjectController extends BaseAdminController
 
     public function userRoleDeleteAction($userRoleId)
     {
-        $this->assertPermission('PROJECT_EDIT');
+        $this->assertGranted('ROLE_USER_PROJECT_DELETE');
 
         $em         = $this->getDoctrine()->getEntityManager();
         $repository = $em->getRepository('GitonomyCoreBundle:UserRoleProject');
@@ -187,7 +189,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function listAction()
     {
-        $this->assertPermission(array('PROJECT_ADMIN'));
+        $this->assertGranted('ROLE_PROJECT_LIST');
 
         return parent::listAction();
     }
@@ -197,7 +199,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function createAction()
     {
-        $this->assertPermission('PROJECT_CREATE');
+        $this->assertGranted('ROLE_PROJECT_CREATE');
 
         return parent::createAction();
     }
@@ -207,7 +209,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function editAction($id)
     {
-        $this->assertPermission('PROJECT_EDIT');
+        $this->assertGranted('ROLE_PROJECT_EDIT');
 
         return parent::editAction($id);
     }
@@ -217,7 +219,7 @@ class AdminProjectController extends BaseAdminController
      */
     public function deleteAction($id)
     {
-        $this->assertPermission('PROJECT_DELETE');
+        $this->assertGranted('ROLE_PROJECT_DELETE');
 
         return parent::deleteAction($id);
     }

@@ -22,29 +22,35 @@ class AdminRoleController extends BaseAdminController
 
     public function listAction()
     {
-        $this->assertPermission('ROLE_ADMIN');
+        $this->assertGranted('ROLE_ROLE_LIST');
 
         return parent::listAction();
     }
 
     public function createAction()
     {
-        $this->assertPermission('ROLE_CREATE');
+        $this->assertGranted('ROLE_ROLE_CREATE');
 
         return parent::createAction();
     }
 
     public function editAction($id)
     {
-        $this->assertPermission('ROLE_EDIT');
+        $this->assertGranted('ROLE_ROLE_EDIT');
 
         return parent::editAction($id);
     }
 
     public function deleteAction($id)
     {
-        $this->assertPermission('ROLE_DELETE');
+        $this->assertGranted('ROLE_ROLE_DELETE');
 
         return parent::deleteAction($id);
+    }
+
+    protected function createAdminForm($object, $options = array()) {
+        $options['is_global'] = $object->getIsGlobal();
+
+        return parent::createAdminForm($object, $options);
     }
 }

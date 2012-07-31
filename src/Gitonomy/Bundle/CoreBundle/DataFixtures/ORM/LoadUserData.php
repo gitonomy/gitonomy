@@ -65,7 +65,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $charlie = new User();
         $charlie->setUsername('charlie');
-        $charlie->setFullname('Project Manager');
+        $charlie->setFullname('Visitor');
         $email = new Email();
         $email->setEmail('charlie@example.org');
         $charlie->setDefaultEmail($email);

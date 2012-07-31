@@ -2,9 +2,12 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
+use Doctrine\ORM\EntityRepository;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 class RoleType extends AbstractType
 {
@@ -19,8 +22,14 @@ class RoleType extends AbstractType
                 'expanded' => true,
                 'translation_domain' => 'admin_roles',
                 // 'group_by' => 'parent.name',
-                'query_builder' => function ($repository) {
-                    return $repository->createQueryBuilder('p')->where('p.parent is not null');
+                'query_builder' => function (Options $options) use ($options) {
+                    return function (EntityRepository $repository) use ($options) {
+                        return $repository
+                            ->createQueryBuilder('r')
+                            ->where('r.isGlobal = :isGlobal')
+                            ->setParameters(array('isGlobal' => $options['is_global']))
+                        ;
+                    };
                 }
             ))
             ->add('isGlobal', 'checkbox')
@@ -31,6 +40,7 @@ class RoleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+            'is_global'  => true
         ));
     }
 

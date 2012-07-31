@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Security\CliToken;
 
 /**
  * Wrapper for Git command.
@@ -68,7 +69,12 @@ EOF
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
         $user = $this->getUser($input->getArgument('username'));
-        $right = $this->getContainer()->get('gitonomy_frontend.security.right');
+        $securityContext = $this->getContainer()->get('security.context');
+
+        $token = new CliToken($user->getRoles());
+        $token->setUser($user);
+        $token->setAuthenticated(true);
+        $securityContext->setToken($token);
 
         $shellHandler = $this->getContainer()->get('gitonomy_core.git.shell_handler');
         $originalCommand = $shellHandler->getOriginalCommand();
@@ -88,13 +94,8 @@ EOF
 
         switch ($action) {
             case 'git-receive-pack':
-                if (!$right->isGrantedForProject($user, $project, 'GIT_WRITE')) {
-                    throw new \RuntimeException('You are not allowed to write on this repository');
-                }
-                break;
-
             case 'git-upload-pack':
-                if (!$right->isGrantedForProject($user, $project, 'GIT_READ')) {
+                if (!$securityContext->isGranted('PROJECT_CONTRIBUTE', $project)) {
                     throw new \RuntimeException('You are not allowed to read on this repository');
                 }
                 break;

@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Gitonomy\Bundle\CoreBundle\Security\CliToken;
+
 /**
  * Shell command for checking a permission.
  *
@@ -47,11 +49,12 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $permission = $input->getArgument('permission');
         $em   = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $projectSlug = $input->getOption('project');
         $project = null;
-        if (null !== $projectSlug) {
+        if ($projectSlug) {
             $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($projectSlug);
             if (null === $project) {
                 throw new \RuntimeException(sprintf('Project with slug "%s" not found', $projectSlug));
@@ -59,18 +62,21 @@ EOF
         }
 
         $username = $input->getArgument('username');
-        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
-        if (null === $username) {
-            throw new \RuntimeException(sprintf('User "%s" not found', $username));
+        $user = null;
+        if ($username) {
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+            if (null === $user) {
+                throw new \RuntimeException(sprintf('User "%s" not found', $username));
+            }
         }
 
-        $permission = $input->getArgument('permission');
+        $context = $this->getContainer()->get('security.context');
+        $token = new CliToken($user->getRoles());
+        $token->setUser($user);
+        $token->setAuthenticated(true);
 
-        if (null !== $project) {
-            $test = $this->getContainer()->get('gitonomy_frontend.security.right')->isGrantedForProject($user, $project, $permission);
-        } else {
-            $test = $this->getContainer()->get('gitonomy_frontend.security.right')->isGranted($user, $permission);
-        }
+        $context->setToken($token);
+        $test = $context->isGranted($permission, $project);
 
         return $test ? 0 : 1;
     }

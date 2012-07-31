@@ -198,7 +198,7 @@ class ProjectController extends BaseController
      */
     protected function getProject($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         if (!$user instanceof User) {
             throw new AccessDeniedException('You must be connected to access a project');
         }
@@ -208,9 +208,8 @@ class ProjectController extends BaseController
             throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
         }
 
-        $right = $this->get('gitonomy_frontend.security.right');
-        if (!$right->isGrantedForProject($user, $project, 'GIT_CONTRIBUTE')) {
-            throw new AccessDeniedException('You are not a contributor of the project');
+        if (!$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)) {
+            throw new AccessDeniedException('You are not contributor of the project');
         }
 
         return $project;
