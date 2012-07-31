@@ -36,6 +36,7 @@ class Commit
      * @var string
      */
     protected $treeHash;
+    protected $tree;
 
     /**
      * Hashes of the parent commits.

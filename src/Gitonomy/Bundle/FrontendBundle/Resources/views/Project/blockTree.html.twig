@@ -1,0 +1,28 @@
+<table>
+    <thead>
+        <tr>
+            <th width="100">Mode</th>
+            <th>Filename</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for name, data in tree.entries if data[1] is git_tree %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>
+                    <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
+                        {{ name }}
+                    </a>/
+                </td>
+            </tr>
+        {% endfor %}
+        {% for name, data in tree.entries if data[1] is not git_tree %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>
+                    {{ name }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

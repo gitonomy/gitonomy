@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Git\Tree;
 
 class GitonomyExtension extends \Twig_Extension
 {
@@ -40,9 +41,21 @@ class GitonomyExtension extends \Twig_Extension
         );
     }
 
+    public function getTests()
+    {
+        return array(
+            'git_tree'     => new \Twig_Test_Method($this, 'isGitTree'),
+        );
+    }
+
     public function getName()
     {
         return 'gitonomy';
+    }
+
+    public function isGitTree($tree)
+    {
+        return $tree instanceof Tree;
     }
 
     public function getProjectList()

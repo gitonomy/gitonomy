@@ -40,7 +40,7 @@ class Revision
         return $this->resolved = trim($output);
     }
 
-    public function getCommit($limit = null)
+    public function getCommit()
     {
         return $this->repository->getCommit($this->getResolved());
     }
