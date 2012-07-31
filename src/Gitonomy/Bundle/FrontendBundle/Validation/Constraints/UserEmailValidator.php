@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Validation\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class UserEmailValidator extends ConstraintValidator
 {
@@ -18,34 +18,18 @@ class UserEmailValidator extends ConstraintValidator
         $this->doctrineRegistry = $doctrineRegistry;
     }
 
-    public function isValid($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
-        if (null === $value) {
-            return true;
+        if (false === $value || (empty($value) && '0' != $value)) {
+            $this->context->addViolation($constraint->message);
+            return;
         }
 
-        if (false === filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        }
+        $email = $value->getEmail();
+        $email = $this->doctrineRegistry->getRepository('GitonomyCoreBundle:Email')->findByEmail($email);
 
-        $count = $this->doctrineRegistry
-            ->getRepository('GitonomyCoreBundle:Email')
-            ->createQueryBuilder('e')
-            ->select('COUNT(e)')
-            ->where('e.email = :email')
-            ->setParameters(array(
-                'email' => $value
-            ))
-            ->getQuery()
-            ->getSingleScalarResult()
-        ;
-
-        if ($count == 0) {
+        if (null === $email) {
             $this->setMessage($constraint->message);
-
-            return false;
         }
-
-        return true;
     }
 }

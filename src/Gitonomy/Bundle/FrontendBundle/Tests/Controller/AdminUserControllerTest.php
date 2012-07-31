@@ -202,7 +202,7 @@ class AdminUserControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $node    = $crawler->filter('#user_email span.help-inline');
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('This value is already used', $node->text());
+        $this->assertEquals('This value is already used.', $node->text());
     }
 
     public function testAdminCreateEmail()

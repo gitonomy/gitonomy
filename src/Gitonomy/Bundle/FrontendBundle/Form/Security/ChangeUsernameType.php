@@ -3,22 +3,24 @@
 namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ChangeUsernameType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username', 'text')
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'validation_groups' => array('change_username')
-        );
+        $resolver->setDefaults(array(
+            'validation_groups' => array('change_username'),
+            'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+        ));
     }
 
     public function getName()

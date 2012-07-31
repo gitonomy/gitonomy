@@ -36,6 +36,7 @@ class Commit
      * @var string
      */
     protected $treeHash;
+    protected $tree;
 
     /**
      * Hashes of the parent commits.
@@ -208,6 +209,17 @@ class Commit
         $this->initialize();
 
         return $this->treeHash;
+    }
+
+    public function getTree()
+    {
+        $this->initialize();
+
+        if (null === $this->tree) {
+            $this->tree = new Tree($this->repository, $this->treeHash);
+        }
+
+        return $this->tree;
     }
 
     /**

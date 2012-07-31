@@ -103,7 +103,7 @@ class SecurityController extends BaseController
         try {
             $user = $handler->getUserIfForgotPasswordTokenValid($username, $forgotPasswordToken);
         } catch (\InvalidArgumentException $e) {
-            throw new NotFoundHttpException('This token is not valid', $e);
+            throw $this->createNotFoundException('This token is not valid', $e);
         }
 
         $form = $this->createForm('change_password', $user);

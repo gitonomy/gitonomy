@@ -1,0 +1,29 @@
+<?php
+
+namespace Gitonomy\Git\Parser;
+
+class TreeParser extends ParserBase
+{
+    public $entries = array();
+
+    protected function doParse()
+    {
+        while (!$this->isFinished()) {
+            $vars = $this->consumeRegexp('/\d{6}/A');
+            $mode = $vars[0];
+            $this->consume(' ');
+
+            $vars = $this->consumeRegexp('/(blob|tree)/A');
+            $type = $vars[0];
+            $this->consume(' ');
+
+            $hash = $this->consumeHash();
+            $this->consume("\t");
+
+            $name = $this->consumeTo("\n");
+            $this->consumeNewLine();
+
+            $this->entries[] = array($mode, $type, $hash, $name);
+        }
+    }
+}

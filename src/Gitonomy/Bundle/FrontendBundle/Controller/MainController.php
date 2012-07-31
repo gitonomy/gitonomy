@@ -17,6 +17,8 @@ class MainController extends BaseController
      */
     public function homepageAction($_locale = null)
     {
+        $this->get('doctrine')->getManager()->getRepository('GitonomyCoreBundle:User')->findOneByUsername('alice');
+
         if (null === $_locale) {
             return new RedirectResponse($this->generateUrl('gitonomyfrontend_main_homepage'));
         }

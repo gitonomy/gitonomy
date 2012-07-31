@@ -3,11 +3,12 @@
 namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RegistrationType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username', 'text')
@@ -20,13 +21,13 @@ class RegistrationType extends AbstractType
 
     public function getName()
     {
-        return 'registration';
+        return 'user_registration';
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'validation_groups' => array('registration')
-        );
+        ));
     }
 }

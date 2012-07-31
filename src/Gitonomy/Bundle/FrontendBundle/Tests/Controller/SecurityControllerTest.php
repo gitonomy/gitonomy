@@ -97,15 +97,16 @@ class SecurityControllerTest extends WebTestCase
         $cookieJar = $this->client->getCookieJar();
         $this->assertNotNull($cookieJar->get('REMEMBERME'));
 
-        $cookieJar->expire('PHPSESSID');
+        $cookieJar->expire('MOCKSESSID');
 
         $crawler = $this->client->request('GET', '/en_US');
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
 
-        $cookieJar->expire('PHPSESSID');
+        $cookieJar->expire('MOCKSESSID');
         $cookieJar->expire('REMEMBERME');
 
         $crawler = $this->client->request('GET', '/en_US');
+
         $this->assertEquals(0, $crawler->filter('.topbar a:contains("alice")')->count());
     }
 
@@ -178,6 +179,22 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->connect('alice', 'foobar');
 
         $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+    }
+
+    public function testChangePasswordWithNoPassword()
+    {
+        $crawler  = $this->client->request('GET', '/en_US/password/alice/forgottokenalice');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertEquals('Change password for Alice', $crawler->filter('h1')->text());
+
+        $form = $crawler->filter('form input[type=submit]')->form();
+
+        $crawler  = $this->client->submit($form);
+
+        $this->assertEquals(1, $crawler->filter('#change_password:contains("This value should not be blank")')->count());
     }
 
     public function testChangePasswordWithExpiredToken()

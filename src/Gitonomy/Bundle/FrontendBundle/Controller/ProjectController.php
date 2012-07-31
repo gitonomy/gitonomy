@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Git\Tree;
 
 /**
  * Controller for project displaying.
@@ -36,6 +37,17 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
             'project'   => $project,
             'reference' => $reference
+        ));
+    }
+
+    public function showTreeAction($slug, $reference, $path)
+    {
+        $project = $this->getProject($slug);
+
+        return $this->render('GitonomyFrontendBundle:Project:showTree.html.twig', array(
+            'project'   => $project,
+            'reference' => $reference,
+            'path'      => $path
         ));
     }
 
@@ -103,6 +115,46 @@ class ProjectController extends BaseController
                 'project' => $project
             ));
         }
+    }
+
+    /**
+     * Displays tree
+     */
+    public function blockTreeAction($slug, $reference, $path)
+    {
+        $project = $this->getProject($slug);
+
+        $revision = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
+            ->getRevision($reference)
+        ;
+
+        $revision->getResolved();
+
+        $tree = $revision->getCommit()->getTree();
+        if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
+            $path = substr($path, 1);
+        }
+        if ($path !== '') {
+            $segments = explode('/', $path);
+            foreach ($segments as $segment) {
+                $tree = $tree->getEntry($segment);
+                if (!$tree instanceof Tree) {
+                    throw $this->createNotFoundException('Not a tree');
+                }
+            }
+        } else {
+            $segments = array();
+        }
+
+        return $this->render('GitonomyFrontendBundle:Project:blockTree.html.twig', array(
+            'path'     => $path,
+            'reference' => $reference,
+            'segments' => $segments,
+            'tree'     => $tree,
+            'project'  => $project
+        ));
     }
 
     public function blockBranchesActivityAction($slug)

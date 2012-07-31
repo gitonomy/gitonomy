@@ -3,14 +3,15 @@
 namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityRepository;
 
 class UserRoleProjectType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
         if ('user' === $options['from']) {
@@ -77,17 +78,17 @@ class UserRoleProjectType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'data_class'   => 'Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject',
             'usedProjects' => array(),
             'usedUsers'    => array(),
             'from'         => null,
-        );
+        ));
     }
 
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'baseadmin';
     }

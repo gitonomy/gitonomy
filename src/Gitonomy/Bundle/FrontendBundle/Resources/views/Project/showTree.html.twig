@@ -1,0 +1,18 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title project.name %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'source' } %}
+    <div class="page-header">
+        <h2>Source</h2>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockTree" with {
+        slug: project.slug,
+        reference: reference,
+        path: path
+    } %}
+{% endblock %}
