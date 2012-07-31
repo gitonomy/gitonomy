@@ -126,6 +126,7 @@ class GitCommandTest extends CommandTestCase
 
     public function testReaderCannotPush()
     {
+        $this->markTestSkipped('R/W removed');
         $this->shellHandler
             ->expects($this->once())
             ->method('getOriginalCommand')

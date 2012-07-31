@@ -81,8 +81,6 @@ class AdminRoleControllerTest extends WebTestCase
             ),
         ));
 
-        $this->client->submit($form);
-
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('test');
 
         $this->assertCount(1, $role->getPermissions());

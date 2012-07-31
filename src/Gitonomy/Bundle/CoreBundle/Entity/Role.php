@@ -11,6 +11,12 @@ use Symfony\Component\Security\Core\Role\Role as SecurityRole;
  */
 class Role extends Base\BaseRole
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->isGlobal = true;
+    }
     /**
      * @inheritdoc
      */
