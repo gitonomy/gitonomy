@@ -8,3 +8,29 @@ System configuration
 
 The command ``php app/console gitonomy:authorized-keys -i`` will regenerate the
 file with user SSH keys.
+
+Features
+::::::::
+
+* Git repository
+
+  * Full web administration
+  * Accessible by SSH
+  * Private repositories
+  * Role based permissions
+
+* Browse history
+
+  * Log view
+
+* Security
+
+  * Manage roles, users and projects
+  * Disable registration
+
+* Account
+
+  * Forgot password
+  * Change username
+  * Manage SSH keys
+  * Manage e-mails
