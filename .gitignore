@@ -1,8 +1,8 @@
-web/bundles/
-sample/
-app/bootstrap.php.cache
-app/config/parameters.yml
-app/cache/*
-app/logs/*
-build/
-vendor/
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+/app/bootstrap.php.cache
+/build/
+/sample/
+/vendor/
+/web/bundles/
