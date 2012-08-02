@@ -1,6 +1,15 @@
 Gitonomy
 ======
 
+Configuration & Installation
+::::::::::::::::::::::::::::
+
+This application relies on:
+
+* PHP 5.3 (Symfony2 powered)
+* MySQL database
+* Git
+
 This project is still a work in progress.
 
 System configuration
