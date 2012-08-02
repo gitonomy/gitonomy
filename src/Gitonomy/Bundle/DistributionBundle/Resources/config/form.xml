@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="gitonomy_distribution.form.type.configurator_step_mailer" class="Gitonomy\Bundle\DistributionBundle\Form\Type\MailerType">
+            <tag name="form.type" alias="configurator_step_mailer" />
+        </service>
+        <service id="gitonomy_frontend.form.type.profile_informations" class="%gitonomy_frontend.form.type.profile_informations.class%">
+            <tag name="form.type" alias="profile_informations" />
+        </service>
+        <service id="gitonomy_frontend.form.type.user_registration" class="%gitonomy_frontend.form.type.user_registration.class%">
+            <tag name="form.type" alias="user_registration" />
+        </service>
+        <service id="gitonomy_frontend.form.type.baseadmin" class="%gitonomy_frontend.form.type.baseadmin.class%">
+            <tag name="form.type" alias="baseadmin" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminuser" class="%gitonomy_frontend.form.type.adminuser.class%">
+            <tag name="form.type" alias="adminuser" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminproject" class="%gitonomy_frontend.form.type.adminproject.class%">
+            <tag name="form.type" alias="adminproject" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminrole" class="%gitonomy_frontend.form.type.adminrole.class%">
+            <tag name="form.type" alias="adminrole" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminuserroleproject" class="%gitonomy_frontend.form.type.adminuserroleproject.class%">
+            <tag name="form.type" alias="adminuserroleproject" />
+        </service>
+        <service id="gitonomy_frontend.form.type.adminuserroleglobal" class="%gitonomy_frontend.form.type.adminuserroleglobal.class%">
+            <tag name="form.type" alias="adminuserroleglobal" />
+        </service>
+        <service id="gitonomy_frontend.form.type.useremail" class="%gitonomy_frontend.form.type.useremail.class%">
+            <tag name="form.type" alias="useremail" />
+        </service>
+        <service id="gitonomy_frontend.form.type.forgot_password_request" class="%gitonomy_frontend.form.type.forgot_password_request.class%">
+            <tag name="form.type" alias="forgot_password_request" />
+        </service>
+        <service id="gitonomy_frontend.form.type.change_password" class="%gitonomy_frontend.form.type.change_password.class%">
+            <tag name="form.type" alias="change_password" />
+        </service>
+        <service id="gitonomy_frontend.form.type.change_username" class="%gitonomy_frontend.form.type.change_username.class%">
+            <tag name="form.type" alias="change_username" />
+        </service>
+        <service id="gitonomy_frontend.form.type.project_git_access" class="%gitonomy_frontend.form.type.project_git_access.class%">
+            <tag name="form.type" alias="project_git_access" />
+        </service>
+    </services>
+
+</container>

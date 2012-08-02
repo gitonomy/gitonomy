@@ -1,5 +1,5 @@
 {
-    "hash": "240035e2bfe010f9d3326a50d6934165",
+    "hash": "5ba3026f3d98f4759f4a967de8c0415b",
     "packages": [
         {
             "package": "doctrine/common",
@@ -74,14 +74,8 @@
         {
             "package": "symfony/assetic-bundle",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/assetic-bundle",
-            "version": "dev-master",
-            "source-reference": "24df9ede95084be882aeb557eaef5b761cfa00e0",
-            "commit-date": "1343684934"
+            "source-reference": "0c09207be07b044e06d28a4111f554f071e5b658",
+            "commit-date": "1343812720"
         },
         {
             "package": "symfony/monolog-bundle",
