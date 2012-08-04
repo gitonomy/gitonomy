@@ -70,4 +70,25 @@ class Tree
 
         return $this->entries[$name][1];
     }
+
+    public function resolvePath($path)
+    {
+        if ($path == '') {
+            return $this;
+        }
+
+        $segments = explode('/', $path);
+        $element = $this;
+        foreach ($segments as $segment) {
+            if ($element instanceof Tree) {
+                $element = $element->getEntry($segment);
+            } elseif ($entry instanceof Blob) {
+                throw new \InvalidArgumentException('Unresolvable path');
+            } else {
+                throw new \RuntimeException('Unknow type of element');
+            }
+        }
+
+        return $element;
+    }
 }

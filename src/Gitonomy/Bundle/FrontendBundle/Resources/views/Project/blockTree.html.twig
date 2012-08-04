@@ -20,7 +20,9 @@
             <tr>
                 <td>{{ data[0] }}</td>
                 <td>
-                    {{ name }}
+                    <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
+                        {{ name }}
+                    </a>
                 </td>
             </tr>
         {% endfor %}

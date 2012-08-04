@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Git\Tree;
+use Gitonomy\Git\Blob;
 
 /**
  * Controller for project displaying.
@@ -136,25 +137,26 @@ class ProjectController extends BaseController
         if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
             $path = substr($path, 1);
         }
-        if ($path !== '') {
-            $segments = explode('/', $path);
-            foreach ($segments as $segment) {
-                $tree = $tree->getEntry($segment);
-                if (!$tree instanceof Tree) {
-                    throw $this->createNotFoundException('Not a tree');
-                }
-            }
-        } else {
-            $segments = array();
+
+        $element = $tree->resolvePath($path);
+
+        if ($element instanceof Blob) {
+            return $this->render('GitonomyFrontendBundle:Project:blockBlob.html.twig', array(
+                'path'      => $path,
+                'reference' => $reference,
+                'blob'      => $element,
+                'project'   => $project
+            ));
+        } elseif ($element instanceof Tree) {
+            return $this->render('GitonomyFrontendBundle:Project:blockTree.html.twig', array(
+                'path'      => $path,
+                'reference' => $reference,
+                'tree'      => $element,
+                'project'   => $project
+            ));
         }
 
-        return $this->render('GitonomyFrontendBundle:Project:blockTree.html.twig', array(
-            'path'     => $path,
-            'reference' => $reference,
-            'segments' => $segments,
-            'tree'     => $tree,
-            'project'  => $project
-        ));
+        throw new \RuntimeException(sprintf('Unable to render element of type "%s"', get_class($element)));
     }
 
     public function blockBranchesActivityAction($slug)
