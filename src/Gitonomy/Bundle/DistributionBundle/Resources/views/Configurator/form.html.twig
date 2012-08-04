@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block checkbox_row %}
-    {{ form_widget(form) }}
-    {{ form_label(form) }}
+    <div class="symfony-form-row">
+        {{ form_widget(form) }}
+        {{ form_label(form) }}
+    </div>
 {% endblock %}

@@ -17,6 +17,9 @@ class StepGitonomyType extends AbstractType
                 'required' => false
             ))
             ->add('repository_path',   'repository_path')
+            ->add('ssh_access',        'text')
+            ->add('mailer_from_email', 'text')
+            ->add('mailer_from_name',  'text')
         ;
     }
 

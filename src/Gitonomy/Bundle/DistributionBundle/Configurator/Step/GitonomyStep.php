@@ -10,6 +10,9 @@ class GitonomyStep implements StepInterface
     public $project_baseline;
     public $open_registration;
     public $repository_path;
+    public $ssh_access;
+    public $mailer_from_name;
+    public $mailer_from_email;
 
     function __construct(array $parameters)
     {

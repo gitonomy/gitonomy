@@ -10,9 +10,9 @@
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
-        {{ form_row(form.repository_path) }}
 
-        {{ form_rest(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
 
         <div class="symfony-form-footer">
             <p><input type="submit" value="Next Step" class="symfony-button-grey" /></p>
