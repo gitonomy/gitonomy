@@ -1,0 +1,9 @@
+{% extends "SensioDistributionBundle::Configurator/form.html.twig" %}
+
+{% block repository_path_widget %}
+    <span>
+        {{ form_widget(form.type) }}
+        {{ form_widget(form.value) }}
+    </span>
+    {{ form_errors(form) }}
+{% endblock %}

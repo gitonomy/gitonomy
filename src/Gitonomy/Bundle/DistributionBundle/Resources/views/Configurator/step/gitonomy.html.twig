@@ -1,24 +1,20 @@
 {% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
 
-{% block title %}Symfony - Configure database{% endblock %}
+{% block title %}Symfony - Configure Gitonomy{% endblock %}
 
 {% block content %}
     {% form_theme form "GitonomyDistributionBundle::Configurator/form.html.twig" %}
     {% include "SensioDistributionBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
 
-    <h1>Configure your mailer</h1>
-    <p>Application needs to send mails, configure here how to send them:</p>
+    <h1>Configure Gitonomy</h1>
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
-        <div class="symfony-form-column">
-            {{ form_row(form.transport) }}
-            {{ form_row(form.host) }}
-        </div>
-        <div class="symfony-form-column">
-            {{ form_row(form.user) }}
-            {{ form_row(form.password) }}
-        </div>
+        <p>First, you need to configure where to store Gitonomy repositories:</p>
+        <ul>
+            <li><strong>Application-relative path</strong>: Define a folder relative to app/ folder in Gitonomy project (ex: <em>repositories</em> will store repositories in /path/to/gitonomy/app/repositories).</li>
+            <li><strong>Absolute path</strong>: Define a folder in any place of your computer (ex: /var/repositories)</li>
+        {{ form_row(form.repository_path) }}
 
         {{ form_rest(form) }}
 
