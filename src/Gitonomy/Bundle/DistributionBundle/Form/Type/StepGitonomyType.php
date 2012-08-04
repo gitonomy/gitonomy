@@ -10,7 +10,13 @@ class StepGitonomyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('repository_path', 'repository_path')
+            ->add('project_name',      'text')
+            ->add('project_baseline',  'text')
+            ->add('open_registration', 'checkbox', array(
+                'label'    => 'Allow registration in application',
+                'required' => false
+            ))
+            ->add('repository_path',   'repository_path')
         ;
     }
 

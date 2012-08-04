@@ -6,11 +6,16 @@ use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 
 class GitonomyStep implements StepInterface
 {
+    public $project_name;
+    public $project_baseline;
+    public $open_registration;
     public $repository_path;
 
     function __construct(array $parameters)
     {
-        $this->repository_path = isset($parameters['repository_path']) ? $parameters['repository_path'] : null;
+        foreach ($this as $key => $value) {
+            $this->$key = isset($parameters[$key]) ? $parameters[$key] : null;
+        }
     }
 
     function getFormType()
@@ -33,8 +38,11 @@ class GitonomyStep implements StepInterface
 
     public function update(StepInterface $data)
     {
-        return array(
-            'repository_path' => $this->repository_path
-        );
+        $result = array();
+        foreach ($data as $key => $value) {
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 }

@@ -10,10 +10,6 @@
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
-        <p>First, you need to configure where to store Gitonomy repositories:</p>
-        <ul>
-            <li><strong>Application-relative path</strong>: Define a folder relative to app/ folder in Gitonomy project (ex: <em>repositories</em> will store repositories in /path/to/gitonomy/app/repositories).</li>
-            <li><strong>Absolute path</strong>: Define a folder in any place of your computer (ex: /var/repositories)</li>
         {{ form_row(form.repository_path) }}
 
         {{ form_rest(form) }}
