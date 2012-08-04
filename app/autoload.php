@@ -2,7 +2,7 @@
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-$loader = include __DIR__.'/../vendor/.composer/autoload.php';
+$loader = include __DIR__.'/../vendor/autoload.php';
 
 // intl
 if (!function_exists('intl_get_error_code')) {
