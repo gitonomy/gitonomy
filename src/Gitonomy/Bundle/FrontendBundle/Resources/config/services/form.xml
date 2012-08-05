@@ -29,6 +29,7 @@
             <tag name="form.type" alias="profile_informations" />
         </service>
         <service id="gitonomy_frontend.form.type.user_registration" class="%gitonomy_frontend.form.type.user_registration.class%">
+            <argument type="service" id="security.encoder_factory" />
             <tag name="form.type" alias="user_registration" />
         </service>
         <service id="gitonomy_frontend.form.type.baseadmin" class="%gitonomy_frontend.form.type.baseadmin.class%">

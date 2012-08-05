@@ -226,9 +226,9 @@ class AdminProjectControllerTest extends WebTestCase
         $form = $crawler->filter('form input[type=submit]')->form(array(
             'project_git_access[role]'      => $role->getId(),
             'project_git_access[reference]' => 'foobar',
-            'project_git_access[is_read]'   => true,
-            'project_git_access[is_write]'  => true,
-            'project_git_access[is_admin]'  => true,
+            'project_git_access[read]'   => true,
+            'project_git_access[write]'  => true,
+            'project_git_access[admin]'  => true,
         ));
 
         $this->client->submit($form);
@@ -240,9 +240,9 @@ class AdminProjectControllerTest extends WebTestCase
             'reference' => 'foobar'
         ));
 
-        $this->assertTrue($gitAccess->getIsRead());
-        $this->assertTrue($gitAccess->getIsWrite());
-        $this->assertTrue($gitAccess->getIsAdmin());
+        $this->assertTrue($gitAccess->isRead());
+        $this->assertTrue($gitAccess->isWrite());
+        $this->assertTrue($gitAccess->isAdmin());
     }
 
     public function testGitAccessDelete()

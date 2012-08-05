@@ -18,13 +18,6 @@
         <field name="timezone" column="timezone" type="string" length="64" />
         <field name="activationToken" column="activation_token" type="string" length="32" nullable="true" />
 
-        <one-to-one field="forgotPassword" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword" mapped-by="user" fetch="LAZY">
-            <cascade>
-                <cascade-persist />
-                <cascade-remove />
-            </cascade>
-        </one-to-one>
-
         <one-to-many field="sshKeys" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey" mapped-by="user">
             <cascade>
                 <cascade-persist />

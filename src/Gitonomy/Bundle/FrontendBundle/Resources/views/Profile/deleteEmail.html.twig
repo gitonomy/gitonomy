@@ -1,10 +1,10 @@
 {% extends "GitonomyFrontendBundle:BaseAdmin:delete.html.twig" %}
 
-{% block title 'Delete Email '~object %}
+{% block title 'Delete Email '~object.email %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Delete Email "{{ object }}" ?</h1>
+        <h1>Delete Email "{{ object.email }}" ?</h1>
     </div>
     <form class="form-stacked" action="{{ path('gitonomyfrontend_profile_email_delete', {'emailId': object.id}) }}" id="delete" method="POST" novalidate>
         {{ form_errors(form) }}

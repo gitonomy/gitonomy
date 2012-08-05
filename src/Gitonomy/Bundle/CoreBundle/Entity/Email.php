@@ -2,27 +2,85 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
-class Email extends Base\BaseEmail
+class Email
 {
-    public function __construct()
+    protected $id;
+
+    /** @var User */
+    protected $user;
+    protected $email;
+    protected $isDefault;
+    protected $activationToken;
+
+    public function __construct(User $user, $email = null)
     {
+        $this->user  = $user;
+        $this->email = $email;
+
         $this->isDefault = false;
-        parent::__construct();
     }
 
-    public function __toString()
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getEmail()
     {
         return $this->email;
     }
 
-    public function isActivated()
+    public function setEmail($email)
     {
-        return null === $this->activation;
+        $this->email = $email;
     }
 
-    public function generateActivationHash()
+    public function isDefault()
     {
-        $timestamp = new \DateTime();
-        $this->activation = md5($timestamp->format('U').$this->email);
+        return $this->isDefault;
+    }
+
+    public function setDefault($isDefault)
+    {
+        $this->isDefault = $isDefault;
+    }
+
+    public function createActivationToken()
+    {
+        return $this->activationToken = md5(microtime().uniqid());
+    }
+
+    /**
+     * @throws LogicException           Email is already active
+     * @throws InvalidArgumentException ActivationToken value is not correct
+     */
+    public function validateActivationToken($activationToken)
+    {
+        if (null === $this->activationToken) {
+            throw new \LogicException('This e-mail is already active');
+        }
+
+        if ($this->activationToken !== $activationToken) {
+            throw new \InvalidArgumentException('ActivationToken not correct');
+        }
+
+        $this->activationToken = null;
+
+        return true;
+    }
+
+    public function isActive()
+    {
+        return null === $this->activationToken;
+    }
+
+    public function getActivationToken()
+    {
+        return $this->activationToken;
     }
 }

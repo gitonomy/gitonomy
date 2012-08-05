@@ -83,7 +83,7 @@ class ProfileController extends BaseController
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user    = $this->getUser();
-        $email   = new Email();
+        $email   = $user->createEmail();
         $request = $this->getRequest();
 
         $form = $this->createForm('useremail', $email, array(
@@ -96,17 +96,15 @@ class ProfileController extends BaseController
                 $em = $this->getDoctrine()->getEntityManager();
                 try {
                     $em->getConnection()->beginTransaction();
-                    $email->generateActivationHash();
-                    $email->setUser($user);
-                    $user->addEmail($email);
-                    $em->persist($email);
+                    $token = $email->createActivationToken();
+                    $em->persist($user);
                     $em->flush();
-                    $this->sendActivationMail($email);
+                    $this->sendActivationMail($email, $token);
                     $em->commit();
                 } catch (\Exception $e) {
                     throw $e;
                 }
-                $message = sprintf('Email "%s" added.', $email->__toString());
+                $message = sprintf('Email "%s" added.', $email->getEmail());
                 $this->get('session')->setFlash('success', $message);
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_emails'));
@@ -136,7 +134,7 @@ class ProfileController extends BaseController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->remove($email);
                 $em->flush();
-                $message = sprintf('Email "%s" deleted.', $email->__toString());
+                $message = sprintf('Email "%s" deleted.', $email->getEmail());
                 $this->get('session')->setFlash('success', $message);
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -154,9 +152,10 @@ class ProfileController extends BaseController
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $email = $this->findEmail($emailId);
-        $this->sendActivationMail($email);
+        $token = $email->createActivationToken();
+        $this->sendActivationMail($email, $token);
 
-        $message = sprintf('Activation mail for "%s" sent.', $email->__toString());
+        $message = sprintf('Activation mail for "%s" sent.', $email->getEmail());
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -173,18 +172,18 @@ class ProfileController extends BaseController
         $user         = $defaultEmail->getUser();
         $em           = $this->getDoctrine()->getEntityManager();
 
-        if (!$defaultEmail->isActivated()) {
+        if (!$defaultEmail->isActive()) {
             throw new \LogicException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
         }
         foreach ($user->getEmails() as $email) {
             if ($email->isDefault()) {
-                $email->setIsDefault(false);
+                $email->setDefault(false);
             }
         }
 
-        $defaultEmail->setIsDefault(true);
+        $defaultEmail->setDefault(true);
         $em->flush();
-        $message = sprintf('Email "%s" now as default.', $email->__toString());
+        $message = sprintf('Email "%s" now as default.', $email->getEmail());
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -237,8 +236,7 @@ class ProfileController extends BaseController
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
-        $userSshKey = new UserSshKey();
-        $userSshKey->setUser($this->getUser());
+        $userSshKey = new UserSshKey($this->getUser());
         $form = $this->createForm('profile_ssh_key', $userSshKey);
 
 
@@ -273,16 +271,10 @@ class ProfileController extends BaseController
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
         if (!$user) {
-            throw $this->createNotFoundException(sprintf('User "%s" not found!', $username));
+            throw $this->createNotFoundException(sprintf('User "%s" not found', $username));
         }
 
-        if ($user->isActivated()) {
-            throw new \LogicException(sprintf('User "%s" is already actived!', $username));
-        }
-
-        if ($user->getActivationToken() !== $token) {
-            throw new \LogicException('Bad activation token!');
-        }
+        $user->validateActivation($token);
 
         $form = $this->createForm('change_password', $user);
 
@@ -319,10 +311,12 @@ class ProfileController extends BaseController
         return $email;
     }
 
-    protected function sendActivationMail(Email $email)
+    protected function sendActivationMail(Email $email, $token)
     {
-        $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
-            array('email' => $email),
+        $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig', array(
+            'email' => $email,
+            'token' => $token
+        ),
             $email->getEmail()
         );
     }

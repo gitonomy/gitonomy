@@ -26,7 +26,7 @@
                         <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id': object.id}) }}">{{ object.username }}</a>
                     </td>
                     <td>{{ object.fullname }}</td>
-                    <td>{{ object.defaultEmail }}</td>
+                    <td>{{ object.hasDefaultEmail ? object.defaultEmail.email : '' }}</td>
                 </tr>
             {% else %}
                 <tr>

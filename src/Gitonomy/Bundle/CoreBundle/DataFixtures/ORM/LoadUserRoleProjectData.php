@@ -9,20 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 
 /**
- * Loads the fixtures for user role object.
- *
  * @author Julien DIDIER <julien@jdidier.net>
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureInterface
 {
-    /**
-     * Current instance of manager.
-     *
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $manager;
-
     /**
      * Returns a verbose-less array with plan of userRole creation.
      *
@@ -46,14 +37,31 @@ class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureI
      */
     public function load(ObjectManager $manager)
     {
-        $this->manager = $manager;
+        $leadUser = $manager->merge($this->getReference('user-lead'));
+        $alice    = $manager->merge($this->getReference('user-alice'));
+        $bob      = $manager->merge($this->getReference('user-bob'));
+        $charlie  = $manager->merge($this->getReference('user-charlie'));
 
-        foreach ($this->getData() as $row) {
-            list($userReferenceName, $roleReferenceName, $projectReferenceName)  = $row;
+        $lead    = $manager->merge($this->getReference('role-lead-developer'));
+        $dev     = $manager->merge($this->getReference('role-developer'));
+        $visitor = $manager->merge($this->getReference('role-visitor'));
 
-            $userRole = $this->createUserRoleProject($userReferenceName, $roleReferenceName, $projectReferenceName);
+        $foobar = $manager->merge($this->getReference('project-foobar'));
+        $barbaz = $manager->merge($this->getReference('project-barbaz'));
 
-            $manager->persist($userRole);
+        $userRoleProjects = array(
+            // foobar
+            new UserRoleProject($leadUser, $foobar, $lead),
+            new UserRoleProject($alice,    $foobar, $dev),
+            new UserRoleProject($bob,      $foobar, $dev),
+            new UserRoleProject($charlie,  $foobar, $visitor),
+
+            // barbaz
+            new UserRoleProject($alice,    $barbaz, $lead),
+        );
+
+        foreach ($userRoleProjects as $userRoleProject) {
+            $manager->persist($userRoleProject);
         }
 
         $manager->flush();
@@ -66,24 +74,6 @@ class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureI
      */
     public function getOrder()
     {
-        return 240;
-    }
-
-    /**
-     * Prepares a UserRole object with reference names.
-     *
-     * @param type $userReferenceName
-     * @param type $roleReferenceName
-     * @param type $projectReferenceName
-     * @return UserRole
-     */
-    protected function createUserRoleProject($userReferenceName, $roleReferenceName, $projectReferenceName)
-    {
-        $userRole = new UserRoleProject();
-        $userRole->setProject($this->manager->merge($this->getReference($projectReferenceName)));
-        $userRole->setUser($this->manager->merge($this->getReference($userReferenceName)));
-        $userRole->setRole($this->manager->merge($this->getReference($roleReferenceName)));
-
-        return $userRole;
+        return 4;
     }
 }

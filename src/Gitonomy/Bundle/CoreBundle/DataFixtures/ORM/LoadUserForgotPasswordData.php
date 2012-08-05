@@ -39,17 +39,11 @@ class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtu
      */
     public function load(ObjectManager $manager)
     {
-        $aliceForgotPassword = new UserForgotPassword($this->getReference('user-alice'));
-        $aliceForgotPassword->setToken('forgottokenalice');
-        $aliceForgotPassword->setCreatedAt(new \DateTime());
+        $aliceForgotPassword = new UserForgotPassword($this->getReference('user-alice'), 'forgottokenalice');
         $manager->persist($aliceForgotPassword);
-        $this->setReference('user-forgot-password-alice', $aliceForgotPassword);
 
-        $bobForgotPassword = new UserForgotPassword($this->getReference('user-bob'));
-        $bobForgotPassword->setToken('forgottokenbob');
-        $bobForgotPassword->setCreatedAt(new \DateTime('-3 days'));
+        $bobForgotPassword = new UserForgotPassword($this->getReference('user-bob'), 'forgottokenbob');
         $manager->persist($bobForgotPassword);
-        $this->setReference('user-forgot-password-bob', $bobForgotPassword);
 
         $manager->flush();
     }
@@ -59,7 +53,7 @@ class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtu
      */
     public function getOrder()
     {
-        return 230;
+        return 4;
     }
 
 }

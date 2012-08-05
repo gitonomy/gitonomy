@@ -8,16 +8,16 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class EmailRepository extends EntityRepository
 {
-    public function getEmailFromActivation($username, $hash)
+    public function getEmailFromActivation($username, $token)
     {
         $queryBuilder = $this
             ->createQueryBuilder('email')
             ->leftJoin('email.user', 'user')
             ->where('user.username = :username')
-            ->andWhere('email.activation = :hash')
+            ->andWhere('email.activationToken = :token')
             ->setParameters(array(
                 'username' => $username,
-                'hash'     => $hash,
+                'token'     => $token,
             ))
         ;
 

@@ -74,9 +74,9 @@ EOF
             throw new \RuntimeException(sprintf('No role with name "%s"', $roleName));
         }
 
-        if ($project && $role->getIsGlobal()) {
+        if ($project && $role->isGlobal()) {
             throw new \RuntimeException("Cannot add a global role to a project");
-        } elseif (!$project && !$role->getIsGlobal()) {
+        } elseif (!$project && !$role->isGlobal()) {
             throw new \RuntimeException("Cannot add a project role without project slug");
         }
 

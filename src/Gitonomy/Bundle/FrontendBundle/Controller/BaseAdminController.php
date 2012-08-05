@@ -14,6 +14,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 abstract class BaseAdminController extends BaseController
 {
+    const MESSAGE_TYPE_CREATE = 'create';
+    const MESSAGE_TYPE_UPDATE = 'update';
+    const MESSAGE_TYPE_DELETE = 'delete';
+
+    abstract public function getMessage($object, $type);
+
     public function listAction()
     {
         $repository = $this->getRepository();
@@ -41,12 +47,7 @@ abstract class BaseAdminController extends BaseController
                 $em->flush();
                 $this->postCreate($object);
 
-                $this->get('session')->setFlash('success',
-                    sprintf('%s "%s" saved.',
-                        $this->getIdentifier($className),
-                        $object->__toString()
-                    )
-                );
+                $this->get('session')->setFlash('success', $this->getMessage($object, self::MESSAGE_TYPE_CREATE));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('edit'), array('id' => $object->getId())));
             }
@@ -75,12 +76,7 @@ abstract class BaseAdminController extends BaseController
                 $this->postEdit($object);
                 $em->flush();
 
-                $this->get('session')->setFlash('success',
-                    sprintf('%s "%s" updated.',
-                        $this->getIdentifier($className),
-                        $object->__toString()
-                    )
-                );
+                $this->get('session')->setFlash('success', $this->getMessage($object, self::MESSAGE_TYPE_UPDATE));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('edit'), array('id' => $object->getId())));
             }
@@ -113,13 +109,7 @@ abstract class BaseAdminController extends BaseController
                 $em->flush();
                 $this->postDelete($object);
 
-                $this->get('session')->setFlash('success',
-                    sprintf('%s "%s" deleted.',
-                        $this->getIdentifier($className),
-                        $object->__toString()
-                    )
-                );
-
+                $this->get('session')->setFlash('success', $this->getMessage($object, self::MESSAGE_TYPE_DELETE));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('list')));
             }

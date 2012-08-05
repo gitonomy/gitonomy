@@ -21,23 +21,17 @@ class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterf
     public function load(ObjectManager $manager)
     {
         $alice = $manager->merge($this->getReference('user-alice'));
-        $aliceKey = new UserSshKey();
-        $aliceKey->setUser($alice);
-        $aliceKey->setTitle('Laptop key');
-        $aliceKey->setContent('alice-key');
+        $bob = $manager->merge($this->getReference('user-bob'));
+
+        $aliceKey = $alice->createSshKey('Laptop key', 'alice-key');
+        $aliceKey->setInstalled(true);
         $manager->persist($aliceKey);
 
-        $bob = $manager->merge($this->getReference('user-bob'));
-        $bobKeyInstalled = new UserSshKey();
-        $bobKeyInstalled->setTitle('Installed key');
-        $bobKeyInstalled->setUser($bob);
-        $bobKeyInstalled->setContent('bob-key-installed');
-        $bobKeyInstalled->setIsInstalled(true);
-        $manager->persist($bobKeyInstalled);
-        $bobKeyNotInstalled = new UserSshKey();
-        $bobKeyNotInstalled->setUser($bob);
-        $bobKeyNotInstalled->setTitle('Not installed key');
-        $bobKeyNotInstalled->setContent('bob-key-not-installed');
+        $bobKey = $bob->createSshKey('Installed key', 'bob-key-installed');
+        $bobKey->setInstalled(true);
+        $manager->persist($bobKey);
+
+        $bobKeyNotInstalled = $bob->createSshKey('Not installed key', 'bob-key-not-installed');
         $manager->persist($bobKeyNotInstalled);
 
         $manager->flush();
@@ -48,6 +42,6 @@ class LoadUserSshKeyData extends AbstractFixture implements OrderedFixtureInterf
      */
     public function getOrder()
     {
-        return 250;
+        return 4;
     }
 }

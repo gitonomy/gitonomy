@@ -2,16 +2,17 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
-class UserForgotPassword extends Base\BaseUserForgotPassword
+class UserForgotPassword
 {
-    public function __construct(User $user)
+    protected $id;
+    protected $token;
+    protected $createdAt;
+    protected $user;
+
+    public function __construct(User $user, $token = null)
     {
         $this->user      = $user;
-    }
-
-    public function generateToken()
-    {
-        $this->token     = md5(uniqid().microtime());
+        $this->token     = null === $token ? md5(uniqid().microtime()) : $token;
         $this->createdAt = new \DateTime();
     }
 
@@ -27,5 +28,38 @@ class UserForgotPassword extends Base\BaseUserForgotPassword
         $now = new \DateTime();
 
         return $now->getTimestamp() > $max->getTimeStamp();
+    }
+
+    public function validateToken($token)
+    {
+        if ($this->isTokenExpired()) {
+            throw new \OutOfRangeException('Token expired');
+        }
+
+        if ($this->token !== $token) {
+            throw new \InvalidArgumentException('Token invalid');
+        }
+
+        $this->token = null;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

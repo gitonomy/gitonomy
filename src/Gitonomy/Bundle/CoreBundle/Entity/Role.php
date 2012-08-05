@@ -4,32 +4,44 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Symfony\Component\Security\Core\Role\Role as SecurityRole;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
- * Role-representation of Gitonomy.
- *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class Role extends Base\BaseRole
+class Role
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->isGlobal = true;
-    }
-    /**
-     * @inheritdoc
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
+    protected $id;
+    protected $name;
+    protected $description;
+    protected $isGlobal;
 
     /**
-     * Adds a permission to the role.
-     *
-     * @param Permission $permission A permission object
+     * @var ArrayCollection
      */
+    protected $permissions;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $userRolesProject;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $gitAccesses;
+
+    public function __construct($name = null, $description = null, $isGlobal = true)
+    {
+        $this->permissions      = new ArrayCollection();
+        $this->userRolesProject = new ArrayCollection();
+        $this->gitAccesses      = new ArrayCollection();
+
+        $this->name = $name;
+        $this->description = $description;
+        $this->isGlobal = $isGlobal;
+    }
+
     public function addPermission(Permission $permission)
     {
         $this->permissions->add($permission);
@@ -52,5 +64,55 @@ class Role extends Base\BaseRole
         }
 
         return $roles;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function isGlobal()
+    {
+        return $this->isGlobal;
+    }
+
+    public function setGlobal($isGlobal)
+    {
+        $this->isGlobal = $isGlobal;
+    }
+
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    public function getUserRolesProject()
+    {
+        return $this->userRolesProject;
+    }
+
+    public function getGitAccesses()
+    {
+        return $this->gitAccesses;
     }
 }

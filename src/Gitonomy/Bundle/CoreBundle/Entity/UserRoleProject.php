@@ -4,11 +4,18 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Gitonomy\Bundle\CoreBundle\Security\ProjectRole;
 
-class UserRoleProject extends Base\BaseUserRoleProject
+class UserRoleProject
 {
-    public function __toString()
+    protected $id;
+    protected $user;
+    protected $role;
+    protected $project;
+
+    public function __construct(User $user = null, Project $project = null, Role $role = null)
     {
-        return sprintf('%s is %s in the project %s', $this->getUser(), $this->getRole(), $this->getProject());
+        $this->user    = $user;
+        $this->project = $project;
+        $this->role    = $role;
     }
 
     public function getSecurityRoles()
@@ -22,5 +29,46 @@ class UserRoleProject extends Base\BaseUserRoleProject
         }
 
         return $roles;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return Role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return Project
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
     }
 }

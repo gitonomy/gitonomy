@@ -8,7 +8,7 @@
     Your account has been registered on {{ gitonomy.name }}.
     To fully use it, you have to activate it.
 
-    <a href="{{ url('gitonomyfrontend_profile_activate', {'username': user.username, 'token': user.activationToken}) }}">Activate your account</a>
+    <a href="{{ url('gitonomyfrontend_profile_activate', {'username': user.username, 'token': token}) }}">Activate your account</a>
 {% endblock %}
 
 {% block content_text %}
@@ -18,5 +18,5 @@ Your account has been registered on {{ gitonomy.name }}.
 To fully use it, you have to activate it.
 
 Follow this link:
-{{ url('gitonomyfrontend_profile_activate', {'username': user.username, 'token': user.activationToken}) }}
+{{ url('gitonomyfrontend_profile_activate', {'username': user.username, 'token': token}) }}
 {% endblock %}

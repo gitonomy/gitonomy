@@ -3,6 +3,9 @@
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User in Gitonomy.
@@ -10,14 +13,45 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @author Alexandre Salomé <alexandre.salome@gmail.com
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class User extends Base\BaseUser implements UserInterface
+class User implements UserInterface
 {
+    protected $id;
+    protected $username;
+    protected $password;
+    protected $salt;
+    protected $fullname;
+    protected $timezone;
+    protected $activationToken;
+
     /**
-     * @inheritdoc
+     * @var ArrayCollection
      */
-    public function __toString()
+    protected $sshKeys;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $emails;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $projectRoles;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $globalRoles;
+
+    public function __construct($username = null, $fullname = null, $timezone = null)
     {
-        return $this->fullname;
+        $this->username = $username;
+        $this->fullname = $fullname;
+        $this->timezone = $timezone;
+        $this->sshKeys      = new ArrayCollection();
+        $this->emails       = new ArrayCollection();
+        $this->projectRoles = new ArrayCollection();
+        $this->globalRoles  = new ArrayCollection();
     }
 
     /**
@@ -35,16 +69,10 @@ class User extends Base\BaseUser implements UserInterface
     /**
      * @inheritdoc
      */
-    public function eraseCredentials()
+    public function setPassword($raw, PasswordEncoderInterface $encoder)
     {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function regenerateSalt()
-    {
-        return $this->salt = md5(uniqid().microtime());
+        $this->salt     = md5(uniqid().microtime());
+        $this->password = $encoder->encodePassword($raw, $this->salt);
     }
 
     /**
@@ -65,59 +93,56 @@ class User extends Base\BaseUser implements UserInterface
         return $roles;
     }
 
-    /**
-     * Returns the default email.
-     *
-     * @return Email The default e-mail or null if not found.
-     */
-    public function getDefaultEmail()
+    public function createEmail($email = null, $setDefault = false)
+    {
+        $email = new Email($this, $email);
+        $this->emails->add($email);
+
+        if ($setDefault) {
+            $this->setDefaultEmail($email);
+        }
+
+
+        return $email;
+    }
+
+    public function createSshKey($title, $content)
+    {
+        $key = new UserSshKey($this, $title, $content);
+        $this->sshKeys->add($key);
+
+        return $key;
+    }
+
+    public function setDefaultEmail(Email $email)
+    {
+        foreach ($this->emails as $current) {
+            if ($current !== $email && $current->isDefault()) {
+                $current->setDefault(false);
+            }
+        }
+
+        $email->setDefault(true);
+
+        return $email;
+    }
+
+    public function getDefaultEmail($createNew = true)
     {
         foreach ($this->getEmails() as $email) {
             if ($email->isDefault()) {
                 return $email;
             }
         }
+
+        if (true === $createNew) {
+            return $this->createEmail(null, true);
+        }
     }
 
-    /**
-     * Tests if a default email exists for the user.
-     *
-     * @return boolean Result of test
-     */
     public function hasDefaultEmail()
     {
-        return null !== $this->getDefaultEmail();
-    }
-
-    /**
-     * Defines an mail as default.
-     *
-     * @param Email $email An email to mark as default
-     *
-     * @throws \LogicException An exceptions is thrown if a default mail already
-     * exists for this user.
-     */
-    public function setDefaultEmail(Email $email)
-    {
-        if ($this->hasDefaultEmail()) {
-            throw new \LogicException(sprintf('User "%s" has already a default email address : "%s"', $this, $this->getDefaultEmail()));
-        }
-
-        $email->setUser($this);
-        $email->setIsDefault(true);
-        $this->addEmail($email);
-    }
-
-    /**
-     * Fills fields to create a new forgot password token.
-     */
-    public function createForgotPasswordToken()
-    {
-        if (!$this->getForgotPassword() instanceof UserForgotPassword) {
-            $forgotPasswordToken = new UserForgotPassword($this);
-            $this->setForgotPassword($forgotPasswordToken);
-        }
-        $this->getForgotPassword()->generateToken();
+        return null !== $this->getDefaultEmail(false);
     }
 
     /**
@@ -126,34 +151,38 @@ class User extends Base\BaseUser implements UserInterface
     public function markAllKeysAsUninstalled()
     {
         foreach ($this->sshKeys as $sshKey) {
-            $sshKey->setIsInstalled(false);
+            $sshKey->setInstalled(false);
         }
     }
 
-    /**
-     * Generates a new activation token.
-     */
-    public function generateActivationToken()
+    public function createActivationToken()
     {
-        $this->activationToken = md5(uniqid().microtime());
+        return $this->activationToken = md5(uniqid().microtime());
     }
 
-    /**
-     * Removes the activation token from the user.
-     */
-    public function removeActivationToken()
+    public function validateActivation($token)
     {
+        if ($this->activationToken === null) {
+            throw new \LogicException('User is already active');
+        }
+
+        if ($this->activationToken !== $token) {
+            throw new \InvalidArgumentException('Token is not correct');
+        }
+
         $this->activationToken = null;
+
+        return true;
     }
 
-    /**
-     * Tests of the account is activated.
-     *
-     * @return boolean Result of the test
-     */
-    public function isActivated()
+    public function isActive()
     {
         return (null !== $this->password && null === $this->activationToken);
+    }
+
+    public function getActivationToken()
+    {
+        return $this->activationToken;
     }
 
     /**
@@ -179,5 +208,83 @@ class User extends Base\BaseUser implements UserInterface
 
         $email->setUser($this);
         $this->emails->add($email);
+    }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function createForgotPasswordToken()
+    {
+        $token = new UserForgotPassword($this);
+
+        return $token;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        if ($username !== $this->username) {
+            $this->markAllKeysAsUninstalled();
+        }
+        $this->username = $username;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function getSshKeys()
+    {
+        return $this->sshKeys;
+    }
+
+    public function getProjectRoles()
+    {
+        return $this->projectRoles;
+    }
+
+    public function getGlobalRoles()
+    {
+        return $this->globalRoles;
+    }
+
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
+
+    public function getEmails()
+    {
+        return $this->emails;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

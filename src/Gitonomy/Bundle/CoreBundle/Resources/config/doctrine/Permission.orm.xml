@@ -11,6 +11,5 @@
         <field name="name" type="string" column="name" length="50" unique="true" />
         <field name="isGlobal" type="boolean" column="is_global" />
 
-        <many-to-many field="roles" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Role" mapped-by="permissions" />
     </entity>
 </doctrine-mapping>

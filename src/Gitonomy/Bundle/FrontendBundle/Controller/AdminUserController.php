@@ -16,6 +16,19 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class AdminUserController extends BaseAdminController
 {
+    public function getMessage($object, $type)
+    {
+        if ($type == self::MESSAGE_TYPE_CREATE) {
+            return sprintf('User "%s" is created', $object->getUsername());
+        } elseif ($type == self::MESSAGE_TYPE_UPDATE) {
+            return sprintf('User "%s" is updated', $object->getUsername());
+        } elseif ($type == self::MESSAGE_TYPE_DELETE) {
+            return sprintf('User "%s" is deleted', $object->getUsername());
+        }
+
+        throw new \InvalidArgumentException('Unknown type '.$type);
+    }
+
     public function listAction()
     {
         $this->assertGranted('ROLE_USER_LIST');
@@ -47,7 +60,7 @@ class AdminUserController extends BaseAdminController
             throw new \LogicException(sprintf('User #%d has no default email.', $id));
         }
 
-        if ($user->isActivated()) {
+        if ($user->isActive()) {
             throw new \LogicException(sprintf('User #%d already actived!', $id));
         }
 
@@ -56,9 +69,10 @@ class AdminUserController extends BaseAdminController
 
         try {
             $em->beginTransaction();
-            $user->generateActivationToken();
+            $token = $user->createActivationToken();
             $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:AdminUser:activate.mail.twig', array(
-                'user' => $user
+                'user' => $user,
+                'token' => $token
             ), $user->getDefaultEmail()->getEmail());
 
             $em->flush();
@@ -68,7 +82,7 @@ class AdminUserController extends BaseAdminController
             $em->close();
             throw $e;
         }
-        $this->get('session')->setFlash('success', sprintf('Activation mail for user "%s" sent.', $user->__toString()));
+        $this->get('session')->setFlash('success', sprintf('Activation mail for user "%s" sent.', $user->getFullname()));
 
         return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
             'id' => $user->getId()
@@ -82,7 +96,7 @@ class AdminUserController extends BaseAdminController
         $email = $this->findEmail($id, $emailId);
         $this->sendActivationMail($email);
 
-        $message = sprintf('Activation mail for email "%s" sent.', $email->__toString());
+        $message = sprintf('Activation mail for email "%s" sent.', $email->getEmail());
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl($this->getRouteName('email_list'), array(
@@ -117,7 +131,12 @@ class AdminUserController extends BaseAdminController
                 $em->persist($userRoleProject);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('"%s".', $userRoleProject->__toString()));
+                $this->get('session')->setFlash('success', sprintf(
+                    'Created role "%s" for "%s" on project "%s" ',
+                    $userRoleProject->getRole()->getName(),
+                    $userRoleProject->getUser()->getFullname(),
+                    $userRoleProject->getProject()->getName()
+                ));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
                     'userId' => $user->getId()
@@ -152,8 +171,11 @@ class AdminUserController extends BaseAdminController
                 $em->flush();
 
                 $this->get('session')->setFlash('success',
-                    sprintf('Role "%s" deleted.', $userRole->__toString())
-                );
+                    sprintf(
+                        'Removed user "%s" from project "%s".',
+                        $userRole->getUser()->getUsername(),
+                        $userRole->getProject()->getName()
+                ));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
                     'userId' => $userRole->getUser()->getId()
@@ -182,7 +204,7 @@ class AdminUserController extends BaseAdminController
         $this->assertGranted('ROLE_USER_EMAIL_LIST');
 
         $user    = $this->findUser($id);
-        $email   = new Email();
+        $email   = new Email($user);
         $request = $this->getRequest();
         $form    = $this->createForm('useremail', $email, array(
             'validation_groups' => 'admin',
@@ -192,8 +214,8 @@ class AdminUserController extends BaseAdminController
             $this->assertGranted('ROLE_USER_EMAIL_CREATE');
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $this->saveEmail($user, $email);
-                $message = sprintf('Email "%s" added.', $email->__toString());
+                $this->saveEmail($email);
+                $message = sprintf('Email "%s" added.', $email->getEmail());
 
                 return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
             }
@@ -216,15 +238,11 @@ class AdminUserController extends BaseAdminController
         $em           = $this->getDoctrine()->getEntityManager();
         $user         = $defaultEmail->getUser();
 
-        foreach ($user->getEmails() as $email) {
-            if ($email->isDefault()) {
-                $email->setIsDefault(false);
-            }
-        }
+        $user->setDefaultEmail($defaultEmail);
 
-        $defaultEmail->setIsDefault(true);
+        $em->persist($user);
         $em->flush();
-        $message = sprintf('Email "%s" now as default.', $email->__toString());
+        $message = sprintf('Email "%s" now as default.', $defaultEmail->getEmail());
 
         return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
     }
@@ -246,7 +264,7 @@ class AdminUserController extends BaseAdminController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->remove($email);
                 $em->flush();
-                $message = sprintf('Email "%s" deleted.', $email->__toString());
+                $message = sprintf('Email "%s" deleted.', $email->getEmail());
 
                 return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $email->getUser()->getId()));
             }
@@ -284,19 +302,11 @@ class AdminUserController extends BaseAdminController
         return $this->getDoctrine()->getManager()->getRepository('GitonomyCoreBundle:User');
     }
 
-    protected function saveEmail(User $user, Email $email)
+    protected function saveEmail(Email $email)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        try {
-            $em->getConnection()->beginTransaction();
-            $email->setUser($user);
-            $user->addEmail($email);
-            $em->persist($email);
-            $em->flush();
-            $em->commit();
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $em->persist($email);
+        $em->flush();
     }
 
     protected function sendActivationMail(Email $email)

@@ -9,8 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 
 /**
- * Loads the fixtures for project git accesses.
- *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixtureInterface
@@ -32,18 +30,20 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getData() as $row) {
-            list($projectSlug, $roleSlug, $reference, $isRead, $isWrite, $isAdmin) = $row;
+        $foobar = $manager->merge($this->getReference('project-foobar'));
 
-            $gitAccess = new ProjectGitAccess();
-            $gitAccess->setProject($manager->merge($this->getReference('project-'.$projectSlug)));
-            $gitAccess->setRole($manager->merge($this->getReference('role-'.$roleSlug)));
-            $gitAccess->setReference($reference);
-            $gitAccess->setIsRead($isRead);
-            $gitAccess->setIsWrite($isWrite);
-            $gitAccess->setIsAdmin($isAdmin);
+        $lead      = $manager->merge($this->getReference('role-lead-developer'));
+        $developer = $manager->merge($this->getReference('role-developer'));
+        $visitor   = $manager->merge($this->getReference('role-visitor'));
 
-            $manager->persist($gitAccess);
+        $accesses = array(
+            new ProjectGitAccess($foobar, $lead,      '*', true, true, true),
+            new ProjectGitAccess($foobar, $developer, '*', true, true, true),
+            new ProjectGitAccess($foobar, $visitor,   '*', true, false, false)
+        );
+
+        foreach ($accesses as $access) {
+            $manager->persist($access);
         }
 
         $manager->flush();
@@ -54,6 +54,6 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
      */
     public function getOrder()
     {
-        return 300;
+        return 3;
     }
 }

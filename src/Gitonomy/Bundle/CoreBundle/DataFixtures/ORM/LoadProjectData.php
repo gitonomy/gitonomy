@@ -9,8 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 
 /**
- * Loads the fixtures for project object.
- *
  * @author Julien DIDIER <julien@jdidier.net>
  */
 class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
@@ -20,16 +18,12 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $foobar = new Project();
-        $foobar->setName('Foobar');
-        $foobar->setSlug('foobar');
+        $foobar = new Project('Foobar', 'foobar');
         $foobar->setRepositorySize(256);
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
 
-        $barbaz = new Project();
-        $barbaz->setName('Barbaz');
-        $barbaz->setSlug('barbaz');
+        $barbaz = new Project('Barbaz', 'barbaz');
         $barbaz->setRepositorySize(352);
         $manager->persist($barbaz);
         $this->setReference('project-barbaz', $barbaz);
@@ -42,6 +36,6 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 100;
+        return 1;
     }
 }

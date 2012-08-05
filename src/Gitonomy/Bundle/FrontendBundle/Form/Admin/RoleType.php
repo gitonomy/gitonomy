@@ -18,6 +18,7 @@ class RoleType extends AbstractType
             ->add('description', 'text')
             ->add('permissions', 'entity', array(
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
+                'property' => 'name',
                 'multiple' => true,
                 'expanded' => true,
                 'translation_domain' => 'admin_roles',
@@ -32,7 +33,7 @@ class RoleType extends AbstractType
                     };
                 }
             ))
-            ->add('isGlobal', 'checkbox')
+            ->add('global', 'checkbox')
         ;
     }
 

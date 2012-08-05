@@ -13,13 +13,24 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 
 /**
- * Project administration controller.
- *
  * @author Julien DIDIER <julien@jdidier.net>
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class AdminProjectController extends BaseAdminController
 {
+    public function getMessage($object, $type)
+    {
+        if ($type == self::MESSAGE_TYPE_CREATE) {
+            return sprintf('Project "%s" is created', $object->getName());
+        } elseif ($type == self::MESSAGE_TYPE_UPDATE) {
+            return sprintf('Project "%s" is updated', $object->getName());
+        } elseif ($type == self::MESSAGE_TYPE_DELETE) {
+            return sprintf('Project "%s" is deleted', $object->getName());
+        }
+
+        throw new \InvalidArgumentException('Unknown type '.$type);
+    }
+
     /**
      * Displays list of Git accesses to the project.
      */
@@ -28,7 +39,7 @@ class AdminProjectController extends BaseAdminController
         $this->assertGranted('ROLE_GIT_ACCESS_LIST');
         $project = $this->getProject($id);
 
-        $gitAccess = new ProjectGitAccess();
+        $gitAccess = new ProjectGitAccess($project);
         $form      = $this->createForm('project_git_access', $gitAccess);
 
         $request = $this->getRequest();
@@ -36,7 +47,6 @@ class AdminProjectController extends BaseAdminController
             $this->assertGranted('ROLE_GIT_ACCESS_CREATE');
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $gitAccess->setProject($project);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($gitAccess);
                 $em->flush();
@@ -116,7 +126,11 @@ class AdminProjectController extends BaseAdminController
                 $em->persist($userRoleProject);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('%s.', $userRoleProject->__toString()));
+                $this->get('session')->setFlash('success', sprintf(
+                    'Removed user "%s" from project "%s"',
+                    $userRoleProject->getUser()->getFullname(),
+                    $userRoleProject->getProject()->getName()
+                ));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('userRoles'), array('id' => $project->getId())));
             }
@@ -149,7 +163,11 @@ class AdminProjectController extends BaseAdminController
                 $em->remove($userRole);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf('Role "%s" deleted.', $userRole->__toString()));
+                $this->get('session')->setFlash('success', sprintf(
+                    'User "%s" removed from project "%s".',
+                    $userRole->getUser()->getFullname(),
+                    $userRole->getProject()->getName()
+                ));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('userRoles'), array(
                     'id' => $userRole->getProject()->getId()

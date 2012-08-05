@@ -23,6 +23,7 @@ class UserRoleProjectType extends AbstractType
 
             $builder->add('project', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
+                'property' => 'name',
                 'query_builder' => function(EntityRepository $er) use ($usedProjects) {
                     $query = $er
                         ->createQueryBuilder('P')
@@ -47,6 +48,7 @@ class UserRoleProjectType extends AbstractType
 
             $builder->add('user', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+                'property' => 'fullname',
                 'query_builder' => function(EntityRepository $er) use ($usedUsers) {
                     $query = $er
                         ->createQueryBuilder('U')
@@ -66,6 +68,7 @@ class UserRoleProjectType extends AbstractType
         $builder
             ->add('role', 'entity', array(
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+                'property' => 'name',
                 'query_builder' => function(EntityRepository $er) {
                     $query = $er
                         ->createQueryBuilder('R')

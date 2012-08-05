@@ -25,6 +25,7 @@ class UserType extends AbstractType
 
                     return $query;
                 },
+                'property' => 'name',
                 'multiple' => true,
                 'expanded' => true,
             ))

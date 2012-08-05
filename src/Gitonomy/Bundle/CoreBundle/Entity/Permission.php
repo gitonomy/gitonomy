@@ -4,21 +4,35 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Permission extends Base\BasePermission
+class Permission
 {
-    public function __construct()
+    protected $id;
+    protected $name;
+    protected $isGlobal;
+
+    public function __construct($name, $isGlobal = false)
     {
-        $this->isGlobal = false;
-        parent::__construct();
+        $this->name     = $name;
+        $this->isGlobal = $isGlobal;
     }
 
-    public function __toString()
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
     {
         return $this->name;
     }
 
-    public function hasParent()
+    public function isGlobal()
     {
-        return ($this->parent instanceof Permission);
+        return $this->isGlobal;
+    }
+
+    public function setGlobal($isGlobal)
+    {
+        $this->isGlobal = $isGlobal;
     }
 }

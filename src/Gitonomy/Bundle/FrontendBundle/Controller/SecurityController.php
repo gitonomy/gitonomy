@@ -33,7 +33,7 @@ class SecurityController extends BaseController
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $this->encodePasswordAndSave($user);
+                $this->saveUser($user);
                 $this->get('session')->setFlash('success', 'Your account was created!');
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
@@ -99,9 +99,9 @@ class SecurityController extends BaseController
     public function changePasswordAction($username, $forgotPasswordToken)
     {
         $handler = $this->get('gitonomy_frontend.security.forgot_password_handler');
-
         try {
-            $user = $handler->getUserIfForgotPasswordTokenValid($username, $forgotPasswordToken);
+            $user = $this->getDoctrine()->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+            $user = $handler->validate($user, $forgotPasswordToken);
         } catch (\InvalidArgumentException $e) {
             throw $this->createNotFoundException('This token is not valid', $e);
         }
@@ -115,6 +115,7 @@ class SecurityController extends BaseController
             if ($form->isValid()) {
                 $handler->removeForgotPasswordToken($user);
                 $this->encodePasswordAndSave($user);
+
                 $this->get('session')->setFlash('success', 'You password has changed!');
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
@@ -122,8 +123,9 @@ class SecurityController extends BaseController
         }
 
         return $this->render('GitonomyFrontendBundle:Security:changePassword.html.twig', array(
-            'form'     => $form->createView(),
-            'user'     => $user
+            'form'  => $form->createView(),
+            'user'  => $user,
+            'token' => $forgotPasswordToken
         ));
     }
 
@@ -132,11 +134,8 @@ class SecurityController extends BaseController
      *
      * @param Gitonomy\Bundle\CoreBundle\Entity\User $user A user to register
      */
-    protected function encodePasswordAndSave(User $user)
+    protected function saveUser(User $user)
     {
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();

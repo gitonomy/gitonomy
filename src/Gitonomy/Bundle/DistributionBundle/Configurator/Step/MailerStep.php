@@ -26,10 +26,12 @@ class MailerStep implements StepInterface
 
     public function checkRequirements()
     {
+        return array();
     }
 
     public function checkOptionalSettings()
     {
+        return array();
     }
 
     public function getTemplate()

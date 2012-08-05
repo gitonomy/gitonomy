@@ -1,11 +1,22 @@
 {% extends "GitonomyFrontendBundle:BaseAdmin:delete.html.twig" %}
 
-{% block admin_before_delete_form_end %}
-    <p>By clicking the button <strong>Delete</strong> below, <strong>you will loose</strong>:</p>
-    <ul>
-        <li>Every informations about the repository</li>
-        <li>The Git repository</li>
-        <li>All history of the project</li>
-    </ul>
-    <p><strong>If you understand <strong>you will loose the Git repository</strong>, click Delete:</strong></p>
+{% block title 'Delete Project' ~ object.name %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Delete project "{{ object.name }}" ?</h1>
+    </div>
+    <form class="form-stacked" action="{{ path(route_prefix~'_delete', {'id':object.id}) }}" method="POST" novalidate>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+        <p>By clicking the button <strong>Delete</strong> below, <strong>you will loose</strong>:</p>
+        <ul>
+            <li>Every informations about the repository</li>
+            <li>The Git repository</li>
+            <li>All history of the project</li>
+        </ul>
+        <p><strong>If you understand <strong>you will loose the Git repository</strong>, click Delete:</strong></p>
+        <input type="submit" class="btn danger" value="Delete" />
+        <a href="{{ path(route_prefix~'_edit', {'id':object.id}) }}" class="btn">Cancel</a>
+    </form>
 {% endblock %}

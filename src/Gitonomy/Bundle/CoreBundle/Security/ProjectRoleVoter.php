@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\Security\ProjectRole;
 
 class ProjectRoleVoter implements VoterInterface
 {
@@ -37,7 +38,7 @@ class ProjectRoleVoter implements VoterInterface
 
         $roles = array();
         foreach ($token->getRoles() as $role) {
-            if ($role->isProjectId($object)) {
+            if ($role instanceof ProjectRole && $role->isProject($object)) {
                 $roles[] = $role->getProjectRole();
             }
         }

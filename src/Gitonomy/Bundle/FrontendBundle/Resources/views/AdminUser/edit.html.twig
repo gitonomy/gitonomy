@@ -24,7 +24,7 @@
         <input type="submit" class="btn success" value="Update" />
         <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
         <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
-        {% if (object.hasDefaultEmail and not object.isActivated) %}
+        {% if (object.hasDefaultEmail and not object.isActive) %}
             <a href="{{ path(route_prefix~'_activate', {'id':object.id}) }}" class="btn info">Activate</a>
         {% endif %}
     </form>

@@ -4,21 +4,21 @@
 
 {% block content_html %}
     {% set user = email.user %}
-    Hey {{ user }},
+    Hey {{ user.fullname }},
 
     You registered a new email on {{ gitonomy.name }}.
     To fully use it, you have to activate it.
 
-    <a href="{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activation}) }}">Activate email {{ email }}</a>
+    <a href="{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': token}) }}">Activate email {{ email.email }}</a>
 {% endblock %}
 
 {% block content_text %}
 {% set user = email.user %}
-Hey {{ user }},
+Hey {{ user.fullname }},
 
 You registered a new email on {{ gitonomy.name }}.
 To fully use it, you have to activate it.
 
 Follow this link :
-{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activation}) }}
+{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': token}) }}
 {% endblock %}

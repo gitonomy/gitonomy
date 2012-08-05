@@ -56,12 +56,9 @@ EOF
             throw new \RuntimeException(sprintf('User with username "%s" not found', $username));
         }
 
-        $sshKey = new UserSshKey();
-        $sshKey->setUser($user);
-        $sshKey->setTitle($title);
-        $sshKey->setContent($content);
+        $key = $user->createSshKey($title, $content);
 
-        $em->persist($sshKey);
+        $em->persist($key);
         $em->flush();
 
         $output->writeln(sprintf("The key named <info>%s</info> was successfully added to user <info>%s</info>!", $title, $user->getUsername()));

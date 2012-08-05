@@ -164,7 +164,7 @@ class AdminUserControllerTest extends WebTestCase
         $node    = $crawler->filter('div.alert-message.success p');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Activation mail for user "'.$user->__toString().'" sent.', $node->text());
+        $this->assertEquals('Activation mail for user "'.$user->getFullname().'" sent.', $node->text());
     }
 
     public function testEditRoleUser()
@@ -235,7 +235,7 @@ class AdminUserControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         $node = $crawler->filter('div.alert-message.success p');
-        $this->assertEquals('Email "'.$email->__toString().'" added.', $node->text());
+        $this->assertEquals('Email "'.$email->getEmail().'" added.', $node->text());
 
         $node = $crawler->filter('#email_'.$email->getId().' td:contains("no")');
         $this->assertEquals(1, $node->count());

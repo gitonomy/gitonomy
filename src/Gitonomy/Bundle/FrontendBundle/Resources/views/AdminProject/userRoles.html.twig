@@ -20,8 +20,8 @@
             <tbody>
                 {% for userRole in object.userRoles %}
                     <tr>
-                        <td>{{ userRole.user }}</td>
-                        <td>{{ userRole.role }}</td>
+                        <td>{{ userRole.user.username }}</td>
+                        <td>{{ userRole.role.name }}</td>
                         <td><a href="{{ path('gitonomyfrontend_adminproject_userRoleDelete', {'userRoleId': userRole.id }) }}" class="label important">delete</td>
                     </tr>
                 {% endfor %}

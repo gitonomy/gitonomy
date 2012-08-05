@@ -50,17 +50,18 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em      = $this->getContainer()->get('doctrine')->getEntityManager();
-        $user    = new User();
-        $email   = new Email();
-        $encoder = $this->getContainer()->get('security.encoder_factory')->getEncoder($user);
 
-        $email->setEmail($input->getArgument('email'));
-        $user->setUsername($input->getArgument('username'));
-        $user->setPassword($input->getArgument('password'));
-        $user->setDefaultEmail($email);
-        $user->setFullname($input->getArgument('fullname'));
-        $user->setTimezone($input->getArgument('timezone'));
-        $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
+        $email    = $input->getArgument('email');
+        $username = $input->getArgument('username');
+        $password = $input->getArgument('password');
+        $fullname = $input->getArgument('fullname');
+        $timezone = $input->getArgument('fullname');
+
+        $user = new User($username, $fullname, $timezone);
+        $user->createEmail($email, true);
+
+        $encoder = $this->getContainer()->get('security.encoder_factory')->getEncoder($user);
+        $user->setPassword($password, $encoder);
 
         $em->persist($user);
         $em->flush();

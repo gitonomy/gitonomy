@@ -15,6 +15,19 @@ use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 
 class AdminRoleController extends BaseAdminController
 {
+    public function getMessage($object, $type)
+    {
+        if ($type == self::MESSAGE_TYPE_CREATE) {
+            return sprintf('Role "%s" is created', $object->getName());
+        } elseif ($type == self::MESSAGE_TYPE_UPDATE) {
+            return sprintf('Role "%s" is updated', $object->getName());
+        } elseif ($type == self::MESSAGE_TYPE_DELETE) {
+            return sprintf('Role "%s" is deleted', $object->getName());
+        }
+
+        throw new \InvalidArgumentException('Unknown type '.$type);
+    }
+
     protected function getRepository()
     {
         return $this->getDoctrine()->getEntityManager()->getRepository('GitonomyCoreBundle:Role');
@@ -49,7 +62,7 @@ class AdminRoleController extends BaseAdminController
     }
 
     protected function createAdminForm($object, $options = array()) {
-        $options['is_global'] = $object->getIsGlobal();
+        $options['is_global'] = $object->isGlobal();
 
         return parent::createAdminForm($object, $options);
     }

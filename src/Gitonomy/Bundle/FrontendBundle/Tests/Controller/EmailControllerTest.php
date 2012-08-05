@@ -26,7 +26,7 @@ class EmailControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivation());
+        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivationToken());
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('Email active', $crawler->filter('h1')->text());
