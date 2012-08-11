@@ -3,7 +3,7 @@
 {% block subject parent() ~ 'Your account has been created' | raw %}
 
 {% block content_html %}
-    Hey {{ user }},
+    Hey {{ user.fullname }},
 
     Your account has been registered on {{ gitonomy.name }}.
     To fully use it, you have to activate it.
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content_text %}
-Hey {{ user }},
+Hey {{ user.fullname }},
 
 Your account has been registered on {{ gitonomy.name }}.
 To fully use it, you have to activate it.

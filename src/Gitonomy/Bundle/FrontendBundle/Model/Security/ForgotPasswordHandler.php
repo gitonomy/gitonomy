@@ -28,15 +28,14 @@ class ForgotPasswordHandler
     public function processRequest(ForgotPasswordRequest $request)
     {
         $em = $this->doctrine->getManager();
-
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByEmail($request->getEmail());
 
         $email = $user->getDefaultEmail()->getEmail();
         $name = $user->getFullname();
 
-        $token = $user->createForgotPasswordToken();
+        $token = $em->getRepository('GitonomyCoreBundle:UserForgotPassword')->getToken($user);
 
-        $em->persist($user);
+        $em->persist($token);
         $em->flush();
 
         $this->mailer->sendMessage('GitonomyFrontendBundle:Security:forgotPassword.mail.twig', array(
@@ -50,9 +49,8 @@ class ForgotPasswordHandler
 
     public function validate(User $user, $token)
     {
-        $forgotPassword = $this->doctrine->getRepository('GitonomyCoreBundle:UserForgotPassword')->findOneBy(array(
-            'user' => $user
-        ));
+        $em = $this->doctrine->getManager();
+        $forgotPassword = $em->getRepository('GitonomyCoreBundle:UserForgotPassword')->getToken($user);
 
         if (!$forgotPassword) {
             throw new \InvalidArgumentException('No token found');
@@ -69,6 +67,9 @@ class ForgotPasswordHandler
 
     public function removeForgotPasswordToken(User $user)
     {
-        $this->doctrine->getEntityManager()->remove($user->getForgotPassword());
+        $em = $this->doctrine->getManager();
+        $forgotPassword = $em->getRepository('GitonomyCoreBundle:UserForgotPassword')->getToken($user);
+        $em->remove($forgotPassword);
+        $em->flush();
     }
 }

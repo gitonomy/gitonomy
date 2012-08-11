@@ -114,7 +114,6 @@ class SecurityController extends BaseController
 
             if ($form->isValid()) {
                 $handler->removeForgotPasswordToken($user);
-                $this->encodePasswordAndSave($user);
 
                 $this->get('session')->setFlash('success', 'You password has changed!');
 

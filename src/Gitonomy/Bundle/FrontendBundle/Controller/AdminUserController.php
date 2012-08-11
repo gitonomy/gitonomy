@@ -94,6 +94,10 @@ class AdminUserController extends BaseAdminController
         $this->assertGranted('ROLE_USER_EDIT');
 
         $email = $this->findEmail($id, $emailId);
+        $email->createActivationToken();
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($email);
+        $em->flush();
         $this->sendActivationMail($email);
 
         $message = sprintf('Activation mail for email "%s" sent.', $email->getEmail());
@@ -311,10 +315,12 @@ class AdminUserController extends BaseAdminController
 
     protected function sendActivationMail(Email $email)
     {
-        $this->get('gitonomy_frontend.mailer')->sendMessage('GitonomyFrontendBundle:Email:activateEmail.mail.twig',
-            array('email' => $email),
+        $this->get('gitonomy_frontend.mailer')->sendMessage(
+            'GitonomyFrontendBundle:Email:activateEmail.mail.twig',
+            array(
+                'email' => $email
+            ),
             $email->getEmail()
         );
     }
-
 }

@@ -9,7 +9,7 @@
     You registered a new email on {{ gitonomy.name }}.
     To fully use it, you have to activate it.
 
-    <a href="{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': token}) }}">Activate email {{ email.email }}</a>
+    <a href="{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activationToken}) }}">Activate email {{ email.email }}</a>
 {% endblock %}
 
 {% block content_text %}
@@ -20,5 +20,5 @@ You registered a new email on {{ gitonomy.name }}.
 To fully use it, you have to activate it.
 
 Follow this link :
-{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': token}) }}
+{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activationToken}) }}
 {% endblock %}
