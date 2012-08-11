@@ -225,9 +225,9 @@ class Commit
     /**
      * @return Commit
      */
-    public function getLastModification($path = array(), $lastHash = null)
+    public function getLastModification($path, $lastHash = null)
     {
-        $hash = $this->resolvePath($this->getTree(), $path)->getHash();
+        $hash = $this->getTree()->resolvePath($path)->getHash();
 
         if (null !== $lastHash && $hash !== $lastHash) {
             return $this;
@@ -253,6 +253,14 @@ class Commit
         }
 
         return $min;
+    }
+
+    /**
+     * @return Commit
+     */
+    public function getHistory($path)
+    {
+        return new Tree\History($this, $path);
     }
 
     /**
@@ -370,18 +378,5 @@ class Commit
         $this->initialize();
 
         return $this->message;
-    }
-
-    private function resolvePath(Tree $tree, array $path = array())
-    {
-        foreach ($path as $name) {
-            if ($tree instanceof Blob) {
-                throw new \RuntimeException('Can\'t access child of a blob');
-            }
-
-            $tree = $tree->getEntry($name);
-        }
-
-        return $tree;
     }
 }

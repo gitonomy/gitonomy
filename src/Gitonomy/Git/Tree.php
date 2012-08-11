@@ -82,6 +82,8 @@ class Tree
             return $this;
         }
 
+        $path = preg_replace('#^/#', '', $path);
+
         $segments = explode('/', $path);
         $element = $this;
         foreach ($segments as $segment) {

@@ -8,7 +8,9 @@
         </tr>
     </thead>
     <tbody>
+        {% set history = commit.history(path) %}
         {% for name, data in tree.entries if data[1] is git_tree %}
+            {% set lastModificationCommit = history.find(data[1]) %}
             <tr>
                 <td>{{ data[0] }}</td>
                 <td>
@@ -16,11 +18,16 @@
                         {{ name }}
                     </a>/
                 </td>
-                <td>{{ data[1].lastModificationCommit.date|date_short }}</td>
-                <td>{{ data[1].lastModificationCommit.shortMessage }}</td>
+                <td>{{ lastModificationCommit.getCommitterDate|date_short }}</td>
+                <td>
+                    <a href="{{ path('gitonomyfrontend_project_showCommit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
+                        {{ lastModificationCommit.shortMessage }}
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         {% for name, data in tree.entries if data[1] is not git_tree %}
+            {% set lastModificationCommit = commit.lastModification(path~'/' ~name) %}
             <tr>
                 <td>{{ data[0] }}</td>
                 <td>
@@ -28,8 +35,12 @@
                         {{ name }}
                     </a>
                 </td>
-                <td>{{ data[1].lastModificationCommit.date|date_short }}</td>
-                <td>{{ data[1].lastModificationCommit.shortMessage }}</td>
+                <td>{{ lastModificationCommit.getCommitterDate|date_short }}</td>
+                <td>
+                    <a href="{{ path('gitonomyfrontend_project_showCommit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
+                        {{ lastModificationCommit.shortMessage }}
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
