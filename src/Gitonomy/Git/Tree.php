@@ -15,6 +15,11 @@ class Tree
         $this->hash = $hash;
     }
 
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
     protected function initialize()
     {
         if (true === $this->isInitialized) {
@@ -41,9 +46,9 @@ class Tree
         foreach ($parser->entries as $entry) {
             list($mode, $type, $hash, $name) = $entry;
             if ($type == 'blob') {
-                $this->entries[$name] = array($mode, new Blob($this->repository, $hash));
+                $this->entries[$name] = array($mode, $this->repository->getBlob($hash));
             } else {
-                $this->entries[$name] = array($mode, new Tree($this->repository, $hash));
+                $this->entries[$name] = array($mode, $this->repository->getTree($hash));
             }
         }
 

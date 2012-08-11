@@ -20,6 +20,11 @@ class Blob
         $this->hash = $hash;
     }
 
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
     protected function initialize()
     {
         if (true === $this->initialized) {

@@ -3,6 +3,8 @@
         <tr>
             <th width="100">Mode</th>
             <th>Filename</th>
+            <th>Date</th>
+            <th>Message</th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +16,8 @@
                         {{ name }}
                     </a>/
                 </td>
+                <td>{{ data[1].lastModificationCommit.date|date_short }}</td>
+                <td>{{ data[1].lastModificationCommit.shortMessage }}</td>
             </tr>
         {% endfor %}
         {% for name, data in tree.entries if data[1] is not git_tree %}
@@ -24,6 +28,8 @@
                         {{ name }}
                     </a>
                 </td>
+                <td>{{ data[1].lastModificationCommit.date|date_short }}</td>
+                <td>{{ data[1].lastModificationCommit.shortMessage }}</td>
             </tr>
         {% endfor %}
     </tbody>

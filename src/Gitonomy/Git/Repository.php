@@ -92,6 +92,24 @@ class Repository
         return $this->objects[$hash];
     }
 
+    public function getTree($hash)
+    {
+        if (! isset($this->objects[$hash])) {
+            $this->objects[$hash] = new Tree($this, $hash);
+        }
+
+        return $this->objects[$hash];
+    }
+
+    public function getBlob($hash)
+    {
+        if (! isset($this->objects[$hash])) {
+            $this->objects[$hash] = new Blob($this, $hash);
+        }
+
+        return $this->objects[$hash];
+    }
+
     public function getLog($reference, $limit = null)
     {
         return new Log($this, $reference, $limit);

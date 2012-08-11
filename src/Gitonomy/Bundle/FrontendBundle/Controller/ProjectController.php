@@ -132,8 +132,9 @@ class ProjectController extends BaseController
         ;
 
         $revision->getResolved();
+        $commit = $revision->getCommit();
 
-        $tree = $revision->getCommit()->getTree();
+        $tree = $commit->getTree();
         if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
             $path = substr($path, 1);
         }
@@ -149,6 +150,7 @@ class ProjectController extends BaseController
             ));
         } elseif ($element instanceof Tree) {
             return $this->render('GitonomyFrontendBundle:Project:blockTree.html.twig', array(
+                'commit'    => $commit,
                 'path'      => $path,
                 'reference' => $reference,
                 'tree'      => $element,

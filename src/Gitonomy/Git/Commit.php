@@ -216,10 +216,43 @@ class Commit
         $this->initialize();
 
         if (null === $this->tree) {
-            $this->tree = new Tree($this->repository, $this->treeHash);
+            $this->tree = $this->repository->getTree($this->treeHash);
         }
 
         return $this->tree;
+    }
+
+    /**
+     * @return Commit
+     */
+    public function getLastModification($path = array(), $lastHash = null)
+    {
+        $hash = $this->resolvePath($this->getTree(), $path)->getHash();
+
+        if (null !== $lastHash && $hash !== $lastHash) {
+            return $this;
+        }
+
+        $candidates = array();
+        foreach ($this->getParents() as $parent) {
+            try {
+                $candidates[] = $parent->getLastModification($path, $hash);
+            } catch (\InvalidArgumentException $e) {
+            }
+        }
+
+        $min = null;
+        foreach ($candidates as $candidate) {
+            if (null === $min || $candidate->getCommitterDate()->getTimestamp() > $min->getCommitterDate()->getTimestamp()) {
+                $min = $candidate;
+            }
+        }
+
+        if (null === $min) {
+            return $this;
+        }
+
+        return $min;
     }
 
     /**
@@ -337,5 +370,18 @@ class Commit
         $this->initialize();
 
         return $this->message;
+    }
+
+    private function resolvePath(Tree $tree, array $path = array())
+    {
+        foreach ($path as $name) {
+            if ($tree instanceof Blob) {
+                throw new \RuntimeException('Can\'t access child of a blob');
+            }
+
+            $tree = $tree->getEntry($name);
+        }
+
+        return $tree;
     }
 }
