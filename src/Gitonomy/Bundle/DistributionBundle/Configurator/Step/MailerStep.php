@@ -10,13 +10,17 @@ class MailerStep implements StepInterface
     public $transport;
     public $user;
     public $password;
+    public $encryption;
+    public $authMode;
 
     public function __construct(array $parameters)
     {
-        $this->host      = isset($parameters['mailer_host']) ? $parameters['mailer_host'] : null;
-        $this->transport = isset($parameters['mailer_transport']) ? $parameters['mailer_transport'] : null;
-        $this->user      = isset($parameters['mailer_user']) ? $parameters['mailer_user'] : null;
-        $this->password  = isset($parameters['mailer_password']) ? $parameters['mailer_password'] : null;
+        $this->host       = isset($parameters['mailer_host'])       ? $parameters['mailer_host']       : null;
+        $this->transport  = isset($parameters['mailer_transport'])  ? $parameters['mailer_transport']  : null;
+        $this->user       = isset($parameters['mailer_user'])       ? $parameters['mailer_user']       : null;
+        $this->password   = isset($parameters['mailer_password'])   ? $parameters['mailer_password']   : null;
+        $this->encryption = isset($parameters['mailer_encryption']) ? $parameters['mailer_encryption'] : null;
+        $this->authMode   = isset($parameters['mailer_auth_mode'])  ? $parameters['mailer_auth_mode']  : null;
     }
 
     public function getFormType()
@@ -42,10 +46,12 @@ class MailerStep implements StepInterface
     public function update(StepInterface $data)
     {
         return array(
-            'mailer_transport' => 'smtp',
-            'mailer_host'      => 'localhost',
-            'mailer_user'      => null,
-            'mailer_password'  => null,
+            'mailer_host'        => $data->host,
+            'mailer_transport'   => $data->transport,
+            'mailer_user'        => $data->user,
+            'mailer_password'    => $data->password,
+            'mailer_auth_mode'   => $data->authMode,
+            'mailer_encryption'  => $data->encryption,
         );
     }
 }

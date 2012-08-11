@@ -30,7 +30,7 @@
                         <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
                     </ul>
                 </li>
-                {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') %}
+                {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') or is_granted('ROLE_SETTINGS') %}
                     <li class="admin">
                         <a href="#" class="dropdown-toggle">Administration</a>
                         <ul class="dropdown-menu">
@@ -42,6 +42,9 @@
                             {% endif %}
                             {% if is_granted(['ROLE_ROLE_LIST']) %}
                                 <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
+                            {% endif %}
+                            {% if is_granted(['ROLE_SETTINGS']) %}
+                                <li><a href="{{ path('gitonomyfrontend_adminsettings_index') }}">Settings</a></li>
                             {% endif %}
                         </ul>
                     </li>

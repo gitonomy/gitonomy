@@ -14,6 +14,9 @@
         <service id="gitonomy_distribution.form.type.repository_path" class="Gitonomy\Bundle\DistributionBundle\Form\Type\RepositoryPathType">
             <tag name="form.type" alias="repository_path" />
         </service>
+        <service id="gitonomy_distribution.form.type.verification_mail" class="Gitonomy\Bundle\DistributionBundle\Form\Type\Verification\MailType">
+            <tag name="form.type" alias="verification_mail" />
+        </service>
     </services>
 
 </container>
