@@ -50,14 +50,12 @@
             <constraint name="Assert:NotBlank">
                 <option name="groups">
                     <value>registration</value>
-                    <value>change_password</value>
                 </option>
             </constraint>
             <constraint name="Assert:MinLength">
                 <option name="limit">4</option>
                 <option name="groups">
                     <value>registration</value>
-                    <value>change_password</value>
                 </option>
             </constraint>
         </property>

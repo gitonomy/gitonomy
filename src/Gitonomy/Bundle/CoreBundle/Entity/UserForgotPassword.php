@@ -9,11 +9,11 @@ class UserForgotPassword
     protected $createdAt;
     protected $user;
 
-    public function __construct(User $user, $token = null)
+    public function __construct(User $user, $token = null, \DateTime $createdAt = null)
     {
         $this->user      = $user;
         $this->token     = null === $token ? md5(uniqid().microtime()) : $token;
-        $this->createdAt = new \DateTime();
+        $this->createdAt = null === $createdAt ? new \DateTime() : $createdAt;
     }
 
     /**

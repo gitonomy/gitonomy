@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
@@ -26,6 +27,7 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('password', 'repeated', array(
                 'type'     => 'password',
+                'constraints' => array(new NotBlank()),
                 'mapped'   => false,
             ))
             ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
@@ -47,7 +49,6 @@ class ChangePasswordType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('change_password'),
             'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
         ));
     }

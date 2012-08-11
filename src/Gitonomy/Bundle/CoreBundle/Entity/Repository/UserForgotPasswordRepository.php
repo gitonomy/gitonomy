@@ -21,7 +21,7 @@ class UserForgotPasswordRepository extends EntityRepository
         try {
             return $queryBuilder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            return $user->createForgotPassword();
+            return $user->createForgotPasswordToken();
         }
     }
 }

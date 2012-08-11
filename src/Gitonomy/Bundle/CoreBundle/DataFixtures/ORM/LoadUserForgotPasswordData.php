@@ -42,7 +42,7 @@ class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtu
         $aliceForgotPassword = new UserForgotPassword($this->getReference('user-alice'), 'forgottokenalice');
         $manager->persist($aliceForgotPassword);
 
-        $bobForgotPassword = new UserForgotPassword($this->getReference('user-bob'), 'forgottokenbob');
+        $bobForgotPassword = new UserForgotPassword($this->getReference('user-bob'), 'forgottokenbob', new \DateTime('-1 months'));
         $manager->persist($bobForgotPassword);
 
         $manager->flush();
