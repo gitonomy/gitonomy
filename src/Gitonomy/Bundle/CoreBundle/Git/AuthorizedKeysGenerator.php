@@ -2,8 +2,6 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
-use Symfony\Bundle\DoctrineBundle\Registry as Doctrine;
-
 /**
  * Generated an authorized_keys file for the Gitonomy project.
  *

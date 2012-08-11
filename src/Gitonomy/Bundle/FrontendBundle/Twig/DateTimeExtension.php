@@ -3,7 +3,6 @@
 namespace Gitonomy\Bundle\FrontendBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Session;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
@@ -143,6 +142,7 @@ class DateTimeExtension extends \Twig_Extension
     {
         $formatter = $this->getFormatter(\IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT);
         $formatter->setPattern('EEEE');
+
         return $formatter->format($dateTime->getTimestamp());
     }
 
@@ -177,6 +177,7 @@ class DateTimeExtension extends \Twig_Extension
         if (false === isset($this->formatters[$key])) {
             $this->formatter[$key] = new \IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone);
         }
+
         return $this->formatter[$key];
     }
 }

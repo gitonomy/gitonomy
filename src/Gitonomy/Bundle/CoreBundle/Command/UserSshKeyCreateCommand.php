@@ -7,9 +7,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Gitonomy\Bundle\CoreBundle\Git\AuthorizedKeysGenerator;
-use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
-
 /**
  * Command tool for adding a SSH key to a user.
  *

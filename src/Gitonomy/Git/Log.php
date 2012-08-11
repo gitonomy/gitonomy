@@ -8,7 +8,7 @@ class Log
     protected $revisions;
     protected $limit;
 
-    function __construct(Repository $repository, $revisions, $limit = null)
+    public function __construct(Repository $repository, $revisions, $limit = null)
     {
         $this->repository = $repository;
         $this->revisions = $revisions;

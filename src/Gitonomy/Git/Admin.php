@@ -17,7 +17,7 @@ class Admin
      *
      * @return Gitonomy\Git\Repository
      */
-    static public function init($path)
+    public static function init($path)
     {
         system(sprintf('git init -q --bare %s', $path));
 

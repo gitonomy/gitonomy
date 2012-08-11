@@ -2,8 +2,6 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class Permission
 {
     protected $id;

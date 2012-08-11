@@ -39,7 +39,7 @@ abstract class Reference
      *
      * @param string $commitHash The commit hash
      */
-    function __construct($repository, $fullname, $commitHash)
+    public function __construct($repository, $fullname, $commitHash)
     {
         $this->repository = $repository;
         $this->fullname   = $fullname;

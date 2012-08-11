@@ -2,10 +2,7 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
-use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 
 /**
  * Controller for repository actions.
@@ -61,7 +58,8 @@ class AdminRoleController extends BaseAdminController
         return parent::deleteAction($id);
     }
 
-    protected function createAdminForm($object, $options = array()) {
+    protected function createAdminForm($object, $options = array())
+    {
         $options['is_global'] = $object->isGlobal();
 
         return parent::createAdminForm($object, $options);

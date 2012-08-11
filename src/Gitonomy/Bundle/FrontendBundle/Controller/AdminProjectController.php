@@ -2,10 +2,7 @@
 
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
-use Gitonomy\Bundle\FrontendBundle\Form\Role\RoleType;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 

@@ -14,17 +14,17 @@ class Hooks
      */
     protected $repository;
 
-    function __construct(Repository $repository)
+    public function __construct(Repository $repository)
     {
         $this->repository = $repository;
     }
 
-    function has($name)
+    public function has($name)
     {
         return file_exists($this->getPath($name));
     }
 
-    function setSymlink($name, $file)
+    public function setSymlink($name, $file)
     {
         $path = $this->getPath($name);
         if (file_exists($path)) {
@@ -36,7 +36,7 @@ class Hooks
         }
     }
 
-    function set($name, $content)
+    public function set($name, $content)
     {
         $path = $this->getPath($name);
         if (file_exists($path)) {
@@ -47,7 +47,7 @@ class Hooks
         chmod($path, 0777);
     }
 
-    function remove($name)
+    public function remove($name)
     {
         $path = $this->getPath($name);
         if (!file_exists($path)) {

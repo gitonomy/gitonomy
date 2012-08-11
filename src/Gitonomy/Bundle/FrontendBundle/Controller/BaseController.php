@@ -4,10 +4,6 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
-use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\CoreBundle\Entity\Project;
 
 /**
  * Base class for every controller of the frontend.

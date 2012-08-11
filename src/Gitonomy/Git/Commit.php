@@ -108,7 +108,7 @@ class Commit
      *
      * @param string $hash Hash of the commit
      */
-    function __construct(Repository $repository, $hash)
+    public function __construct(Repository $repository, $hash)
     {
         $this->repository = $repository;
         $this->hash = $hash;

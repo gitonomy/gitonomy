@@ -10,7 +10,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 /**
  * Loads the fixtures for user object.

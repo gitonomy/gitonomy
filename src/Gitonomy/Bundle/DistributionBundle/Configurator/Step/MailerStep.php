@@ -11,7 +11,7 @@ class MailerStep implements StepInterface
     public $user;
     public $password;
 
-    function __construct(array $parameters)
+    public function __construct(array $parameters)
     {
         $this->host      = isset($parameters['mailer_host']) ? $parameters['mailer_host'] : null;
         $this->transport = isset($parameters['mailer_transport']) ? $parameters['mailer_transport'] : null;
@@ -19,7 +19,7 @@ class MailerStep implements StepInterface
         $this->password  = isset($parameters['mailer_password']) ? $parameters['mailer_password'] : null;
     }
 
-    function getFormType()
+    public function getFormType()
     {
         return 'configurator_step_mailer';
     }

@@ -102,7 +102,6 @@ class User implements UserInterface
             $this->setDefaultEmail($email);
         }
 
-
         return $email;
     }
 

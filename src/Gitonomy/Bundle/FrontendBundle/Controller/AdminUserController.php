@@ -147,6 +147,7 @@ class AdminUserController extends BaseAdminController
                 )));
             }
         }
+
         return $this->render('GitonomyFrontendBundle:AdminUser:projectroles.html.twig', array(
             'object'      => $user,
             'form'        => $form->createView(),

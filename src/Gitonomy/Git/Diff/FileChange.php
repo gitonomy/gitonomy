@@ -14,7 +14,7 @@ class FileChange
     protected $rangeNewCount;
     protected $lines;
 
-    function __construct($rangeOldStart, $rangeOldCount, $rangeNewStart, $rangeNewCount, $lines)
+    public function __construct($rangeOldStart, $rangeOldCount, $rangeNewStart, $rangeNewCount, $lines)
     {
         $this->rangeOldStart = $rangeOldStart;
         $this->rangeOldCount = $rangeOldCount;
@@ -31,6 +31,7 @@ class FileChange
                 $result++;
             }
         }
+
         return $result;
     }
 

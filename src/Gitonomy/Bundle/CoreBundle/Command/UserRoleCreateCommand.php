@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
-use Gitonomy\Bundle\CoreBundle\Entity\UserRoleGlobal;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>

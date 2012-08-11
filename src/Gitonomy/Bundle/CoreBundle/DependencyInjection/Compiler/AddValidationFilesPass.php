@@ -22,7 +22,7 @@ class AddValidationFilesPass implements CompilerPassInterface
         }
 
         $newFiles = array();
-        if($dirs) {
+        if ($dirs) {
             $finder = new Finder();
             $finder->files()->name('*.xml')->in($dirs);
             foreach ($finder as $file) {
@@ -31,7 +31,6 @@ class AddValidationFilesPass implements CompilerPassInterface
         }
 
         $files = array_merge($container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files'), $newFiles);
-
 
         $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $files);
     }

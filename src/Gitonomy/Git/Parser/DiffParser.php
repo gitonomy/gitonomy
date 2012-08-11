@@ -48,13 +48,11 @@ class DiffParser extends ParserBase
                 $this->consumeNewLine();
             }
 
-
             // 4. File informations
             $isBinary = false;
             if ($this->expects('index ')) {
                 $this->consumeRegexp('/[A-Za-z0-9]{7,40}\.\.[A-Za-z0-9]{7,40}/');
-                if ($this->expects(' '))
-                {
+                if ($this->expects(' ')) {
                     $vars = $this->consumeRegexp('/\d{6}/');
                     $newMode = $oldMode = $vars[0];
                 }

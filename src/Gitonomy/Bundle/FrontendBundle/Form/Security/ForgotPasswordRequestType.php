@@ -5,7 +5,6 @@ namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 use Gitonomy\Bundle\FrontendBundle\Validation\Constraints as GitonomyAssert;
 

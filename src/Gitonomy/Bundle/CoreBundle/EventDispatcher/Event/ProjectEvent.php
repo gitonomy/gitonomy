@@ -12,7 +12,7 @@ class ProjectEvent extends Event
     protected $project;
     protected $user;
 
-    function __construct(Project $project, User $user = null)
+    public function __construct(Project $project, User $user = null)
     {
         $this->project = $project;
         $this->user    = $user;

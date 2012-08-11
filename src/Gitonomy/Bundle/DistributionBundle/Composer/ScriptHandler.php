@@ -8,7 +8,7 @@ class ScriptHandler
     const INSTANCIATION      = 'new SymfonyRequirements();';
     const REQUIREMENTS_CLASS = 'GitonomyRequirements';
 
-    static private $requiredFiles = array(
+    private static $requiredFiles = array(
         'SymfonyRequirements.php',
         'GitonomyRequirements.php'
     );

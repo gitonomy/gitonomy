@@ -13,7 +13,7 @@ class UserEmailValidator extends ConstraintValidator
      */
     protected $doctrineRegistry;
 
-    function __construct(Registry $doctrineRegistry)
+    public function __construct(Registry $doctrineRegistry)
     {
         $this->doctrineRegistry = $doctrineRegistry;
     }
@@ -22,6 +22,7 @@ class UserEmailValidator extends ConstraintValidator
     {
         if (false === $value || (empty($value) && '0' != $value)) {
             $this->context->addViolation($constraint->message);
+
             return;
         }
 

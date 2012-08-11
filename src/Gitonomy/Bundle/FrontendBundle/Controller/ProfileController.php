@@ -239,7 +239,6 @@ class ProfileController extends BaseController
         $userSshKey = new UserSshKey($this->getUser());
         $form = $this->createForm('profile_ssh_key', $userSshKey);
 
-
         $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
@@ -297,7 +296,6 @@ class ProfileController extends BaseController
             'form' => $form->createView(),
         ));
     }
-
 
     protected function findEmail($emailId)
     {

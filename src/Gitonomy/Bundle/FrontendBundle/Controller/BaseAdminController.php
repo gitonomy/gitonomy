@@ -5,7 +5,6 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Controller for admin actions.
@@ -209,6 +208,7 @@ abstract class BaseAdminController extends BaseController
     protected function createAdminForm($object, $options = array())
     {
         $className = $this->getRepository()->getClassName();
+
         return $this->createForm($this->getFormType($className), $object, $options);
     }
 }

@@ -3,7 +3,6 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
-use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class EmailController extends BaseController
 {

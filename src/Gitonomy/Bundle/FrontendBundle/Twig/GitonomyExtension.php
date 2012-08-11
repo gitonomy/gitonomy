@@ -13,7 +13,7 @@ class GitonomyExtension extends \Twig_Extension
     protected $container;
     protected $sshAccess;
 
-    function __construct(ContainerInterface $container, $sshAccess)
+    public function __construct(ContainerInterface $container, $sshAccess)
     {
         $this->container = $container;
         $this->sshAccess = $sshAccess;

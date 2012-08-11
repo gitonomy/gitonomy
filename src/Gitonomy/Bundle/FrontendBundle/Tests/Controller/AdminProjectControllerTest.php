@@ -212,7 +212,6 @@ class AdminProjectControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminproject/'.$project->getId().'/user-roles'));
     }
 
-
     public function testGitAccesses()
     {
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();

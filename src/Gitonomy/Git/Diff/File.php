@@ -11,7 +11,7 @@ class File
     protected $changes;
     protected $isBinary;
 
-    function __construct($oldName, $newName, $oldMode, $newMode, $isBinary)
+    public function __construct($oldName, $newName, $oldMode, $newMode, $isBinary)
     {
         $this->oldName = $oldName;
         $this->newName = $newName;
@@ -24,20 +24,20 @@ class File
     public function getAdditions()
     {
         $result = 0;
-        foreach ($this->changes as $change)
-        {
+        foreach ($this->changes as $change) {
             $result += $change->getCount(FileChange::LINE_ADD);
         }
+
         return $result;
     }
 
     public function getDeletions()
     {
         $result = 0;
-        foreach ($this->changes as $change)
-        {
+        foreach ($this->changes as $change) {
             $result += $change->getCount(FileChange::LINE_REMOVE);
         }
+
         return $result;
     }
 

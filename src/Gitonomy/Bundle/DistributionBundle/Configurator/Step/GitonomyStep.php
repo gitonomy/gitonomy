@@ -14,14 +14,14 @@ class GitonomyStep implements StepInterface
     public $mailer_from_name;
     public $mailer_from_email;
 
-    function __construct(array $parameters)
+    public function __construct(array $parameters)
     {
         foreach ($this as $key => $value) {
             $this->$key = isset($parameters[$key]) ? $parameters[$key] : null;
         }
     }
 
-    function getFormType()
+    public function getFormType()
     {
         return 'configurator_step_gitonomy';
     }

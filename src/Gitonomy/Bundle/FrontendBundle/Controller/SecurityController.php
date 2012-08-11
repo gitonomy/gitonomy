@@ -3,7 +3,6 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\FrontendBundle\Model\Security\ForgotPasswordRequest;

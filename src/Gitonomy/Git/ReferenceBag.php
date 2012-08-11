@@ -49,7 +49,7 @@ class ReferenceBag
      *
      * @param Gitonomy\Git\Repository $repository The repository
      */
-    function __construct($repository)
+    public function __construct($repository)
     {
         $this->repository  = $repository;
         $this->initialized = false;

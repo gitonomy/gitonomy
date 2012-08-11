@@ -22,7 +22,7 @@ class ShellHandler
     /**
      * Constructor.
      */
-    function __construct(RepositoryPool $repositoryPool)
+    public function __construct(RepositoryPool $repositoryPool)
     {
         $this->repositoryPool = $repositoryPool;
     }
