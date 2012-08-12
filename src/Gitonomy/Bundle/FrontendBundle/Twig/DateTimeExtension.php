@@ -38,7 +38,31 @@ class DateTimeExtension extends \Twig_Extension
             'time_short'     => new \Twig_Filter_Method($this, 'getTimeShort'),
             'dayname_short'  => new \Twig_Filter_Method($this, 'getDaynameShort'),
             'dayname_long'   => new \Twig_Filter_Method($this, 'getDaynameLong'),
+            'date_relative'  => new \Twig_Filter_Method($this, 'getDateRelative'),
         );
+    }
+
+    public function getDateRelative(\DateTime $dateTime)
+    {
+        $now      = new \DateTime();
+        $interval = $now->diff($dateTime);
+
+        $translator = $this->container->get('translator');
+        if ($interval->y) {
+            return $translator->transChoice('{1}1 year ago|]1,+Inf]%n years ago', $interval->y, array('%n' => $interval->y));
+        } elseif ($interval->m) {
+            return $translator->transChoice('{1}1 month ago|]1,+Inf]%n months ago', $interval->m, array('%n' => $interval->m));
+        } elseif ($interval->d) {
+            return $translator->transChoice('{1}1 day ago|]1,+Inf]%n days ago', $interval->d, array('%n' => $interval->d));
+        } elseif ($interval->h) {
+            return $translator->transChoice('{1}1 hour ago|]1,+Inf]%n hours ago', $interval->h, array('%n' => $interval->h));
+        } elseif ($interval->i) {
+            return $translator->transChoice('{1}1 minute ago|]1,+Inf]%n minutes ago', $interval->i, array('%n' => $interval->i));
+        } elseif ($interval->s) {
+            return $translator->transChoice('{1}1 second ago|]1,+Inf]%n seconds ago', $interval->s, array('%n' => $interval->s));
+        } else {
+            return $translator->trans('now');
+        }
     }
 
     /**
