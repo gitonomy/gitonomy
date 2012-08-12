@@ -14,92 +14,92 @@ class Commit
      *
      * @var Gitonomy\Git\Repository
      */
-    protected $repository;
+    private $repository;
 
     /**
      * Hash of the commit.
      *
      * @var string
      */
-    protected $hash;
+    private $hash;
 
     /**
      * A flag indicating if the commit is initialized.
      *
      * @var boolean
      */
-    protected $initialized;
+    private $initialized;
 
     /**
      * Hash of the tree.
      *
      * @var string
      */
-    protected $treeHash;
-    protected $tree;
+    private $treeHash;
+    private $tree;
 
     /**
      * Hashes of the parent commits.
      *
      * @var array
      */
-    protected $parentHashes;
+    private $parentHashes;
 
     /**
      * Author name.
      *
      * @var string
      */
-    protected $authorName;
+    private $authorName;
 
     /**
      * Author email.
      *
      * @var string
      */
-    protected $authorEmail;
+    private $authorEmail;
 
     /**
      * Date of authoring.
      *
      * @var DateTime
      */
-    protected $authorDate;
+    private $authorDate;
 
     /**
      * Committer name.
      *
      * @var string
      */
-    protected $committerName;
+    private $committerName;
 
     /**
      * Committer email.
      *
      * @var string
      */
-    protected $committerEmail;
+    private $committerEmail;
 
     /**
      * Date of commit.
      *
      * @var DateTime
      */
-    protected $committerDate;
+    private $committerDate;
 
     /**
      * Message of the commit.
      *
      * @var string
      */
-    protected $message;
+    private $message;
 
     /**
      * Short message of the commit.
      *
      * @var string
      */
-    protected $shortMessage;
+    private $shortMessage;
 
     /**
      * Constructor.
@@ -120,7 +120,7 @@ class Commit
      *
      * @throws RuntimeException An error occurred during read of data.
      */
-    protected function initialize()
+    private function initialize()
     {
         if (true === $this->initialized) {
             return;
@@ -227,32 +227,23 @@ class Commit
      */
     public function getLastModification($path, $lastHash = null)
     {
-        $hash = $this->getTree()->resolvePath($path)->getHash();
-
-        if (null !== $lastHash && $hash !== $lastHash) {
-            return $this;
+        if (preg_match('#^/#', $path)) {
+            $path = substr($path, 1);
+        }
+        ob_start();
+        $cmd = sprintf(
+            'cd %s && git log --format="format:%%H" -n 1 %s -- %s',
+            escapeshellarg($this->repository->getPath()),
+            escapeshellarg($this->hash),
+            escapeshellarg($path)
+        );
+        system($cmd, $result);
+        $output = ob_get_clean();
+        if (0 != $result) {
+            throw new \InvalidArgumentException('Error running '.$cmd);
         }
 
-        $candidates = array();
-        foreach ($this->getParents() as $parent) {
-            try {
-                $candidates[] = $parent->getLastModification($path, $hash);
-            } catch (\InvalidArgumentException $e) {
-            }
-        }
-
-        $min = null;
-        foreach ($candidates as $candidate) {
-            if (null === $min || $candidate->getCommitterDate()->getTimestamp() > $min->getCommitterDate()->getTimestamp()) {
-                $min = $candidate;
-            }
-        }
-
-        if (null === $min) {
-            return $this;
-        }
-
-        return $min;
+        return $this->repository->getCommit($output);
     }
 
     /**
