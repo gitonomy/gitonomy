@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'source' } %}
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'source', reference: reference } %}
     <div class="page-header">
         <h2>Source</h2>
     </div>

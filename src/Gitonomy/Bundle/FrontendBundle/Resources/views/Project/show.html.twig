@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {'slug': project.slug, 'active': 'project' } %}
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'project', reference: reference } %}
     <div class="row">
         <div class="span6">
             <div class="page-header">
@@ -24,12 +24,12 @@
             <div class="page-header">
                 <h2>Branches</h2>
             </div>
-            {% render "GitonomyFrontendBundle:Project:blockBranchesActivity" with {'slug': project.slug} %}
+            {% render "GitonomyFrontendBundle:Project:blockBranchesActivity" with {slug: project.slug, reference: reference} %}
         </div>
         <div class="span10">
             <div class="page-header">
                 <h2>Last commits on branch master</h2>
             </div>
-            {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'limit': 2 } %}
+            {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {slug: project.slug, reference: reference, limit: 2 } %}
         </div>
 {% endblock %}

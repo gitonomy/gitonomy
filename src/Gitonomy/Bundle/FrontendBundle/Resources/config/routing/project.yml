@@ -1,7 +1,6 @@
 gitonomyfrontend_project_show:
     pattern: /{_locale}/project/{slug}
     defaults: { _controller: "GitonomyFrontendBundle:Project:show" }
-    requirements: { reference: ".*" }
 
 gitonomyfrontend_project_showLastCommits:
     pattern: /{_locale}/project/{slug}/commits/{reference}

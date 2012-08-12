@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Git\Tree;
@@ -18,9 +19,10 @@ class ProjectController extends BaseController
     /**
      * Displays the project main page
      */
-    public function showAction($slug, $reference = 'master')
+    public function showAction(Request $request, $slug)
     {
         $project = $this->getProject($slug);
+        $reference = $request->query->get('reference', 'master');
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project'   => $project,
@@ -71,7 +73,7 @@ class ProjectController extends BaseController
         ));
     }
 
-    public function blockNavigationAction($slug, $active)
+    public function blockNavigationAction($slug, $active, $reference)
     {
         $project = $this->getProject($slug);
 
@@ -83,6 +85,7 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:blockNavigation.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
+            'reference'  => $reference,
             'active'     => $active
         ));
     }
@@ -161,7 +164,7 @@ class ProjectController extends BaseController
         throw new \RuntimeException(sprintf('Unable to render element of type "%s"', get_class($element)));
     }
 
-    public function blockBranchesActivityAction($slug)
+    public function blockBranchesActivityAction($slug, $reference)
     {
         $project = $this->getProject($slug);
 
@@ -172,7 +175,7 @@ class ProjectController extends BaseController
 
         $references = $repository->getReferences();
 
-        $master = $references->getBranch('master');
+        $master = $references->getBranch($reference);
 
         $rows = array();
         foreach ($references->getBranches() as $branch) {

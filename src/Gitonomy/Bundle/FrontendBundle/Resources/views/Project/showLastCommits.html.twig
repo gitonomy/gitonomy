@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {'slug': project.slug, 'active': 'commits' } %}
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'commits', reference: reference } %}
     <div class="page-header">
         <h2>Last commits on branch master</h2>
     </div>
