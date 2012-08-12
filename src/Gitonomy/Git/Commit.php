@@ -256,14 +256,6 @@ class Commit
     }
 
     /**
-     * @return Commit
-     */
-    public function getHistory($path)
-    {
-        return new Tree\History($this, $path);
-    }
-
-    /**
      * Returns the first line of the commit, and the first 80 characters.
      *
      * @return string

@@ -8,9 +8,8 @@
         </tr>
     </thead>
     <tbody>
-        {% set history = commit.history(path) %}
         {% for name, data in tree.entries if data[1] is git_tree %}
-            {% set lastModificationCommit = history.find(data[1]) %}
+            {% set lastModificationCommit = commit.lastModification(path~'/'~name, commit) %}
             <tr>
                 <td>{{ data[0] }}</td>
                 <td>
