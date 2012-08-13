@@ -1,11 +1,17 @@
-{% for commit in commits %}
-    <img src="{{ gravatar(commit.authorEmail, 50) }}" style="float:left; padding-right: 20px" />
-    <h5><a href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">{{ commit.shortMessage }}</a></h5>
-    <p>{{ commit.authorName }} - {{ commit.authorDate | datetime_long }}</p>
-    {% if commit.authorName != commit.committerName or commit.authorEmail != commit.committerEmail %}
-        <p><strong>Committer</strong>: {{ commit.committerName }} &lt;{{ commit.committerEmail }}&gt;</p>
-    {% endif %}
-    <hr />
-{% else %}
-    <p><em>No commit...</em></p>
-{% endfor %}
+<table class="commit-list">
+    <tbody>
+        {% for commit in commits %}
+            <tr>
+                <td class="message">
+                    <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                        {{ commit.shortMessage }}
+                    </a>
+                </td>
+                <td class="author">
+                    {{ commit.authorName }}
+                    <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
