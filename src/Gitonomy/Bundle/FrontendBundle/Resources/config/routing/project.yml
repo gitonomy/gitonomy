@@ -2,6 +2,10 @@ gitonomyfrontend_project_show:
     pattern: /{_locale}/project/{slug}
     defaults: { _controller: "GitonomyFrontendBundle:Project:show" }
 
+gitonomyfrontend_project_history:
+    pattern: /{_locale}/project/{slug}/history
+    defaults: { _controller: "GitonomyFrontendBundle:Project:history" }
+
 gitonomyfrontend_project_showLastCommits:
     pattern: /{_locale}/project/{slug}/commits/{reference}
     defaults: { _controller: "GitonomyFrontendBundle:Project:showLastCommits" }

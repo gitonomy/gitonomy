@@ -1,0 +1,63 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title project.name %}
+
+{% block content_javascript %}
+    <script>
+        $(document).ready(function (){
+            (new BranchRenderer()).render(
+                [
+                    ["606dd2a169a8", [0, 1], [[0, 0, 1], [0, 1, 2]]],
+                    ["fd0ea86d2bf4", [1, 2], [[0, 0, 1], [1, 1, 2]]],
+                    ["e4483bbdc31e", [0, 1], [[0, 0, 1], [1, 1, 2]]],
+                    ["356df4e16854", [0, 1], [[0, 0, 1], [1, 0, 2]]],
+                    ["692c276a5553", [0, 2], [[0, 0, 2]]],
+                    ["cb20deeded8e", [0, 1], [[0, 0, 1]]],
+                    ["219de43562aa", [0, 1], [[0, 0, 1]]],
+                    ["7b9bb493ea84", [0, 1], [[0, 0, 1]]],
+                    ["e53d7d16c450", [0, 1], [[0, 0, 1]]],
+                    ["5b56c9c0fcaf", [0, 1], [[0, 0, 1]]],
+                    ["3cdaf4949278", [0, 1], [[0, 0, 1]]],
+                    ["e3d97fd94adf", [0, 1], [[0, 0, 1]]],
+                    ["3a482a6010d8", [0, 1], [[0, 0, 1]]],
+                    ["f24631f4687e", [0, 1], [[0, 0, 1]]],
+                    ["8feb9baf04ee", [0, 1], [[0, 0, 1]]]
+                ]
+            );
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'history', reference: reference } %}
+    <div class="page-header">
+        <h2>History</h2>
+    </div>
+    <table>
+        <tr>
+            <td width="300"><canvas id="graph" width="300" height="500" /></td>
+            <td>
+                <div id="changesets-inner">
+                    <div id="chg_0">FOO</div>
+                    <div id="chg_1">FOO</div>
+                    <div id="chg_2">FOO</div>
+                    <div id="chg_3">FOO</div>
+                    <div id="chg_4">FOO</div>
+                    <div id="chg_5">FOO</div>
+                    <div id="chg_6">FOO</div>
+                    <div id="chg_7">FOO</div>
+                    <div id="chg_8">FOO</div>
+                    <div id="chg_9">FOO</div>
+                    <div id="chg_10">FOO</div>
+                    <div id="chg_11">FOO</div>
+                    <div id="chg_12">FOO</div>
+                    <div id="chg_13">FOO</div>
+                    <div id="chg_14">FOO</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

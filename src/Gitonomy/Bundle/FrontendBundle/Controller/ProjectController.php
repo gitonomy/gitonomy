@@ -30,6 +30,33 @@ class ProjectController extends BaseController
         ));
     }
 
+    public function historyAction(Request $request, $slug)
+    {
+        $project = $this->getProject($slug);
+        $reference = $request->query->get('reference', 'master');
+
+        $commits = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
+            ->getRevision($reference)
+            ->getLog(650)
+            ->getCommits()
+        ;
+
+        return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
+            'project'   => $project,
+            'reference' => $reference
+        ));
+    }
+
+    private function getInfos($commit)
+    {
+        return array(
+            'id'      => substr($commit->getHash(), 0, 12),
+            'message' => $commit->getShortMessage()
+        );
+    }
+
     /**
      * Displays the last commits
      */
