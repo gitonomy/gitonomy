@@ -8,3 +8,30 @@ input[type="checkbox"]
     float:left;
     margin-right:5px;
 }
+
+.commit-list
+{
+    border: 1px solid #ccc;
+}
+
+.commit-list img.avatar
+{
+    vertical-align: middle;
+}
+
+.commit-list > tbody > tr > td
+{
+    padding: 4px;
+}
+
+.commit-list > tbody > tr > td.message > a
+{
+    color: black;
+    font-family: Monaco, "Liberation Mono", Courier, monospace;
+}
+
+.commit-list > tbody > tr > td.author
+{
+    text-align: right;
+    font-weight: bold;
+}
