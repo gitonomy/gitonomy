@@ -5,7 +5,8 @@
             <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
                 <a title="Previous page of commits" href="?page=1">«</a>
             </li>
-            {% for curPage in 1..pager.pageCount %}
+            {% set lastPage = pager.lastPage %}
+            {% for curPage in 1..pager.pageCount if (curPage - page)|abs < 8 %}
                 <li{% if curPage == page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}">{{ curPage }}</a></li>
             {% endfor %}
             <li{% if pager.isLastPage %} class="disabled"{% endif %}>
