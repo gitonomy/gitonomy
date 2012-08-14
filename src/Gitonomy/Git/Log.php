@@ -6,25 +6,48 @@ class Log
 {
     protected $repository;
     protected $revisions;
+    protected $offset;
     protected $limit;
 
-    public function __construct(Repository $repository, $revisions, $limit = null)
+    public function __construct(Repository $repository, $revisions)
     {
         $this->repository = $repository;
         $this->revisions = $revisions;
+    }
+
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    public function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
+
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    public function setLimit($limit)
+    {
         $this->limit = $limit;
     }
 
     public function getCommits()
     {
         ob_start();
-        system(sprintf(
+        $cmd = sprintf(
             'cd %s && git log --format="format:%s" %s %s',
             escapeshellarg($this->repository->getPath()),
             '%H',
+            null !== $this->offset ? '--skip='.((int) $this->offset) : '',
             null !== $this->limit ? '-n '.((int) $this->limit) : '',
             escapeshellarg($this->revisions)
-        ), $result);
+        );
+        system($cmd, $result);
+
         $output = ob_get_clean();
 
         $exp = explode("\n", $output);
@@ -35,5 +58,19 @@ class Log
         }
 
         return $result;
+    }
+
+    public function countCommits()
+    {
+        ob_start();
+        system(sprintf(
+            'cd %s && git rev-list %s',
+            escapeshellarg($this->repository->getPath()),
+            escapeshellarg($this->revisions)
+        ), $result);
+        $output = ob_get_clean();
+        $exp = explode("\n", $output);
+
+        return count($exp);
     }
 }
