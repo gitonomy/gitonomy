@@ -26,10 +26,4 @@
             </div>
             {% render "GitonomyFrontendBundle:Project:blockBranchesActivity" with {slug: project.slug, reference: reference} %}
         </div>
-        <div class="span10">
-            <div class="page-header">
-                <h2>Last commits on branch master</h2>
-            </div>
-            {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {slug: project.slug, reference: reference, limit: 2 } %}
-        </div>
 {% endblock %}

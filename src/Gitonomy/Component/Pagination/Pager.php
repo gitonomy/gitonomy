@@ -26,7 +26,17 @@ class Pager implements \IteratorAggregate, \Countable
 
     public function setPage($page)
     {
-        $this->offset = ($page - 1) * $this->perPage;
+        $this->offset = (max(1, (int) $page) - 1) * $this->perPage;
+    }
+
+    public function isFirstPage()
+    {
+        return $this->getPage() == 1;
+    }
+
+    public function isLastPage()
+    {
+        return $this->getPage() == $this->getPageCount();
     }
 
     public function getPage()

@@ -6,6 +6,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Component\Pagination\Pager;
+use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
 
@@ -33,13 +35,14 @@ class ProjectController extends BaseController
     /**
      * Displays the last commits
      */
-    public function showLastCommitsAction($slug, $reference)
+    public function showLastCommitsAction(Request $request, $slug, $reference)
     {
         $project = $this->getProject($slug);
 
         return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
             'project'   => $project,
-            'reference' => $reference
+            'reference' => $reference,
+            'page'      => $request->query->get('page', 1)
         ));
     }
 
@@ -95,30 +98,26 @@ class ProjectController extends BaseController
      *
      * @todo Separate two cases: the requested revision does not exists and no commit.
      */
-    public function blockCommitHistoryAction($slug, $reference = 'master', $limit = 50, $offset = 0)
+    public function blockCommitHistoryAction($slug, $reference = 'master', $perPage = 50, $page = 0)
     {
         $project = $this->getProject($slug);
 
-        $revision = $this
+        $log = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
-            ->getRevision($reference)
+            ->getLog($reference)
         ;
 
-        try {
-            $revision->getResolved();
+        $pager = new Pager(new GitLogAdapter($log));
+        $pager->setPerPage((int) min(50, $perPage));
+        $pager->setPage((int) $page);
 
-            $commits = $revision->getLog($limit)->getCommits();
-
-            return $this->render('GitonomyFrontendBundle:Project:blockCommitHistory.html.twig', array(
-                'commits' => $commits,
-                'project' => $project
-            ));
-        } catch (\RuntimeException $e) {
-            return $this->render('GitonomyFrontendBundle:Project:blockCommitHistoryEmpty.html.twig', array(
-                'project' => $project
-            ));
-        }
+        return $this->render('GitonomyFrontendBundle:Project:blockCommitHistory.html.twig', array(
+            'pager' => $pager,
+            'reference' => $reference,
+            'project' => $project,
+            'page' => $page
+        ));
     }
 
     /**
