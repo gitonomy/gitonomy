@@ -1,3 +1,19 @@
+{% set commits = pager.iterator %}
+{% if pager.pageCount > 1 %}
+    <div class="pagination">
+        <ul>
+            <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
+                <a title="Previous page of commits" href="?page=1">«</a>
+            </li>
+            {% for curPage in 1..pager.pageCount %}
+                <li{% if curPage == page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}">{{ curPage }}</a></li>
+            {% endfor %}
+            <li{% if pager.isLastPage %} class="disabled"{% endif %}>
+                <a href="?page={{ pager.pageCount }}">»</a>
+            </li>
+        </ul>
+    </div>
+{% endif %}
 <table class="commit-list">
     <tbody>
         {% for commit in commits %}
