@@ -122,7 +122,7 @@ class ProjectController extends BaseController
      *
      * @todo Separate two cases: the requested revision does not exists and no commit.
      */
-    public function blockCommitHistoryAction($slug, $reference = 'master', $limit = 50)
+    public function blockCommitHistoryAction($slug, $reference = 'master', $limit = 50, $offset = 0)
     {
         $project = $this->getProject($slug);
 
