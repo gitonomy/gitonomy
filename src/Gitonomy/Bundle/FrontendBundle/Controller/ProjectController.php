@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
+use Gitonomy\Component\Git\Graph\Map;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
 
@@ -40,14 +41,44 @@ class ProjectController extends BaseController
         $commits = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
-            ->getRevision($reference)
-            ->getLog(650)
+            ->getLog($reference)
+            ->setOffset(30)
+            ->setLimit(50)
             ->getCommits()
         ;
 
+        $map = new Map(count($commits));
+        $N = 0;
+        $pendingParents = array();
+        foreach ($commits as $commit) {
+            $hash    = $commit->getHash();
+            $parents = $commit->getParentHashes();
+            $H       = $map->findFreeHeight($N);
+            $map->setDot($N, $H);
+
+            // Has pending parents?
+            if (isset($pendingParents[$hash])) {
+                foreach ($pendingParents[$hash] as $parent) {
+                    $map->drawLine($parent[0], $parent[1], $N, $H);
+                }
+
+                unset($pendingParents[$hash]);
+            }
+
+            foreach ($parents as $parent) {
+                if (!isset($pendingParents[$parent])) {
+                    $pendingParents[$parent] = array();
+                }
+                $pendingParents[$parent][] = array($N, $H);
+            }
+
+            $N++;
+        }
+
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'   => $project,
-            'reference' => $reference
+            'reference' => $reference,
+            'matrix' => $map
         ));
     }
 
