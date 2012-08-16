@@ -20,7 +20,7 @@ class Cell
 
     public function isFree($height)
     {
-        if (isset($this->dot[$height]) && $this->dot[$height]) {
+        if ($this->dot == $height) {
             return false;
         }
 

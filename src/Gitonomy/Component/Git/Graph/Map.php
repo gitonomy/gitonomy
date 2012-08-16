@@ -21,8 +21,13 @@ class Map
     public function drawLine($fromN, $fromH, $toN, $toH)
     {
         for ($N = $fromN; $N < $toN; $N++) {
-            $H = $this->findFreeHeight($N == 0 ? 1 : $N);
+            if ($N !== $toN - 1) {
+                $H = $this->findFreeHeight($N);
+            } else {
+                $H = $toH;
+            }
             $this->cells[$N]->links[] = array($fromH, $H, 0);
+
             $fromH = $H;
         }
     }

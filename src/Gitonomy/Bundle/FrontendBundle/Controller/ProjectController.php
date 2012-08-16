@@ -42,34 +42,44 @@ class ProjectController extends BaseController
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
             ->getLog($reference)
-            ->setOffset(30)
-            ->setLimit(50)
+            ->setOffset(20)
+            ->setLimit(35)
             ->getCommits()
         ;
 
         $map = new Map(count($commits));
+        // First pass
+        $positions = array();
         $N = 0;
-        $pendingParents = array();
         foreach ($commits as $commit) {
-            $hash    = $commit->getHash();
-            $parents = $commit->getParentHashes();
-            $H       = $map->findFreeHeight($N);
+            $positions[$commit->getHash()] = $N;
+
+            $N++;
+        }
+
+        $N = 0;
+        foreach ($commits as $commit) {
+            if ($map->getCell($N)->dot < 0) {
+                $H = $map->findFreeHeight($N);
+            } else {
+                $H = $map->getCell($N)->dot;
+            }
             $map->setDot($N, $H);
 
-            // Has pending parents?
-            if (isset($pendingParents[$hash])) {
-                foreach ($pendingParents[$hash] as $parent) {
-                    $map->drawLine($parent[0], $parent[1], $N, $H);
+            foreach ($commit->getParentHashes() as $parent) {
+                if (!isset($positions[$parent])) {
+                    var_dump('Unable to find '.$parent);
+                    continue;
                 }
 
-                unset($pendingParents[$hash]);
-            }
-
-            foreach ($parents as $parent) {
-                if (!isset($pendingParents[$parent])) {
-                    $pendingParents[$parent] = array();
+                $toN = $positions[$parent];
+                if ($map->getCell($toN)->dot < 0) {
+                    $toH = $map->findFreeHeight($toN);
+                } else {
+                    $toH = $map->getCell($toN)->dot;
                 }
-                $pendingParents[$parent][] = array($N, $H);
+
+                $map->drawLine($N, $H, $toN, $toH);
             }
 
             $N++;
@@ -78,7 +88,8 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'   => $project,
             'reference' => $reference,
-            'matrix' => $map
+            'matrix'    => $map,
+            'commits'   => $commits
         ));
     }
 

@@ -23,8 +23,10 @@
             <td width="150" style="padding: 0"><canvas id="graph" width="150" style="padding-top: 8px;" height="{{ matrix.cells|length * 18 }}" /></td>
             <td style="padding: 0">
                 <div id="changesets-inner">
-                    {% for i in 0..(matrix.cells|length - 1) %}
-                    <div id="chg_{{ i }}">Line {{ i + 1 }}</div>
+                    {% set i = 0 %}
+                    {% for commit in commits %}
+                        {% set i = i + 1 %}
+                        <div id="chg_{{ i - 1 }}">{{ commit.hash }}: {{ commit.shortMessage }}</div>
                     {% endfor %}
                 </div>
             </td>
