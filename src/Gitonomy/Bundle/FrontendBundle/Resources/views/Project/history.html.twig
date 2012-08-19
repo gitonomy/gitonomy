@@ -65,6 +65,7 @@
             .attr('d', commit_line)
             .style('stroke', 'black')
             .style('stroke-width', '2')
+            .style('fill', 'none')
 
         function commit_graph(commits) {
             var nodes = [],
@@ -84,6 +85,10 @@
                     links.push([
                         {
                             x: i - 1,
+                            y: i - 1
+                        },
+                        {
+                            x: i,
                             y: i - 1
                         },
                         {
