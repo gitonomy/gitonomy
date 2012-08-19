@@ -1,5 +1,5 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "gitonomy/gitonomy",
     "autoload": {
         "psr-0": { "": "src/" }
     },
