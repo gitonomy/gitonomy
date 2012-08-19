@@ -4,9 +4,106 @@
 
 {% block content_javascript %}
     <script>
-        $(document).ready(function (){
-            (new BranchRenderer()).render({{ matrix.json|json_encode|raw }});
-        });
+        data = {{ data|json_encode|raw }};
+
+        var line_height = 15,
+            padding     = 10,
+            height      = data.length * line_height + 2*padding
+            width       = 900 + 2*padding
+        ;
+
+        var xAxis = d3.scale.linear()
+            .domain([0, data.length])
+            .range([padding, padding + width])
+        ;
+
+        var yAxis = d3.scale.linear()
+            .domain([0, data.length])
+            .range([padding, padding + height])
+        ;
+
+        var history = d3.select("#history")
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+        ;
+
+        var graph = commit_graph(data);
+
+        var commits = history
+            .selectAll('circle')
+            .data(graph.nodes())
+        ;
+
+        var links = history
+            .selectAll('path')
+            .data(graph.links())
+        ;
+
+        var commit_line = d3.svg.line()
+            .x(function (d) {
+                return xAxis(d.x);
+            })
+            .y(function (d) {
+                return yAxis(d.y);
+            })
+        ;
+
+        commits.enter()
+            .append('circle')
+            .attr('cx', function (node) {
+                return xAxis(node.x);
+            })
+            .attr('cy', function (node) {
+                return yAxis(node.y);
+            })
+            .attr('r', 4)
+        ;
+
+        links.enter()
+            .append('path')
+            .attr('d', commit_line)
+            .style('stroke', 'black')
+            .style('stroke-width', '2')
+
+        function commit_graph(commits) {
+            var nodes = [],
+                links = [],
+                commit
+            ;
+
+            for (i in commits) {
+                commit = commits[i];
+
+                nodes.push({
+                    x: i,
+                    y: i
+                });
+
+                if (i > 0) {
+                    links.push([
+                        {
+                            x: i - 1,
+                            y: i - 1
+                        },
+                        {
+                            x: i,
+                            y: i
+                        }
+                    ]);
+                }
+            }
+
+            return {
+                nodes: function () {
+                    return nodes;
+                },
+
+                links: function () {
+                    return links;
+                }
+            };
+        }
     </script>
 {% endblock %}
 
@@ -18,18 +115,5 @@
     <div class="page-header">
         <h2>History</h2>
     </div>
-    <table>
-        <tr>
-            <td width="150" style="padding: 0"><canvas id="graph" width="150" style="padding-top: 8px;" height="{{ matrix.cells|length * 18 }}" /></td>
-            <td style="padding: 0">
-                <div id="changesets-inner">
-                    {% set i = 0 %}
-                    {% for commit in commits %}
-                        {% set i = i + 1 %}
-                        <div id="chg_{{ i - 1 }}">{{ commit.hash }}: {{ commit.shortMessage }}</div>
-                    {% endfor %}
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div id="history"></div>
 {% endblock %}

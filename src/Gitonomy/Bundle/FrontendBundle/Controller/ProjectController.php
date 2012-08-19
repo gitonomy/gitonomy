@@ -42,54 +42,22 @@ class ProjectController extends BaseController
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
             ->getLog($reference)
-            ->setOffset(20)
-            ->setLimit(35)
+            ->setLimit(50)
             ->getCommits()
         ;
 
-        $map = new Map(count($commits));
-        // First pass
-        $positions = array();
-        $N = 0;
+        $data = array();
         foreach ($commits as $commit) {
-            $positions[$commit->getHash()] = $N;
-
-            $N++;
-        }
-
-        $N = 0;
-        foreach ($commits as $commit) {
-            if ($map->getCell($N)->dot < 0) {
-                $H = $map->findFreeHeight($N);
-            } else {
-                $H = $map->getCell($N)->dot;
-            }
-            $map->setDot($N, $H);
-
-            foreach ($commit->getParentHashes() as $parent) {
-                if (!isset($positions[$parent])) {
-                    var_dump('Unable to find '.$parent);
-                    continue;
-                }
-
-                $toN = $positions[$parent];
-                if ($map->getCell($toN)->dot < 0) {
-                    $toH = $map->findFreeHeight($toN);
-                } else {
-                    $toH = $map->getCell($toN)->dot;
-                }
-
-                $map->drawLine($N, $H, $toN, $toH);
-            }
-
-            $N++;
+            $data[] = array(
+                'hash' => $commit->getHash(),
+                'parents' => $commit->getParentHashes()
+            );
         }
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'   => $project,
             'reference' => $reference,
-            'matrix'    => $map,
-            'commits'   => $commits
+            'data'      => $data
         ));
     }
 
