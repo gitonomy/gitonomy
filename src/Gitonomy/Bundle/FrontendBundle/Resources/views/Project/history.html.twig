@@ -12,14 +12,14 @@
             width       = 900 + 2*padding
         ;
 
-        var xAxis = d3.scale.linear()
+        var xAxis = d3.scale.pow().exponent(2)
             .domain([0, data.length])
             .range([padding, 500])
         ;
 
-        var yAxis = d3.scale.linear()
+        var yAxis = d3.scale.pow().exponent(.7)
             .domain([0, data.length])
-            .range([padding, padding + height])
+            .range([padding, height - 2*padding])
         ;
 
         var history = d3.select("#history")
@@ -51,14 +51,14 @@
 
         var g = commits.enter().append('g');
 
-        g.append('text')
-            .attr('transform', function (node) {
-                return "translate(" + xAxis(node.x+1) + "," + yAxis(node.y) + ")";
-            })
-            .text(function (node) {
-                return node.short_message;
-            })
-        ;
+        //g.append('text')
+        //    .attr('transform', function (node) {
+        //        return "translate(" + xAxis(node.x+1) + "," + yAxis(node.y) + ")";
+        //    })
+        //    .text(function (node) {
+        //        return node.short_message;
+        //    })
+        //;
 
         g.append('circle')
             .attr('cx', function (node) {
@@ -74,7 +74,8 @@
             .append('path')
             .attr('d', commit_line)
             .style('stroke', 'black')
-            .style('stroke-width', '2')
+            .style('stroke-width', '1')
+            .attr('radius', 0.1)
             .style('fill', 'none')
 
         function commit_graph(commits) {
@@ -113,10 +114,6 @@
                         y: 10000
                     });
                 } else {
-                    link.push({
-                        x: commits[positions[from]].x,
-                        y: commits[positions[to]].y
-                    });
                     link.push({
                         x: commits[positions[to]].x,
                         y: commits[positions[to]].y
