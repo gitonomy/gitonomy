@@ -8,13 +8,13 @@
 
         var line_height = 15,
             padding     = 10,
-            height      = data.length * line_height + 2*padding
+            height      = data.length * line_height + 2*padding,
             width       = 900 + 2*padding
         ;
 
         var xAxis = d3.scale.linear()
             .domain([0, data.length])
-            .range([padding, padding + width])
+            .range([padding, 500])
         ;
 
         var yAxis = d3.scale.linear()
@@ -49,8 +49,18 @@
             })
         ;
 
-        commits.enter()
-            .append('circle')
+        var g = commits.enter().append('g');
+
+        g.append('text')
+            .attr('transform', function (node) {
+                return "translate(" + xAxis(node.x+1) + "," + yAxis(node.y) + ")";
+            })
+            .text(function (node) {
+                return node.short_message;
+            })
+        ;
+
+        g.append('circle')
             .attr('cx', function (node) {
                 return xAxis(node.x);
             })
@@ -68,43 +78,72 @@
             .style('fill', 'none')
 
         function commit_graph(commits) {
-            var nodes = [],
-                links = [],
-                commit
+            var positions = {},
+                position,
+                link
             ;
 
-            for (i in commits) {
-                commit = commits[i];
+            commits.forEach(function (commit, i) {
+                commits[i].x = i;
+                commits[i].y = i;
+                commits[i].children = [];
+                positions[commit.hash] = i;
+            });
 
-                nodes.push({
-                    x: i,
-                    y: i
+            commits.forEach(function (commit, i) {
+                commit.parents.forEach(function (parent) {
+                    if (positions[parent] == undefined) {
+                        return;
+                    }
+
+                    position = positions[parent];
+                    commits[position].children.push(commit.hash);
                 });
+            });
 
-                if (i > 0) {
-                    links.push([
-                        {
-                            x: i - 1,
-                            y: i - 1
-                        },
-                        {
-                            x: i,
-                            y: i - 1
-                        },
-                        {
-                            x: i,
-                            y: i
-                        }
-                    ]);
+            function createParentLink(from, to) {
+                link = [];
+                link.push({
+                    x: commits[positions[from]].x,
+                    y: commits[positions[from]].y
+                });
+                if (positions[to] == undefined) {
+                    link.push({
+                        x: commits[positions[from]].x,
+                        y: 10000
+                    });
+                } else {
+                    link.push({
+                        x: commits[positions[from]].x,
+                        y: commits[positions[to]].y
+                    });
+                    link.push({
+                        x: commits[positions[to]].x,
+                        y: commits[positions[to]].y
+                    });
                 }
-            }
+
+                return link;
+            };
 
             return {
                 nodes: function () {
-                    return nodes;
+
+                    return commits;
                 },
 
                 links: function () {
+                    links = [];
+
+                    for (i in commits) {
+                        commit = commits[i];
+                        hash = commit.hash;
+
+                        commit.parents.forEach(function (parent) {
+                            links.push(createParentLink(hash, parent));
+                        });
+                    }
+
                     return links;
                 }
             };

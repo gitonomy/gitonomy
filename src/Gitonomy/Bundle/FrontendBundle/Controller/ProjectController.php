@@ -42,15 +42,16 @@ class ProjectController extends BaseController
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
             ->getLog($reference)
-            ->setLimit(50)
+            ->setLimit(60)
             ->getCommits()
         ;
 
         $data = array();
         foreach ($commits as $commit) {
             $data[] = array(
-                'hash' => $commit->getHash(),
-                'parents' => $commit->getParentHashes()
+                'hash'          => $commit->getHash(),
+                'short_message' => $commit->getShortMessage(),
+                'parents'       => $commit->getParentHashes()
             );
         }
 
