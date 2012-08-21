@@ -6,20 +6,20 @@
     <script>
         data = {{ data|json_encode|raw }};
 
-        var line_height = 15,
-            padding     = 10,
-            height      = data.length * line_height + 2*padding,
-            width       = 900 + 2*padding
+        var cell_size = 21.5,
+            height = data.length * cell_size,
+            width  = $("#history").width(),
+            cell_width = Math.floor(width/cell_size)
         ;
 
         var xAxis = d3.scale.linear()
-            .domain([0, 50])
-            .range([padding, 500])
+            .domain([0, cell_width])
+            .range([width - cell_size/2, cell_size/2])
         ;
 
         var yAxis = d3.scale.linear()
             .domain([0, data.length])
-            .range([padding, height - 2*padding])
+            .range([cell_size/2, height - cell_size/2])
         ;
 
         var history = d3.select("#history")
@@ -50,15 +50,6 @@
         ;
 
         var g = commits.enter().append('g');
-
-        g.append('text')
-            .attr('transform', function (node) {
-                return "translate(" + xAxis(node.x + 3) + "," + yAxis(node.y) + ")";
-            })
-            .text(function (node) {
-                return node.weight + " - " + node.short_message;
-            })
-        ;
 
         g.append('circle')
             .attr('cx', function (node) {
@@ -227,7 +218,41 @@
     </div>
     {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'history', reference: reference } %}
     <div class="page-header">
-        <h2>History</h2>
+        <h2>
+            History
+            {% if reference != null %}
+                <small>
+                    {{ reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
+                </small>
+            {% else %}
+            {% endif %}
+        </h2>
     </div>
-    <div id="history"></div>
+    <div class="row">
+        <div class="span2">
+            <div id="history">
+            </div>
+        </div>
+        <div class="span14">
+            <table class="commit-list">
+                <tbody>
+                    {% for i, commit in commits %}
+                        <tr>
+                            <td class="message">
+                                {% for branch in data[i].branches %}
+                                    <span class="label label-success">{{ branch }}</span>
+                                {% endfor %}
+                                <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                                    {{ commit.shortMessage }}
+                                </a>
+                            </td>
+                            <td class="author">
+                                {{ commit.authorName }}
+                                <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 {% endblock %}

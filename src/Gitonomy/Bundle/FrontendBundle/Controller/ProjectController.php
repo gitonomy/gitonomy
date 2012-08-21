@@ -36,13 +36,18 @@ class ProjectController extends BaseController
     public function historyAction(Request $request, $slug)
     {
         $project = $this->getProject($slug);
-        $reference = $request->query->get('reference', 'master');
+        $reference = $request->query->get('reference');
 
-        $commits = $this
+        $repository = $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
+        ;
+
+        $references = $repository->getReferences();
+
+        $commits = $repository
             ->getLog($reference)
-            ->setLimit(300)
+            ->setLimit(50)
             ->getCommits()
         ;
 
@@ -51,13 +56,16 @@ class ProjectController extends BaseController
             $data[] = array(
                 'hash'          => $commit->getHash(),
                 'short_message' => $commit->getShortMessage(),
-                'parents'       => $commit->getParentHashes()
+                'parents'       => $commit->getParentHashes(),
+                'tags'          => $references->resolveTags($commit->getHash()),
+                'branches'      => $references->resolveBranches($commit->getHash()),
             );
         }
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'   => $project,
             'reference' => $reference,
+            'commits'   => $commits,
             'data'      => $data
         ));
     }

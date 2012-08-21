@@ -21,17 +21,19 @@ input[type="checkbox"]
 
 .commit-list > tbody > tr > td
 {
-    padding: 4px;
+    padding: 0 5px;
 }
 
 .commit-list > tbody > tr > td.message > a
 {
+    font-size: 12px;
     color: black;
     font-family: Monaco, "Liberation Mono", Courier, monospace;
 }
 
 .commit-list > tbody > tr > td.author
 {
+    font-size: 12px;
     text-align: right;
     font-weight: bold;
 }

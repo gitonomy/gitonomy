@@ -76,6 +76,36 @@ class ReferenceBag
         return $this->references[$fullname];
     }
 
+    public function resolveTags($hash)
+    {
+        $this->initialize();
+
+        $tags = array();
+        foreach ($this->references as $k => $reference) {
+            if ($reference instanceof Reference\Tag && $reference->getCommitHash() === $hash)
+            {
+                $tags[] = $reference->getName();
+            }
+        }
+
+        return $tags;
+    }
+
+    public function resolveBranches($hash)
+    {
+        $this->initialize();
+
+        $tags = array();
+        foreach ($this->references as $k => $reference) {
+            if ($reference instanceof Reference\Branch && $reference->getCommitHash() === $hash)
+            {
+                $tags[] = $reference->getName();
+            }
+        }
+
+        return $tags;
+    }
+
     /**
      * Returns all tags.
      *
@@ -137,6 +167,11 @@ class ReferenceBag
 
     protected function initialize()
     {
+        if (true === $this->initialized) {
+            return;
+        }
+        $this->initialized = true;
+
         ob_start();
         system(sprintf(
             'cd %s && git show-ref --tags --heads',

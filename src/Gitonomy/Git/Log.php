@@ -43,12 +43,12 @@ class Log
     {
         ob_start();
         $cmd = sprintf(
-            'cd %s && git log --format="format:%s" %s %s',
+            'cd %s && git log --format="format:%s" %s %s %s',
             escapeshellarg($this->repository->getPath()),
             '%H',
             null !== $this->offset ? '--skip='.((int) $this->offset) : '',
             null !== $this->limit ? '-n '.((int) $this->limit) : '',
-            escapeshellarg($this->revisions)
+            null !== $this->revisions ? escapeshellarg($this->revisions) : '--all'
         );
         system($cmd, $result);
 
