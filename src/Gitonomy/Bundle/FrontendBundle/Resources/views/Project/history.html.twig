@@ -12,12 +12,12 @@
             width       = 900 + 2*padding
         ;
 
-        var xAxis = d3.scale.pow().exponent(2)
-            .domain([0, data.length])
+        var xAxis = d3.scale.linear()
+            .domain([0, 50])
             .range([padding, 500])
         ;
 
-        var yAxis = d3.scale.pow().exponent(.7)
+        var yAxis = d3.scale.linear()
             .domain([0, data.length])
             .range([padding, height - 2*padding])
         ;
@@ -51,14 +51,14 @@
 
         var g = commits.enter().append('g');
 
-        //g.append('text')
-        //    .attr('transform', function (node) {
-        //        return "translate(" + xAxis(node.x+1) + "," + yAxis(node.y) + ")";
-        //    })
-        //    .text(function (node) {
-        //        return node.short_message;
-        //    })
-        //;
+        g.append('text')
+            .attr('transform', function (node) {
+                return "translate(" + xAxis(node.x+15) + "," + yAxis(node.y) + ")";
+            })
+            .text(function (node) {
+                return node.weight + " - " + node.short_message;
+            })
+        ;
 
         g.append('circle')
             .attr('cx', function (node) {
@@ -85,7 +85,7 @@
             ;
 
             commits.forEach(function (commit, i) {
-                commits[i].x = i;
+                commits[i].x = Math.round(Math.random()*10);
                 commits[i].y = i;
                 commits[i].children = [];
                 positions[commit.hash] = i;
@@ -100,6 +100,29 @@
                     position = positions[parent];
                     commits[position].children.push(commit.hash);
                 });
+            });
+
+            function computeWeight(hash) {
+                if (positions[hash] == undefined) {
+                    return 1;
+                }
+
+                if (commits[positions[hash]].weight != undefined) {
+                    return commits[positions[hash]].weight;
+                }
+
+                var weight = 1;
+                commits[positions[hash]].parents.forEach(function (parent) {
+                    weight = Math.max(weight, computeWeight(parent) + 1);
+                });
+
+                commits[positions[hash]].weight = weight;
+
+                return weight;
+            };
+
+            commits.forEach(function (commit, i) {
+                computeWeight(commit.hash);
             });
 
             function createParentLink(from, to) {
