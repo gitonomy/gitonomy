@@ -42,7 +42,7 @@ class ProjectController extends BaseController
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
             ->getLog($reference)
-            ->setLimit(10000)
+            ->setLimit(300)
             ->getCommits()
         ;
 
