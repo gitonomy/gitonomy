@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
+use Gitonomy\Component\Git\Graph\Map;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
 
@@ -30,6 +31,51 @@ class ProjectController extends BaseController
             'project'   => $project,
             'reference' => $reference
         ));
+    }
+
+    public function historyAction(Request $request, $slug)
+    {
+        $project = $this->getProject($slug);
+        $reference = $request->query->get('reference');
+
+        $repository = $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
+        ;
+
+        $references = $repository->getReferences();
+
+        $commits = $repository
+            ->getLog($reference)
+            ->setLimit(50)
+            ->getCommits()
+        ;
+
+        $data = array();
+        foreach ($commits as $commit) {
+            $data[] = array(
+                'hash'          => $commit->getHash(),
+                'short_message' => $commit->getShortMessage(),
+                'parents'       => $commit->getParentHashes(),
+                'tags'          => $references->resolveTags($commit->getHash()),
+                'branches'      => $references->resolveBranches($commit->getHash()),
+            );
+        }
+
+        return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
+            'project'   => $project,
+            'reference' => $reference,
+            'commits'   => $commits,
+            'data'      => $data
+        ));
+    }
+
+    private function getInfos($commit)
+    {
+        return array(
+            'id'      => substr($commit->getHash(), 0, 12),
+            'message' => $commit->getShortMessage()
+        );
     }
 
     /**

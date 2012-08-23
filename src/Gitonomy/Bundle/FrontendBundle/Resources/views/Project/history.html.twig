@@ -1,0 +1,124 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title project.name %}
+
+{% block content_javascript %}
+    {% javascripts output="history.js"
+        "@GitonomyFrontendBundle/Resources/public/js/history.js"
+    %}
+    <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+    {% endjavascripts %}
+    <script>
+        var data = {{ data|json_encode|raw }};
+
+        var cell_size = 21.5,
+            height = data.length * cell_size,
+            width  = $("#history").width(),
+            cell_width = Math.floor(width/cell_size)
+        ;
+
+        var xAxis = d3.scale.linear()
+            .domain([0, cell_width])
+            .range([width - cell_size/2, cell_size/2])
+        ;
+
+        var yAxis = d3.scale.linear()
+            .domain([0, data.length])
+            .range([cell_size/2, height - cell_size/2])
+        ;
+
+        var history = d3.select("#history")
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+        ;
+
+        var graph = history_graph(data);
+
+        var commits = history
+            .selectAll('circle')
+            .data(graph.nodes)
+        ;
+
+        var links = history
+            .selectAll('path')
+            .data(graph.links)
+        ;
+
+        var commit_line = d3.svg.line()
+            .x(function (d) {
+                return xAxis(d.x);
+            })
+            .y(function (d) {
+                return yAxis(d.y);
+            })
+        ;
+
+        var g = commits.enter().append('g');
+
+        g.append('circle')
+            .attr('cx', function (node) {
+                return xAxis(node.x);
+            })
+            .attr('cy', function (node) {
+                return yAxis(node.y);
+            })
+            .attr('r', 4)
+        ;
+
+        links.enter()
+            .append('path')
+            .attr('d', commit_line)
+            .style('stroke', 'black')
+            .style('stroke-width', '1')
+            .attr('radius', 0.1)
+            .style('fill', 'none')
+        ;
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'history', reference: reference } %}
+    <div class="page-header">
+        <h2>
+            History
+            {% if reference != null %}
+                <small>
+                    {{ reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
+                </small>
+            {% else %}
+            {% endif %}
+        </h2>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <div id="history">
+            </div>
+        </div>
+        <div class="span14">
+            <table class="commit-list">
+                <tbody>
+                    {% for i, commit in commits %}
+                        <tr>
+                            <td class="message">
+                                {% for branch in data[i].branches %}
+                                    <span class="label label-success">{{ branch }}</span>
+                                {% endfor %}
+                                <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                                    {{ commit.shortMessage }}
+                                </a>
+                            </td>
+                            <td class="author">
+                                {{ commit.authorName }}
+                                <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

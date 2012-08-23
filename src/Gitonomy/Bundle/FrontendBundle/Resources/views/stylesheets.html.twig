@@ -1,2 +1,6 @@
-<link rel="stylesheet" href="{{ asset('bundles/gitonomyfrontend/css/twitter-bootstrap.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/gitonomyfrontend/css/main.css') }}" />
+{% stylesheets output="all.css"
+"@GitonomyFrontendBundle/Resources/public/css/twitter-bootstrap.min.css"
+"@GitonomyFrontendBundle/Resources/public/css/main.css"
+%}
+<link rel="stylesheet" href="{{ asset(asset_url) }}" />
+{% endstylesheets %}

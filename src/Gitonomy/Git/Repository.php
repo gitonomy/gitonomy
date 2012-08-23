@@ -110,7 +110,7 @@ class Repository
         return $this->objects[$hash];
     }
 
-    public function getLog($reference)
+    public function getLog($reference = null)
     {
         return new Log($this, $reference);
     }

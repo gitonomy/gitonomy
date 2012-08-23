@@ -66,6 +66,11 @@ abstract class Reference
         return $this->repository->getCommit($this->commitHash);
     }
 
+    public function getCommitHash()
+    {
+        return $this->commitHash;
+    }
+
     /**
      * Returns the last modification date of the reference.
      *
