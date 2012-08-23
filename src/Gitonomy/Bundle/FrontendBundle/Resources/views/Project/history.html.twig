@@ -11,7 +11,7 @@
     <script>
         var data = {{ data|json_encode|raw }};
 
-        var cell_size = 21,
+        var cell_size = 21.5,
             height = data.length * cell_size,
             width  = $("#history").width(),
             cell_width = Math.floor(width/cell_size)
@@ -54,6 +54,16 @@
             })
         ;
 
+
+        links.enter()
+            .append('path')
+            .attr('d', commit_line)
+            .style('stroke', '#f2a3b8')
+            .style('stroke-width', '6')
+            .attr('radius', 0.1)
+            .style('fill', 'none')
+        ;
+
         var g = commits.enter().append('g');
 
         g.append('circle')
@@ -64,15 +74,9 @@
                 return yAxis(node.y);
             })
             .attr('r', 4)
-        ;
-
-        links.enter()
-            .append('path')
-            .attr('d', commit_line)
+            .attr('fill', 'white')
             .style('stroke', 'black')
-            .style('stroke-width', '1')
-            .attr('radius', 0.1)
-            .style('fill', 'none')
+            .style('stroke-width', '2')
         ;
 
     </script>
