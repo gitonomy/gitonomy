@@ -47,7 +47,7 @@ class ProjectController extends BaseController
 
         $commits = $repository
             ->getLog($reference)
-            ->setLimit(50)
+            ->setLimit($request->query->get('limit', 50))
             ->getCommits()
         ;
 
