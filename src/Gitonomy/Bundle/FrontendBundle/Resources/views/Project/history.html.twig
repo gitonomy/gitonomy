@@ -11,7 +11,7 @@
     <script>
         var data = {{ data|json_encode|raw }};
 
-        var cell_size = 21.5,
+        var cell_size = 21,
             height = data.length * cell_size,
             width  = $("#history").width(),
             cell_width = Math.floor(width/cell_size)
