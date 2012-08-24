@@ -25,7 +25,8 @@ class PermissionCheckCommand extends ContainerAwareCommand
         $this
             ->setName('gitonomy:permission-check')
             ->addArgument('username', InputArgument::REQUIRED, 'Username')
-            ->addArgument('permission', InputArgument::REQUIRED, 'Slug of the project')
+            ->addArgument('permission', InputArgument::REQUIRED, 'Name of permission')
+            ->addArgument('reference', InputArgument::REQUIRED, 'Reference of permission to check against')
             ->addOption('project', null, InputOption::VALUE_OPTIONAL, 'If it\'s a project permission, indicate the project')
             ->setDescription('Tests a permission and returns 0 if OK, 1 otherwise')
             ->setHelp(<<<EOF
@@ -35,9 +36,9 @@ You can specify a project with <info>--project</info> option.
 
 <comment>Sample usages</comment>
 
-  > php app/console gitonomy:permission-check --project=foo alice GIT_WRITE
+  > php app/console gitonomy:permission-check --project=foo alice GIT_WRITE refs/head/my-branch
 
-    Tests if alice can write on Git repository of foo project.
+    Tests if alice can push to the branch "my-branch".
 
 EOF
             )

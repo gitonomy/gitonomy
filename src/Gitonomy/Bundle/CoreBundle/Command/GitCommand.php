@@ -35,8 +35,8 @@ class GitCommand extends ContainerAwareCommand
 The <info>gitonomy:git</info> command wraps Git to check the authorizations of
 the user passed as argument.
 
-This commands only works properly is called via SSH. It's configured via the
-<info>authorized_keys</info> file, containing lines like:
+It is meant to be called with environment variable SSH_ORIGINAL_COMMAND. It's
+configured via the <info>authorized_keys</info> file, containing lines like:
 
   > <comment>command="php app/console gitonomy:git alex" <SSH-KEY></comment>
 

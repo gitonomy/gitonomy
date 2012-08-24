@@ -78,13 +78,6 @@ function history_graph(commits) {
 
         var parents = commit.parents;
 
-        parents.sort(function (left, right) {
-            var leftWeight  = commits[positions[left]]  == undefined ? 1 : commits[positions[left]].weight;
-            var rightWeight = commits[positions[right]] == undefined ? 1 : commits[positions[right]].weight;
-
-            return rightWeight - leftWeight;
-        });
-
         parents.forEach(function (parent) {
             if (positions[parent] == undefined) {
                 return;
