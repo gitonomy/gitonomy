@@ -11,43 +11,23 @@ command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/conso
 
 check_reference()
 {
-	before="$(git rev-parse $1)"
-	after="$(git rev-parse $2)"
-	reference="$3"
+	BEFORE="$(git rev-parse $1)"
+	AFTER="$(git rev-parse $2)"
+	REFERENCE="$3"
 
-	case "$reference" in
-		refs/heads/*)
-			branch=$(expr "$reference" : "refs/heads/\(.*\)")
-			if [ "$after" = "0000000000000000000000000000000000000000" ]; then
-                GITONOMY_REQUEST="GIT_DELETE"
-			else
-    			if [ "$before" = "0000000000000000000000000000000000000000" ]; then
-                        GITONOMY_REQUEST="GIT_WRITE"
-                else
-                    if [ "$before" != "$(git merge-base $before $after)" ]; then
-                        GITONOMY_REQUEST="GIT_FORCE"
-                    else
-                        GITONOMY_REQUEST="GIT_WRITE"
-                    fi
-                fi
-			fi
-			;;
-		refs/tags/*)
-		    tag=$(expr "$reference" : "refs/tags/\(.*\)")
-			topictag=$(expr "$tag" : "\(.*/.*\)")
-			if [ 0 -ne $(expr "$after" : "0*$") ]; then
-                GITONOMY_REQUEST="GIT_DELETE"
-			fi
-			;;
-		*)
-			echo >&2 "Woops, I don't understand what you're meaning..."
-            exit 1
-			;;
-	esac
+	if [ "$AFTER" = "0000000000000000000000000000000000000000" ]; then
+        REQUEST="GIT_DELETE"
+    else if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+        REQUEST="GIT_WRITE"
+    else if[ "$BEFORE" != "$(git merge-base $BEFORE $AFTER)" ]; then
+        REQUEST="GIT_FORCE"
+    else
+        REQUEST="GIT_WRITE"
+    fi
 
-    $command gitonomy:permission-check --project="$GITONOMY_PROJECT" "$GITONOMY_USER" "$GITONOMY_REQUEST"
+    $command gitonomy:permission-check --project="$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE"
     if [ "$?" != 0 ]; then
-        echo  >&2 "Permission denied"
+        echo  >&2 "Computer says no"
         exit 1
     fi
 }
