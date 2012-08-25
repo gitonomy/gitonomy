@@ -15,10 +15,7 @@ fi
 ./app/console gitonomy:user-ssh-key-create $username "Autokey" "`cat ~/.ssh/id_rsa.pub`"
 ./app/console gitonomy:authorized-keys -i | tee ~/.ssh/authorized_keys
 
-./app/console gitonomy:user-role-create julien "Lead developer" gitonomy
-./app/console gitonomy:user-role-create alex   "Lead developer" gitonomy
-./app/console gitonomy:user-role-create julien "Lead developer" symfony
-./app/console gitonomy:user-role-create alex   "Lead developer" symfony
-./app/console gitonomy:user-role-create julien "Lead developer" empty
-./app/console gitonomy:user-role-create alex   "Lead developer" empty
-
+for project in gitonomy symfony empty foobar; do
+    ./app/console gitonomy:user-role-create julien "Lead developer" $project
+    ./app/console gitonomy:user-role-create alex   "Lead developer" $project
+done

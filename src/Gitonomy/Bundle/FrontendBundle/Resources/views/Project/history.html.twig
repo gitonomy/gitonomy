@@ -70,6 +70,8 @@
             cell_width = Math.floor(width/cell_size)
         ;
 
+        var familyColor = d3.scale.category20();
+
         var xAxis = d3.scale.linear()
             .domain([0, cell_width])
             .range([width - cell_size/2, cell_size/2])
@@ -111,7 +113,9 @@
         links.enter()
             .append('path')
             .attr('d', commit_line)
-            .style('stroke', '#f2a3b8')
+            .style('stroke', function (path) {
+                return familyColor(path[0].family);
+            })
             .style('stroke-width', '6')
             .attr('radius', 0.1)
             .style('fill', 'none')
