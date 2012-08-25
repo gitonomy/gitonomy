@@ -13,6 +13,7 @@ use Gitonomy\Component\Git\Graph\Map;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
 use Gitonomy\Git\Repository;
+use Gitonomy\Git\Reference;
 
 /**
  * Controller for project displaying.
@@ -27,14 +28,31 @@ class ProjectController extends BaseController
     public function showAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference', 'master');
+        $reference  = $request->query->get('reference');
         $repository = $this->getGitRepository($project);
+
+
+        $references = $repository->getReferences();
+
+        if (null !== $reference) {
+            $master = $references->getBranch($reference);
+            $activity = $this->getBranchesActivity($repository, $master);
+        } elseif ($references->hasBranches()) {
+            $master = $references->getBranch('master');
+            $reference = 'master';
+            $activity = $this->getBranchesActivity($repository, $master);
+        } else {
+            return $this->render('GitonomyFrontendBundle:Project:showEmpty.html.twig', array(
+                'project' => $project
+            ));
+        }
+
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project'           => $project,
             'repository'        => $repository,
             'reference'         => $reference,
-            'branches_activity' => $this->getBranchesActivity($repository, $reference)
+            'branches_activity' => $activity
         ));
     }
 
@@ -180,19 +198,18 @@ class ProjectController extends BaseController
         return $project;
     }
 
-    protected function getBranchesActivity(Repository $repository, $reference)
+    protected function getBranchesActivity(Repository $repository, Reference $against)
     {
-        $references = $repository->getReferences();
-        $master = $references->getBranch($reference);
-
         $rows = array();
+        $references = $repository->getReferences();
+
         foreach ($references->getBranches() as $branch) {
-            if ($branch == $master) {
+            if ($branch == $against) {
                 continue;
             }
 
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$master->getFullname());
-            $logAbove = $repository->getLog($master->getFullname().'..'.$branch->getFullname());
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
+            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
 
             $rows[] = array(
                 'branch'           => $branch,

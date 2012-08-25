@@ -46,11 +46,31 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
+    public function testShowEmpty()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/project/empty');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     public function testHistory()
     {
         $this->client->connect('alice');
 
         $crawler  = $this->client->request('GET', '/en_US/project/foobar/history?reference=master');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testHistoryEmpty()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/project/empty/history');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());

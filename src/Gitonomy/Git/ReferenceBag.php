@@ -2,12 +2,14 @@
 
 namespace Gitonomy\Git;
 
+use Gitonomy\Git\Exception\ReferenceNotFoundException;
+
 /**
  * Reference set associated to a repository.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class ReferenceBag
+class ReferenceBag implements \Countable
 {
     /**
      * Repository object.
@@ -70,10 +72,25 @@ class ReferenceBag
         $this->initialize();
 
         if (!isset($this->references[$fullname])) {
-            throw new \RuntimeException(sprintf('Reference "%s" not found', $fullname));
+            throw new ReferenceNotFoundException($fullname);
         }
 
         return $this->references[$fullname];
+    }
+
+    public function hasBranches()
+    {
+        $this->initialize();
+
+        return count($this->branches) > 0;
+    }
+
+    public function getFirstBranch()
+    {
+        $this->initialize();
+        reset($this->branches);
+
+        return current($this->references);
     }
 
     public function resolveTags($hash)
@@ -179,7 +196,7 @@ class ReferenceBag
         ), $return);
         $result = ob_get_clean();
 
-        if (0 !== $return) {
+        if (0 !== $return && $result != "") {
             throw new \RuntimeException('Error while getting list of references');
         }
 
@@ -203,5 +220,10 @@ class ReferenceBag
         }
 
         return $result;
+    }
+
+    public function count()
+    {
+        return $this->references;
     }
 }

@@ -58,6 +58,9 @@ class Log
 
         $result = array();
         foreach ($exp as $hash) {
+            if ($hash == '') {
+                continue;
+            }
             $result[] = $this->repository->getCommit($hash);
         }
 

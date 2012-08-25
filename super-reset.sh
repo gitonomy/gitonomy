@@ -19,5 +19,6 @@ fi
 ./app/console gitonomy:user-role-create alex   "Lead developer" gitonomy
 ./app/console gitonomy:user-role-create julien "Lead developer" symfony
 ./app/console gitonomy:user-role-create alex   "Lead developer" symfony
-
+./app/console gitonomy:user-role-create julien "Lead developer" empty
+./app/console gitonomy:user-role-create alex   "Lead developer" empty
 
