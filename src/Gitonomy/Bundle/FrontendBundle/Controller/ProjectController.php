@@ -88,11 +88,10 @@ class ProjectController extends BaseController
         ));
     }
 
-    public function showLastCommitsAction(Request $request, $slug)
+    public function showLastCommitsAction(Request $request, $slug, $reference)
     {
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
-        $reference  = $request->query->get('reference', 'master');
 
         $log = $repository->getLog($reference);
 

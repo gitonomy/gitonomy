@@ -6,13 +6,17 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
+    {% set history_reference = reference %}
+    {% if reference == null %}
+        {% set reference = "master" %}
+    {% endif %}
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
     <div class="page-header">
         <h2>
             History
-            {% if reference != null %}
+            {% if history_reference != null %}
                 <small>
-                    {{ reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
+                    {{ history_reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
                 </small>
             {% else %}
             {% endif %}
