@@ -2,6 +2,51 @@
 
 {% block title project.name %}
 
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
+    <div class="page-header">
+        <h2>
+            History
+            {% if reference != null %}
+                <small>
+                    {{ reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
+                </small>
+            {% else %}
+            {% endif %}
+        </h2>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <div id="history">
+            </div>
+        </div>
+        <div class="span14">
+            <table class="commit-list">
+                <tbody>
+                    {% for i, commit in commits %}
+                        <tr>
+                            <td class="message">
+                                {% for branch in data[i].branches %}
+                                    <span class="label label-success">{{ branch }}</span>
+                                {% endfor %}
+                                <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                                    {{ commit.shortMessage }}
+                                </a>
+                            </td>
+                            <td class="author">
+                                {{ commit.authorName }}
+                                <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
+
 {% block content_javascript %}
     {% javascripts output="history.js"
         "@GitonomyFrontendBundle/Resources/public/js/history.js"
@@ -80,49 +125,4 @@
         ;
 
     </script>
-{% endblock %}
-
-{% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'history', reference: reference } %}
-    <div class="page-header">
-        <h2>
-            History
-            {% if reference != null %}
-                <small>
-                    {{ reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
-                </small>
-            {% else %}
-            {% endif %}
-        </h2>
-    </div>
-    <div class="row">
-        <div class="span2">
-            <div id="history">
-            </div>
-        </div>
-        <div class="span14">
-            <table class="commit-list">
-                <tbody>
-                    {% for i, commit in commits %}
-                        <tr>
-                            <td class="message">
-                                {% for branch in data[i].branches %}
-                                    <span class="label label-success">{{ branch }}</span>
-                                {% endfor %}
-                                <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                                    {{ commit.shortMessage }}
-                                </a>
-                            </td>
-                            <td class="author">
-                                {{ commit.authorName }}
-                                <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
 {% endblock %}

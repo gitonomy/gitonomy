@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'project', reference: reference } %}
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'project'} %}
     <div class="row">
         <div class="span6">
             <div class="page-header">

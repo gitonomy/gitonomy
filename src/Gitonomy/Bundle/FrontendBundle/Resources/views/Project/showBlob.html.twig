@@ -1,0 +1,14 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block title project.name %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
+    <div class="page-header">
+        <h2>Source</h2>
+    </div>
+    <pre>{{ blob.content }}</pre>
+{% endblock %}

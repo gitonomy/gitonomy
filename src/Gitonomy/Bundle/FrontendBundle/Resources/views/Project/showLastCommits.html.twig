@@ -6,9 +6,42 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockNavigation" with {slug: project.slug, active: 'commits', reference: reference } %}
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'commits'} %}
     <div class="page-header">
         <h2>Last commits on {{ reference }}</h2>
     </div>
-    {% render "GitonomyFrontendBundle:Project:blockCommitHistory" with {'slug': project.slug, 'reference': reference, page: page } %}
+    {% set commits = pager.iterator %}
+    {% if pager.pageCount > 1 %}
+        <div class="pagination">
+            <ul>
+                <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
+                    <a title="Previous page of commits" href="?page=1">«</a>
+                </li>
+                {% set lastPage = pager.lastPage %}
+                {% for curPage in 1..pager.pageCount if (curPage - page)|abs < 8 %}
+                    <li{% if curPage == page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}">{{ curPage }}</a></li>
+                {% endfor %}
+                <li{% if pager.isLastPage %} class="disabled"{% endif %}>
+                    <a href="?page={{ pager.pageCount }}">»</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+    <table class="commit-list">
+        <tbody>
+            {% for commit in commits %}
+                <tr>
+                    <td class="message">
+                        <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            {{ commit.shortMessage }}
+                        </a>
+                    </td>
+                    <td class="author">
+                        {{ commit.authorName }}
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

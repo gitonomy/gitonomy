@@ -31,9 +31,9 @@ class ProjectController extends BaseController
         $repository = $this->getGitRepository($project);
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
-            'project'    => $project,
-            'repository' => $repository,
-            'reference'  => $reference,
+            'project'           => $project,
+            'repository'        => $repository,
+            'reference'         => $reference,
             'branches_activity' => $this->getBranchesActivity($repository, $reference)
         ));
     }
@@ -63,35 +63,11 @@ class ProjectController extends BaseController
         };
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
-            'project'   => $project,
-            'reference' => $reference,
-            'commits'   => $commits,
-            'data'      => array_map($convert, $commits)
-        ));
-    }
-
-    /**
-     * Displays the last commits
-     */
-    public function showLastCommitsAction(Request $request, $slug, $reference)
-    {
-        $project = $this->getProject($slug);
-
-        return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
-            'project'   => $project,
-            'reference' => $reference,
-            'page'      => $request->query->get('page', 1)
-        ));
-    }
-
-    public function showTreeAction($slug, $reference, $path)
-    {
-        $project = $this->getProject($slug);
-
-        return $this->render('GitonomyFrontendBundle:Project:showTree.html.twig', array(
-            'project'   => $project,
-            'reference' => $reference,
-            'path'      => $path
+            'project'    => $project,
+            'reference'  => $reference,
+            'repository' => $repository,
+            'commits'    => $commits,
+            'data'       => array_map($convert, $commits)
         ));
     }
 
@@ -100,78 +76,50 @@ class ProjectController extends BaseController
      */
     public function showCommitAction($slug, $hash)
     {
-        $project = $this->getProject($slug);
-
-        $commit = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-            ->getCommit($hash)
-        ;
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $commit     = $repository->getCommit($hash);
 
         return $this->render('GitonomyFrontendBundle:Project:showCommit.html.twig', array(
-            'project' => $project,
-            'commit'  => $commit
-        ));
-    }
-
-    public function blockNavigationAction($slug, $active, $reference)
-    {
-        $project = $this->getProject($slug);
-
-        $repository = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-        ;
-
-        return $this->render('GitonomyFrontendBundle:Project:blockNavigation.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
-            'reference'  => $reference,
-            'active'     => $active
+            'reference'  => $hash,
+            'commit'     => $commit
         ));
     }
 
-    /**
-     * Displays last commit of a project.
-     *
-     * @todo Separate two cases: the requested revision does not exists and no commit.
-     */
-    public function blockCommitHistoryAction($slug, $reference = 'master', $perPage = 50, $page = 0)
+    public function showLastCommitsAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $reference  = $request->query->get('reference', 'master');
 
-        $log = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-            ->getLog($reference)
-        ;
+        $log = $repository->getLog($reference);
 
         $pager = new Pager(new GitLogAdapter($log));
-        $pager->setPerPage((int) min(50, $perPage));
-        $pager->setPage((int) $page);
+        $pager->setPerPage(50);
+        $pager->setPage($page = $request->query->get('page', 1));
 
-        return $this->render('GitonomyFrontendBundle:Project:blockCommitHistory.html.twig', array(
-            'pager' => $pager,
-            'reference' => $reference,
-            'project' => $project,
-            'page' => $page
+        return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
+            'pager'      => $pager,
+            'reference'  => $reference,
+            'project'    => $project,
+            'repository' => $repository,
+            'page'       => $page
         ));
     }
 
     /**
      * Displays tree
      */
-    public function blockTreeAction($slug, $reference, $path)
+    public function showTreeAction($slug, $reference, $path)
     {
-        $project = $this->getProject($slug);
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
 
-        $revision = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-            ->getRevision($reference)
-        ;
-
+        $revision = $repository->getRevision($reference);
         $revision->getResolved();
+
         $commit = $revision->getCommit();
 
         $tree = $commit->getTree();
@@ -181,24 +129,23 @@ class ProjectController extends BaseController
 
         $element = $tree->resolvePath($path);
 
+        $parameters = array(
+            'reference'  => $reference,
+            'commit'     => $commit,
+            'project'    => $project,
+            'repository' => $repository,
+            'path'       => $path,
+        );
+
         if ($element instanceof Blob) {
-            return $this->render('GitonomyFrontendBundle:Project:blockBlob.html.twig', array(
-                'path'      => $path,
-                'reference' => $reference,
-                'blob'      => $element,
-                'project'   => $project
-            ));
+            $parameters['blob'] = $element;
+            $tpl = 'GitonomyFrontendBundle:Project:showBlob.html.twig';
         } elseif ($element instanceof Tree) {
-            return $this->render('GitonomyFrontendBundle:Project:blockTree.html.twig', array(
-                'commit'    => $commit,
-                'path'      => $path,
-                'reference' => $reference,
-                'tree'      => $element,
-                'project'   => $project
-            ));
+            $parameters['tree'] = $element;
+            $tpl = 'GitonomyFrontendBundle:Project:showTree.html.twig';
         }
 
-        throw new \RuntimeException(sprintf('Unable to render element of type "%s"', get_class($element)));
+        return $this->render($tpl, $parameters);
     }
 
     /**
@@ -232,5 +179,30 @@ class ProjectController extends BaseController
         }
 
         return $project;
+    }
+
+    protected function getBranchesActivity(Repository $repository, $reference)
+    {
+        $references = $repository->getReferences();
+        $master = $references->getBranch($reference);
+
+        $rows = array();
+        foreach ($references->getBranches() as $branch) {
+            if ($branch == $master) {
+                continue;
+            }
+
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$master->getFullname());
+            $logAbove = $repository->getLog($master->getFullname().'..'.$branch->getFullname());
+
+            $rows[] = array(
+                'branch'           => $branch,
+                'above'            => count($logAbove->getCommits()),
+                'behind'           => count($logBehind->getCommits()),
+                'lastModification' => $branch->getLastModification()
+            );
+        }
+
+        return $rows;
     }
 }
