@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Git;
 
+use Symfony\Component\Process\Process;
+
 use Gitonomy\Git\Exception\ReferenceNotFoundException;
 
 /**
@@ -189,19 +191,19 @@ class ReferenceBag implements \Countable
         }
         $this->initialized = true;
 
-        ob_start();
-        system(sprintf(
-            'cd %s && git show-ref --tags --heads',
-            escapeshellarg($this->repository->getPath())
-        ), $return);
-        $result = ob_get_clean();
+        $process = new Process('git show-ref --tags --heads');
+        $process->setWorkingDirectory($this->repository->getPath());
+        $process->run();
 
-        if (0 !== $return && $result != "") {
+        $output = $process->getOutput();
+        $error  = $process->getErrorOutput();
+
+        if ($output === '' && $error !== '' || !$process->isSuccessFul() && $error !== '') {
             throw new \RuntimeException('Error while getting list of references');
         }
 
         $parser = new Parser\ReferenceParser();
-        $parser->parse($result);
+        $parser->parse($output);
 
         foreach ($parser->references as $row) {
             list($commitHash, $fullname) = $row;
@@ -218,8 +220,6 @@ class ReferenceBag implements \Countable
                 throw new \RuntimeException(sprintf('Unable to parse "%s"', $fullname));
             }
         }
-
-        return $result;
     }
 
     public function count()
