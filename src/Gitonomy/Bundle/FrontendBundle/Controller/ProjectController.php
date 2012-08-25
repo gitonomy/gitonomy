@@ -40,15 +40,9 @@ class ProjectController extends BaseController
 
     public function historyAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
-        $reference = $request->query->get('reference');
-
-        $repository = $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-        ;
-
-        $references = $repository->getReferences();
+        $project    = $this->getProject($slug);
+        $reference  = $request->query->get('reference');
+        $repository = $this->getGitRepository($project);
 
         $commits = $repository
             ->getLog($reference)
@@ -57,22 +51,22 @@ class ProjectController extends BaseController
             ->getCommits()
         ;
 
-        $data = array();
-        foreach ($commits as $commit) {
-            $data[] = array(
+        $references = $repository->getReferences();
+        $convert = function ($commit) use ($references) {
+            return array(
                 'hash'          => $commit->getHash(),
                 'short_message' => $commit->getShortMessage(),
                 'parents'       => $commit->getParentHashes(),
                 'tags'          => $references->resolveTags($commit->getHash()),
                 'branches'      => $references->resolveBranches($commit->getHash()),
             );
-        }
+        };
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'   => $project,
             'reference' => $reference,
             'commits'   => $commits,
-            'data'      => $data
+            'data'      => array_map($convert, $commits)
         ));
     }
 
@@ -238,30 +232,5 @@ class ProjectController extends BaseController
         }
 
         return $project;
-    }
-
-    protected function getBranchesActivity(Repository $repository, $reference)
-    {
-        $references = $repository->getReferences();
-        $master = $references->getBranch($reference);
-
-        $rows = array();
-        foreach ($references->getBranches() as $branch) {
-            if ($branch == $master) {
-                continue;
-            }
-
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$master->getFullname());
-            $logAbove = $repository->getLog($master->getFullname().'..'.$branch->getFullname());
-
-            $rows[] = array(
-                'branch'           => $branch,
-                'above'            => count($logAbove->getCommits()),
-                'behind'           => count($logBehind->getCommits()),
-                'lastModification' => $branch->getLastModification()
-            );
-        }
-
-        return $rows;
     }
 }
