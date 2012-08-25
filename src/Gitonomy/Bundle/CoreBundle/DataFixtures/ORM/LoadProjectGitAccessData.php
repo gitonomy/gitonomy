@@ -14,18 +14,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Returns a verbose-less array with plan of project git accesses creation.
-     */
-    protected function getData()
-    {
-        return array(
-            array('foobar', 'lead-developer',  '*', true, true,  true),
-            array('foobar', 'developer',       '*', true, true,  false),
-            array('foobar', 'visitor',         '*', true, false, false),
-        );
-    }
-
-    /**
      * @inheritdoc
      */
     public function load(ObjectManager $manager)

@@ -15,24 +15,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Returns a verbose-less array with plan of userRole creation.
-     *
-     * @return array An array where is element is ('user-XXX', 'role-XXX', ?'project-XXX')
-     */
-    protected function getData()
-    {
-        return array(
-            // Foobar
-            array('user-lead',    'role-lead-developer',  'project-foobar'),
-            array('user-alice',   'role-developer',       'project-foobar'),
-            array('user-bob',     'role-developer',       'project-foobar'),
-            array('user-charlie', 'role-visitor',         'project-foobar'),
-            // Barbaz
-            array('user-alice', 'role-lead-developer', 'project-barbaz')
-        );
-    }
-
-    /**
      * @inheritdoc
      */
     public function load(ObjectManager $manager)
@@ -48,6 +30,7 @@ class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureI
 
         $foobar = $manager->merge($this->getReference('project-foobar'));
         $barbaz = $manager->merge($this->getReference('project-barbaz'));
+        $empty  = $manager->merge($this->getReference('project-empty'));
 
         $userRoleProjects = array(
             // foobar
@@ -58,6 +41,9 @@ class LoadUserRoleProjectData extends AbstractFixture implements OrderedFixtureI
 
             // barbaz
             new UserRoleProject($alice,    $barbaz, $lead),
+
+            // empty
+            new UserRoleProject($alice, $empty, $lead)
         );
 
         foreach ($userRoleProjects as $userRoleProject) {

@@ -23,6 +23,11 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
 
+        $empty = new Project('Empty', 'empty');
+        $empty->setRepositorySize(256);
+        $manager->persist($empty);
+        $this->setReference('project-empty', $empty);
+
         $barbaz = new Project('Barbaz', 'barbaz');
         $barbaz->setRepositorySize(352);
         $manager->persist($barbaz);

@@ -13,6 +13,7 @@ php app/console doctrine:fixtures:load
 rm -Rf app/cache/repositories
 git clone --bare sample/foobar/.git app/cache/repositories/foobar.git
 git clone --bare sample/barbaz/.git app/cache/repositories/barbaz.git
+git init --bare  app/cache/repositories/empty.git
 
 rm -Rf web/bundles
 php app/console assets:install --symlink web
