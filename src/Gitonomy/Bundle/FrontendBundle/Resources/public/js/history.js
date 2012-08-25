@@ -30,34 +30,10 @@ function history_graph(commits) {
         });
     });
 
-    // Weight computing
-    commits.forEach(function (commit, i) {
-        computeWeight(commit.hash);
-    });
-
     // Draw
     commits.forEach(function (commit, i) {
         matrix_draw(i);
     });
-
-    function computeWeight(hash) {
-        if (positions[hash] == undefined) {
-            return 1;
-        }
-
-        if (commits[positions[hash]].weight != undefined) {
-            return commits[positions[hash]].weight;
-        }
-
-        var weight = 1;
-        commits[positions[hash]].parents.forEach(function (parent) {
-            weight = Math.max(weight, computeWeight(parent) + 1);
-        });
-
-        commits[positions[hash]].weight = weight;
-
-        return weight;
-    };
 
     function matrix_hashHeight(position, hash) {
         var i = 0;
