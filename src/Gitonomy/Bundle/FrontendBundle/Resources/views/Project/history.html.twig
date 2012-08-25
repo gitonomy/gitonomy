@@ -113,6 +113,7 @@
         links.enter()
             .append('path')
             .attr('d', commit_line)
+            .style('stroke-linecap', 'round')
             .style('stroke', function (path) {
                 return familyColor(path[0].family);
             })
