@@ -59,6 +59,11 @@ class UserRoleProject
         $this->role = $role;
     }
 
+    public function isRole(Role $role)
+    {
+        return $this->role->getId() == $role->getId();
+    }
+
     /**
      * @return Project
      */

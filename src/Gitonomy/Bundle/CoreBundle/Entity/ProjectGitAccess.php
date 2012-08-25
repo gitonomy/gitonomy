@@ -4,6 +4,9 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 class ProjectGitAccess
 {
+    const WRITE_PERMISSION = 2;
+    const ADMIN_PERMISSION = 3;
+
     protected $id;
 
     /**
@@ -30,6 +33,40 @@ class ProjectGitAccess
         $this->isRead    = $isRead;
         $this->isWrite   = $isWrite;
         $this->isAdmin   = $isAdmin;
+    }
+
+    /**
+     * @param string $reference  Fully qualified reference name ("refs/heads/master")
+     * @param int    $permission Write or Admin permission (see self::*_PERMISSION)
+     */
+    public function isGranted(User $user, $reference, $permission)
+    {
+        $userRole = $this->project->getUserRole($user);
+
+        if (!$userRole->isRole($this->role)) {
+            return false;
+        }
+
+        return $this->matches($reference) && $this->verifyPermission($permission);
+    }
+
+    public function matches($reference)
+    {
+        $pattern = preg_quote($this->reference);
+        $pattern = str_replace('\*', '.*', $pattern);
+        $pattern = '/^refs\/(heads|tags)\/'.$pattern.'$/';
+
+        return 0 != preg_match($pattern, $reference);
+    }
+
+    public function verifyPermission($permission)
+    {
+        if ($permission === self::WRITE_PERMISSION) {
+            return $this->isWrite || $this->isAdmin;
+        } elseif ($permission === self::ADMIN_PERMISSION) {
+            return $this->isAdmin;
+        }
+        throw new \InvalidArgumentException('Unknown permission '.$permission);
     }
 
     public function getId()

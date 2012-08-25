@@ -38,7 +38,7 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
 
         $accesses = array(
             new ProjectGitAccess($foobar, $lead,      '*', true, true, true),
-            new ProjectGitAccess($foobar, $developer, '*', true, true, true),
+            new ProjectGitAccess($foobar, $developer, '*', true, true, false),
             new ProjectGitAccess($foobar, $visitor,   '*', true, false, false)
         );
 

@@ -7,13 +7,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
+use Gitonomy\Bundle\CoreBundle\Git\PushTarget;
 use Gitonomy\Bundle\CoreBundle\Security\ProjectRole;
 
-class ProjectRoleVoter implements VoterInterface
+class GitAccessVoter implements VoterInterface
 {
     protected $prefix;
 
-    public function __construct($prefix = 'PROJECT_')
+    public function __construct($prefix = 'GIT_')
     {
         $this->prefix = $prefix;
     }
@@ -32,18 +34,26 @@ class ProjectRoleVoter implements VoterInterface
     {
         $user = $token->getUser();
 
-        if (!$object instanceof Project) {
+        $type = ProjectGitAccess::WRITE_PERMISSION;
+        foreach ($attributes as $attribute) {
+            switch ($attribute) {
+                case 'GIT_DELETE';
+                case 'GIT_FORCE':
+                    $type = ProjectGitAccess::ADMIN_PERMISSION;
+                    break 2;
+            }
+        }
+
+        if (!$object instanceof PushTarget) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
-        $roles = array();
-        foreach ($token->getRoles() as $role) {
-            if ($role instanceof ProjectRole && $role->isProject($object)) {
-                $roles[] = $role->getProjectRole();
+        foreach ($object->getProject()->getGitAccesses() as $access) {
+            if ($access->isGranted($user, $object->getReference(), $type)) {
+                return self::ACCESS_GRANTED;
             }
         }
-        $attributes = array_diff($attributes, $roles);
 
-        return count($attributes) ? self::ACCESS_DENIED : self::ACCESS_GRANTED;
+        return self::ACCESS_DENIED;
     }
 }

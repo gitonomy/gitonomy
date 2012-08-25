@@ -16,8 +16,6 @@ use Gitonomy\Bundle\CoreBundle\Security\CliToken;
  * Wrapper for Git command.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
- *
- * @todo This class is too critical to be tested (STDIN, STDOUT, STDERR as pipes).
  */
 class GitCommand extends ContainerAwareCommand
 {

@@ -8,5 +8,8 @@
         <service id="gitonomy_core.security.project_role_voter" class="Gitonomy\Bundle\CoreBundle\Security\ProjectRoleVoter" public="false">
             <tag name="security.voter" />
         </service>
+        <service id="gitonomy_core.security.git_access_voter" class="Gitonomy\Bundle\CoreBundle\Security\GitAccessVoter" public="false">
+            <tag name="security.voter" />
+        </service>
     </services>
 </container>
