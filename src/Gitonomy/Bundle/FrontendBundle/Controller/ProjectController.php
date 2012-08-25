@@ -5,12 +5,14 @@ namespace Gitonomy\Bundle\FrontendBundle\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
 use Gitonomy\Component\Git\Graph\Map;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
+use Gitonomy\Git\Repository;
 
 /**
  * Controller for project displaying.
@@ -24,12 +26,15 @@ class ProjectController extends BaseController
      */
     public function showAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
-        $reference = $request->query->get('reference', 'master');
+        $project    = $this->getProject($slug);
+        $reference  = $request->query->get('reference', 'master');
+        $repository = $this->getGitRepository($project);
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
-            'project'   => $project,
-            'reference' => $reference
+            'project'    => $project,
+            'repository' => $repository,
+            'reference'  => $reference,
+            'branches_activity' => $this->getBranchesActivity($repository, $reference)
         ));
     }
 
@@ -69,14 +74,6 @@ class ProjectController extends BaseController
             'commits'   => $commits,
             'data'      => $data
         ));
-    }
-
-    private function getInfos($commit)
-    {
-        return array(
-            'id'      => substr($commit->getHash(), 0, 12),
-            'message' => $commit->getShortMessage()
-        );
     }
 
     /**
@@ -210,17 +207,42 @@ class ProjectController extends BaseController
         throw new \RuntimeException(sprintf('Unable to render element of type "%s"', get_class($element)));
     }
 
-    public function blockBranchesActivityAction($slug, $reference)
+    /**
+     * @return Repository
+     */
+    protected function getGitRepository(Project $project)
     {
-        $project = $this->getProject($slug);
-
-        $repository = $this
+        return $this
             ->get('gitonomy_core.git.repository_pool')
             ->getGitRepository($project)
         ;
+    }
 
+    /**
+     * @return Project
+     */
+    protected function getProject($slug)
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new AccessDeniedException('You must be connected to access a project');
+        }
+
+        $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
+        if (null === $project) {
+            throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
+        }
+
+        if (!$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)) {
+            throw new AccessDeniedException('You are not contributor of the project');
+        }
+
+        return $project;
+    }
+
+    protected function getBranchesActivity(Repository $repository, $reference)
+    {
         $references = $repository->getReferences();
-
         $master = $references->getBranch($reference);
 
         $rows = array();
@@ -240,31 +262,6 @@ class ProjectController extends BaseController
             );
         }
 
-        return $this->render('GitonomyFrontendBundle:Project:blockBranchesActivity.html.twig', array(
-            'main' => $master,
-            'rows' => $rows
-        ));
-    }
-
-    /**
-     * @return Gitonomy\Bundle\CoreBundle\Entity\Project
-     */
-    protected function getProject($slug)
-    {
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw new AccessDeniedException('You must be connected to access a project');
-        }
-
-        $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
-        if (null === $project) {
-            throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
-        }
-
-        if (!$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)) {
-            throw new AccessDeniedException('You are not contributor of the project');
-        }
-
-        return $project;
+        return $rows;
     }
 }

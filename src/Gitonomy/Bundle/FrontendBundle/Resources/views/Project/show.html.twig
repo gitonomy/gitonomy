@@ -13,17 +13,34 @@
                 <h2>SSH Access</h2>
                 <pre>{{ project_ssh(project) }}</pre>
             </div>
-            <div class="page-header">
-                <h2>Users on the project</h2>
-            </div>
-            {% for userRole in project.userRoles %}
-                <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
-            {% else %}
-                <h3><small>No user associated to the project</small></h3>
-            {% endfor %}
+            <section>
+                <div class="page-header">
+                    <h2>Users on the project</h2>
+                </div>
+                {% for userRole in project.userRoles %}
+                    <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
+                {% else %}
+                    <h3><small>No user associated to the project</small></h3>
+                {% endfor %}
+            </section>
+            <section>
             <div class="page-header">
                 <h2>Branches</h2>
             </div>
-            {% render "GitonomyFrontendBundle:Project:blockBranchesActivity" with {slug: project.slug, reference: reference} %}
+            <ul>
+                <li>
+                    {% set main = repository.references.getBranch(reference) %}
+                    <strong>{{ main.name }}</strong>
+                    <br />
+                    <em>{{ main.lastModification | date_long }}</em>
+                </li>
+                {% for row in branches_activity %}
+                    <li>
+                        <strong>{{ row.branch.name }}</strong> -{{ row.behind }}+{{row.above}}
+                        <br />
+                        <em>{{ row.branch.lastModification | date_long }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
 {% endblock %}
