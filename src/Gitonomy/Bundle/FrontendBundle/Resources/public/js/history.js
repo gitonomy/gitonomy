@@ -22,14 +22,7 @@ function history_graph(commits) {
 
     // Children computing
     commits.forEach(function (commit, i) {
-        commit.parents.forEach(function (parent) {
-            if (positions[parent] === undefined) {
-                return;
-            }
-
-            position = positions[parent];
-            commits[position].children.push(commit.hash);
-        });
+        compute_children(i);
     });
 
     // Compute family
@@ -42,6 +35,24 @@ function history_graph(commits) {
     commits.forEach(function (commit, i) {
         matrix_draw(i);
     });
+
+    function compute_children(i) {
+        if (commits[i].children_spread !== undefined) {
+            return;
+        }
+        commits[i].parents.forEach(function (parent) {
+            if (positions[parent] === undefined) {
+                return;
+            }
+
+            position = positions[parent];
+            commits[position].children.push(commits[i].hash);
+
+            compute_children(position);
+        });
+
+        commits[i].children_spread = true;
+    }
 
     function compute_family(commit, i) {
         // No parent (initial commit)
