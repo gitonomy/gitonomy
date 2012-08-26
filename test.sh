@@ -1,3 +1,3 @@
 #!/bin/bash
-./reset.sh
+./reset.sh test
 phpunit -c app/
