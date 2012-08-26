@@ -9,4 +9,48 @@ fi
 # Gitonomy console
 command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
 
-$command gitonomy:project-notify-push "$GITONOMY_USER" "$GITONOMY_PROJECT"
+check_reference()
+{
+    BEFORE="$(git rev-parse $1)"
+    AFTER="$(git rev-parse $2)"
+    REFERENCE="$3"
+
+    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
+    if [ "$?" != 0 ]; then
+        cat >&2 <<END
+
+                                            ____
+ ___                                      .-~. /_"-._
+\`-._~-.                                  / /_ "~o\  :Y
+    \  \                                / : \~x.  \` ')
+     ]  Y                              /  |  Y< ~-.__j
+    /   !                        _.--~T : l  l<  /.-~
+   /   /                 ____.--~ .   \` l /~\ \<|Y
+  /   /             .-~~"        /| .    ',-~\ \L|
+ /   /             /     .^   \ Y~Y \.^>/l_   "--'
+/   Y           .-"(  .  l__  j_j l_/ /~_.-~    .
+Y    l          /    \  )    ~~~." / \`/"~ / \.__/l_
+|     \     _.-"      ~-{__     l  :  l._Z~-.___.--~
+|      ~---~           /   ~~"---\_  ' __[>
+l  .                _.^   ___     _>-y~
+\  \     .      .-~   .-~   ~>--"  /
+ \  ~---"            /     ./  _.-'
+  "-.,_____.,_  _.--~\     _.-~
+              ~~     (   _}
+                     \`. ~(
+                       )  \\
+                      /,\`--'~\--'~\\
+    ----------------------------------
+      If you are happy & you know it
+               clap your ...
+    ----------------------------------
+
+END
+        exit 1
+    fi
+}
+
+while read before after reference
+do
+    check_reference $before $after $reference
+done

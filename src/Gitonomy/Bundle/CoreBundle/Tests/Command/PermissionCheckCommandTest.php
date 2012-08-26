@@ -47,9 +47,8 @@ class PermissionCheckCommandTest extends CommandTestCase
         $projectSuffix = $projectSlug === null ? '' : '--project='.$projectSlug;
 
         $command = sprintf('gitonomy:permission-check %s %s %s', $projectSuffix, $username, $permission);
-        list($statusCode , $output) = $this->runCommand($this->client, $command);
+        list($statusCode, $output) = $this->runCommand($this->client, $command);
 
         $this->assertEquals($statusCode, $expected ? 0 : 1);
-        $this->assertEquals('', $output); // Output must be empty, otherwise displayed to user pushing
     }
 }

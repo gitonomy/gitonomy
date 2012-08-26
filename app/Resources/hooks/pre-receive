@@ -25,7 +25,7 @@ check_reference()
         REQUEST="GIT_WRITE"
     fi fi fi
 
-    $command gitonomy:git-permission-check "$GITONOMY_USER" "$GITONOMY_PROJECT" "$REQUEST" "$REFERENCE"
+    $command gitonomy:git-permission-check "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE"
     if [ "$?" != 0 ]; then
         cat >&2 <<END
 
