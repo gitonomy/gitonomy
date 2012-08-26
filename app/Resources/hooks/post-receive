@@ -11,13 +11,13 @@ command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/conso
 
 check_reference()
 {
-    BEFORE="$(git rev-parse $1)"
-    AFTER="$(git rev-parse $2)"
-    REFERENCE="$3"
+  BEFORE="$(git rev-parse $1)"
+  AFTER="$(git rev-parse $2)"
+  REFERENCE="$3"
 
-    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
-    if [ "$?" != 0 ]; then
-        cat >&2 <<END
+  $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
+  if [ "$?" != 0 ]; then
+      cat >&2 <<END
 
                                             ____
  ___                                      .-~. /_"-._
@@ -46,8 +46,8 @@ l  .                _.^   ___     _>-y~
     ----------------------------------
 
 END
-        exit 1
-    fi
+    exit 1
+  fi
 }
 
 while read before after reference
