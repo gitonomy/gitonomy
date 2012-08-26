@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="thread" name="Gitonomy\Bundle\CoreBundle\Entity\Thread">
+        <unique-constraints>
+            <unique-constraint name="rerefence" columns="reference" />
+        </unique-constraints>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="reference" column="reference" type="string" length="42" unique="true" />
+
+        <many-to-one field="project" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Project">
+            <join-column name="project_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="user" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+
+        <one-to-many field="messages" target-entity="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage" mapped-by="thread">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

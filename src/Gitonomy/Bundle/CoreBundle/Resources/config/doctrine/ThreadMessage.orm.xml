@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="thread_message" name="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="message" column="message" type="text" />
+        <field name="publishedAt" column="published_at" type="datetime" />
+
+        <many-to-one field="thread" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Thread">
+            <join-column name="thread_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

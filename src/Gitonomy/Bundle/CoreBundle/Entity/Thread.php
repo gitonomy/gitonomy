@@ -1,31 +1,30 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\EventDispatcher\Event;
+namespace Gitonomy\Bundle\CoreBundle\Entity;
 
-use Gitonomy\Git\ReceiveReference;
+use Doctrine\Common\Collections\ArrayCollection;
 
-use Symfony\Component\EventDispatcher\Event;
-
-use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\Entity\User;
-
-class ReceiveReferenceEvent extends Event
+class Thread
 {
+    protected $id;
     protected $project;
     protected $user;
     protected $reference;
-    protected $before;
-    protected $after;
+    protected $messages;
 
-    public function __construct(Project $project, User $user, $reference, $before = null, $after = null)
+    public function __construct(Project $project, User $user, $reference, ArrayCollection $messages = null)
     {
         $this
             ->setProject($project)
             ->setUser($user)
             ->setReference($reference)
-            ->setBefore($before)
-            ->setAfter($after)
+            ->setMessages($messages)
         ;
+    }
+
+    public function getId()
+    {
+        return $id;
     }
 
     public function getProject()
@@ -64,27 +63,20 @@ class ReceiveReferenceEvent extends Event
         return $this;
     }
 
-    public function getBefore()
+    public function getMessages()
     {
-        return $this->before;
+        return $this->messages;
     }
 
-    public function setBefore($before)
+    public function setMessages(ArrayCollection $messages = null)
     {
-        $this->before = $before;
+        $this->messages = $messages ? $messages : new ArrayCollection();
 
         return $this;
     }
 
-    public function getAfter()
+    public function addMessage(ThreadMessage $message)
     {
-        return $this->after;
-    }
-
-    public function setAfter($after)
-    {
-        $this->after = $after;
-
-        return $this;
+        $this->messages->add($message);
     }
 }

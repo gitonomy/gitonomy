@@ -36,9 +36,10 @@ class ProjectNotifyPushCommand extends ContainerAwareCommand
             ->setName('gitonomy:project-notify-push')
             ->addArgument('project', InputArgument::REQUIRED, 'Project slug')
             ->addArgument('username', InputArgument::REQUIRED, 'Username')
+            ->addArgument('request', InputArgument::REQUIRED, 'Request')
+            ->addArgument('reference', InputArgument::REQUIRED, 'Reference')
             ->addArgument('before', InputArgument::REQUIRED, 'Before')
             ->addArgument('after', InputArgument::REQUIRED, 'After')
-            ->addArgument('reference', InputArgument::REQUIRED, 'Reference')
             ->setDescription('Notification after a push in a project')
             ->setHelp(<<<EOF
 The <info>gitonomy:project-notify-push</info> is used to notify the application after a push.
@@ -60,17 +61,19 @@ EOF
     public function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+        throw new \Exception('bla');
             $this->doExecute($input, $output);
 
             return 0;
         } catch (\Exception $e) {
+            throw $e;
             return 1;
         }
     }
 
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
-        $em   = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $projectSlug = $input->getArgument('project');
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($projectSlug);
@@ -84,14 +87,19 @@ EOF
             throw new \RuntimeException(sprintf('User "%s" not found', $username));
         }
 
-        $repositoryPool = $this->getContainer()->get('gitonomy_core.git.repository_pool');
-        $reference = new ReceiveReference(
-            $repositoryPool->getGitRepository($project),
-            $input->getArgument('before'),
-            $input->getArgument('after'),
-            $input->getArgument('reference')
-        );
-        $event = new ReceiveReferenceEvent($project, $user, $reference);
-        $this->getContainer()->get('event_dispatcher')->dispatch(GitonomyEvents::POST_RECEIVE, $event);
+        $request   = $input->getArgument('request');
+        $reference = $input->getArgument('reference');
+        $before    = $input->getArgument('before');
+        $after     = $input->getArgument('after');
+
+        $event = new ReceiveReferenceEvent($project, $user, $reference, $before, $after);
+        $this->dispatch($event, $request);
+    }
+
+    protected function dispatch(ReceiveReferenceEvent $event, $request)
+    {
+        $eventName = GitonomyEvents::getEventFromRequest($request);
+        throw new \Exception($eventName);
+        $this->getContainer()->get('event_dispatcher')->dispatch($eventName, $event);
     }
 }

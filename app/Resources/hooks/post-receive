@@ -15,7 +15,17 @@ check_reference()
   AFTER="$(git rev-parse $2)"
   REFERENCE="$3"
 
-  $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
+  if [ "$AFTER" = "0000000000000000000000000000000000000000" ]; then
+      REQUEST="GIT_DELETE"
+  else if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+      REQUEST="GIT_CREATE"
+  else if [ "$BEFORE" != "$(git merge-base $BEFORE $AFTER)" ]; then
+      REQUEST="GIT_FORCE"
+  else
+      REQUEST="GIT_WRITE"
+  fi fi fi
+
+  $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "$BEFORE" "$AFTER"
   if [ "$?" != 0 ]; then
       cat >&2 <<END
 
