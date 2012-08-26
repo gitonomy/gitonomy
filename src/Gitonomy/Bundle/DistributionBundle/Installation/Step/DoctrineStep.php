@@ -6,9 +6,20 @@ use Gitonomy\Bundle\DistributionBundle\Installation\StepInterface;
 
 class DoctrineStep implements StepInterface
 {
+    public function testValues(array $parameters)
+    {
+        return array(0, "OK");
+    }
+
     public function getStatus(array $parameters)
     {
-        return self::STATUS_COMPLETE;
+        list($code, $message) = $this->testValues($parameters);
+
+        if ($code == 0) {
+            return self::STATUS_SUCCESS;
+        }
+
+        return self::STATUS_ERROR;
     }
 
     public function getSlug()

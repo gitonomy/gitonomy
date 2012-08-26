@@ -15,3 +15,7 @@ gitonomydistribution_configuration_saveStep:
 gitonomydistribution_configuration_finish:
     pattern: /install/finish
     defaults: { _controller: GitonomyDistributionBundle:Configuration:finish }
+
+gitonomydistribution_stepdoctrine_test:
+    pattern: /install/doctrine/test
+    defaults: { _controller: GitonomyDistributionBundle:StepDoctrine:test }
