@@ -5,10 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <!-- Step collection -->
         <service id="gitonomy_distribution.steps" class="Gitonomy\Bundle\DistributionBundle\Installation\StepList">
             <argument type="collection" />
         </service>
 
+        <!-- Tagged steps -->
         <service id="gitonomy_distribution.step.doctrine" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\DoctrineStep" public="false">
             <tag name="install.step" />
         </service>
@@ -17,9 +19,31 @@
             <tag name="install.step" />
         </service>
 
-        <service id="gitonomy_distribution.gitonomy.secret" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\GitonomyStep" public="false">
+        <service id="gitonomy_distribution.step.gitonomy" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\GitonomyStep" public="false">
             <tag name="install.step" />
         </service>
+
+        <service id="gitonomy_distribution.step.mailer" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\MailerStep" public="false">
+            <tag name="install.step" />
+        </service>
+
+        <!-- Forms -->
+        <service id="gitonomy_distribution.form.installation_step_doctrine" class="Gitonomy\Bundle\DistributionBundle\Form\Type\InstallationDoctrineStepType">
+            <tag name="form.type" alias="installation_step_doctrine" />
+        </service>
+
+        <service id="gitonomy_distribution.form.installation_step_secret" class="Gitonomy\Bundle\DistributionBundle\Form\Type\InstallationSecretStepType">
+            <tag name="form.type" alias="installation_step_secret" />
+        </service>
+
+        <service id="gitonomy_distribution.form.installation_step_gitonomy" class="Gitonomy\Bundle\DistributionBundle\Form\Type\InstallationGitonomyStepType">
+            <tag name="form.type" alias="installation_step_gitonomy" />
+        </service>
+
+        <service id="gitonomy_distribution.form.installation_step_mailer" class="Gitonomy\Bundle\DistributionBundle\Form\Type\InstallationMailerStepType">
+            <tag name="form.type" alias="installation_step_mailer" />
+        </service>
+
     </services>
 
 </container>

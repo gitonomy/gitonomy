@@ -5,3 +5,13 @@ gitonomydistribution_configuration_welcome:
 gitonomydistribution_configuration_step:
     pattern: /install/step/{slug}
     defaults: { _controller: GitonomyDistributionBundle:Configuration:step }
+    requirements: { _method: GET }
+
+gitonomydistribution_configuration_saveStep:
+    pattern: /install/step/{slug}
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:saveStep }
+    requirements: { _method: POST }
+
+gitonomydistribution_configuration_finish:
+    pattern: /install/finish
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:finish }

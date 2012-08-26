@@ -6,7 +6,7 @@ use Gitonomy\Bundle\DistributionBundle\Installation\StepInterface;
 
 class DoctrineStep implements StepInterface
 {
-    public function getStatus()
+    public function getStatus(array $parameters)
     {
         return self::STATUS_COMPLETE;
     }
@@ -19,5 +19,15 @@ class DoctrineStep implements StepInterface
     public function getName()
     {
         return 'Database';
+    }
+
+    public function getTemplate()
+    {
+        return 'GitonomyDistributionBundle:Configuration:step_doctrine.html.twig';
+    }
+
+    public function getForm()
+    {
+        return 'installation_step_doctrine';
     }
 }

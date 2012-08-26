@@ -1,0 +1,38 @@
+{% extends "GitonomyDistributionBundle::layout.html.twig" %}
+
+{% block content %}
+    <p>
+        {% spaceless %}
+        {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' %}
+            <span style="background-color: yellow">
+        {% endif %}
+        <a href="{{ path('gitonomydistribution_configuration_welcome') }}">Welcome</a>
+        {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' %}
+            </span>
+        {% endif %}
+        {% endspaceless %}
+        -
+        {% for step in steps %}
+            {% spaceless %}
+                {% if _parent.step is defined and step.slug == _parent.step.slug %}
+                    <span style="background-color: yellow">
+                {% endif %}
+                <a href="{{ path('gitonomydistribution_configuration_step', {slug: step.slug}) }}">{{ step.name }}</a>
+                {% if _parent.step is defined and step.slug == _parent.step.slug %}
+                    </span>
+                {% endif %}
+            {% endspaceless %}
+            -
+        {% endfor %}
+        {% spaceless %}
+            {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' %}
+                <span style="background-color: yellow">
+            {% endif %}
+            <a href="{{ path('gitonomydistribution_configuration_finish') }}">Finish</a>
+            {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' %}
+                </span>
+            {% endif %}
+        {% endspaceless %}
+    </p>
+    {% block step_content '' %}
+{% endblock %}

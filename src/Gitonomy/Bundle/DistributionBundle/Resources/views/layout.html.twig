@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/gitonomyfrontend/css/twitter-bootstrap.min.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript"src="{{ asset('bundles/gitonomyfrontend/js/jquery-1.7.1.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% block content '' %}
+{% endblock %}
