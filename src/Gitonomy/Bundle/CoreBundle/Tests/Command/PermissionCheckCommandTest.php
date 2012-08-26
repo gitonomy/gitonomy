@@ -50,5 +50,6 @@ class PermissionCheckCommandTest extends CommandTestCase
         list($statusCode, $output) = $this->runCommand($this->client, $command);
 
         $this->assertEquals($statusCode, $expected ? 0 : 1);
+        $this->assertEquals('', $output); // Output must be empty, otherwise displayed to user pushing
     }
 }
