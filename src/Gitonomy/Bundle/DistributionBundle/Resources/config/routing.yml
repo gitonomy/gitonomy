@@ -1,7 +1,0 @@
-gitonomydistribution_verification_index:
-    pattern: /verification
-    defaults: { _controller: "GitonomyDistributionBundle:Verification:index" }
-
-gitonomydistribution_verification_mail:
-    pattern: /verification/mail
-    defaults: { _controller: "GitonomyDistributionBundle:Verification:mail" }
