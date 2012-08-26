@@ -1,0 +1,3 @@
+gitonomydistribution_configuration_welcome:
+    pattern: /install/welcome
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:welcome }
