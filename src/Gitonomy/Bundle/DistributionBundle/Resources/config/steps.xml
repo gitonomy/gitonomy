@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="gitonomy_distribution.steps" class="Gitonomy\Bundle\DistributionBundle\Installation\StepList">
+            <argument type="collection" />
+        </service>
+
+        <service id="gitonomy_distribution.step.doctrine" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\DoctrineStep" public="false">
+            <tag name="install.step" />
+        </service>
+
+        <service id="gitonomy_distribution.step.secret" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\SecretStep" public="false">
+            <tag name="install.step" />
+        </service>
+
+        <service id="gitonomy_distribution.gitonomy.secret" class="Gitonomy\Bundle\DistributionBundle\Installation\Step\GitonomyStep" public="false">
+            <tag name="install.step" />
+        </service>
+    </services>
+
+</container>

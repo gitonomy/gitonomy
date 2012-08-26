@@ -1,3 +1,7 @@
 gitonomydistribution_configuration_welcome:
     pattern: /install/welcome
     defaults: { _controller: GitonomyDistributionBundle:Configuration:welcome }
+
+gitonomydistribution_configuration_step:
+    pattern: /install/step/{slug}
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:step }

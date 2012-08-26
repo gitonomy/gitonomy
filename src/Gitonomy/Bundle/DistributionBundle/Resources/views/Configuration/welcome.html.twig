@@ -3,4 +3,9 @@
 {% block body %}
     <h1>Installation</h1>
     <p>Welcome !</p>
+    <ul>
+        {% for step in steps %}
+            <li><a href="{{ path('gitonomydistribution_configuration_step', {slug: step.slug}) }}">{{ step.name }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

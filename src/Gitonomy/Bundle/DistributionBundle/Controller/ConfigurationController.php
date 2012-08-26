@@ -8,6 +8,10 @@ class ConfigurationController extends Controller
 {
     public function welcomeAction()
     {
-        return $this->render('GitonomyDistributionBundle:Configuration:welcome.html.twig');
+        $steps = $this->get('gitonomy_distribution.steps');
+
+        return $this->render('GitonomyDistributionBundle:Configuration:welcome.html.twig', array(
+            'steps' => $steps
+        ));
     }
 }
