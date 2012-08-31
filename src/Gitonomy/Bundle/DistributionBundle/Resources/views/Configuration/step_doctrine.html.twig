@@ -16,7 +16,7 @@
                     url:  "{{ path('gitonomydistribution_stepdoctrine_test') }}",
                     data: $("#config-doctrine").serialize(),
                     success: function (response) {
-                        alert(response.code+": "+response.message);
+                        alert(response.status+": "+response.message);
                     }
                 })
             });

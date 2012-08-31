@@ -4,9 +4,8 @@ namespace Gitonomy\Bundle\DistributionBundle\Installation;
 
 interface StepInterface
 {
-    const STATUS_COMPLETE = 0;
-    const STATUS_WARNING  = 1;
-    const STATUS_ERROR    = 2;
+    const STATUS_ERROR = 0;
+    const STATUS_OK    = 1;
 
     public function getSlug();
 

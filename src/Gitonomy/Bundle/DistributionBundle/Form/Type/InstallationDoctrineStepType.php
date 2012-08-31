@@ -19,7 +19,7 @@ class InstallationDoctrineStepType extends AbstractType
             ->add('database_port', 'integer', array('required' => false))
             ->add('database_name', 'text')
             ->add('database_user', 'text')
-            ->add('database_password', 'text')
+            ->add('database_password', 'text', array('required' => false))
         ;
     }
 

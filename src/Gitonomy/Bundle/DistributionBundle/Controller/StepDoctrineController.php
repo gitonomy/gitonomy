@@ -12,10 +12,10 @@ class StepDoctrineController extends Controller
     {
         $post = $request->request->all();
         $step = $this->getSteps()->getStep('database');
-        list($code, $message) = $step->testValues($post['parameters']);
+        list($status, $message) = $step->testValues($post['parameters']);
 
         $response = new Response(json_encode(array(
-            'code'    => $code,
+            'status'  => $status,
             'message' => $message
         )));
 

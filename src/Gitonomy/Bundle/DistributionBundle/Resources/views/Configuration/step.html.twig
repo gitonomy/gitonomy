@@ -5,33 +5,35 @@
         {% spaceless %}
         {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' %}
             <span style="background-color: yellow">
+        {% else %}
+            <span>
         {% endif %}
         <a href="{{ path('gitonomydistribution_configuration_welcome') }}">Welcome</a>
-        {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' %}
-            </span>
-        {% endif %}
+        </span>
         {% endspaceless %}
         -
         {% for step in steps %}
             {% spaceless %}
                 {% if _parent.step is defined and step.slug == _parent.step.slug %}
                     <span style="background-color: yellow">
+                {% elseif not step.status(parameters) %}
+                    <span style="background-color: red">
+                {% else %}
+                    <span>
                 {% endif %}
                 <a href="{{ path('gitonomydistribution_configuration_step', {slug: step.slug}) }}">{{ step.name }}</a>
-                {% if _parent.step is defined and step.slug == _parent.step.slug %}
-                    </span>
-                {% endif %}
+                </span>
             {% endspaceless %}
             -
         {% endfor %}
         {% spaceless %}
             {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' %}
                 <span style="background-color: yellow">
+            {% else %}
+                <span>
             {% endif %}
             <a href="{{ path('gitonomydistribution_configuration_finish') }}">Finish</a>
-            {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' %}
-                </span>
-            {% endif %}
+            </span>
         {% endspaceless %}
     </p>
     {% block step_content '' %}

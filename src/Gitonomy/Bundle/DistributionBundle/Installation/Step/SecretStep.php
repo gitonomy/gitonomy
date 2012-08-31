@@ -12,7 +12,7 @@ class SecretStep implements StepInterface
             return self::STATUS_ERROR;
         }
 
-        return self::STATUS_COMPLETE;
+        return self::STATUS_OK;
     }
 
     public function getSlug()

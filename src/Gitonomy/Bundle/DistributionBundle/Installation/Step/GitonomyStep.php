@@ -8,7 +8,7 @@ class GitonomyStep implements StepInterface
 {
     public function getStatus(array $parameters)
     {
-        return self::STATUS_COMPLETE;
+        return self::STATUS_OK;
     }
 
     public function getSlug()

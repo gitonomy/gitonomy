@@ -14,14 +14,16 @@ class ConfigurationController extends Controller
     public function welcomeAction()
     {
         return $this->render('GitonomyDistributionBundle:Configuration:welcome.html.twig', array(
-            'steps' => $this->getSteps()
+            'steps'      => $this->getSteps(),
+            'parameters' => $this->getParameters()
         ));
     }
 
     public function finishAction()
     {
         return $this->render('GitonomyDistributionBundle:Configuration:finish.html.twig', array(
-            'steps' => $this->getSteps()
+            'steps'      => $this->getSteps(),
+            'parameters' => $this->getParameters()
         ));
     }
 
@@ -37,9 +39,10 @@ class ConfigurationController extends Controller
         $form = $this->getForm($step);
 
         return $this->render($step->getTemplate(), array(
-            'steps' => $steps,
-            'step'  => $step,
-            'form'  => $form->createView()
+            'steps'      => $steps,
+            'parameters' => $this->getParameters(),
+            'step'       => $step,
+            'form'       => $form->createView()
         ));
     }
 
@@ -61,9 +64,10 @@ class ConfigurationController extends Controller
         }
 
         return $this->render($step->getTemplate(), array(
-            'steps' => $steps,
-            'step'  => $step,
-            'form'  => $form->createView()
+            'steps'      => $steps,
+            'parameters' => $this->getParameters(),
+            'step'       => $step,
+            'form'       => $form->createView()
         ));
     }
 
