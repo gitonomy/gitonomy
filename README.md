@@ -1,6 +1,8 @@
 Gitonomy
 ========
 
+[![Build Status](https://secure.travis-ci.org/gitonomy/gitonomy.png](https://travis-ci.org/gitonomy/gitonomy)
+
 Configuration & Installation
 ----------------------------
 
