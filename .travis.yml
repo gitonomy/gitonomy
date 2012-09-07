@@ -5,4 +5,4 @@ script: ./test.sh
 before_install:
     - sudo apt-get install -qq git
 before_script:
-    - composer
+    - composer install
