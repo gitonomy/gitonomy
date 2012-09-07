@@ -1,9 +1,11 @@
 {
-    "hash": "deeb3d13a2099bbad3081e9211d2589f",
+    "hash": "4b9ee4132e4be8c93d21e697cbd7fa43",
     "packages": [
         {
             "package": "doctrine/common",
-            "version": "2.2.3"
+            "version": "2.3.x-dev",
+            "source-reference": "605b1b8b5a7bc8daf9111fb35483e5708e30de35",
+            "commit-date": "1346249247"
         },
         {
             "package": "doctrine/data-fixtures",
@@ -13,7 +15,9 @@
         },
         {
             "package": "doctrine/dbal",
-            "version": "2.2.2"
+            "version": "2.3.x-dev",
+            "source-reference": "239630b61f03f39d198441eced1bfffb7b0e61d1",
+            "commit-date": "1346866589"
         },
         {
             "package": "doctrine/doctrine-bundle",
@@ -29,19 +33,21 @@
         },
         {
             "package": "doctrine/doctrine-fixtures-bundle",
-            "version": "dev-master",
-            "source-reference": "186d605aa6b592bd577e07e0e9a2c420b02b2492",
-            "commit-date": "1345465418"
+            "version": "2.0.x-dev",
+            "source-reference": "479f10d068bd0b01e055aa2f555946893322b79c",
+            "commit-date": "1338408493"
         },
         {
             "package": "doctrine/orm",
-            "version": "2.2.0"
+            "version": "2.3.x-dev",
+            "source-reference": "4d9f24b2eef3af3a3e76c773994c19bbb0706f88",
+            "commit-date": "1346869007"
         },
         {
             "package": "gitonomy/gitlib",
             "version": "dev-master",
-            "source-reference": "1040d331549232a7d64907ec75d71d31da2e43f4",
-            "commit-date": "1346970604"
+            "source-reference": "e1a34ce7ecd798d2294e94052e7d51d897e11a5d",
+            "commit-date": "1347045606"
         },
         {
             "package": "kriswallsmith/assetic",
@@ -52,8 +58,8 @@
         {
             "package": "kriswallsmith/assetic",
             "version": "dev-master",
-            "source-reference": "86b637e9f64ddcbd17d9eda944384812b5836254",
-            "commit-date": "1346695911"
+            "source-reference": "dfbb776288baf9319d1693195af2cb6e00729901",
+            "commit-date": "1347039484"
         },
         {
             "package": "monolog/monolog",
@@ -76,8 +82,8 @@
         {
             "package": "sensio/distribution-bundle",
             "version": "dev-master",
-            "source-reference": "v2.1.0",
-            "commit-date": "1346859132"
+            "source-reference": "98921298951598e8707258cba2b6180b96faa91c",
+            "commit-date": "1347023757"
         },
         {
             "package": "swiftmailer/swiftmailer",
@@ -129,21 +135,7 @@
         },
         {
             "package": "symfony/symfony",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/symfony",
-            "version": "dev-master",
-            "alias-pretty-version": "2.2.x-dev",
-            "alias-version": "2.2.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/symfony",
-            "version": "dev-master",
-            "source-reference": "4dc197c3e1ea227e36cab7ea93877fa44ecc569b",
-            "commit-date": "1346957130"
+            "version": "v2.1.0-RC2"
         },
         {
             "package": "twig/extensions",
@@ -166,8 +158,8 @@
         {
             "package": "twig/twig",
             "version": "dev-master",
-            "source-reference": "459720ff3b74ee0c0d159277c6f2f5df89d8a4f6",
-            "commit-date": "1346397138"
+            "source-reference": "68b8c4619c5bbe82bd345fe56070dec8c356610a",
+            "commit-date": "1347025342"
         }
     ],
     "packages-dev": null,
@@ -176,13 +168,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "doctrine/doctrine-bundle": 20,
-        "twig/extensions": 20,
-        "symfony/assetic-bundle": 20,
-        "symfony/swiftmailer-bundle": 20,
-        "symfony/monolog-bundle": 20,
-        "sensio/distribution-bundle": 20,
-        "doctrine/doctrine-fixtures-bundle": 20,
         "gitonomy/gitlib": 20
     }
 }
