@@ -1,5 +1,5 @@
 {
-    "hash": "4b9ee4132e4be8c93d21e697cbd7fa43",
+    "hash": "ac60f98c4084b17fb96bd92f47b712de",
     "packages": [
         {
             "package": "doctrine/common",
@@ -33,9 +33,9 @@
         },
         {
             "package": "doctrine/doctrine-fixtures-bundle",
-            "version": "2.0.x-dev",
-            "source-reference": "479f10d068bd0b01e055aa2f555946893322b79c",
-            "commit-date": "1338408493"
+            "version": "dev-master",
+            "source-reference": "186d605aa6b592bd577e07e0e9a2c420b02b2492",
+            "commit-date": "1345465418"
         },
         {
             "package": "doctrine/orm",
@@ -46,8 +46,8 @@
         {
             "package": "gitonomy/gitlib",
             "version": "dev-master",
-            "source-reference": "e1a34ce7ecd798d2294e94052e7d51d897e11a5d",
-            "commit-date": "1347045606"
+            "source-reference": "29781a992bf73735e7c63d9017b7ec715b11ded4",
+            "commit-date": "1347046262"
         },
         {
             "package": "kriswallsmith/assetic",
@@ -135,7 +135,9 @@
         },
         {
             "package": "symfony/symfony",
-            "version": "v2.1.0-RC2"
+            "version": "2.1.x-dev",
+            "source-reference": "e7059b44c78ca8e1e892adb4d93b5a482f4eb9b3",
+            "commit-date": "1346926323"
         },
         {
             "package": "twig/extensions",
@@ -168,6 +170,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "doctrine/doctrine-fixtures-bundle": 20,
         "gitonomy/gitlib": 20
     }
 }
