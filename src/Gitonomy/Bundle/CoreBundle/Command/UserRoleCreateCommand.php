@@ -104,7 +104,7 @@ EOF
         }
 
         $output->writeln(sprintf(
-            'Added succesfully <info>%s</info> as <info>%s</info>%s',
+            'Added successfully <info>%s</info> as <info>%s</info>%s',
             $user->getFullname(),
             $role->getName(),
             $project ? sprintf(' to <info>%s</info>', $project->getName()) : ''
