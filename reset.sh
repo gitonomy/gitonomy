@@ -14,7 +14,7 @@ php app/console doctrine:database:drop --force --env=$env
 php app/console doctrine:database:create --env=$env
 
 php app/console doctrine:schema:create --env=$env
-php app/console doctrine:fixtures:load --env=$env
+php app/console doctrine:fixtures:load --append --env=$env
 
 # Prepare repositories
 rm -Rf app/cache/repositories
