@@ -33,7 +33,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
     {
         list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Developer barbaz');
 
-        $this->assertEquals("Added succesfully Bob as Developer to Barbaz\n", $output);
+        $this->assertEquals("Added successfully Bob as Developer to Barbaz\n", $output);
 
         $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
 
@@ -52,7 +52,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
     {
         list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:user-role-create bob Administrator');
 
-        $this->assertEquals("Added succesfully Bob as Administrator\n", $output);
+        $this->assertEquals("Added successfully Bob as Administrator\n", $output);
 
         $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
 
