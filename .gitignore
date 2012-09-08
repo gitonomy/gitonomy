@@ -2,6 +2,7 @@
 /app/config/parameters.yml
 /app/logs/*
 /app/bootstrap.php.cache
+/bin
 /build/
 /sample/
 /vendor/
