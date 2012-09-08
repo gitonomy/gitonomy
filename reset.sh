@@ -10,6 +10,10 @@ else
   env=$1
 fi
 
+if [ ! -d "sample" ]; then
+    tar -xzf sample.tar.gz sample
+fi
+
 php app/console doctrine:database:drop --force --env=$env
 php app/console doctrine:database:create --env=$env
 
