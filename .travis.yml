@@ -4,5 +4,6 @@ php:
 script: ./test.sh
 before_install:
     - sudo apt-get install -qq git
+    - touch app/config/parameters.yml
 before_script:
     - composer install
