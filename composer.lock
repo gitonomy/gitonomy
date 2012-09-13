@@ -46,8 +46,8 @@
         {
             "package": "gitonomy/gitlib",
             "version": "dev-master",
-            "source-reference": "29781a992bf73735e7c63d9017b7ec715b11ded4",
-            "commit-date": "1347046262"
+            "source-reference": "0c9891e637313767628a110bf79ae4ca568488e5",
+            "commit-date": "1347563643"
         },
         {
             "package": "kriswallsmith/assetic",

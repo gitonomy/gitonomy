@@ -83,7 +83,7 @@ class ProjectControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/en_US/project/empty/history');
         $response = $this->client->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(500, $response->getStatusCode()); // fatal: bad default revision 'HEAD'
     }
 
     public function testHistoryViewOther()

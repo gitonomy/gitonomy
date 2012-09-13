@@ -80,13 +80,18 @@ class ProjectController extends BaseController
         ;
 
         $references = $repository->getReferences();
-        $convert = function ($commit) use ($references) {
+
+        $referenceName = function (Reference $reference) {
+            return $reference->getName();
+        };
+
+        $convert = function ($commit) use ($references, $referenceName) {
             return array(
                 'hash'          => $commit->getHash(),
                 'short_message' => $commit->getShortMessage(),
                 'parents'       => $commit->getParentHashes(),
-                'tags'          => $references->resolveTags($commit->getHash()),
-                'branches'      => $references->resolveBranches($commit->getHash()),
+                'tags'          => array_map($referenceName, $references->resolveTags($commit)),
+                'branches'      => array_map($referenceName, $references->resolveBranches($commit)),
             );
         };
 
@@ -145,9 +150,7 @@ class ProjectController extends BaseController
         $repository = $this->getGitRepository($project);
 
         $revision = $repository->getRevision($reference);
-        $revision->getResolved();
-
-        $commit = $revision->getCommit();
+        $commit = $revision->getResolved();
 
         $tree = $commit->getTree();
         if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
