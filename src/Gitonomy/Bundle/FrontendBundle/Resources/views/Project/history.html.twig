@@ -1,16 +1,14 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
 
 {% block title project.name ~ ' - History' %}
 
+{% set active = "history" %}
+
 {% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
     {% set history_reference = reference %}
     {% if reference == null %}
         {% set reference = "master" %}
     {% endif %}
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
     <div class="page-header">
         <h2>
             History

@@ -1,0 +1,13 @@
+{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+
+{% block body %}
+    {% include "GitonomyFrontendBundle::navigation.html.twig" %}
+        {% include "GitonomyFrontendBundle::flashes.html.twig" %}
+        <div class="navigation">
+            {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" %}
+        </div>
+        <div class="content">
+            {% block content '' %}
+        </div>
+    </div>
+{% endblock %}
