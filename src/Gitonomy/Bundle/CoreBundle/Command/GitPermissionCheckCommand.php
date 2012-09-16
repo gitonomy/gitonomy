@@ -35,8 +35,8 @@ class GitPermissionCheckCommand extends ContainerAwareCommand
     {
         $this
             ->setName('gitonomy:git-permission-check')
-            ->addArgument('username', InputArgument::REQUIRED, 'Username')
             ->addArgument('project', InputArgument::REQUIRED, 'Project\'s slug')
+            ->addArgument('username', InputArgument::REQUIRED, 'Username')
             ->addArgument('permission', InputArgument::REQUIRED, 'Name of permission')
             ->addArgument('reference',  InputArgument::REQUIRED, 'Reference')
             ->setDescription('Tests a permission and returns 0 if OK, 1 otherwise')
@@ -45,7 +45,7 @@ The <info>gitonomy:git-permission-check</info> tests git permission on a reposit
 
 <comment>Sample usages</comment>
 
-  > php app/console gitonomy:git-permission-check alice foobar GIT_DELETE refs/head/my-feature
+  > php app/console gitonomy:git-permission-check foobar alice GIT_DELETE refs/head/my-feature
 
 EOF
             )
