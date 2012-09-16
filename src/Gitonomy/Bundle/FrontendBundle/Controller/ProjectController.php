@@ -166,6 +166,24 @@ class ProjectController extends BaseController
         return $this->render($tpl, $parameters);
     }
 
+    public function showThreadAction($slug, $reference)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $thread     = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Thread')->findOneByReference('refs/heads/'.$reference);
+
+        if (null === $thread) {
+            throw $this->createNotFoundException(sprintf('Thread "%s" not found', $reference));
+        }
+
+        return $this->render('GitonomyFrontendBundle:Project:showThread.html.twig', array(
+            'project'    => $project,
+            'thread'     => $thread,
+            'repository' => $repository,
+            'reference'  => $reference,
+        ));
+    }
+
     /**
      * @return Repository
      */

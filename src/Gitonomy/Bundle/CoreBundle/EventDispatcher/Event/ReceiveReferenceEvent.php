@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\CoreBundle\EventDispatcher\Event;
 
 use Gitonomy\Git\ReceiveReference;
+use Gitonomy\Git\Repository;
 
 use Symfony\Component\EventDispatcher\Event;
 
@@ -66,6 +67,10 @@ class ReceiveReferenceEvent extends Event
 
     public function getBefore()
     {
+        if ("0000000000000000000000000000000000000000" === $this->before) {
+            return null;
+        }
+
         return $this->before;
     }
 
@@ -86,5 +91,18 @@ class ReceiveReferenceEvent extends Event
         $this->after = $after;
 
         return $this;
+    }
+
+    public function getLog(Repository $repository)
+    {
+        if (null === $this->getBefore()) {
+            return $repository->getLog($this->getAfter());
+        }
+
+        return $repository->getLog($this->getBefore().'..'.$this->getAfter());
+    }
+
+    public function getType()
+    {
     }
 }

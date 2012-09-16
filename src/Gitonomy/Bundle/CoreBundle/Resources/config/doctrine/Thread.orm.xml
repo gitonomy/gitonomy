@@ -12,7 +12,7 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="reference" column="reference" type="string" length="42" unique="true" />
+        <field name="reference" column="reference" type="string" length="42" unique="false" />
 
         <many-to-one field="project" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Project">
             <join-column name="project_id" referenced-column-name="id" />

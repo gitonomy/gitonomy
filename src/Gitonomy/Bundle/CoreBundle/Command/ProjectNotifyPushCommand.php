@@ -72,7 +72,7 @@ EOF
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
         $project = $this->getProject($input->getArgument('project'));
-        $user    = $this->getProject($input->getArgument('username'));
+        $user    = $this->getUser($input->getArgument('username'));
 
         $request   = $input->getArgument('request');
         $reference = $input->getArgument('reference');

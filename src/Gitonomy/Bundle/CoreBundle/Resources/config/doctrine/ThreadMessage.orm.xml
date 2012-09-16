@@ -9,6 +9,7 @@
         </id>
 
         <field name="message" column="message" type="text" />
+        <field name="type" column="type" type="smallint" />
         <field name="publishedAt" column="published_at" type="datetime" />
 
         <many-to-one field="thread" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Thread">

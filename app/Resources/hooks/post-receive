@@ -27,38 +27,6 @@ check_reference()
   echo "$GITONOMY_PROJECT / $GITONOMY_USER"
 
   $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "$BEFORE" "$AFTER"
-  if [ "$?" != 0 ]; then
-      cat >&2 <<END
-
-                                            ____
- ___                                      .-~. /_"-._
-\`-._~-.                                  / /_ "~o\  :Y
-    \  \                                / : \~x.  \` ')
-     ]  Y                              /  |  Y< ~-.__j
-    /   !                        _.--~T : l  l<  /.-~
-   /   /                 ____.--~ .   \` l /~\ \<|Y
-  /   /             .-~~"        /| .    ',-~\ \L|
- /   /             /     .^   \ Y~Y \.^>/l_   "--'
-/   Y           .-"(  .  l__  j_j l_/ /~_.-~    .
-Y    l          /    \  )    ~~~." / \`/"~ / \.__/l_
-|     \     _.-"      ~-{__     l  :  l._Z~-.___.--~
-|      ~---~           /   ~~"---\_  ' __[>
-l  .                _.^   ___     _>-y~
-\  \     .      .-~   .-~   ~>--"  /
- \  ~---"            /     ./  _.-'
-  "-.,_____.,_  _.--~\     _.-~
-              ~~     (   _}
-                     \`. ~(
-                       )  \\
-                      /,\`--'~\--'~\\
-    ----------------------------------
-      If you are happy & you know it
-               clap your ...
-    ----------------------------------
-
-END
-    exit 1
-  fi
 }
 
 while read before after reference

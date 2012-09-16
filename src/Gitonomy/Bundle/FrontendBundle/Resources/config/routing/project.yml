@@ -14,3 +14,8 @@ gitonomyfrontend_project_showTree:
     pattern: /{_locale}/project/{slug}/tree/{reference}/{path}
     defaults: { _controller: "GitonomyFrontendBundle:Project:showTree", path: "" }
     requirements: { path: ".*" }
+
+gitonomyfrontend_project_showThread:
+    pattern: /{_locale}/project/{slug}/thread/{reference}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:showThread" }
+    requirements: { path: ".*" }
