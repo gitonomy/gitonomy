@@ -24,6 +24,7 @@ check_reference()
   else
       REQUEST="GIT_WRITE"
   fi fi fi
+  echo "$GITONOMY_PROJECT / $GITONOMY_USER"
 
   $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "$BEFORE" "$AFTER"
   if [ "$?" != 0 ]; then

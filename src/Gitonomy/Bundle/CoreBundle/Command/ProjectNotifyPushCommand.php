@@ -14,7 +14,6 @@ namespace Gitonomy\Bundle\CoreBundle\Command;
 
 use Gitonomy\Git\ReceiveReference;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +24,7 @@ use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ReceiveReferenceEvent;
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class ProjectNotifyPushCommand extends ContainerAwareCommand
+class ProjectNotifyPushCommand extends AbstractCommand
 {
     /**
      * @inheritdoc
@@ -61,7 +60,6 @@ EOF
     public function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-        throw new \Exception('bla');
             $this->doExecute($input, $output);
 
             return 0;
@@ -73,19 +71,8 @@ EOF
 
     protected function doExecute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-
-        $projectSlug = $input->getArgument('project');
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($projectSlug);
-        if (null === $project) {
-            throw new \RuntimeException(sprintf('Project with slug "%s" not found', $projectSlug));
-        }
-
-        $username = $input->getArgument('username');
-        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
-        if (null === $user) {
-            throw new \RuntimeException(sprintf('User "%s" not found', $username));
-        }
+        $project = $this->getProject($input->getArgument('project'));
+        $user    = $this->getProject($input->getArgument('username'));
 
         $request   = $input->getArgument('request');
         $reference = $input->getArgument('reference');
@@ -99,7 +86,7 @@ EOF
     protected function dispatch(ReceiveReferenceEvent $event, $request)
     {
         $eventName = GitonomyEvents::getEventFromRequest($request);
-        throw new \Exception($eventName);
+
         $this->getContainer()->get('event_dispatcher')->dispatch($eventName, $event);
     }
 }

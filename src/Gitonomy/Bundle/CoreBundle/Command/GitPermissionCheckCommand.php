@@ -12,7 +12,6 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,7 +25,7 @@ use Gitonomy\Bundle\CoreBundle\Git\PushTarget;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class GitPermissionCheckCommand extends ContainerAwareCommand
+class GitPermissionCheckCommand extends AbstractCommand
 {
     /**
      * @inheritdoc
@@ -57,22 +56,10 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $username   = $input->getArgument('username');
-        $slug       = $input->getArgument('project');
+        $project    = $this->getProject($input->getArgument('project'));
+        $user       = $this->getUser($input->getArgument('username'));
         $permission = $input->getArgument('permission');
         $reference  = $input->getArgument('reference');
-
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
-        if (null === $project) {
-            throw new \RuntimeException(sprintf('Project with slug "%s" not found', $slug));
-        }
-
-        $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
-        if (null === $user) {
-            throw new \RuntimeException(sprintf('User "%s" not found', $username));
-        }
 
         $context = $this->getContainer()->get('security.context');
         $token = new CliToken($user->getRoles());
