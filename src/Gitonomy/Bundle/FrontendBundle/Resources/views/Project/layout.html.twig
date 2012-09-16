@@ -3,7 +3,13 @@
 {% block content %}
     <div class="row">
         <div class="span2">
-            {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" %}
+            {% render "GitonomyFrontendBundle:Project:blockNavigation" with {
+                project: project,
+                reference: reference,
+                active: active,
+                route_name: route_name|default('gitonomyfrontend_project_show'),
+                route_parameters: route_parameters|default({slug: project.slug})
+            } %}
         </div>
         <div class="span10">
             {% block right '' %}

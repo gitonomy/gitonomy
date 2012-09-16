@@ -1,6 +1,11 @@
 {% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
 
 {% set active = 'source' %}
+{% set route_name = "gitonomyfrontend_project_showTree" %}
+{% set route_parameters = {
+    slug: project.slug,
+    path: path
+} %}
 
 {% block title project.name ~ ' - Source - ' ~ path %}
 

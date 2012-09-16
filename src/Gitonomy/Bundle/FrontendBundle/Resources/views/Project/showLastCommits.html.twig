@@ -1,5 +1,11 @@
 {% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
+
 {% set active = "commits" %}
+{% set route_name = "gitonomyfrontend_project_showLastCommits" %}
+{% set route_parameters = {slug: project.slug} %}
+{% if page > 1 %}
+    {% set route_parameters = route_parameters|merge({page: page}) %}
+{% endif %}
 
 {% block title project.name ~ ' - Last commits' %}
 

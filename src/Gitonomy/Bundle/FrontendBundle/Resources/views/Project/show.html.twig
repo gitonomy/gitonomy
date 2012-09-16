@@ -1,6 +1,7 @@
 {% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
 
 {% set active = "project" %}
+{% set route_name = "gitonomyfrontend_project_show" %}
 
 {% block title project.name %}
 
@@ -13,20 +14,4 @@
     {% else %}
         <h3><small>No user associated to the project</small></h3>
     {% endfor %}
-    <h2>Branches</h2>
-    <ul>
-        <li>
-            {% set main = repository.references.getBranch(reference) %}
-            <strong>{{ main.name }}</strong>
-            <br />
-            <em>{{ main.lastModification | date_long }}</em>
-        </li>
-        {% for row in branches_activity %}
-            <li>
-                <strong>{{ row.branch.name }}</strong> -{{ row.behind }}+{{row.above}}
-                <br />
-                <em>{{ row.branch.lastModification | date_long }}</em>
-            </li>
-        {% endfor %}
-    </ul>
 {% endblock %}

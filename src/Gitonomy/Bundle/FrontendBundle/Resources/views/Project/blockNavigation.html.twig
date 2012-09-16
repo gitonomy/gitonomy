@@ -34,26 +34,21 @@
     </li>
 </ul>
 <h2>Branches</h2>
-<ul>
-    {% for branch in repository.references.branches %}
-        <li>
-            <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: branch.name }) }}">
-                {{ branch.name }}
-            </a>
-        </li>
-    {% else %}
-        <li><em>No branch</em></li>
-    {% endfor %}
-</ul>
-<h2>Tag</h2>
-<ul>
-    {% for tag in repository.references.tags %}
-        <li>
-            <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: tag.name }) }}">
-                {{ tag.name }}
-            </a>
-        </li>
-    {% else %}
-        <li><a>No tag</a></li>
-    {% endfor %}
-</ul>
+{% for data in branches %}
+    <p{% if data.branch.name == reference %} style="font-weight: bold"{% endif %}>
+        <a href="{{ path(route_name, route_parameters|merge({reference: data.branch.name })) }}">
+            {{ data.branch.name }}
+            {% if data.behind %}
+                <span style="color: red;">-{{ data.behind }}</span>
+            {% endif %}
+            {% if data.behind or data.above %}/{% endif %}
+            {% if data.above %}
+                <span style="color: green;">+{{ data.above }}</span>
+            {% endif %}
+        </a>
+        <br />
+        {{ data.commit.authorDate|date_relative }}
+    </p>
+{% else %}
+    <p><em>No branch</em></p>
+{% endfor %}

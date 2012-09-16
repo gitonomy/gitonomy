@@ -2,6 +2,11 @@
 {% set active = "source" %}
 
 {% block title project.name ~ ' - Source' ~ (path ? ' - ' ~ path ~ '/' : '') %}
+{% set route_name = "gitonomyfrontend_project_showTree" %}
+{% set route_parameters = {
+    slug: project.slug,
+    path: path
+} %}
 
 {% block right %}
     <h2>Source</h2>
