@@ -20,16 +20,19 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.1.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.0.*",
-        "twig/extensions": "1.0.*",
-        "symfony/assetic-bundle": "2.1.*",
-        "symfony/swiftmailer-bundle": "2.1.*",
-        "symfony/monolog-bundle": "2.1.*",
-        "sensio/distribution-bundle": "2.1.*",
-        "doctrine/doctrine-fixtures-bundle":"dev-master",
-        "gitonomy/gitlib": "dev-master"
+
+        "symfony/symfony":                   "2.1.*",
+        "doctrine/orm":                      "dev-master",
+
+        "doctrine/doctrine-bundle":          "*",
+        "twig/extensions":                   "*",
+        "symfony/assetic-bundle":            "*",
+        "symfony/swiftmailer-bundle":        "*",
+        "symfony/monolog-bundle":            "*",
+        "sensio/distribution-bundle":        "*",
+        "doctrine/doctrine-fixtures-bundle": "*",
+
+        "gitonomy/gitlib":                   "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
