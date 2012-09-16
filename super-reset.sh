@@ -30,7 +30,7 @@ fi
 
 if [ -f ~/.ssh/authorized_keys.src ]; then
     echo ">>> Appending authorized_keys.src"
-    cat ~/.ssh/authorized_keys.src | tee ~/.ssh/authorized_keys
+    cat ~/.ssh/authorized_keys.src | tee -a ~/.ssh/authorized_keys
 fi
 
 for project in gitonomy symfony empty foobar; do
