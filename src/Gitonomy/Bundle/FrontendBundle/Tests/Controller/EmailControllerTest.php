@@ -48,7 +48,7 @@ class EmailControllerTest extends WebTestCase
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());

@@ -50,7 +50,7 @@ class SecurityControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/en_US'));
 
         $crawler = $this->client->followRedirect();
-        $node = $crawler->filter('div.alert-message.success p');
+        $node = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Your account was created!', $node->text());
@@ -72,7 +72,7 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         $this->assertEquals('Unable to login:', $crawler->filter('.alert-message strong')->text());
-        $this->assertEquals(1, $crawler->filter('.topbar a:contains("Login")')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar a:contains("Login")')->count());
     }
 
     public function testInactiveLogin()
@@ -110,21 +110,21 @@ class SecurityControllerTest extends WebTestCase
         $cookieJar->expire('MOCKSESSID');
 
         $crawler = $this->client->request('GET', '/en_US');
-        $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
 
         $cookieJar->expire('MOCKSESSID');
         $cookieJar->expire('REMEMBERME');
 
         $crawler = $this->client->request('GET', '/en_US');
 
-        $this->assertEquals(0, $crawler->filter('.topbar a:contains("alice")')->count());
+        $this->assertEquals(0, $crawler->filter('.navbar a:contains("alice")')->count());
     }
 
     public function testLogout()
     {
         $crawler = $this->client->connect('alice');
 
-        $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
 
         $this->client->click($crawler->filter('a:contains("Logout")')->link());
 
@@ -164,7 +164,7 @@ class SecurityControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertEquals(1, $crawler->filter('.alert-message.success')->count());
+        $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
     }
 
     public function testChangePassword()
@@ -188,7 +188,7 @@ class SecurityControllerTest extends WebTestCase
 
         $crawler = $this->client->connect('alice', 'foobar');
 
-        $this->assertEquals(1, $crawler->filter('.topbar a:contains("alice")')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
     }
 
     public function testChangePasswordWithNoPassword()

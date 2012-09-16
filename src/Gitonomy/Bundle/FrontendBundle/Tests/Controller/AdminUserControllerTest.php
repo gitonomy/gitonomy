@@ -171,7 +171,7 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Activation mail for user "'.$user->getFullname().'" sent.', $node->text());
@@ -244,7 +244,7 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$email->getUser()->getId().'/emails'));
         $crawler = $this->client->followRedirect();
 
-        $node = $crawler->filter('div.alert-message.success p');
+        $node = $crawler->filter('div.alert-success');
         $this->assertEquals('Email "'.$email->getEmail().'" added.', $node->text());
 
         $node = $crawler->filter('#email_'.$email->getId().' td:contains("no")');
@@ -270,7 +270,7 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/emails'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Activation mail for email "'.$email->getEmail().'" sent.', $node->text());

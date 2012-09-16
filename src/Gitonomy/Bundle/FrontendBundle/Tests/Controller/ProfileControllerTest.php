@@ -81,7 +81,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "admin@mydomain.tld" added.', $node->text());
@@ -103,7 +103,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Activation mail for "'.$email->getEmail().'" sent.', $node->text());
@@ -137,7 +137,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-message.success p');
+        $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Email "'.$email->getEmail().'" deleted.', $node->text());
@@ -156,9 +156,9 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(2, $crawler->filter('.ssh-key')->count());
 
         $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Installed key")')->count());
-        $this->assertEquals(0, $crawler->filter('.ssh-key h3:contains("Installed key") + pre + p span.notice')->count());
+        $this->assertEquals(0, $crawler->filter('.ssh-key h3:contains("Installed key") + pre + p span.label-info')->count());
         $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Not installed key")')->count());
-        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Not installed key") + pre + p span.notice')->count());
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Not installed key") + pre + p span.label-info')->count());
 
         // Create
         $form = $crawler->filter('form')->form(array(
@@ -177,7 +177,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(3, $crawler->filter('.ssh-key')->count());
 
         $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo")')->count());
-        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo") + pre + p span.notice')->count());
+        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("foo") + pre + p span.label-info')->count());
     }
 
     public function testSshKeyCreateInvalid()
@@ -223,13 +223,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->followRedirect();
         $response = $this->client->getResponse();
 
-        $this->assertEquals(1, $crawler->filter('.topbar a:contains("foobar")')->count());
-
-        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
-        $response = $this->client->getResponse();
-
-        // Check the installed key is marked as not installed
-        $this->assertEquals(1, $crawler->filter('.ssh-key h3:contains("Installed key") + pre + p span.notice')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar a:contains("foobar")')->count());
     }
 
     public function testChangeWrongUsername()
