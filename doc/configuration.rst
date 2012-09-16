@@ -1,11 +1,12 @@
 Configuration
 =============
 
-To configure application, go to ``config.php`` in your web browser. If you
-installed Gitonomy on http://localhost, go to http://localhost/config.php
-
 Web installation
 ::::::::::::::::
+
+To configure application, go to ``config.php`` in your web browser. If you
+installed Gitonomy on ``http://localhost``, go to
+``http://localhost/config.php``.
 
 On this page, you will have a step-by-step configurator and configure each
 aspect of the application. At the end, you will be able to check configuration

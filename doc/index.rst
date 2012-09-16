@@ -7,4 +7,3 @@ This is the documentation of Gitonomy, a git management project.
 
     installation
     configuration
-    security
