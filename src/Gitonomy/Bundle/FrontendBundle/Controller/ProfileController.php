@@ -235,6 +235,9 @@ class ProfileController extends BaseController
         }
 
         $em->remove($userSshKey);
+        $em->flush();
+
+        $this->get('session')->setFlash('success', sprintf('SSH key "%s" deleted', $userSshKey->getTitle()));
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
     }
