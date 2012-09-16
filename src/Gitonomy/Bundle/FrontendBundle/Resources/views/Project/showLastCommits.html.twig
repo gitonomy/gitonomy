@@ -1,15 +1,10 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
+{% set active = "commits" %}
 
 {% block title project.name ~ ' - Last commits' %}
 
-{% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'commits'} %}
-    <div class="page-header">
-        <h2>Last commits on {{ reference }}</h2>
-    </div>
+{% block right %}
+    <h2>Last commits on {{ reference }}</h2>
     {% set commits = pager.iterator %}
     {% if pager.pageCount > 1 %}
         <div class="pagination">

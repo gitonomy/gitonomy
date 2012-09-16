@@ -1,13 +1,12 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block body %}
-    {% include "GitonomyFrontendBundle::navigation.html.twig" %}
-        {% include "GitonomyFrontendBundle::flashes.html.twig" %}
-        <div class="navigation">
+{% block content %}
+    <div class="row">
+        <div class="span2">
             {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" %}
         </div>
-        <div class="content">
-            {% block content '' %}
+        <div class="span10">
+            {% block right '' %}
         </div>
     </div>
 {% endblock %}

@@ -1,23 +1,35 @@
 <h2>{{ project.name }}</h2>
-<ul>
+<ul class="nav nav-tabs nav-stacked">
     <li{% if active == "project" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: reference }) }}">
             Overview
+            {% if active == "project" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
         </a>
     </li>
     <li{% if active == "history" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug, reference: reference }) }}">
             History
+            {% if active == "history" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
         </a>
     </li>
     <li{% if active == "commits" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: reference}) }}">
             Last commits
+            {% if active == "commits" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
         </a>
     </li>
     <li{% if active == "source" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference}) }}">
             Source
+            {% if active == "source" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
         </a>
     </li>
 </ul>
