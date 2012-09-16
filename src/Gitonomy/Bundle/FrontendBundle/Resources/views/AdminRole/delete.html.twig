@@ -11,7 +11,8 @@
         {{ form_errors(form) }}
         {{ form_rest(form) }}
         {% block admin_before_delete_form_end '' %}
-        <input type="submit" class="btn danger" value="Delete" />
+        <input type="submit" class="btn btn-danger
+btn btn-danger" value="Delete" />
         <a href="{{ path(route_prefix~'_edit', {'id':object.id}) }}" class="btn">Cancel</a>
     </form>
 {% endblock %}

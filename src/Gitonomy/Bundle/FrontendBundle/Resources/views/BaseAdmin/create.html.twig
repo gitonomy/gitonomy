@@ -11,7 +11,7 @@
     <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" id="{{ object_type }}" novalidate="novalidate">
         {% include [controller_prefix~':form.html.twig', 'GitonomyFrontendBundle:BaseAdmin:form.html.twig'] with { 'form': form } only %}
         <hr />
-        <input type="submit" class="btn success" value="Create" />
+        <input type="submit" class="btn btn-success" value="Create" />
         <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
     </form>
 {% endblock %}

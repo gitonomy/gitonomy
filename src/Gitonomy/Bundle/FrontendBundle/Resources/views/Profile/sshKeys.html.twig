@@ -12,9 +12,10 @@
             <h3>{{ key.title }}</h3>
             <pre>{{ key.content }}</pre>
             <p>
-                <a class="btn danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
+                <a class="btn btn-danger
+btn btn-danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
                 {% if not key.isInstalled %}
-                    <span class="label warn notice">INSTALLING</span>
+                    <span class="label label-info">INSTALLING</span>
                 {% endif %}
             </p>
             <hr />
@@ -22,9 +23,9 @@
     {% endfor %}
     <h3>New key</h3>
     <form action="{{ path('gitonomyfrontend_profile_createSshKey') }}" method="POST" class="form-stacked" novalidate>
-        {{ form_row(form.title, {'field_attr': { 'class': 'span12'}})   }}
-        {{ form_row(form.content, {'field_attr': { 'class': 'span12'}}) }}
+        {{ form_row(form.title, {'field_attr': { 'class': 'span8'}})   }}
+        {{ form_row(form.content, {'field_attr': { 'class': 'span8'}}) }}
         {{ form_rest(form) }}
-        <p><input type="submit" value="Add key" class="btn primary" /></p>
+        <p><input type="submit" value="Add key" class="btn btn-primary" /></p>
     </form>
 {% endblock %}

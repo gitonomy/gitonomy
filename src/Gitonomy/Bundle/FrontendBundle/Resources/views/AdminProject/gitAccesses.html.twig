@@ -9,7 +9,7 @@
     </div>
     <form class="form" action="{{ path('gitonomyfrontend_adminproject_gitAccesses', {'id'  :object.id}) }}" method="POST" id="project_git_accesses" novalidate>
         {{ form_errors(form) }}
-        <table class="zebra-striped bordered-table">
+        <table class="table table-striped bordered-table">
             <thead>
                 <tr>
                     <th>Role</th>
@@ -28,18 +28,18 @@
                         <td>{{ gitAccess.isRead ? 'yes' : 'no' }}</td>
                         <td>{{ gitAccess.isWrite ? 'yes' : 'no' }}</td>
                         <td>{{ gitAccess.isAdmin ? 'yes' : 'no' }}</td>
-                        <td><a class="label important" href="{{ path('gitonomyfrontend_adminproject_gitAccessDelete', {'gitAccessId': gitAccess.id }) }}">delete</a></td>
+                        <td><a class="label label-important" href="{{ path('gitonomyfrontend_adminproject_gitAccessDelete', {'gitAccessId': gitAccess.id }) }}">delete</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td>
-                        {{ form_widget(form.role, { 'attr': {'class': 'span4' }}) }}
+                        {{ form_widget(form.role) }}
                         {{ form_errors(form.role) }}
                     </td>
                     <td>
-                        {{ form_widget(form.reference, { 'attr': {'class': 'span4' }}) }}
+                        {{ form_widget(form.reference) }}
                         {{ form_errors(form.reference) }}
                     </td>
                     <td>
@@ -55,7 +55,7 @@
                         {{ form_errors(form.admin) }}
                     </td>
                     <td>
-                        <input type="submit" class="btn primary" value="Save" />
+                        <input type="submit" class="btn btn-primary" value="Save" />
                     </td>
                 </tr>
             </tfoot>

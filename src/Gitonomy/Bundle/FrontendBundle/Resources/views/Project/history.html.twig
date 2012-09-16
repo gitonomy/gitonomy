@@ -27,14 +27,14 @@
             <div id="history">
             </div>
         </div>
-        <div class="span14">
-            <table class="commit-list">
+        <div class="span10">
+            <table class="table table-condensed commit-list">
                 <tbody>
                     {% for i, commit in commits %}
                         <tr>
                             <td class="message">
                                 {% for branch in data[i].branches %}
-                                    <span class="label label-success">{{ branch }}</span>
+                                    <span class="label">{{ branch }}</span>
                                 {% endfor %}
                                 <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
                                     {{ commit.shortMessage }}
@@ -64,7 +64,7 @@
     <script>
         var data = {{ data|json_encode|raw }};
 
-        var cell_size = 21.2,
+        var cell_size = 23.5,
             height = data.length * cell_size,
             width  = $("#history").width(),
             cell_width = Math.floor(width/cell_size)

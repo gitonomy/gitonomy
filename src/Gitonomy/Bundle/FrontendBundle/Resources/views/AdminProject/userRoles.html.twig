@@ -9,7 +9,7 @@
     </div>
     <form class="form" action="{{ path('gitonomyfrontend_adminproject_userRoles', {'id' :object.id}) }}" method="POST" id="user_role_project" novalidate>
         {{ form_errors(form) }}
-        <table class="bordered-table zebra-striped">
+        <table class="bordered-table table table-striped">
             <thead>
                 <tr>
                     <th>User</th>
@@ -22,14 +22,14 @@
                     <tr>
                         <td>{{ userRole.user.username }}</td>
                         <td>{{ userRole.role.name }}</td>
-                        <td><a href="{{ path('gitonomyfrontend_adminproject_userRoleDelete', {'userRoleId': userRole.id }) }}" class="label important">delete</td>
+                        <td><a href="{{ path('gitonomyfrontend_adminproject_userRoleDelete', {'userRoleId': userRole.id }) }}" class="label label-important">delete</td>
                     </tr>
                 {% endfor %}
                 {% if displayForm %}
                     <tr>
                         <td>{{ form_widget(form.user) }}</td>
                         <td>{{ form_widget(form.role) }}</td>
-                        <td><input type="submit" class="btn success" /></td>
+                        <td><input type="submit" class="btn btn-success" /></td>
                     </tr>
                 {% endif %}
             </tbody>

@@ -12,9 +12,10 @@
             {% block actions '' %}
             {% include [controller_prefix~':form.html.twig', 'GitonomyFrontendBundle:BaseAdmin:form.html.twig'] with { 'form': form } only %}
             <hr />
-            <input type="submit" class="btn success" value="Update" />
+            <input type="submit" class="btn btn-success" value="Update" />
             <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
-            <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+            <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn btn-danger
+btn btn-danger">Delete</a>
         </form>
     {% endblock %}
 {% endblock %}

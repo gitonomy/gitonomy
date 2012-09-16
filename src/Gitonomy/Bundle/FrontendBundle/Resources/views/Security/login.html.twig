@@ -24,16 +24,16 @@
     <form class="form-stacked" action="{{ path('gitonomyfrontend_security_loginCheck') }}" method="POST" novalidate>
         <div class="well">
             <div class="clearfix">
-                <label for="username">{{ 'security.username'|trans({}, 'security') }}:</label>
+                <label label-for="username">{{ 'security.username'|trans({}, 'security') }}:</label>
                 <input type="text" id="username" name="_username" value="{{ last_username }}" />
             </div>
             <div class="clearfix">
-                <label for="password">{{ 'security.password'|trans({}, 'security') }}:</label>
+                <label label-for="password">{{ 'security.password'|trans({}, 'security') }}:</label>
                 <input type="password" id="password" name="_password" />
             </div>
             <div class="clearfix">
                 <input name="_remember_me" id="rememberMe" type="checkbox">
-                <label for="rememberMe" >{{ 'security.remember_me'|trans({}, 'security') }}</label>
+                <label label-for="rememberMe" >{{ 'security.remember_me'|trans({}, 'security') }}</label>
             </div>
 
             <p>
@@ -41,7 +41,7 @@
             </p>
 
             <p>
-                <input class="btn primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" />
+                <input class="btn btn-primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" />
             </p>
         </div>
     </form>

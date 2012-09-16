@@ -15,7 +15,8 @@
         {{ form_errors(form) }}
         {{ form_rest(form) }}
 
-        <input type="submit" class="btn danger" value="Delete" />
+        <input type="submit" class="btn btn-danger
+btn btn-danger" value="Delete" />
         <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id':object.user.id}) }}" class="btn">Cancel</a>
     </form>
 {% endblock %}

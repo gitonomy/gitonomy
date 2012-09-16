@@ -6,9 +6,9 @@
     <div class="page-header">
         <h1>{{ object_type|capitalize~' management' }}</h1>
     </div>
-    <a href="{{ path(route_prefix~'_create') }}" class="btn success">Create</a>
+    <a href="{{ path(route_prefix~'_create') }}" class="btn btn-success">Create</a>
     <hr />
-    <table class="zebra-striped" id="sortTableExample">
+    <table class="table table-striped" id="sortTableExample">
         <thead>
             {% block admin_list_thead %}
             <tr>
@@ -35,5 +35,5 @@
         </tbody>
     </table>
     <hr />
-    <a href="{{ path(route_prefix~'_create') }}" class="btn success">Create</a>
+    <a href="{{ path(route_prefix~'_create') }}" class="btn btn-success">Create</a>
 {% endblock %}

@@ -9,23 +9,20 @@
     </div>
     {{ form_errors(form) }}
     <form class="form-stacked" action="{{ path(route_prefix~'_edit', {'id':object.id}) }}" method="POST" id="user" novalidate>
-        <div class="page-header">
-            <h2>User informations</h2>
-        </div>
+        <h2>User informations</h2>
         {{ form_row(form.username) }}
         {{ form_row(form.fullname) }}
         {{ form_row(form.timezone) }}
-        <div class="page-header">
-            <h2>Global roles</h2>
-        </div>
+        <h2>Global roles</h2>
         {{ form_widget(form.globalRoles) }}
         {{ form_rest(form) }}
         <hr />
-        <input type="submit" class="btn success" value="Update" />
+        <input type="submit" class="btn btn-success" value="Update" />
         <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
-        <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn danger">Delete</a>
+        <a href="{{ path(route_prefix~'_delete', {'id':object.id}) }}" class="btn btn-danger
+btn btn-danger">Delete</a>
         {% if (object.hasDefaultEmail and not object.isActive) %}
-            <a href="{{ path(route_prefix~'_activate', {'id':object.id}) }}" class="btn info">Activate</a>
+            <a href="{{ path(route_prefix~'_activate', {'id':object.id}) }}" class="btn btn-info">Activate</a>
         {% endif %}
     </form>
 {% endblock %}

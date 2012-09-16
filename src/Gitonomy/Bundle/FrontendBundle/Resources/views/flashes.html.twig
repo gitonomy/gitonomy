@@ -1,7 +1,7 @@
 {% for type in ['warning', 'info', 'success', 'error'] %}
     {% if app.session.hasFlash(type) %}
-        <div class="alert-message {{ type }}">
-            <p>{{ app.session.getFlash(type) }}</p>
+        <div class="alert alert-{{ type }}">
+            {{ app.session.getFlash(type) }}
         </div>
     {% endif %}
 {% endfor %}

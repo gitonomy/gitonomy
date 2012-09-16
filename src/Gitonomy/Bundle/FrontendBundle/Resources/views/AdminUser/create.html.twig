@@ -10,20 +10,16 @@
     <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" id="user" novalidate>
         <div class="row">
             {{ form_errors(form) }}
-            <div class="page-header">
                 <h2>User informations</h2>
-            </div>
             {{ form_row(form.username) }}
             {{ form_row(form.fullname) }}
             {{ form_row(form.timezone) }}
-            <div class="page-header">
                 <h2>Global roles</h2>
-            </div>
             {{ form_widget(form.globalRoles) }}
             {{ form_rest(form) }}
             <hr />
         </div>
-        <input type="submit" class="btn success" value="Create" />
+        <input type="submit" class="btn btn-success" value="Create" />
         <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
     </form>
 {% endblock %}

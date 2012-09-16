@@ -10,9 +10,9 @@
             <h1>{{ gitonomy.name }}</h1>
             <p>{{ gitonomy.baseline }}</p>
             <p>
-                <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn primary large">Connect</a>
+                <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn btn-primary btn-large">Connect</a>
                 {% if gitonomy.open_registration%}
-                    <a href="{{ path('gitonomyfrontend_security_register') }}" class="btn large">Register</a>
+                    <a href="{{ path('gitonomyfrontend_security_register') }}" class="btn btn-large">Register</a>
                 {% endif %}
             </p>
         {% endif %}

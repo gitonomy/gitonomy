@@ -7,7 +7,7 @@
         <h1>{{ user.fullname }} <small>{{ user.username }}</small></h1>
     </div>
     <div class="row">
-        <div class="span8">
+        <div class="span6">
             <h2>Informations</h2>
             <ul>
                 <li><strong>Fullname:</strong> {{ user.fullname }}</li>
@@ -15,7 +15,7 @@
                 <li><strong>Main email:</strong> {{ user.defaultEmail.email }}</li>
             </ul>
         </div>
-        <div class="span8">
+        <div class="span6">
             <h2>Projects</h2>
             {% for project in projects %}
                 {{ loop.first ? '<div class="well">' : '' }}
