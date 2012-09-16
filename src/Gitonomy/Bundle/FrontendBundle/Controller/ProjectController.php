@@ -181,8 +181,13 @@ class ProjectController extends BaseController
             $path = substr($path, 1);
         }
 
-        $element = $tree->resolvePath($path);
+        try {
+            $element = $tree->resolvePath($path);
+        } catch (\InvalidArgumentException $e) {
+            $element = null;
+        }
 
+        $code = 200;
         $parameters = array(
             'reference'  => $reference,
             'commit'     => $commit,
@@ -197,9 +202,15 @@ class ProjectController extends BaseController
         } elseif ($element instanceof Tree) {
             $parameters['tree'] = $element;
             $tpl = 'GitonomyFrontendBundle:Project:showTree.html.twig';
+        } else {
+            $tpl = 'GitonomyFrontendBundle:Project:showTreeNotFound.html.twig';
+            $code = 404;
         }
 
-        return $this->render($tpl, $parameters);
+        $response = $this->render($tpl, $parameters);
+        $response->setStatusCode($code);
+
+        return $response;
     }
 
     /**
