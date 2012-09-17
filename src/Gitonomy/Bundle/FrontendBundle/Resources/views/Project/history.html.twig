@@ -64,8 +64,8 @@
     <script>
         var data = {{ data|json_encode|raw }};
 
-        var cell_size = 23.5,
-            height = data.length * cell_size,
+        var height = $("table.commit-list").height(),
+            cell_size = height / (data.length - 1),
             width  = $("#history").width(),
             cell_width = Math.floor(width/cell_size)
         ;
@@ -79,7 +79,7 @@
 
         var yAxis = d3.scale.linear()
             .domain([0, data.length])
-            .range([cell_size/2, height - cell_size/2])
+            .range([cell_size/2, height + cell_size/2])
         ;
 
         var history = d3.select("#history")

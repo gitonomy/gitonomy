@@ -28,7 +28,6 @@ function history_graph(commits) {
     // Compute family
     commits.forEach(function (commit, i) {
         compute_family(commit, i);
-        console.log(commits[i].family);
     });
 
     // Draw
