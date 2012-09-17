@@ -97,7 +97,7 @@ class ProjectController extends BaseController
         $repository = $this->getGitRepository($project);
 
         $commits = $repository
-            ->getLog($reference)
+            ->getLog(null)
             ->setOffset($request->query->get('offset', 0))
             ->setLimit($request->query->get('limit', 50))
             ->getCommits()

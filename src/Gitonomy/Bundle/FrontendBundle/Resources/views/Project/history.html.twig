@@ -7,18 +7,7 @@
 
 {% block right %}
     {% set history_reference = reference %}
-    {% if reference == null %}
-        {% set reference = "master" %}
-    {% endif %}
-    <h2>
-        History
-        {% if history_reference != null %}
-            <small>
-                {{ history_reference }} - <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug}) }}">view all</a>
-            </small>
-        {% else %}
-        {% endif %}
-    </h2>
+    <h2>History</h2>
     <div class="row">
         <div class="span2">
             <div id="history">
