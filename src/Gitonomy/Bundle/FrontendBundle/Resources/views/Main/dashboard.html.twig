@@ -3,13 +3,28 @@
 {% block title 'Welcome to Gitonomy' %}
 
 {% block content %}
+    <div class="page-header">
+        <h1>Your repositories</h1>
+    </div>
     <div class="row">
-        <div class="span10">
-            <h2>Upcoming...</h2>
-        </div>
+        {% for row in projects %}
+            {% set project, repository = row[0], row[1] %}
+            <div class="span6">
+                <div>
+                    <h2>
+                        <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">{{ project.name }}</a>
+                        <small>
+                            {{ repository.references.branches|length }} branches
+                            /
+                            {{ repository.references.tags|length }} tags
+                        </small>
+                    </h2>
+                    <pre>git clone {{ project_ssh(project) }}</pre>
+                </div>
+            </div>
+        {% endfor %}
         <div class="span6">
-            <h2>My repositories</h2>
-            <p>@todo</p>
+            &nbsp;
         </div>
     </div>
 {% endblock %}

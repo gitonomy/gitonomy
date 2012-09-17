@@ -47,6 +47,30 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals('gitonomy.sample', $crawler->filter('h1')->text());
     }
 
+    public function testDashboard()
+    {
+        $this->client->connect('alice');
+        $crawler  = $this->client->request('GET', '/en_US');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('Your repositories', $crawler->filter('h1')->text());
+
+        $this->assertEquals(3, $crawler->filter('h2')->count());
+
+        $expectations = array(
+            'Foobar' => '2 branches / 0 tags',
+            'Barbaz' => '1 branches / 0 tags',
+            'Empty'  => '0 branches / 0 tags'
+        );
+
+        foreach ($expectations as $project => $small) {
+            $text = $crawler->filter('a:contains("'.$project.'") + small')->text();
+            $text = trim(preg_replace("/[ \t\n\r]+/", " ", $text));
+            $this->assertEquals($small, $text);
+        }
+    }
+
     public function testSetLocaleWithoutReferer()
     {
         $crawler  = $this->client->request('GET', '/fr_FR/but-i-would-prefer-en_US');

@@ -13,6 +13,7 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Main pages of the application.
@@ -33,7 +34,7 @@ class MainController extends BaseController
             return new RedirectResponse($this->generateUrl('gitonomyfrontend_main_homepage'));
         }
 
-        if ($this->get('security.context')->isGranted('AUTHENTICATED')) {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->forward('GitonomyFrontendBundle:Main:dashboard');
         }
 
@@ -45,9 +46,21 @@ class MainController extends BaseController
      */
     public function dashboardAction()
     {
-        $this->assertPermission('AUTHENTICATED');
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            throw new AccessDeniedException();
+        }
 
-        return $this->render('GitonomyFrontendBundle:Main:dashboard.html.twig');
+        $pool = $this->get('gitonomy_core.git.repository_pool');
+
+        $entities = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
+        $projects = array();
+        foreach ($entities as $entity) {
+            $projects[] = array($entity, $pool->getGitRepository($entity));
+        }
+
+        return $this->render('GitonomyFrontendBundle:Main:dashboard.html.twig', array(
+            'projects' => $projects
+        ));
     }
 
     /**
