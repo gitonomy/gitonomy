@@ -17,7 +17,7 @@
         </a>
     </li>
     <li{% if active == "commits" %} class="active"{% endif %}>
-        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: current, current: current}) }}">
+        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: current|default('master'), current: current}) }}">
             Last commits
             {% if active == "commits" %}
                 <span class="pull-right">&raquo;</i>
@@ -25,7 +25,7 @@
         </a>
     </li>
     <li{% if active == "source" %} class="active"{% endif %}>
-        <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: current, current: current}) }}">
+        <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: current|default('master'), current: current}) }}">
             Source
             {% if active == "source" %}
                 <span class="pull-right">&raquo;</i>
