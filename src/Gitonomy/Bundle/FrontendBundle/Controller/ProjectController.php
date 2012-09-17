@@ -93,7 +93,7 @@ class ProjectController extends BaseController
     public function historyAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference');
+        $reference  = $request->query->get('reference', 'master');
         $repository = $this->getGitRepository($project);
 
         $commits = $repository

@@ -20,7 +20,7 @@
                         <tr>
                             <td class="message">
                                 {% for branch in data[i].branches %}
-                                    <span class="label">{{ branch }}</span>
+                                    <span class="label {% if branch == reference %} label-info{% endif %}"><a style="color: white;" href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: branch}) }}">{{ branch }}</a></span>
                                 {% endfor %}
                                 <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
                                     {{ commit.shortMessage }}
