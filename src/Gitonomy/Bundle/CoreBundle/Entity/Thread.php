@@ -12,13 +12,12 @@ class Thread
     protected $reference;
     protected $messages;
 
-    public function __construct(Project $project, User $user, $reference, ArrayCollection $messages = null)
+    public function __construct(Project $project, User $user, $reference)
     {
         $this
             ->setProject($project)
             ->setUser($user)
             ->setReference($reference)
-            ->setMessages($messages)
         ;
     }
 
@@ -66,17 +65,5 @@ class Thread
     public function getMessages()
     {
         return $this->messages;
-    }
-
-    public function setMessages(ArrayCollection $messages = null)
-    {
-        $this->messages = $messages ? $messages : new ArrayCollection();
-
-        return $this;
-    }
-
-    public function addMessage(ThreadMessage $message)
-    {
-        $this->messages->add($message);
     }
 }

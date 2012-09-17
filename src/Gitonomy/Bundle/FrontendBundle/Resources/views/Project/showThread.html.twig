@@ -6,19 +6,16 @@
     <div class="page-header">
         <h1>{{ project.name }}</h1>
     </div>
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'thread'} %}
     <div class="page-header">
-        <h2>Source</h2>
+        <h2>Thread</h2>
     </div>
     <div class="span8">
         {% for message in thread.messages %}
-            <div>
-                {{ thread.user.username }}
-                <img class="avatar" src="{{ gravatar(thread.user.defaultEmail.email, 16) }}" alt="{{ thread.user.username }}" title="{{ thread.user.username }}" />
-                <em>{{ message.type }}</em>
-                <strong>{{ message.publishedAt | date('r') }}</strong>
-                <p>{{ message.message | nl2br | raw }}</p>
-            </div>
+            {% include [
+                "GitonomyFrontEndBundle:Project:ThreadMessage/"~message.name~".html.twig",
+                "GitonomyFrontendBundle:Project:showThreadMessage.html.twig"
+            ] with {message: message} %}
         {% endfor %}
     </div>
 {% endblock %}

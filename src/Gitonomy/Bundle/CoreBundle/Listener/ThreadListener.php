@@ -8,7 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ReceiveReferenceEvent;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 use Gitonomy\Bundle\CoreBundle\Entity\Thread;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CreateMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage;
 
 class ThreadListener
 {
@@ -34,30 +35,26 @@ class ThreadListener
             $event->getReference()
         );
 
-        $em->persist($thread);
-        $em->flush();
+        $threadMessage = new CreateMessage($thread, $event->getUser());
 
-        $this->doWrite($thread, $event, ThreadMessage::TYPE_GIT_COMMIT);
+        $em->persist($thread);
+        $em->persist($threadMessage);
+        $em->flush();
     }
 
     public function write(ReceiveReferenceEvent $event)
     {
-        $thread = $this->getThreadFromReference($event->getReference());
-
-        $this->doWrite($thread, $event, ThreadMessage::TYPE_GIT_COMMIT);
-    }
-
-    protected function doWrite(Thread $thread, ReceiveReferenceEvent $event, $type, $message = '')
-    {
         $em         = $this->registry->getEntityManager();
+        $thread     = $this->getThreadFromReference($event->getReference());
         $repository = $this->repositoryPool->getGitRepository($event->getProject());
         $log        = $event->getLog($repository);
 
+        $message = '';
         foreach ($log as $commit) {
             $message.= $commit->getShortHash().': '.$commit->getShortMessage()."\n";
         }
 
-        $threadMessage = new ThreadMessage($thread, $event->getUser(), $type, $message);
+        $threadMessage = new CommitMessage($thread, $event->getUser());
 
         $em->persist($threadMessage);
         $em->flush();

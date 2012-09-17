@@ -30,4 +30,9 @@
             Source
         </a>
     </li>
+    <li{% if active == "thread" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_showThread', {slug: project.slug, reference: reference}) }}">
+            Thread
+        </a>
+    </li>
 </ul>

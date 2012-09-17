@@ -6,10 +6,6 @@ gitonomyfrontend_project_history:
     pattern: /{_locale}/project/{slug}/history
     defaults: { _controller: "GitonomyFrontendBundle:Project:history" }
 
-gitonomyfrontend_project_showCommit:
-    pattern: /{_locale}/project/{slug}/view-commit/{hash}
-    defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }
-
 gitonomyfrontend_project_showTree:
     pattern: /{_locale}/project/{slug}/tree/{reference}/{path}
     defaults: { _controller: "GitonomyFrontendBundle:Project:showTree", path: "" }
@@ -19,3 +15,7 @@ gitonomyfrontend_project_showThread:
     pattern: /{_locale}/project/{slug}/thread/{reference}
     defaults: { _controller: "GitonomyFrontendBundle:Project:showThread" }
     requirements: { path: ".*" }
+
+gitonomyfrontend_project_showCommit:
+    pattern: /{_locale}/project/{slug}/view-commit/{hash}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }

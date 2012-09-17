@@ -49,6 +49,7 @@ class GitonomyExtension extends \Twig_Extension
             'user_list'       => new \Twig_Function_Method($this, 'getUserList'),
             'project_ssh'     => new \Twig_Function_Method($this, 'getProjectSsh'),
             'codemirror_mode' => new \Twig_Function_Method($this, 'getCodemirrorMode'),
+            'git_type_action' => new \Twig_Function_Method($this, 'getGitTypeAction'),
         );
     }
 
@@ -115,5 +116,33 @@ class GitonomyExtension extends \Twig_Extension
             default:
                 return 'text';
         }
+    }
+
+    public function getGitTypeAction($type)
+    {
+        switch ($type) {
+            case 0:
+                $action = 'created the thread by a push';
+                break;
+            case 1:
+                $action = 'wrote';
+                break;
+            case 2:
+                $action = 'closed';
+                break;
+            case 3:
+                $action = 'commited';
+                break;
+            case 4:
+                $action = 'asked a pull request';
+                break;
+            case 5:
+                $action = 'merged';
+                break;
+            default:
+                throw new \RuntimeException("Undefined type");
+        }
+
+        return $action;
     }
 }
