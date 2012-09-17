@@ -140,7 +140,7 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:showCommit.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
-            'reference'  => $hash,
+            'reference'  => null,
             'commit'     => $commit
         ));
     }
