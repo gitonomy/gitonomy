@@ -4,11 +4,13 @@
     <div class="row">
         <div class="span2">
             {% render "GitonomyFrontendBundle:Project:blockNavigation" with {
-                project: project,
-                reference: reference,
-                active: active,
-                route_name: route_name|default('gitonomyfrontend_project_show'),
-                route_parameters: route_parameters|default({slug: project.slug})
+                project:              project,
+                active:               active,
+                current:              app.request.query.get('current'),
+                reference:            app.request.attributes.get('reference'),
+                route_name:           route_name|default('gitonomyfrontend_project_show'),
+                route_parameters:     route_parameters|default({slug: project.slug}),
+                route_with_reference: route_with_reference|default(false)
             } %}
         </div>
         <div class="span10">

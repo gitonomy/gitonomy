@@ -5,8 +5,9 @@
 {% set active = "history" %}
 {% set route_name = "gitonomyfrontend_project_history" %}
 
+{% set current = app.request.query.get('current') %}
+
 {% block right %}
-    {% set history_reference = reference %}
     <h2>History</h2>
     <div class="row">
         <div class="span2">
@@ -20,7 +21,7 @@
                         <tr>
                             <td class="message">
                                 {% for branch in data[i].branches %}
-                                    <span class="label {% if branch == reference %} label-info{% endif %}"><a style="color: white;" href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: branch}) }}">{{ branch }}</a></span>
+                                    <span class="label {% if branch == current %} label-info{% endif %}"><a style="color: white;" href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: branch, current: current}) }}">{{ branch }}</a></span>
                                 {% endfor %}
                                 <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
                                     {{ commit.shortMessage }}

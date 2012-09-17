@@ -1,8 +1,11 @@
 {% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
 
 {% set active = "commits" %}
+
 {% set route_name = "gitonomyfrontend_project_showLastCommits" %}
-{% set route_parameters = {slug: project.slug} %}
+{% set route_parameters = {slug: project.slug, reference:reference} %}
+{% set route_with_reference = true %}
+
 {% if page > 1 %}
     {% set route_parameters = route_parameters|merge({page: page}) %}
 {% endif %}
@@ -33,7 +36,7 @@
             {% for commit in commits %}
                 <tr>
                     <td class="message">
-                        <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                        <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {slug: project.slug, hash: commit.hash, current: app.request.query.get('current') }) }}">
                             {{ commit.shortMessage }}
                         </a>
                     </td>

@@ -37,31 +37,28 @@ class ProjectController extends BaseController
      */
     public function blockNavigationAction(Request $request, Project $project)
     {
-        $reference = $request->attributes->get('reference', 'master');
-        $routeName       = $request->attributes->get('route_name', 'gitonomyfrontend_project_show');
-
-        $routeParameters = $request->attributes->get('route_parameters', array(
-            'slug'      => $project->getSlug(),
-            'reference' => $reference
-        ));
+        $current = $request->attributes->get('current');
 
         $repository = $this->getGitRepository($project);
         $references = $repository->getReferences();
 
-        if ($reference) {
-            $branch = $references->getBranch($reference);
+        if ($current) {
+            $branch = $references->getBranch($current);
         } else {
             $branch = $references->getBranch('master');
         }
-        $activity = $this->getBranchesActivity($repository, $branch);
+
+        $branches = $this->getBranchesActivity($repository, $branch);
 
         return $this->render('GitonomyFrontendBundle:Project:blockNavigation.html.twig', array(
             'project'          => $project,
             'repository'       => $repository,
-            'reference'        => $reference,
-            'branches'         => $activity,
-            'route_name'       => $routeName,
-            'route_parameters' => $routeParameters,
+            'current'          => $current,
+            'reference'        => $request->attributes->get('reference'),
+            'branches'         => $branches,
+            'route_name'       => $request->attributes->get('route_name'),
+            'route_parameters' => $request->attributes->get('route_parameters', array()),
+            'route_with_reference' => $request->attributes->get('route_with_reference', false),
             'active'           => $request->attributes->get('active', 'project')
         ));
     }
@@ -72,12 +69,9 @@ class ProjectController extends BaseController
     public function showAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference', 'master');
         $repository = $this->getGitRepository($project);
 
-        $references = $repository->getReferences();
-
-        if (!$references->hasBranches()) {
+        if (!$repository->getReferences()->hasBranches()) {
             return $this->render('GitonomyFrontendBundle:Project:showEmpty.html.twig', array(
                 'project' => $project
             ));
@@ -85,15 +79,13 @@ class ProjectController extends BaseController
 
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project'           => $project,
-            'repository'        => $repository,
-            'reference'         => $reference
+            'repository'        => $repository
         ));
     }
 
     public function historyAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference', 'master');
         $repository = $this->getGitRepository($project);
 
         $commits = $repository
@@ -121,7 +113,6 @@ class ProjectController extends BaseController
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'    => $project,
-            'reference'  => $reference,
             'repository' => $repository,
             'commits'    => $commits,
             'data'       => array_map($convert, $commits)
