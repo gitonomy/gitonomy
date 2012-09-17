@@ -134,8 +134,9 @@ class AdminProjectController extends BaseAdminController
                 $em->flush();
 
                 $this->get('session')->setFlash('success', sprintf(
-                    'Removed user "%s" from project "%s"',
+                    'Added "%s" as "%s" on project "%s"',
                     $userRoleProject->getUser()->getFullname(),
+                    $userRoleProject->getRole()->getName(),
                     $userRoleProject->getProject()->getName()
                 ));
 

@@ -35,5 +35,6 @@ fi
 
 for project in gitonomy symfony empty foobar; do
     echo ">>> Adding user $USER as lead developer on project $project"
-    ./app/console gitonomy:user-role-create user "Lead developer" $project
+    ./app/console gitonomy:user-role-create user  "Lead developer" $project
+    ./app/console gitonomy:user-role-create admin "Lead developer" $project
 done
