@@ -1,46 +1,18 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
+
+{% set active = "project" %}
+{% set route_name = "gitonomyfrontend_project_show" %}
+{% set route_parameters = {slug: project.slug} %}
 
 {% block title project.name %}
 
-{% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'project'} %}
-    <div class="row">
-        <div class="span6">
-            <div class="page-header">
-                <h2>SSH Access</h2>
-                <pre>{{ project_ssh(project) }}</pre>
-            </div>
-            <section>
-                <div class="page-header">
-                    <h2>Users on the project</h2>
-                </div>
-                {% for userRole in project.userRoles %}
-                    <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
-                {% else %}
-                    <h3><small>No user associated to the project</small></h3>
-                {% endfor %}
-            </section>
-            <section>
-            <div class="page-header">
-                <h2>Branches</h2>
-            </div>
-            <ul>
-                <li>
-                    {% set main = repository.references.getBranch(reference) %}
-                    <strong>{{ main.name }}</strong>
-                    <br />
-                    <em>{{ main.lastModification | date_long }}</em>
-                </li>
-                {% for row in branches_activity %}
-                    <li>
-                        <strong>{{ row.branch.name }}</strong> -{{ row.behind }}+{{row.above}}
-                        <br />
-                        <em>{{ row.branch.lastModification | date_long }}</em>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+{% block right %}
+    <h2>SSH Access</h2>
+    <pre>{{ project_ssh(project) }}</pre>
+    <h2>Users on the project</h2>
+    {% for userRole in project.userRoles %}
+        <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
+    {% else %}
+        <h3><small>No user associated to the project</small></h3>
+    {% endfor %}
 {% endblock %}

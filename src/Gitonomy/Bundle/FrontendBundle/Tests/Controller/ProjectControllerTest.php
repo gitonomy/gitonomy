@@ -86,18 +86,6 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(500, $response->getStatusCode()); // fatal: bad default revision 'HEAD'
     }
 
-    public function testHistoryViewOther()
-    {
-        $this->client->connect('alice');
-
-        $crawler  = $this->client->request('GET', '/en_US/project/foobar/history?reference=new-feature');
-        $response = $this->client->getResponse();
-
-        $this->assertCount(0, $crawler->filter('a:contains("Add a test script")'));
-
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-
     public function testLastCommits()
     {
         $this->client->connect('alice');

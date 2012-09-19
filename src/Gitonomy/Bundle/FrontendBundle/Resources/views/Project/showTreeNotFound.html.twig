@@ -1,16 +1,14 @@
 {% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
+{% set active = "source" %}
 
-{% set active = 'source' %}
+{% block title project.name ~ ' - Source' ~ (path ? ' - ' ~ path ~ '/' : '') %}
 {% set route_name = "gitonomyfrontend_project_showTree" %}
 {% set route_parameters = {
     slug: project.slug,
     path: path
 } %}
-{% set route_with_reference = true %}
-
-{% block title project.name ~ ' - Source - ' ~ path %}
 
 {% block right %}
     <h2>Source</h2>
-    <pre>{{ blob.content }}</pre>
+    <p>Not found...</p>
 {% endblock %}

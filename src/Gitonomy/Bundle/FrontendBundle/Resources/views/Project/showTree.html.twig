@@ -1,16 +1,17 @@
-{% extends "GitonomyFrontendBundle::layout.html.twig" %}
+{% extends "GitonomyFrontendBundle:Project:layout.html.twig" %}
+{% set active = "source" %}
 
 {% block title project.name ~ ' - Source' ~ (path ? ' - ' ~ path ~ '/' : '') %}
+{% set route_name = "gitonomyfrontend_project_showTree" %}
+{% set route_parameters = {
+    slug: project.slug,
+    path: path
+} %}
+{% set route_with_reference = true %}
 
-{% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
-    <div class="page-header">
-        <h2>Source</h2>
-    </div>
-    <table>
+{% block right %}
+    <h2>Source</h2>
+    <table class="table">
         <thead>
             <tr>
                 <th width="100">Mode</th>

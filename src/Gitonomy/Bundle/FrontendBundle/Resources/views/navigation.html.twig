@@ -21,20 +21,20 @@
                         {% endif %}
                     </ul>
                 </li>
+                <li class="users dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Users
+                        <b class="caret"></b>
+                        </a>
+                    <ul class="dropdown-menu">
+                        {% for user in user_list() %}
+                            <li><a href="{{ path('gitonomyfrontend_user_show', {'username': user.username}) }}">{{ user.fullname }}</a></li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
+                    </ul>
+                </li>
             {% endif %}
-            <li class="users dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Users
-                    <b class="caret"></b>
-                    </a>
-                <ul class="dropdown-menu">
-                    {% for user in user_list() %}
-                        <li><a href="{{ path('gitonomyfrontend_user_show', {'username': user.username}) }}">{{ user.fullname }}</a></li>
-                    {% endfor %}
-                    <li class="divider"></li>
-                    <li><a href="{{ path('gitonomyfrontend_adminuser_create') }}">Create</a></li>
-                </ul>
-            </li>
             {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') or is_granted('ROLE_SETTINGS') %}
                 <li class="admin dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

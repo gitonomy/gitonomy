@@ -1,0 +1,58 @@
+<h2>{{ project.name }}</h2>
+<ul class="nav nav-tabs nav-stacked">
+    <li{% if active == "project" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, current: current }) }}">
+            Overview
+            {% if active == "project" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
+        </a>
+    </li>
+    <li{% if active == "history" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_history', {slug: project.slug, current: current }) }}">
+            History
+            {% if active == "history" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
+        </a>
+    </li>
+    <li{% if active == "commits" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_showLastCommits', {slug: project.slug, reference: current|default('master'), current: current}) }}">
+            Last commits
+            {% if active == "commits" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
+        </a>
+    </li>
+    <li{% if active == "source" %} class="active"{% endif %}>
+        <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: current|default('master'), current: current}) }}">
+            Source
+            {% if active == "source" %}
+                <span class="pull-right">&raquo;</i>
+            {% endif %}
+        </a>
+    </li>
+</ul>
+<h2>Branches</h2>
+{% for data in branches %}
+    <p{% if data.branch.name == current %} style="font-weight: bold"{% endif %}>
+    {% set params = route_parameters|merge({current: data.branch.name }) %}
+    {% if route_with_reference %}
+        {% set params = params|merge({reference: data.branch.name}) %}
+    {% endif %}
+        <a href="{{ path(route_name, params) }}">
+            {{ data.branch.name }}
+            {% if data.behind %}
+                <span style="color: red;">-{{ data.behind }}</span>
+            {% endif %}
+            {% if data.behind or data.above %}/{% endif %}
+            {% if data.above %}
+                <span style="color: green;">+{{ data.above }}</span>
+            {% endif %}
+        </a>
+        <br />
+        {{ data.commit.authorDate|date_relative }}
+    </p>
+{% else %}
+    <p><em>No branch</em></p>
+{% endfor %}

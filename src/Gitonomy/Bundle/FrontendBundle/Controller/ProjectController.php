@@ -33,49 +33,65 @@ use Gitonomy\Git\Reference;
 class ProjectController extends BaseController
 {
     /**
+     * Displays the navigation bar
+     */
+    public function blockNavigationAction(Request $request, Project $project)
+    {
+        $current = $request->attributes->get('current');
+
+        $repository = $this->getGitRepository($project);
+        $references = $repository->getReferences();
+
+        if ($current) {
+            $branch = $references->getBranch($current);
+        } else {
+            $branch = $references->getBranch('master');
+        }
+
+        $branches = $this->getBranchesActivity($repository, $branch);
+
+        return $this->render('GitonomyFrontendBundle:Project:blockNavigation.html.twig', array(
+            'project'          => $project,
+            'repository'       => $repository,
+            'current'          => $current,
+            'reference'        => $request->attributes->get('reference'),
+            'branches'         => $branches,
+            'route_name'       => $request->attributes->get('route_name'),
+            'route_parameters' => $request->attributes->get('route_parameters', array()),
+            'route_with_reference' => $request->attributes->get('route_with_reference', false),
+            'active'           => $request->attributes->get('active', 'project')
+        ));
+    }
+
+    /**
      * Displays the project main page
      */
     public function showAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference');
         $repository = $this->getGitRepository($project);
 
-
-        $references = $repository->getReferences();
-
-        if (null !== $reference) {
-            $master = $references->getBranch($reference);
-            $activity = $this->getBranchesActivity($repository, $master);
-        } elseif ($references->hasBranches()) {
-            $master = $references->getBranch('master');
-            $reference = 'master';
-            $activity = $this->getBranchesActivity($repository, $master);
-        } else {
+        if (!$repository->getReferences()->hasBranches()) {
             return $this->render('GitonomyFrontendBundle:Project:showEmpty.html.twig', array(
                 'project' => $project
             ));
         }
 
-
         return $this->render('GitonomyFrontendBundle:Project:show.html.twig', array(
             'project'           => $project,
-            'repository'        => $repository,
-            'reference'         => $reference,
-            'branches_activity' => $activity
+            'repository'        => $repository
         ));
     }
 
     public function historyAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
-        $reference  = $request->query->get('reference');
         $repository = $this->getGitRepository($project);
 
         $commits = $repository
-            ->getLog($reference)
+            ->getLog(null)
             ->setOffset($request->query->get('offset', 0))
-            ->setLimit($request->query->get('limit', 50))
+            ->setLimit($request->query->get('limit', 200))
             ->getCommits()
         ;
 
@@ -97,7 +113,6 @@ class ProjectController extends BaseController
 
         return $this->render('GitonomyFrontendBundle:Project:history.html.twig', array(
             'project'    => $project,
-            'reference'  => $reference,
             'repository' => $repository,
             'commits'    => $commits,
             'data'       => array_map($convert, $commits)
@@ -116,7 +131,7 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:showCommit.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
-            'reference'  => $hash,
+            'reference'  => null,
             'commit'     => $commit
         ));
     }
@@ -157,8 +172,13 @@ class ProjectController extends BaseController
             $path = substr($path, 1);
         }
 
-        $element = $tree->resolvePath($path);
+        try {
+            $element = $tree->resolvePath($path);
+        } catch (\InvalidArgumentException $e) {
+            $element = null;
+        }
 
+        $code = 200;
         $parameters = array(
             'reference'  => $reference,
             'commit'     => $commit,
@@ -173,9 +193,15 @@ class ProjectController extends BaseController
         } elseif ($element instanceof Tree) {
             $parameters['tree'] = $element;
             $tpl = 'GitonomyFrontendBundle:Project:showTree.html.twig';
+        } else {
+            $tpl = 'GitonomyFrontendBundle:Project:showTreeNotFound.html.twig';
+            $code = 404;
         }
 
-        return $this->render($tpl, $parameters);
+        $response = $this->render($tpl, $parameters);
+        $response->setStatusCode($code);
+
+        return $response;
     }
 
     /**
@@ -217,20 +243,23 @@ class ProjectController extends BaseController
         $references = $repository->getReferences();
 
         foreach ($references->getBranches() as $branch) {
-            if ($branch == $against) {
-                continue;
-            }
-
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
-            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
+            $logBehind = $repository->getLog($branch->getCommitHash().'..'.$against->getCommitHash());
+            $logAbove = $repository->getLog($against->getCommitHash().'..'.$branch->getCommitHash());
 
             $rows[] = array(
-                'branch'           => $branch,
-                'above'            => count($logAbove->getCommits()),
-                'behind'           => count($logBehind->getCommits()),
-                'lastModification' => $branch->getLastModification()
+                'branch' => $branch,
+                'above'  => count($logAbove->getCommits()),
+                'behind' => count($logBehind->getCommits()),
+                'commit' => $branch->getCommit()
             );
         }
+
+        usort($rows, function ($left, $right) {
+            $l = $left['commit']->getAuthorDate()->getTimestamp();
+            $r = $right['commit']->getAuthorDate()->getTimestamp();
+
+            return $l < $r;
+        });
 
         return $rows;
     }
