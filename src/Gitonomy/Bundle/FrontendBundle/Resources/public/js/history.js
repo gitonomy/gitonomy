@@ -100,32 +100,37 @@ function history_graph(commits) {
         var parents = commit.parents;
 
         parents.forEach(function (parent) {
-            if (positions[parent] === undefined) {
-                return;
-            }
+            if (positions[parent] !== undefined) {
 
-            if (drawn[positions[parent]] === undefined) {
-                matrix_draw(positions[parent]);
-            }
+                if (drawn[positions[parent]] === undefined) {
+                    matrix_draw(positions[parent]);
+                }
 
-            if (commits[positions[parent]].children.length > 1) {
-                family = commits[position].family;
+                if (commits[positions[parent]].children.length > 1) {
+                    family = commits[position].family;
+                } else {
+                    family = commits[positions[parent]].family;
+                }
             } else {
-                family = commits[positions[parent]].family;
+                family = commits[position].family;
             }
-            matrix_connect(commit.hash, parent, family);
+
+            matrix_line(commit.hash, parent, family);
         });
     }
 
-    function matrix_connect(from, to, family) {
-        if (positions[from] === undefined || positions[to] === undefined) {
-            return;
-        }
+    function matrix_line(from, to, family) {
 
         var fromX = commits[positions[from]].x;
         var fromY = commits[positions[from]].y;
-        var toX   = commits[positions[to]].x;
-        var toY   = commits[positions[to]].y;
+        var toX, toY;
+        if (positions[to] !== undefined) {
+            toX   = commits[positions[to]].x;
+            toY   = commits[positions[to]].y;
+        } else {
+            toX   = null;
+            toY   = commits.length;
+        }
 
         var x,y;
 
@@ -136,6 +141,10 @@ function history_graph(commits) {
                 {x: x, y: y + 1}
             ]);
             fromX = x;
+        }
+
+        if (null === toX) {
+            toX = fromX;
         }
 
         links.push([
