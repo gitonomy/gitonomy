@@ -10,10 +10,11 @@
     <div class="page-header">
         <h2>Source</h2>
     </div>
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th width="100">Mode</th>
+                <th width="20">&nbsp;</td>
                 <th>Filename</th>
                 <th>Date</th>
                 <th>Message</th>
@@ -24,6 +25,7 @@
                 {% set lastModificationCommit = commit.lastModification(path~'/'~name, commit) %}
                 <tr>
                     <td>{{ data[0] }}</td>
+                    <td><i class="icon-folder-open"></i></td>
                     <td>
                         <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
                             {{ name }}
@@ -41,6 +43,7 @@
                 {% set lastModificationCommit = commit.lastModification(path~'/' ~name) %}
                 <tr>
                     <td>{{ data[0] }}</td>
+                    <td>&nbsp;</td>
                     <td>
                         <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
                             {{ name }}
