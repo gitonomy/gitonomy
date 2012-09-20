@@ -9,6 +9,8 @@ input[type="checkbox"]
     margin-right:5px;
 }
 
+/** Commit list block **/
+
 .commit-list
 {
     border: 1px solid #ccc;
@@ -36,4 +38,22 @@ input[type="checkbox"]
     font-size: 12px;
     text-align: right;
     font-weight: bold;
+}
+
+/** Branch list **/
+
+ul.branch-list > li.active span.name {
+    font-weight: bold;
+}
+
+ul.branch-list > li span.behind {
+    color: red;
+}
+
+ul.branch-list > li span.above {
+    color: green;
+}
+
+ul.branch-list > li span.last-modification {
+    color: lightgrey;
 }

@@ -9,6 +9,28 @@
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'project'} %}
     <div class="row">
         <div class="span6">
+            <section>
+                <h2>Branches</h2>
+            <ul class="branch-list">
+                <li class="active">
+                    {% set active = repository.references.getBranch(reference) %}
+                    <p>
+                        <span class="name">{{ active.name }}</span>
+                        <span class="last-modification">{{ active.lastModification | date_long }}</span>
+                </li>
+                {% for row in branches_activity %}
+                    <li>
+                        <p>
+                            <span class="name">{{ row.branch.name }}</span>
+                            <span class="behind">-{{ row.behind }}</span>
+                            <span class="above">+{{row.above}}</span>
+                            <span class="last-modification">{{ row.branch.lastModification | date_long }}</span>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="span6">
             <div class="page-header">
                 <h2>SSH Access</h2>
                 <pre>{{ project_ssh(project) }}</pre>
@@ -23,24 +45,5 @@
                     <h3><small>No user associated to the project</small></h3>
                 {% endfor %}
             </section>
-            <section>
-            <div class="page-header">
-                <h2>Branches</h2>
-            </div>
-            <ul>
-                <li>
-                    {% set main = repository.references.getBranch(reference) %}
-                    <strong>{{ main.name }}</strong>
-                    <br />
-                    <em>{{ main.lastModification | date_long }}</em>
-                </li>
-                {% for row in branches_activity %}
-                    <li>
-                        <strong>{{ row.branch.name }}</strong> -{{ row.behind }}+{{row.above}}
-                        <br />
-                        <em>{{ row.branch.lastModification | date_long }}</em>
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
 {% endblock %}

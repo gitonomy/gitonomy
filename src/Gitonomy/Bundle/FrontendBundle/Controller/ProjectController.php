@@ -232,6 +232,10 @@ class ProjectController extends BaseController
             );
         }
 
+        usort($rows, function ($left, $right) {
+            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
+        });
+
         return $rows;
     }
 }
