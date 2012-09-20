@@ -81,6 +81,11 @@ class Pager implements \IteratorAggregate, \Countable
         return ceil($this->count() / $this->perPage);
     }
 
+    public function getResults()
+    {
+        return $this->getIterator();
+    }
+
     public function getIterator()
     {
         return new \ArrayIterator($this->adapter->get($this->offset, $this->perPage));

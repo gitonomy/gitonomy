@@ -57,3 +57,13 @@ ul.branch-list > li span.above {
 ul.branch-list > li span.last-modification {
     color: lightgrey;
 }
+
+/** History graph **/
+
+.history-graph {
+    position: absolute;
+}
+
+.history-graph > svg {
+    float: right;
+}

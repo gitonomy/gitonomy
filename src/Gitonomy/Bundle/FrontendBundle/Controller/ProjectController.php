@@ -41,7 +41,6 @@ class ProjectController extends BaseController
         $reference  = $request->query->get('reference');
         $repository = $this->getGitRepository($project);
 
-
         $references = $repository->getReferences();
 
         if (null !== $reference) {
@@ -69,18 +68,19 @@ class ProjectController extends BaseController
     public function historyAction(Request $request, $slug)
     {
         $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
         $reference  = $request->query->get('reference');
+
+        $log = $repository->getLog($reference);
+
+        $pager = new Pager(new GitLogAdapter($log));
+        $pager->setPerPage(50);
+        $pager->setPage($page = $request->query->get('page', 1));
+
+        $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
 
-        $commits = $repository
-            ->getLog($reference)
-            ->setOffset($request->query->get('offset', 0))
-            ->setLimit($request->query->get('limit', 50))
-            ->getCommits()
-        ;
-
         $references = $repository->getReferences();
-
         $referenceName = function (Reference $reference) {
             return $reference->getName();
         };
@@ -99,8 +99,8 @@ class ProjectController extends BaseController
             'project'    => $project,
             'reference'  => $reference,
             'repository' => $repository,
-            'commits'    => $commits,
-            'data'       => array_map($convert, $commits)
+            'pager'      => $pager,
+            'data'       => array_map($convert, (array) $pager->getResults())
         ));
     }
 
@@ -118,26 +118,6 @@ class ProjectController extends BaseController
             'repository' => $repository,
             'reference'  => $hash,
             'commit'     => $commit
-        ));
-    }
-
-    public function showLastCommitsAction(Request $request, $slug, $reference)
-    {
-        $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
-
-        $log = $repository->getLog($reference);
-
-        $pager = new Pager(new GitLogAdapter($log));
-        $pager->setPerPage(50);
-        $pager->setPage($page = $request->query->get('page', 1));
-
-        return $this->render('GitonomyFrontendBundle:Project:showLastCommits.html.twig', array(
-            'pager'      => $pager,
-            'reference'  => $reference,
-            'project'    => $project,
-            'repository' => $repository,
-            'page'       => $page
         ));
     }
 

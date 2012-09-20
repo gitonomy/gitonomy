@@ -2,14 +2,33 @@
 
 {% block title project.name ~ ' - History' %}
 
-{% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
-    {% set history_reference = reference %}
-    {% if reference == null %}
-        {% set reference = "master" %}
+{% macro pager(pager, reference) %}
+    {% if pager.pageCount > 1 %}
+        <div class="pagination">
+            <ul>
+                <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
+                    <a title="Previous page of commits" href="?page=1">«</a>
+                </li>
+                {% set lastPage = pager.lastPage %}
+                {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
+                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
+                {% endfor %}
+                <li{% if pager.isLastPage %} class="disabled"{% endif %}>
+                    <a href="?page={{ pager.pageCount }}{% if reference %}&reference={{ reference }}{% endif %}">»</a>
+                </li>
+            </ul>
+        </div>
     {% endif %}
+{% endmacro %}
+
+{% set history_reference = reference %}
+{% if reference == null %}
+    {% set reference = "master" %}
+{% endif %}
+
+{% block content %}
+    <h2>{{ project.name }}</h2>
+    {% set results = pager.results %}
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
     <div class="page-header">
         <h2>
@@ -23,14 +42,12 @@
         </h2>
     </div>
     <div class="row">
-        <div class="span2">
-            <div id="history">
-            </div>
-        </div>
-        <div class="span10">
+        <div class="span10 offset2">
+            {{ _self.pager(pager, history_reference) }}
+            <div id="history" class="history-graph"></div>
             <table class="table table-condensed commit-list">
                 <tbody>
-                    {% for i, commit in commits %}
+                    {% for i, commit in results %}
                         <tr>
                             <td class="message">
                                 {% for branch in data[i].branches %}
@@ -52,6 +69,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {{ _self.pager(pager, history_reference) }}
         </div>
 {% endblock %}
 
@@ -66,7 +84,7 @@
 
         var height = $("table.commit-list").height(),
             cell_size = height / (data.length - 1),
-            width  = $("#history").width(),
+            width  = height/2,
             cell_width = Math.floor(width/cell_size)
         ;
 
@@ -87,6 +105,8 @@
             .attr('width', width)
             .attr('height', height)
         ;
+
+        place_graph($(".history-graph"), $("table.commit-list"));
 
         var graph = history_graph(data);
 
