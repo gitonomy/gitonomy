@@ -13,6 +13,8 @@
 namespace Gitonomy\Bundle\FrontendBundle\Controller;
 
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\FrontendBundle\Model\Security\ForgotPasswordRequest;
@@ -27,22 +29,21 @@ class SecurityController extends BaseController
     /**
      * Registration page.
      */
-    public function registerAction()
+    public function registerAction(Request $request)
     {
         if (!$this->container->getParameter('gitonomy_frontend.user.open_registration')) {
             throw $this->createNotFoundException('Public registration is disabled');
         }
 
         $user = new User();
-        $user->setTimezone(date_default_timezone_get());
         $form = $this->createForm('user_registration', $user);
 
-        $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
                 $this->saveUser($user);
+
                 $this->get('session')->setFlash('success', 'Your account was created!');
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
@@ -59,20 +60,17 @@ class SecurityController extends BaseController
     /**
      * Login action.
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->getRequest();
+        $form = $this->get('form.factory')->createNamed('', 'login');
 
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
-            $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
+        if ($error = $this->getError($request)) {
+            $request->getSession()->setFlash('error', $error->getMessage());
         }
 
         return $this->render('GitonomyFrontendBundle:Security:login.html.twig', array(
             'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
-            'error'         => $error,
+            'form'          => $form->createView()
         ));
     }
 
@@ -147,5 +145,18 @@ class SecurityController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
+    }
+
+    protected function getError(Request $request)
+    {
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
+        }
+
+
+        return $error;
     }
 }

@@ -57,7 +57,7 @@ class User implements UserInterface
     {
         $this->username = $username;
         $this->fullname = $fullname;
-        $this->timezone = $timezone;
+        $this->timezone = null === $timezone ? date_default_timezone_get() : $timezone;
         $this->sshKeys      = new ArrayCollection();
         $this->emails       = new ArrayCollection();
         $this->projectRoles = new ArrayCollection();

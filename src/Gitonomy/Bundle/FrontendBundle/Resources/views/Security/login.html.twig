@@ -12,37 +12,16 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
-    {% if error %}
-        <div class="alert-message warning">
-            <p>
-                <strong>{{ 'security.login_unable'|trans({}, 'security') }}:</strong>
-                {{ error.message }}
-            </p>
+    <div class="row">
+        <div class="span4">
+            <div class="page-header">
+                <h1>Login</h1>
+            </div>
+            <form class="form-stacked" action="{{ path('gitonomyfrontend_security_loginCheck') }}" method="POST" novalidate>
+                {{ form_widget(form) }}
+                <p><input class="btn btn-primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" /></p>
+            </form>
+            <p><a href="{{ path('gitonomyfrontend_security_forgotPassword') }}">Forgot your password?</a></p>
         </div>
-    {% endif %}
-    <form class="form-stacked" action="{{ path('gitonomyfrontend_security_loginCheck') }}" method="POST" novalidate>
-        <div class="well">
-            <div class="clearfix">
-                <label label-for="username">{{ 'security.username'|trans({}, 'security') }}:</label>
-                <input type="text" id="username" name="_username" value="{{ last_username }}" />
-            </div>
-            <div class="clearfix">
-                <label label-for="password">{{ 'security.password'|trans({}, 'security') }}:</label>
-                <input type="password" id="password" name="_password" />
-            </div>
-            <div class="clearfix">
-                <input name="_remember_me" id="rememberMe" type="checkbox">
-                <label label-for="rememberMe" >{{ 'security.remember_me'|trans({}, 'security') }}</label>
-            </div>
-
-            <p>
-                <a href="{{ path('gitonomyfrontend_security_forgotPassword') }}">Forgot your password?</a>
-            </p>
-
-            <p>
-                <input class="btn btn-primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" />
-            </p>
-        </div>
-    </form>
+    </div>
 {% endblock %}

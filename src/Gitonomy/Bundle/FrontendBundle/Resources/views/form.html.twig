@@ -17,3 +17,8 @@
     {% endif %}
 {% endspaceless %}
 {% endblock field_errors %}
+
+{% block checkbox_row %}
+    {{ form_widget(form) }} {{ form_label(form) }}
+    {{ form_errors(form) }}
+{% endblock %}

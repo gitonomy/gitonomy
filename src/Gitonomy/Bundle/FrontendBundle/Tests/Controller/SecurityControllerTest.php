@@ -71,7 +71,7 @@ class SecurityControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertEquals('Unable to login:', $crawler->filter('.alert-message strong')->text());
+        $this->assertEquals('Bad credentials', $crawler->filter('.alert-error')->text());
         $this->assertEquals(1, $crawler->filter('.navbar a:contains("Login")')->count());
     }
 
