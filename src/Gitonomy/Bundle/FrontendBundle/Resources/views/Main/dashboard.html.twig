@@ -9,14 +9,20 @@
     <div class="row">
         {% for row in projects %}
             {% set project, repository = row[0], row[1] %}
+            {% set branches = repository.references.branches %}
+            {% set tags = repository.references.tags %}
             <div class="span6">
-                <div>
+                <div class="project-card">
                     <h2>
                         <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">{{ project.name }}</a>
-                        <small>
-                            {{ repository.references.branches|length }} branches
-                            /
-                            {{ repository.references.tags|length }} tags
+                        <small class="branches-tags pull-right">
+                          {% transchoice branches|length with {'%count%': branches|length} %}
+                            {0}|{1}1 branch|]1,Inf]%count% branches
+                          {% endtranschoice %}
+                          {% if branches|length and tags|length %}-{% endif %}
+                          {% transchoice tags|length with {'%count%': tags|length} %}
+                            {0}|{1}1 tag|]1,Inf]%count% tags
+                          {% endtranschoice %}
                         </small>
                     </h2>
                     <pre>git clone {{ project_ssh(project) }}</pre>

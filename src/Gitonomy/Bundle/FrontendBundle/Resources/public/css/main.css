@@ -67,3 +67,10 @@ ul.branch-list > li span.last-modification {
 .history-graph > svg {
     float: right;
 }
+
+/** Project card **/
+
+.project-card .branches-tags
+{
+  padding-top: 1em;
+}

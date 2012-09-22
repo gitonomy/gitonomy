@@ -59,9 +59,9 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(3, $crawler->filter('h2')->count());
 
         $expectations = array(
-            'Foobar' => '2 branches / 0 tags',
-            'Barbaz' => '1 branches / 0 tags',
-            'Empty'  => '0 branches / 0 tags'
+            'Foobar' => '2 branches',
+            'Barbaz' => '1 branch',
+            'Empty'  => ''
         );
 
         foreach ($expectations as $project => $small) {
