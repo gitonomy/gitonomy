@@ -33,9 +33,9 @@ class PermissionCheckCommand extends AbstractCommand
     {
         $this
             ->setName('gitonomy:permission-check')
-            ->addOption('project', null, InputOption::VALUE_OPTIONAL, 'If it\'s a project permission, indicate the project')
             ->addArgument('username', InputArgument::REQUIRED, 'Username')
             ->addArgument('permission', InputArgument::REQUIRED, 'Name of permission')
+            ->addOption('project', null, InputOption::VALUE_OPTIONAL, 'If it\'s a project permission, indicate the project')
             ->setDescription('Tests a permission and returns 0 if OK, 1 otherwise')
             ->setHelp(<<<EOF
 The <info>gitonomy:permission-check</info> allows you to test if a user has a given permission/
@@ -56,23 +56,22 @@ EOF
     /**
      * @inheritdoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            return $this->doExecute($input, $output);
-        } catch (\Exception $e) {
-            return 1;
-        }
-    }
-
-    protected function doExecute(InputInterface $input, OutputInterface $output)
-    {
-        $project    = $this->getProject($input->getArgument('project'));
-        $user       = $this->getProject($input->getArgument('username'));
         $permission = $input->getArgument('permission');
+        $em         = $this->getContainer()->get('doctrine')->getEntityManager();
+
+        $project = null;
+        if (null !== $input->getOption('project')) {
+            $projectSlug = $input->getOption('project');
+            $project     = $this->getProject($projectSlug);
+        }
+
+        $username = $input->getArgument('username');
+        $user     = $this->getUser($username);
 
         $context = $this->getContainer()->get('security.context');
-        $token   = new CliToken($user->getRoles());
+        $token = new CliToken($user->getRoles());
         $token->setUser($user);
         $token->setAuthenticated(true);
 

@@ -31,11 +31,6 @@ if [ ! -d vendor ]; then
     php composer.phar install
 fi
 
-if [ ! -d "sample" ]; then
-    echo ">>> Uncompress sample/ folder"
-    tar -xzf sample.tar.gz sample
-fi
-
 echo ">>> Dropping database"
 php app/console doctrine:database:drop --force --env=$env || true
 echo ">>> Creating database"
@@ -45,16 +40,26 @@ php app/console doctrine:schema:create --env=$env
 echo ">>> Loading fixtures in project"
 php app/console doctrine:fixtures:load --append --env=$env
 
+if [ ! -d "sample" ]; then
+    echo ">>> Removing sample folder"
+    rm sample -rf
+fi
+
+echo ">>> Uncompress sample/ folder"
+tar -xzf sample.tar.gz sample
+
 echo ">>> Recreating repository foobar"
 cd sample/foobar
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
+git remote add origin ../../app/cache/repositories/foobar.git
 git push origin master:master
 git push origin new-feature:new-feature
 cd ../..
 
 echo ">>> Recreating repository barbaz"
 cd sample/barbaz
+git remote add origin ../../app/cache/repositories/barbaz.git
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="barbaz"
 git push origin master:master
