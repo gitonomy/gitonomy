@@ -10,6 +10,12 @@ fi
 echo "Environment: " $env
 echo ""
 
+echo ">>> Cleanup repositories"
+if [ -d app/cache/repositories ]; then
+    rm -rf app/cache/repositories
+fi
+mkdir app/cache/repositories
+
 if [ ! -f "app/config/parameters.yml" ]; then
     echo ">>> Touching app/config/parmeters.yml"
     touch app/config/parameters.yml
@@ -39,10 +45,21 @@ php app/console doctrine:schema:create --env=$env
 echo ">>> Loading fixtures in project"
 php app/console doctrine:fixtures:load --append --env=$env
 
-echo ">>> Recreating repositories folder (in app/cache/repositories)"
-rm -Rf app/cache/repositories
-git clone --bare sample/foobar/.git app/cache/repositories/foobar.git
-git clone --bare sample/barbaz/.git app/cache/repositories/barbaz.git
+echo ">>> Recreating repository foobar"
+cd sample/foobar
+export GITONOMY_USER="alice"
+export GITONOMY_PROJECT="foobar"
+git push origin master:master
+git push origin new-feature:new-feature
+cd ../..
+
+echo ">>> Recreating repository barbaz"
+cd sample/barbaz
+export GITONOMY_USER="alice"
+export GITONOMY_PROJECT="barbaz"
+git push origin master:master
+cd ../..
+
 git init --bare  app/cache/repositories/empty.git
 
 echo ">>> Installing assets"
