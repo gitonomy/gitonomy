@@ -3,7 +3,7 @@ gitonomyfrontend_project_show:
     defaults: { _controller: "GitonomyFrontendBundle:Project:show" }
 
 gitonomyfrontend_project_history:
-    pattern: /{_locale}/project/{slug}/history/{reference}
+    pattern: /{_locale}/project/{slug}/history
     defaults: { _controller: "GitonomyFrontendBundle:Project:history" }
 
 gitonomyfrontend_project_showCommit:
