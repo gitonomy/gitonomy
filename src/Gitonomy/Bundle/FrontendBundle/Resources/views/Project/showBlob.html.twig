@@ -18,6 +18,7 @@
 {% block content_javascript %}
     <script type="text/javascript" src=""></script>
     <script type="text/javascript">
+        CodeMirror.modeURL = "{{ asset('bundles/gitonomyfrontend/codemirror/mode/%N/%N.js') }}";
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
             readOnly: true,
