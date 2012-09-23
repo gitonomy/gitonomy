@@ -368,18 +368,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "a5890ab992825e539e479fc954c0740936cb91ba"
+                "reference": "c10b7bfed2486ad0f201dae5832ba6a02b4e4d14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/zipball/a5890ab992825e539e479fc954c0740936cb91ba",
-                "reference": "a5890ab992825e539e479fc954c0740936cb91ba",
+                "url": "https://github.com/gitonomy/gitlib/zipball/c10b7bfed2486ad0f201dae5832ba6a02b4e4d14",
+                "reference": "c10b7bfed2486ad0f201dae5832ba6a02b4e4d14",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1"
             },
-            "time": "1348409621",
+            "time": "1348415429",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -804,12 +804,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "237629ad64b4b6ce2d2c6ad15a2085f128d6f11e"
+                "reference": "7273311e1fb663ae7f5501f57a52ba9bd4db2ec3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/237629ad64b4b6ce2d2c6ad15a2085f128d6f11e",
-                "reference": "237629ad64b4b6ce2d2c6ad15a2085f128d6f11e",
+                "url": "https://github.com/symfony/symfony/zipball/7273311e1fb663ae7f5501f57a52ba9bd4db2ec3",
+                "reference": "7273311e1fb663ae7f5501f57a52ba9bd4db2ec3",
                 "shasum": ""
             },
             "require": {
@@ -858,7 +858,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
-            "time": "1348209286",
+            "time": "1348414301",
             "type": "library",
             "extra": {
                 "branch-alias": {

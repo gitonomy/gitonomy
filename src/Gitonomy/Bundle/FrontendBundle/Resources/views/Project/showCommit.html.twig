@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>View commit <small>{{ commit.hash }}</small></h1>
     </div>
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
     <p>
         <a class="btn btn-small" href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: commit.hash}) }}">
             View tree

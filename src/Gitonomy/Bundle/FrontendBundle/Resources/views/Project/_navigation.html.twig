@@ -27,7 +27,7 @@
         </ul>
     </li>
     <li{% if active == "project" %} class="active"{% endif %}>
-        <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: reference }) }}">
+        <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">
             Overview
         </a>
     </li>

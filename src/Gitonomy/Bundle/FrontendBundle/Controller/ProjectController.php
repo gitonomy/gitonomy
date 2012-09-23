@@ -43,7 +43,7 @@ class ProjectController extends BaseController
 
         $references = $repository->getReferences();
 
-        if (null !== $reference) {
+        if (null !== $reference && $references->hasBranch($reference)) {
             $master = $references->getBranch($reference);
             $activity = $this->getBranchesActivity($repository, $master);
         } elseif ($references->hasBranches()) {
@@ -116,7 +116,7 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:showCommit.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
-            'reference'  => $hash,
+            'reference'  => $commit->getShortHash(),
             'commit'     => $commit
         ));
     }
