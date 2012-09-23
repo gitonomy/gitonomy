@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "a9517b1b176fd4ecbe745feeadec2a282baebb35"
+                "reference": "831f0acdc562fd854256f6f0ef2623c6d92e4a70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/zipball/a9517b1b176fd4ecbe745feeadec2a282baebb35",
-                "reference": "a9517b1b176fd4ecbe745feeadec2a282baebb35",
+                "url": "https://github.com/doctrine/doctrine2/zipball/831f0acdc562fd854256f6f0ef2623c6d92e4a70",
+                "reference": "831f0acdc562fd854256f6f0ef2623c6d92e4a70",
                 "shasum": ""
             },
             "require": {
@@ -316,7 +316,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1347878734",
+            "time": "1348189822",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -368,18 +368,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "a1cb2d62eec8f7588b2e6fd158e98b45760167bb"
+                "reference": "a5890ab992825e539e479fc954c0740936cb91ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/zipball/a1cb2d62eec8f7588b2e6fd158e98b45760167bb",
-                "reference": "a1cb2d62eec8f7588b2e6fd158e98b45760167bb",
+                "url": "https://github.com/gitonomy/gitlib/zipball/a5890ab992825e539e479fc954c0740936cb91ba",
+                "reference": "a5890ab992825e539e479fc954c0740936cb91ba",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1"
             },
-            "time": "1348173496",
+            "time": "1348409621",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -804,12 +804,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "9fd2baa502ea6700461cce89f2295a695c20e430"
+                "reference": "237629ad64b4b6ce2d2c6ad15a2085f128d6f11e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/9fd2baa502ea6700461cce89f2295a695c20e430",
-                "reference": "9fd2baa502ea6700461cce89f2295a695c20e430",
+                "url": "https://github.com/symfony/symfony/zipball/237629ad64b4b6ce2d2c6ad15a2085f128d6f11e",
+                "reference": "237629ad64b4b6ce2d2c6ad15a2085f128d6f11e",
                 "shasum": ""
             },
             "require": {
@@ -858,7 +858,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
-            "time": "1348130370",
+            "time": "1348209286",
             "type": "library",
             "extra": {
                 "branch-alias": {
