@@ -13,6 +13,7 @@
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 use Gitonomy\Git;
 
@@ -20,6 +21,7 @@ use Gitonomy\Git;
  * Repository pool, containing all Git repositories.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class RepositoryPool
 {
@@ -43,7 +45,7 @@ class RepositoryPool
     /**
      * Method called when a project is created
      */
-    public function onProjectCreate(PushReferenceEvent $event)
+    public function onProjectCreate(ProjectEvent $event)
     {
         $project = $event->getProject();
 
@@ -58,7 +60,7 @@ class RepositoryPool
     /**
      * Method called when a project is deleted
      */
-    public function onProjectDelete(PushReferenceEvent $event)
+    public function onProjectDelete(ProjectEvent $event)
     {
         $path = $this->getPath($event->getProject());
 

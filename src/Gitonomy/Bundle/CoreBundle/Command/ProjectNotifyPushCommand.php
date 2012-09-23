@@ -58,11 +58,6 @@ EOF
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->doExecute($input, $output);
-    }
-
-    protected function doExecute(InputInterface $input, OutputInterface $output)
-    {
         $project = $this->getProject($input->getArgument('project'));
         $user    = $this->getUser($input->getArgument('username'));
 
@@ -73,6 +68,7 @@ EOF
 
         $pushReference = new PushReference($repository, $reference, $before, $after);
         $event         = new PushReferenceEvent($project, $user, $pushReference);
+
         $this->dispatch($event);
     }
 

@@ -21,7 +21,6 @@ class ThreadRepository extends EntityRepository
 {
     public function findOneOrCreate(Project $project, $reference)
     {
-        // throw new \Exception($reference->getReference());
         try {
             $thread = $this->findOneBy(array(
                 'project'   => $project,
