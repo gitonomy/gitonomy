@@ -3,9 +3,6 @@
 {% block title project.name %}
 
 {% block content %}
-    <div class="page-header">
-        <h1>{{ project.name }}</h1>
-    </div>
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'project'} %}
     <div class="row">
         <div class="span6">
@@ -21,7 +18,7 @@
                 {% for row in branches_activity %}
                     <li>
                         <p>
-                            <span class="name">{{ row.branch.name }}</span>
+                            <span class="name"><a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: row.branch.name}) }}">{{ row.branch.name }}</a></span>
                             <span class="behind">-{{ row.behind }}</span>
                             <span class="above">+{{row.above}}</span>
                             <span class="last-modification">{{ row.branch.lastModification | date_long }}</span>

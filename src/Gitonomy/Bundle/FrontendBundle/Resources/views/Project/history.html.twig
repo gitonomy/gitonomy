@@ -27,7 +27,6 @@
 {% endif %}
 
 {% block content %}
-    <h2>{{ project.name }}</h2>
     {% set results = pager.results %}
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'history'} %}
     <div class="page-header">

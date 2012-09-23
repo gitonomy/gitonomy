@@ -1,31 +1,9 @@
-<ul class="nav nav-pills">
-    <li class="dropdown">
-        <a class="btn" href="#" class="dropdown-toggle" data-toggle="dropdown">
-            current: {{ reference }}
-            <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-            {% for branch in repository.references.branches %}
-                <li>
-                    <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: branch.name }) }}">
-                        {{ branch.name }}
-                    </a>
-                </li>
-            {% else %}
-                <li><em>No branch</em></li>
-            {% endfor %}
-            <li class="divider"></li>
-            {% for tag in repository.references.tags %}
-                <li>
-                    <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: tag.name }) }}">
-                        {{ tag.name }}
-                    </a>
-                </li>
-            {% else %}
-                <li><a>No tag</a></li>
-            {% endfor %}
-        </ul>
-    </li>
+<ul class="nav nav-tabs">
+    {% if reference|default(null) %}
+        <li>
+            <a><em>on {{ reference }}</em></a>
+        </li>
+    {% endif %}
     <li{% if active == "project" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">
             Overview
