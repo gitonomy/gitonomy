@@ -14,7 +14,7 @@ echo ">>> Cleanup repositories"
 if [ -d app/cache/repositories ]; then
     rm -rf app/cache/repositories
 fi
-mkdir app/cache/repositories
+mkdir app/cache/repositories -p
 
 if [ ! -f "app/config/parameters.yml" ]; then
     echo ">>> Touching app/config/parmeters.yml"
