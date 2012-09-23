@@ -1,5 +1,10 @@
 #!/bin/sh
 
+env="dev"
+if [ ! -z "$GITONOMY_ENV" ]; then
+    env="$GITONOMY_ENV"
+fi
+
 # Check the context informations
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
     echo >&2 "Context informations missing"
@@ -15,7 +20,7 @@ project_notify()
     AFTER="$(git rev-parse $2)"
     REFERENCE="$3"
 
-    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
+    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER" "--env=$env"
 }
 
 while read before after reference

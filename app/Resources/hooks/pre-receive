@@ -1,5 +1,10 @@
 #!/bin/sh
 
+env="dev"
+if [ ! -z "$GITONOMY_ENV" ]; then
+    env="$GITONOMY_ENV"
+fi
+
 # Check the context informations
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
     echo >&2 "Context informations missing"
@@ -25,7 +30,7 @@ check_reference()
         REQUEST="GIT_WRITE"
     fi
 
-    $command gitonomy:git-permission-check "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE"
+    $command gitonomy:git-permission-check "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "--env=$env"
     if [ "$?" != 0 ]; then
         cat >&2 <<END
 

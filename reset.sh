@@ -50,6 +50,7 @@ tar -xzf sample.tar.gz sample
 
 echo ">>> Recreating repository foobar"
 cd sample/foobar
+export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
 git remote add origin ../../app/cache/repositories/foobar.git
@@ -60,6 +61,7 @@ cd ../..
 echo ">>> Recreating repository barbaz"
 cd sample/barbaz
 git remote add origin ../../app/cache/repositories/barbaz.git
+export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="barbaz"
 git push origin master:master
