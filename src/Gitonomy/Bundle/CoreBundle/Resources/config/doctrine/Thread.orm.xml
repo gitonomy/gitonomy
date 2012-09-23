@@ -3,7 +3,11 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity table="thread" name="Gitonomy\Bundle\CoreBundle\Entity\Thread">
+    <entity
+        table="thread"
+        name="Gitonomy\Bundle\CoreBundle\Entity\Thread"
+        repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\ThreadRepository"
+    >
         <unique-constraints>
             <unique-constraint name="rerefence" columns="reference" />
         </unique-constraints>
@@ -17,11 +21,11 @@
         <many-to-one field="project" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Project">
             <join-column name="project_id" referenced-column-name="id" />
         </many-to-one>
-        <many-to-one field="user" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User">
-            <join-column name="user_id" referenced-column-name="id" />
-        </many-to-one>
 
         <one-to-many field="messages" target-entity="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage" mapped-by="thread">
+            <order-by>
+                <order-by-field name="id" direction="DESC" />
+            </order-by>
             <cascade>
                 <cascade-persist />
                 <cascade-remove />

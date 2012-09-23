@@ -12,14 +12,14 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Command;
 
-use Gitonomy\Git\ReceiveReference;
+use Gitonomy\Git\PushReference;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ReceiveReferenceEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
@@ -35,7 +35,6 @@ class ProjectNotifyPushCommand extends AbstractCommand
             ->setName('gitonomy:project-notify-push')
             ->addArgument('project', InputArgument::REQUIRED, 'Project slug')
             ->addArgument('username', InputArgument::REQUIRED, 'Username')
-            ->addArgument('request', InputArgument::REQUIRED, 'Request')
             ->addArgument('reference', InputArgument::REQUIRED, 'Reference')
             ->addArgument('before', InputArgument::REQUIRED, 'Before')
             ->addArgument('after', InputArgument::REQUIRED, 'After')
@@ -59,14 +58,7 @@ EOF
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $this->doExecute($input, $output);
-
-            return 0;
-        } catch (\Exception $e) {
-            throw $e;
-            return 1;
-        }
+        $this->doExecute($input, $output);
     }
 
     protected function doExecute(InputInterface $input, OutputInterface $output)
@@ -74,19 +66,19 @@ EOF
         $project = $this->getProject($input->getArgument('project'));
         $user    = $this->getUser($input->getArgument('username'));
 
-        $request   = $input->getArgument('request');
-        $reference = $input->getArgument('reference');
-        $before    = $input->getArgument('before');
-        $after     = $input->getArgument('after');
+        $reference  = $input->getArgument('reference');
+        $before     = $input->getArgument('before');
+        $after      = $input->getArgument('after');
+        $repository = $this->getContainer()->get('gitonomy_core.git.repository_pool')->getGitRepository($project);
 
-        $event = new ReceiveReferenceEvent($project, $user, $reference, $before, $after);
-        $this->dispatch($event, $request);
+        $pushReference = new PushReference($repository, $reference, $before, $after);
+        $event         = new PushReferenceEvent($project, $user, $pushReference);
+        $this->dispatch($event);
     }
 
-    protected function dispatch(ReceiveReferenceEvent $event, $request)
+    protected function dispatch(PushReferenceEvent $event)
     {
-        $eventName = GitonomyEvents::getEventFromRequest($request);
-
+        $eventName = GitonomyEvents::PROJECT_PUSH;
         $this->getContainer()->get('event_dispatcher')->dispatch($eventName, $event);
     }
 }

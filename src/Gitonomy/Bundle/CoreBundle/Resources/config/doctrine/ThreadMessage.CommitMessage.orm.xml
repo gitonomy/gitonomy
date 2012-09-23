@@ -5,6 +5,7 @@
 
     <entity table="commit_message" name="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage">
         <field name="commitList" column="commit_list" type="blob" nullable="true" />
+        <field name="isForce" type="boolean" column="is_force" />
     </entity>
 
 </doctrine-mapping>

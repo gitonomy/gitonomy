@@ -5,11 +5,13 @@ namespace Gitonomy\Bundle\CoreBundle\Listener;
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ReceiveReferenceEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 use Gitonomy\Bundle\CoreBundle\Entity\Thread;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CreateMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage;
 use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\ForceMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\OpenMessage;
 
 class ThreadListener
 {
@@ -22,53 +24,62 @@ class ThreadListener
         $this->repositoryPool = $repositoryPool;
     }
 
-    public function delete(ReceiveReferenceEvent $event)
+    public function onPush(PushReferenceEvent $event)
     {
-    }
+        $em        = $this->registry->getEntityManager();
+        $thread    = $this->getThread($event);
+        $reference = $event->getReference();
 
-    public function create(ReceiveReferenceEvent $event)
-    {
-        $em     = $this->registry->getEntityManager();
-        $thread = new Thread(
-            $event->getProject(),
-            $event->getUser(),
-            $event->getReference()
-        );
+        if ($reference->isCreate()) {
+            $message = new OpenMessage($thread, $event->getUser());
+            $em->persist($message);
+            // used to save the open message before the commit message
+            $em->flush();
+        }
 
-        $threadMessage = new CreateMessage($thread, $event->getUser());
+        $message = $this->getMessageFromEvent($event);
 
-        $em->persist($thread);
-        $em->persist($threadMessage);
+        $em->persist($message);
         $em->flush();
     }
 
-    public function write(ReceiveReferenceEvent $event)
+    protected function getMessageFromEvent(PushReferenceEvent $event)
     {
-        $em         = $this->registry->getEntityManager();
-        $thread     = $this->getThreadFromReference($event->getReference());
-        $repository = $this->repositoryPool->getGitRepository($event->getProject());
-        $log        = $event->getLog($repository);
+        $thread    = $this->getThread($event);
+        $user      = $event->getUser();
+        $reference = $event->getReference();
 
-        $message = '';
+        if ($reference->isDelete()) {
+            return new CloseMessage($thread, $user);
+        }
+
+        $message = new CommitMessage($thread, $user);
+        $message->setForce($reference->isForce());
+
+        $log     = $event->getReference()->getLog();
+        $commits = array();
         foreach ($log as $commit) {
-            $message.= $commit->getShortHash().': '.$commit->getShortMessage()."\n";
+            array_push($commits, array(
+                'hash'         => $commit->getHash(),
+                'message'      => $commit->getMessage(),
+                'shortMessage' => $commit->getShortMessage(),
+                'authorName'   => $commit->getAuthorName(),
+                'authorEmail'  => $commit->getAuthorEmail(),
+            ));
         }
 
-        $threadMessage = new CommitMessage($thread, $event->getUser());
+        $message->setCommits($commits);
 
-        $em->persist($threadMessage);
-        $em->flush();
+        return $message;
     }
 
-    protected function getThreadFromReference($reference)
+    protected function getThread(PushReferenceEvent $event)
     {
-        $em = $this->registry->getEntityManager();
-        $thread = $em->getRepository('GitonomyCoreBundle:Thread')->findOneByReference($reference);
+        $em   = $this->registry->getEntityManager();
+        $repo = $em->getRepository('GitonomyCoreBundle:Thread');
+        $project = $event->getProject();
+        $reference = $event->getReference()->getReference();
 
-        if (null === $thread) {
-            throw new \RuntimeException(sprintf('No thread found with reference "%s"', $reference));
-        }
-
-        return $thread;
+        return $repo->findOneOrCreate($project, $reference);
     }
 }

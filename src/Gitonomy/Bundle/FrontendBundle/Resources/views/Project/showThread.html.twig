@@ -10,12 +10,10 @@
     <div class="page-header">
         <h2>Thread</h2>
     </div>
-    <div class="span8">
+    <div class="thead-message-list row show-grid">
         {% for message in thread.messages %}
-            {% include [
-                "GitonomyFrontEndBundle:Project:ThreadMessage/"~message.name~".html.twig",
-                "GitonomyFrontendBundle:Project:showThreadMessage.html.twig"
-            ] with {message: message} %}
+            {% set template = "GitonomyFrontendBundle:ThreadMessage:"~message.name~".html.twig" %}
+            {% include template with {message: message} %}
         {% endfor %}
     </div>
 {% endblock %}

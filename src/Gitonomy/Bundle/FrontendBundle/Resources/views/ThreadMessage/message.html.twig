@@ -1,0 +1,13 @@
+<div class="thread-message span12">
+    <small class="time">
+        <span data-time="{{ message.publishedAt | date('U') }}">{{ message.publishedAt | date_relative }}</span>
+    </small>
+    <div class="account-group">
+        <a href="{{ path('gitonomyfrontend_user_show', {'username': message.user.username}) }}">
+            <img class="avatar" src="{{ gravatar(message.user.defaultEmail.email, 16) }}" alt="{{ message.user.fullname }}" title="{{ message.user.fullname }}" />
+            <b>{{ message.user.fullname }}</b>
+        </a>
+        {% block sentence '' %}
+    </div>
+    <div class="message">{% block message '' %}</div>
+</div>

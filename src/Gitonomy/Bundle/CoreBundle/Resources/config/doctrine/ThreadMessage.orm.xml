@@ -16,7 +16,7 @@
 
         <discriminator-column name="type" type="string" length="10" />
         <discriminator-map>
-            <discriminator-mapping value="create" class="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CreateMessage" />
+            <discriminator-mapping value="open" class="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\OpenMessage" />
             <discriminator-mapping value="post" class="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\PostMessage" />
             <discriminator-mapping value="close" class="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage" />
             <discriminator-mapping value="commit" class="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage" />
@@ -30,6 +30,10 @@
 
         <many-to-one field="thread" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Thread" inversed-by="messages">
             <join-column name="thread_id" referenced-column-name="id" nullable="false" />
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
         </many-to-one>
     </entity>
 

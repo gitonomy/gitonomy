@@ -8,11 +8,6 @@ class PostMessage extends ThreadMessage
 {
     protected $message;
 
-    public function getSentence()
-    {
-        return 'wrote';
-    }
-
     public function getMessage()
     {
         return $this->message;

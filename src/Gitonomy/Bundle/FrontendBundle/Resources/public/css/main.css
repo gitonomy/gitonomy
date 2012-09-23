@@ -82,3 +82,48 @@ ul.branch-list > li span.last-modification {
   overflow-y: hidden;
   overflow-x: auto;
 }
+
+/** Thread message **/
+
+.thread-message span.message-red {
+    color:red;
+}
+.thread-message span.message-green {
+    color:green;
+}
+.thread-message span.message-blue {
+    color:blue;
+}
+
+.thread-message .time {
+    float:right;
+    padding-right:10px;
+    color:#bbb;
+}
+
+.thread-message .account-group {
+    padding-left:10px;
+}
+
+.thread-message .message {
+    background-color:#ffffff;
+}
+
+/* Special grid styles
+-------------------------------------------------- */
+
+.show-grid [class*="span"] {
+  background-color: #eee;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  min-height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+.show-grid .show-grid {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.show-grid .show-grid [class*="span"] {
+  background-color: #ccc;

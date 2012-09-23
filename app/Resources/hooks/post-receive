@@ -9,27 +9,16 @@ fi
 # Gitonomy console
 command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
 
-check_reference()
+project_notify()
 {
-  BEFORE="$(git rev-parse $1)"
-  AFTER="$(git rev-parse $2)"
-  REFERENCE="$3"
+    BEFORE="$(git rev-parse $1)"
+    AFTER="$(git rev-parse $2)"
+    REFERENCE="$3"
 
-  if [ "$AFTER" = "0000000000000000000000000000000000000000" ]; then
-      REQUEST="GIT_DELETE"
-  else if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-      REQUEST="GIT_CREATE"
-  else if [ "$BEFORE" != "$(git merge-base $BEFORE $AFTER)" ]; then
-      REQUEST="GIT_FORCE"
-  else
-      REQUEST="GIT_WRITE"
-  fi fi fi
-  echo "$GITONOMY_PROJECT / $GITONOMY_USER"
-
-  $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "$BEFORE" "$AFTER"
+    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER"
 }
 
 while read before after reference
 do
-    check_reference $before $after $reference
+    project_notify $before $after $reference
 done

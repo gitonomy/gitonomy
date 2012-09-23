@@ -5,14 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="gitonomy_core.kernel.listener.thread.class">Gitonomy\Bundle\CoreBundle\Listener\ThreadListener</parameter>
+        <parameter key="gitonomy_core.listener.thread.class">Gitonomy\Bundle\CoreBundle\Listener\ThreadListener</parameter>
     </parameters>
     <services>
-        <service id="gitonomy_core.kernel.listener.thread" class="%gitonomy_core.kernel.listener.thread.class%">
+        <service id="gitonomy_core.listener.thread" class="%gitonomy_core.listener.thread.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
-            <tag name="kernel.event_listener" event="gitonomy.git_create" method="create" />
-            <tag name="kernel.event_listener" event="gitonomy.git_write" method="write" />
+            <tag name="kernel.event_listener" event="gitonomy.project_push" method="onPush" />
         </service>
     </services>
 </container>

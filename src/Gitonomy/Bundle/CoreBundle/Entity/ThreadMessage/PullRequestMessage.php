@@ -8,11 +8,6 @@ class PullRequestMessage extends ThreadMessage
 {
     protected $message;
 
-    public function getSentence()
-    {
-        return 'asked a pull request';
-    }
-
     public function getMessage()
     {
         return $this->message;

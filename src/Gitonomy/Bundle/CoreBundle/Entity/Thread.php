@@ -8,17 +8,13 @@ class Thread
 {
     protected $id;
     protected $project;
-    protected $user;
     protected $reference;
     protected $messages;
 
-    public function __construct(Project $project, User $user, $reference)
+    public function __construct(Project $project, $reference = null)
     {
-        $this
-            ->setProject($project)
-            ->setUser($user)
-            ->setReference($reference)
-        ;
+        $this->project   = $project;
+        $this->reference = $reference;
     }
 
     public function getId()
@@ -31,35 +27,9 @@ class Thread
         return $this->project;
     }
 
-    public function setProject($project)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getReference()
     {
         return $this->reference;
-    }
-
-    public function setReference($reference)
-    {
-        $this->reference = $reference;
-
-        return $this;
     }
 
     public function getMessages()
