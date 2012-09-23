@@ -53,10 +53,20 @@ EOF
         ;
     }
 
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            $this->doExecute($input, $output);
+
+            return 0;
+        } catch (\Exception $e) {
+            return 1;
+        }
+    }
     /**
      * @inheritdoc
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(InputInterface $input, OutputInterface $output)
     {
         $project = $this->getProject($input->getArgument('project'));
         $user    = $this->getUser($input->getArgument('username'));
