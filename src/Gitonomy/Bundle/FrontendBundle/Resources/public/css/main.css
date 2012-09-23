@@ -74,3 +74,16 @@ ul.branch-list > li span.last-modification {
 {
   padding-top: 1em;
 }
+
+/** CodeMirror **/
+
+#code-wrapper
+{
+    font-size: 15px;
+}
+
+#code-wrapper .CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+}

@@ -1,5 +1,7 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
+{% set mode = codemirror_mode(path) %}
+
 {% block title project.name ~ ' - Source - ' ~ path %}
 
 {% block content %}
@@ -7,6 +9,23 @@
         <h1>{{ project.name }}</h1>
     </div>
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
-    <h2>{% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}</h2>
-    <pre>{{ blob.content }}</pre>
+    {% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}
+    <form id="code-wrapper" class="cm-s-lesser-elegant">
+        <textarea id="code" name="code">{{ blob.content }}</textarea>
+    </form>
+{% endblock %}
+
+{% block content_javascript %}
+    <script type="text/javascript" src=""></script>
+    <script type="text/javascript">
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            readOnly: true,
+            lineNumberFormatter: function(ln) {
+                return '<a name="L'+ ln +'"></a><a href="#L'+ ln +'">'+ ln +'</a>';
+            }
+        });
+        editor.setOption("mode", '{{ mode }}');
+        CodeMirror.autoLoadMode(editor, '{{ mode }}');
+    </script>
 {% endblock %}

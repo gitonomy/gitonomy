@@ -117,6 +117,6 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('pre:contains("Foo Bar")'));
+        $this->assertCount(1, $crawler->filter('textarea:contains("Foo Bar")'));
     }
 }

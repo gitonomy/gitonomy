@@ -30,9 +30,10 @@ Features
   * Accessible by SSH
   * Private repositories
   * Role based permissions
-  * Manage Git accesses to a repository (write/force/delete)
+  * Manage Git accesses to a repository (write/admin)
 * Browser repository
   * Browse files & folders
+  * Syntax color
 * Browse history
   * Graph view of log
   * Log view

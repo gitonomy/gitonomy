@@ -44,10 +44,11 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'gravatar'     => new \Twig_Function_Method($this, 'getGravatar'),
-            'project_list' => new \Twig_Function_Method($this, 'getProjectList'),
-            'user_list'    => new \Twig_Function_Method($this, 'getUserList'),
-            'project_ssh'  => new \Twig_Function_Method($this, 'getProjectSsh'),
+            'gravatar'        => new \Twig_Function_Method($this, 'getGravatar'),
+            'project_list'    => new \Twig_Function_Method($this, 'getProjectList'),
+            'user_list'       => new \Twig_Function_Method($this, 'getUserList'),
+            'project_ssh'     => new \Twig_Function_Method($this, 'getProjectSsh'),
+            'codemirror_mode' => new \Twig_Function_Method($this, 'getCodemirrorMode'),
         );
     }
 
@@ -92,5 +93,27 @@ class GitonomyExtension extends \Twig_Extension
     public function getProjectSsh(Project $project)
     {
         return sprintf('%s:%s.git', $this->sshAccess, $project->getSlug());
+    }
+
+    public function getCodemirrorMode($path)
+    {
+        switch (true) {
+            case preg_match('#\.sh$#', $path):
+                return 'shell';
+            case preg_match('#\.json$#', $path):
+                return 'javascript';
+            case preg_match('#\.md$#', $path):
+                return 'markdown';
+            case preg_match('#\.xml$#', $path):
+                return 'xml';
+            case preg_match('#\.(yml|yaml)$#', $path):
+                return 'yaml';
+            case preg_match('#\.(php|php5|phtml)$#', $path):
+                return 'php';
+            case preg_match('#\.html(\.twig)?$#', $path):
+                return 'htmlmixed';
+            default:
+                return 'text';
+        }
     }
 }
