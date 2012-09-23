@@ -63,7 +63,7 @@ class ThreadMessage
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(DateTime $publishedAt = null)
+    public function setPublishedAt(\DateTime $publishedAt = null)
     {
         $this->publishedAt = $publishedAt ? $publishedAt : new \DateTime();
 
