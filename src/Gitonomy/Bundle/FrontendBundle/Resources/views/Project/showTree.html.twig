@@ -7,9 +7,7 @@
         <h1>{{ project.name }}</h1>
     </div>
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
-    <div class="page-header">
-        <h2>Source</h2>
-    </div>
+    {% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,6 +19,22 @@
             </tr>
         </thead>
         <tbody>
+            {% if path != "" %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><i class="icon-folder-open"></i></td>
+                    <td>
+                        <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: parent_path}) }}">
+                            ..
+                        </a>
+                        /
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            {% endif %}
             {% for name, data in tree.entries if data[1] is git_tree %}
                 {% set lastModificationCommit = commit.lastModification(path~'/'~name, commit) %}
                 <tr>

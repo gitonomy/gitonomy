@@ -140,11 +140,13 @@ class ProjectController extends BaseController
         $element = $tree->resolvePath($path);
 
         $parameters = array(
-            'reference'  => $reference,
-            'commit'     => $commit,
-            'project'    => $project,
-            'repository' => $repository,
-            'path'       => $path,
+            'reference'     => $reference,
+            'commit'        => $commit,
+            'project'       => $project,
+            'repository'    => $repository,
+            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path)
         );
 
         if ($element instanceof Blob) {

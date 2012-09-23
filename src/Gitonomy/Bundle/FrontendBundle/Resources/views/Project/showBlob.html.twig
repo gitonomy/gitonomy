@@ -7,8 +7,6 @@
         <h1>{{ project.name }}</h1>
     </div>
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
-    <div class="page-header">
-        <h2>Source</h2>
-    </div>
+    <h2>{% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}</h2>
     <pre>{{ blob.content }}</pre>
 {% endblock %}

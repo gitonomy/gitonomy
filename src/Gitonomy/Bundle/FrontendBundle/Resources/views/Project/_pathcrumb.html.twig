@@ -1,0 +1,14 @@
+{% set path_record = "" %}
+<ul class="breadcrumb">
+    {% for segment in path_exploded %}
+        {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
+        <li{% if loop.last %} class="active"{% endif %}>
+            {% if not loop.last %}
+                <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
+                <span class="divider">/</span>
+            {% else %}
+                {{ segment }}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
