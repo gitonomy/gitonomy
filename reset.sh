@@ -56,6 +56,7 @@ export GITONOMY_PROJECT="foobar"
 git remote add origin ../../app/cache/repositories/foobar.git
 git push origin master:master
 git push origin new-feature:new-feature
+git push origin pagination:pagination
 cd ../..
 
 echo ">>> Recreating repository barbaz"

@@ -3,7 +3,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity table="close_message" name="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage">
+    <entity table="message_close" name="Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage">
     </entity>
 
 </doctrine-mapping>

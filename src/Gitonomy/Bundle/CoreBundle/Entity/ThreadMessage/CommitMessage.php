@@ -20,6 +20,7 @@ class CommitMessage extends ThreadMessage
 {
     protected $commitList;
     protected $commits;
+    protected $commitCount;
     protected $isForce = false;
 
     public function getCommits()
@@ -35,19 +36,19 @@ class CommitMessage extends ThreadMessage
 
     public function setCommits(array $commits)
     {
-        $this->setCommitList(json_encode($commits));
+        $this->commitList = json_encode($commits);
 
         return $this;
     }
 
-    public function getCommitList()
+    public function getCommitCount()
     {
-        return $this->commitList;
+        return $this->commitCount;
     }
 
-    public function setCommitList($commitList)
+    public function setCommitCount($commitCount)
     {
-        $this->commitList = $commitList;
+        $this->commitCount = $commitCount;
 
         return $this;
     }

@@ -57,6 +57,7 @@ class ThreadListener
         $message->setForce($reference->isForce());
 
         $log     = $event->getReference()->getLog();
+        $log->setLimit(5);
         $commits = array();
         foreach ($log as $commit) {
             array_push($commits, array(
@@ -69,6 +70,8 @@ class ThreadListener
         }
 
         $message->setCommits($commits);
+
+        $message->setCommitCount(count($log));
 
         return $message;
     }
