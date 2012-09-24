@@ -54,9 +54,9 @@ export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
 git remote add origin ../../app/cache/repositories/foobar.git
-git push origin master:master
-git push origin new-feature:new-feature
-git push origin pagination:pagination
+git push origin master:master -q
+git push origin new-feature:new-feature -q
+git push origin pagination:pagination -q
 cd ../..
 
 echo ">>> Recreating repository barbaz"
@@ -65,10 +65,10 @@ git remote add origin ../../app/cache/repositories/barbaz.git
 export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="barbaz"
-git push origin master:master
+git push origin master:master -q
 cd ../..
 
-git init --bare  app/cache/repositories/empty.git
+git init --bare  app/cache/repositories/empty.git -q
 
 echo ">>> Installing assets"
 rm -Rf web/bundles
