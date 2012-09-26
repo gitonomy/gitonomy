@@ -14,6 +14,9 @@ namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class ProjectControllerTest extends WebTestCase
 {
     protected $client;
@@ -96,6 +99,23 @@ class ProjectControllerTest extends WebTestCase
         $this->assertCount(0, $crawler->filter('a:contains("Add a test script")'));
 
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testThreadBranch()
+    {
+        $this->client->connect('alice');
+
+        $crawler = $this->client->request('GET', 'en_US/project/foobar');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertCount(1, $crawler->filter('a:contains("Add a test script")'));
+
+        $crawler = $this->client->request('GET', 'en_US/project/foobar?reference=pagination');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertCount(1, $crawler->filter('small:contains("And 100 others...")'));
     }
 
     public function testTree()
