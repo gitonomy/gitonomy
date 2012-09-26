@@ -65,7 +65,6 @@ EOF
         $markAsInstalled = $input->getOption('mark-as-installed');
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $shellCommand = $this->getContainer()->getParameter('gitonomy_core.git.shell_command');
         $keyList = $em->transactional(function ($em) use ($markAsInstalled) {
             $repository = $em->getRepository('GitonomyCoreBundle:UserSshKey');
             $keyList = $repository->getKeyList();
@@ -81,8 +80,18 @@ EOF
             throw new \LogicException('Cannot generate the authorized_keys file: no key in database');
         }
 
-        $generator = new AuthorizedKeysGenerator();
+        $output->write($this->generate($keyList));
+    }
 
-        $output->write($generator->generate($keyList, $shellCommand));
+    protected function generate($keyList)
+    {
+        $command = $this->getContainer()->getParameter('gitonomy_core.git.shell_command');
+        $output = '';
+
+        foreach ($keyList as $row) {
+            $output .= sprintf("command=\"%s %s\" %s\n", $command, $row['username'], $row['content']);
+        }
+
+        return $output;
     }
 }
