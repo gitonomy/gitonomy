@@ -11,21 +11,15 @@ class StepDoctrineController extends Controller
     public function testAction(Request $request)
     {
         $post = $request->request->all();
-        $step = $this->getSteps()->getStep('database');
-        list($status, $message) = $step->testValues($post['parameters']);
+        $step = $this->get('gitonomy_distribution.steps')->getStep('database');
 
         $response = new Response(json_encode(array(
-            'status'  => $status,
+            'status'  => $step->getStatus($post),
             'message' => $message
         )));
 
         $response->headers->set('Content-type', 'application/json');
 
         return $response;
-    }
-
-    protected function getSteps()
-    {
-        return $this->get('gitonomy_distribution.steps');
     }
 }

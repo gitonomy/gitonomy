@@ -96,6 +96,10 @@ class ConfigurationController extends Controller
 
         $data = Yaml::parse($file);
 
+        if (null === $data) {
+            return array();
+        }
+
         return $data['parameters'];
     }
 
