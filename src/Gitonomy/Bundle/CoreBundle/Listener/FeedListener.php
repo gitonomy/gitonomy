@@ -17,14 +17,14 @@ use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
-use Gitonomy\Bundle\CoreBundle\Entity\Thread;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\OpenMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Feed;
+use Gitonomy\Bundle\CoreBundle\Entity\Message;
+use Gitonomy\Bundle\CoreBundle\Entity\Message\OpenMessage;
 
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
-class ThreadListener
+class FeedListener
 {
     protected $registry;
     protected $repositoryPool;
@@ -38,31 +38,31 @@ class ThreadListener
     public function onPush(PushReferenceEvent $event)
     {
         $em        = $this->registry->getEntityManager();
-        $thread    = $this->getThread($event);
+        $feed      = $this->getFeed($event);
         $reference = $event->getReference();
 
         if ($reference->isCreate()) {
-            $message = new OpenMessage($thread, $event->getUser());
+            $message = new OpenMessage($feed, $event->getUser());
             $em->persist($message);
             // used to save the open message before the commit message
             $em->flush();
         }
 
-        $message = $this->getMessageFromEvent($event, $thread);
+        $message = $this->getMessageFromEvent($event, $feed);
 
         $em->persist($message);
         $em->flush();
     }
 
-    protected function getMessageFromEvent(PushReferenceEvent $event, Thread $thread)
+    protected function getMessageFromEvent(PushReferenceEvent $event, Feed $feed)
     {
-        return ThreadMessage::createFromEvent($event, $thread);
+        return Message::createFromEvent($event, $feed);
     }
 
-    protected function getThread(PushReferenceEvent $event)
+    protected function getFeed(PushReferenceEvent $event)
     {
         $em   = $this->registry->getEntityManager();
-        $repo = $em->getRepository('GitonomyCoreBundle:Thread');
+        $repo = $em->getRepository('GitonomyCoreBundle:Feed');
         $project = $event->getProject();
         $reference = $event->getReference()->getReference();
 

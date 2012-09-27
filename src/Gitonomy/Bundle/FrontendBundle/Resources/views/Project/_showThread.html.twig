@@ -1,4 +1,0 @@
-{% for message in thread.messages %}
-    {% set template = "GitonomyFrontendBundle:ThreadMessage:"~message.name~".html.twig" %}
-    {% include template with {message: message} %}
-{% endfor %}

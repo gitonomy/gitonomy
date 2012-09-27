@@ -24,7 +24,7 @@
                 <cascade-persist />
             </cascade>
         </one-to-many>
-        <one-to-many field="threads" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Thread" mapped-by="project">
+        <one-to-many field="feeds" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Feed" mapped-by="project">
             <cascade>
                 <cascade-remove />
                 <cascade-persist />

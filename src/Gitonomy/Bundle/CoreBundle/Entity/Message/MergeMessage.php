@@ -10,14 +10,23 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
+namespace Gitonomy\Bundle\CoreBundle\Entity\Message;
 
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Message;
 
-class CloseMessage extends ThreadMessage
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
+
+class MergeMessage extends Message
 {
+    public function getSentence()
+    {
+        return 'merged';
+    }
+
     public function getName()
     {
-        return 'close';
+        return 'merge';
     }
 }

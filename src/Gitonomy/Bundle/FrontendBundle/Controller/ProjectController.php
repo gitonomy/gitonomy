@@ -166,19 +166,19 @@ class ProjectController extends BaseController
         return $this->render($tpl, $parameters);
     }
 
-    public function _showThreadAction($slug, $reference)
+    public function _showFeedAction($slug, $reference)
     {
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
-        $thread     = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Thread')->findOneByReference('refs/heads/'.$reference);
+        $feed       = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Feed')->findOneByReference('refs/heads/'.$reference);
 
-        if (null === $thread) {
-            throw $this->createNotFoundException(sprintf('Thread "%s" not found', $reference));
+        if (null === $feed) {
+            throw $this->createNotFoundException(sprintf('Feed "%s" not found', $reference));
         }
 
-        return $this->render('GitonomyFrontendBundle:Project:_showThread.html.twig', array(
+        return $this->render('GitonomyFrontendBundle:Project:_showFeed.html.twig', array(
             'project'    => $project,
-            'thread'     => $thread,
+            'feed'       => $feed,
             'repository' => $repository,
             'reference'  => $reference,
         ));

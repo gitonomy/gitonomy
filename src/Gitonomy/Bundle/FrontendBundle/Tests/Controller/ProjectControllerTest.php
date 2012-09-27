@@ -101,7 +101,7 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testThreadBranch()
+    public function testFeedBranch()
     {
         $this->client->connect('alice');
 

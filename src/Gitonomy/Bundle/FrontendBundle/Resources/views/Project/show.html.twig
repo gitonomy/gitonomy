@@ -33,7 +33,7 @@
                     <h2>News feed</h2>
                 </div>
                 <div>
-                    {% render "GitonomyFrontendBundle:Project:_showThread" with { 'slug': project.slug, 'reference': reference|default(null) } %}
+                    {% render "GitonomyFrontendBundle:Project:_showFeed" with { 'slug': project.slug, 'reference': reference|default(null) } %}
                 </div>
             </section>
         </div>

@@ -15,9 +15,9 @@ namespace Gitonomy\Bundle\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\Entity\Thread;
+use Gitonomy\Bundle\CoreBundle\Entity\Feed;
 
-class ThreadRepository extends EntityRepository
+class FeedRepository extends EntityRepository
 {
     public function findOneOrCreate(Project $project, $reference)
     {
@@ -30,7 +30,7 @@ class ThreadRepository extends EntityRepository
             throw $e;
         }
         if (null === $thread) {
-            $thread = new Thread($project, $reference);
+            $thread = new Feed($project, $reference);
         }
 
         return $thread;

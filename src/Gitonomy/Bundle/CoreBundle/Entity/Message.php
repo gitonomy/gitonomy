@@ -14,31 +14,31 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage;
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\ForceMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Message\CloseMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Message\CommitMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Message\ForceMessage;
 
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
-class ThreadMessage
+class Message
 {
     protected $id;
-    protected $thread;
+    protected $feed;
     protected $user;
     protected $type;
     protected $publishedAt;
 
-    public static function createFromEvent(PushReferenceEvent $event, Thread $thread)
+    public static function createFromEvent(PushReferenceEvent $event, Feed $feed)
     {
         $user      = $event->getUser();
         $reference = $event->getReference();
 
         if ($reference->isDelete()) {
-            return new CloseMessage($thread, $user);
+            return new CloseMessage($feed, $user);
         }
 
-        $message = new CommitMessage($thread, $user);
+        $message = new CommitMessage($feed, $user);
         $message->setForce($reference->isForce());
 
         $log     = $event->getReference()->getLog();
@@ -61,10 +61,10 @@ class ThreadMessage
         return $message;
     }
 
-    public function __construct(Thread $thread, User $user, \DateTime $publishedAt = null)
+    public function __construct(Feed $feed, User $user, \DateTime $publishedAt = null)
     {
         $this
-            ->setThread($thread)
+            ->setFeed($feed)
             ->setUser($user)
             ->setPublishedAt($publishedAt)
         ;
@@ -75,14 +75,14 @@ class ThreadMessage
         return $id;
     }
 
-    public function getThread()
+    public function getFeed()
     {
-        return $this->thread;
+        return $this->feed;
     }
 
-    public function setThread(Thread $thread)
+    public function setFeed(Feed $feed)
     {
-        $this->thread = $thread;
+        $this->feed = $feed;
 
         return $this;
     }

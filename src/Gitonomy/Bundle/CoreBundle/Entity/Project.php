@@ -24,7 +24,7 @@ class Project
     protected $repositorySize;
     protected $userRoles;
     protected $gitAccesses;
-    protected $threads;
+    protected $feeds;
 
     public function __construct($name = null, $slug = null)
     {
@@ -102,14 +102,14 @@ class Project
         return 'master';
     }
 
-    public function getThreads()
+    public function getFeeds()
     {
-        return $this->threads;
+        return $this->feeds;
     }
 
-    public function setThreads($threads)
+    public function setFeeds($feeds)
     {
-        $this->threads = $threads;
+        $this->feeds = $feeds;
 
         return $this;
     }

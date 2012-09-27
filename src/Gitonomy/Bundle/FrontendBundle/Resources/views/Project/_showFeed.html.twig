@@ -1,0 +1,4 @@
+{% for message in feed.messages %}
+    {% set template = "GitonomyFrontendBundle:Message:"~message.name~".html.twig" %}
+    {% include template with {message: message} %}
+{% endfor %}

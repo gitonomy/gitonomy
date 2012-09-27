@@ -10,11 +10,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
+namespace Gitonomy\Bundle\CoreBundle\Entity\Message;
 
-use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\Message;
 
-class PullRequestMessage extends ThreadMessage
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
+
+class PostMessage extends Message
 {
     protected $message;
 
@@ -32,6 +36,6 @@ class PullRequestMessage extends ThreadMessage
 
     public function getName()
     {
-        return 'pr';
+        return 'post';
     }
 }

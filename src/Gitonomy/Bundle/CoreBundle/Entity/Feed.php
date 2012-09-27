@@ -14,7 +14,7 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Thread
+class Feed
 {
     protected $id;
     protected $project;
