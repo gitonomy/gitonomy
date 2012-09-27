@@ -95,4 +95,9 @@ class Project
     {
         return $this->gitAccesses;
     }
+
+    public function getDefaultBranch()
+    {
+        return 'master';
+    }
 }
