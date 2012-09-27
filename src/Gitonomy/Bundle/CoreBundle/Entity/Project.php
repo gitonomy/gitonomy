@@ -24,6 +24,7 @@ class Project
     protected $repositorySize;
     protected $userRoles;
     protected $gitAccesses;
+    protected $threads;
 
     public function __construct($name = null, $slug = null)
     {
@@ -100,4 +101,17 @@ class Project
     {
         return 'master';
     }
+
+    public function getThreads()
+    {
+        return $this->threads;
+    }
+
+    public function setThreads($threads)
+    {
+        $this->threads = $threads;
+
+        return $this;
+    }
 }
+

@@ -111,7 +111,7 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(1, $crawler->filter('a:contains("Add a test script")'));
 
-        $crawler = $this->client->request('GET', 'en_US/project/foobar?reference=pagination');
+        $crawler = $this->client->request('GET', '/en_US/project/foobar?reference=pagination');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -122,7 +122,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', 'en_US/project/foobar/tree/master');
+        $crawler = $this->client->request('GET', '/en_US/project/foobar/tree/master');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
