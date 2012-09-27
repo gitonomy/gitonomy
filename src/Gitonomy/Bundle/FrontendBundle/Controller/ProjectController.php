@@ -47,8 +47,8 @@ class ProjectController extends BaseController
             $master = $references->getBranch($reference);
             $activity = $this->getBranchesActivity($repository, $master);
         } elseif ($references->hasBranches()) {
-            $master = $references->getBranch('master');
-            $reference = 'master';
+            $reference = $project->getDefaultBranch();
+            $master = $references->getBranch($reference);
             $activity = $this->getBranchesActivity($repository, $master);
         } else {
             return $this->render('GitonomyFrontendBundle:Project:showEmpty.html.twig', array(
@@ -116,7 +116,7 @@ class ProjectController extends BaseController
         return $this->render('GitonomyFrontendBundle:Project:showCommit.html.twig', array(
             'project'    => $project,
             'repository' => $repository,
-            'reference'  => $commit->getShortHash(),
+            'reference'  => $project->getDefaultBranch(),
             'commit'     => $commit
         ));
     }
@@ -131,6 +131,11 @@ class ProjectController extends BaseController
 
         $revision = $repository->getRevision($reference);
         $commit = $revision->getResolved();
+        if ($repository->getReferences()->hasBranch($reference)) {
+            $branch = $reference;
+        } else {
+            $branch = $project->getDefaultBranch();
+        }
 
         $tree = $commit->getTree();
         if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
@@ -141,6 +146,7 @@ class ProjectController extends BaseController
 
         $parameters = array(
             'reference'     => $reference,
+            'branch'        => $branch,
             'commit'        => $commit,
             'project'       => $project,
             'repository'    => $repository,
