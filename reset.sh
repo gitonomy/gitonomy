@@ -31,7 +31,7 @@ if [ ! -d "sample" ]; then
 fi
 
 echo ">>> Dropping database"
-php app/console doctrine:database:drop --force --env=$env
+php app/console doctrine:database:drop --force --env=$env || true
 echo ">>> Creating database"
 php app/console doctrine:database:create --env=$env
 echo ">>> Creating SQL schema"
