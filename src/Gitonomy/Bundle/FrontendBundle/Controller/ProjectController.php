@@ -29,6 +29,7 @@ use Gitonomy\Git\Reference;
  * Controller for project displaying.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class ProjectController extends BaseController
 {

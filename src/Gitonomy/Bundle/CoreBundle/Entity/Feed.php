@@ -14,6 +14,9 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class Feed
 {
     protected $id;

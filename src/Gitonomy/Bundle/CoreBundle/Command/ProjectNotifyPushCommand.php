@@ -23,6 +23,7 @@ use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class ProjectNotifyPushCommand extends AbstractCommand
 {

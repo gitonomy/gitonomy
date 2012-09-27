@@ -17,7 +17,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\Message;
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
-
 class PostMessage extends Message
 {
     protected $message;

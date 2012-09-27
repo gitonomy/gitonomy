@@ -17,6 +17,9 @@ use Doctrine\ORM\EntityRepository;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\Feed;
 
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class FeedRepository extends EntityRepository
 {
     public function findOneOrCreate(Project $project, $reference)
