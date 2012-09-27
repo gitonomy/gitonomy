@@ -12,6 +12,15 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
+
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CloseMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\CommitMessage;
+use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage\ForceMessage;
+
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class ThreadMessage
 {
     protected $id;
@@ -19,6 +28,38 @@ class ThreadMessage
     protected $user;
     protected $type;
     protected $publishedAt;
+
+    public static function createFromEvent(PushReferenceEvent $event, Thread $thread)
+    {
+        $user      = $event->getUser();
+        $reference = $event->getReference();
+
+        if ($reference->isDelete()) {
+            return new CloseMessage($thread, $user);
+        }
+
+        $message = new CommitMessage($thread, $user);
+        $message->setForce($reference->isForce());
+
+        $log     = $event->getReference()->getLog();
+        $log->setLimit(5);
+        $commits = array();
+        foreach ($log as $commit) {
+            array_push($commits, array(
+                'hash'         => $commit->getHash(),
+                'message'      => $commit->getMessage(),
+                'shortMessage' => $commit->getShortMessage(),
+                'authorName'   => $commit->getAuthorName(),
+                'authorEmail'  => $commit->getAuthorEmail(),
+            ));
+        }
+
+        $message->setCommits($commits);
+
+        $message->setCommitCount(count($log));
+
+        return $message;
+    }
 
     public function __construct(Thread $thread, User $user, \DateTime $publishedAt = null)
     {

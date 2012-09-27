@@ -9,7 +9,7 @@
         repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\ThreadRepository"
     >
         <unique-constraints>
-            <unique-constraint name="rerefence" columns="reference" />
+            <unique-constraint name="rerefence" columns="id,reference" />
         </unique-constraints>
 
         <id name="id" type="integer" column="id">

@@ -16,6 +16,9 @@ use Gitonomy\Bundle\CoreBundle\Entity\Thread;
 use Gitonomy\Bundle\CoreBundle\Entity\ThreadMessage;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class CommitMessage extends ThreadMessage
 {
     protected $commitList;
