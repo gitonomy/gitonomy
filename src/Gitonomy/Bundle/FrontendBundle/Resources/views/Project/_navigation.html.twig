@@ -1,9 +1,20 @@
+{% set nav_branch = reference|default(project.defaultBranch) %}
 <ul class="nav nav-tabs">
-    {% if reference|default(null) %}
-        <li>
-            <a><em>on {{ reference }}</em></a>
-        </li>
-    {% endif %}
+    <li class="dropdown">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            {{ nav_branch }}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {% for branch in repository.references.branches %}
+                <li>
+                    <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug, reference: branch.name }) }}">
+                        {{ branch.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
     <li{% if active == "project" %} class="active"{% endif %}>
         <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">
             Overview

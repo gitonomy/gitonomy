@@ -3,7 +3,7 @@
 {% block title project.name ~ ' - Source' ~ (path ? ' - ' ~ path ~ '/' : '') %}
 
 {% block content %}
-    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
+    {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source', reference: branch} %}
     {% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}
     <table class="table table-striped">
         <thead>
