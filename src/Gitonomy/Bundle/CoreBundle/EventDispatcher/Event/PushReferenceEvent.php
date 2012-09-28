@@ -19,6 +19,9 @@ use Symfony\Component\EventDispatcher\Event;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class PushReferenceEvent extends Event
 {
     const GIT_CREATE = 'create';

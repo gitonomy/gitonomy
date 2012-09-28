@@ -171,7 +171,10 @@ class ProjectController extends BaseController
     {
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
-        $feed       = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Feed')->findOneByReference('refs/heads/'.$reference);
+        $feed       = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Feed')->findOneBy(array(
+            'project'   => $project,
+            'reference' => 'refs/heads/'.$reference
+        ));
 
         if (null === $feed) {
             throw $this->createNotFoundException(sprintf('Feed "%s" not found', $reference));
