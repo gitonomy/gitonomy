@@ -31,22 +31,22 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $adminPerm      = $manager->merge($this->getReference('permission-ROLE_ADMIN'));
         $contributePerm = $manager->merge($this->getReference('permission-PROJECT_CONTRIBUTE'));
 
-        $admin = new Role('Administrator', 'Master of the application', true);
+        $admin = new Role('Administrator', 'admin', 'Master of the application', true);
         $admin->addPermission($adminPerm);
         $manager->persist($admin);
         $this->setReference('role-admin', $admin);
 
-        $leadDev = new Role('Lead developer', 'Merge leader', false);
+        $leadDev = new Role('Lead developer', 'lead-dev', 'Merge leader', false);
         $leadDev->addPermission($contributePerm);
         $manager->persist($leadDev);
         $this->setReference('role-lead-developer', $leadDev);
 
-        $visitor = new Role('Visitor', 'Read-only viewers', false);
+        $visitor = new Role('Visitor', 'visitor', 'Read-only viewers', false);
         $visitor->addPermission($contributePerm);
         $manager->persist($visitor);
         $this->setReference('role-visitor', $visitor);
 
-        $developer = new Role('Developer', 'No admin access to repositories', false);
+        $developer = new Role('Developer', 'dev', 'No admin access to repositories', false);
         $developer->addPermission($contributePerm);
         $manager->persist($developer);
         $this->setReference('role-developer', $developer);

@@ -3,5 +3,11 @@ if [ -d app/cache/repositories/symfony.git ]; then
     rm -Rf app/cache/repositories/symfony.git
 fi
 mkdir -p app/cache/repositories
-git clone --bare vendor/symfony/symfony app/cache/repositories/symfony.git
-./app/console gitonomy:project-create Symfony symfony
+git init --bare app/cache/repositories/symfony.git
+cp -r app/Resources/hooks app/cache/repositories/symfony.git/
+
+cd vendor/symfony/symfony
+git remote add __tmp__ ../../../app/cache/repositories/symfony.git
+git push __tmp__ master
+git remote rm __tmp__
+cd ../../..

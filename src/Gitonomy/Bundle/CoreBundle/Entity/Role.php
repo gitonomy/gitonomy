@@ -23,6 +23,7 @@ class Role
 {
     protected $id;
     protected $name;
+    protected $slug;
     protected $description;
     protected $isGlobal;
 
@@ -41,13 +42,14 @@ class Role
      */
     protected $gitAccesses;
 
-    public function __construct($name = null, $description = null, $isGlobal = true)
+    public function __construct($name = null, $slug = null, $description = null, $isGlobal = true)
     {
         $this->permissions      = new ArrayCollection();
         $this->userRolesProject = new ArrayCollection();
         $this->gitAccesses      = new ArrayCollection();
 
         $this->name = $name;
+        $this->slug = $slug;
         $this->description = $description;
         $this->isGlobal = $isGlobal;
     }
@@ -89,6 +91,18 @@ class Role
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getDescription()

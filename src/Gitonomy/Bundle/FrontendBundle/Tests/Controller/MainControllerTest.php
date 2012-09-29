@@ -59,7 +59,7 @@ class MainControllerTest extends WebTestCase
         $this->assertEquals(3, $crawler->filter('h2')->count());
 
         $expectations = array(
-            'Foobar' => '2 branches',
+            'Foobar' => '3 branches',
             'Barbaz' => '1 branch',
             'Empty'  => ''
         );

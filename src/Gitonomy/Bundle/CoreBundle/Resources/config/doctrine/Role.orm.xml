@@ -8,7 +8,8 @@
             <generator strategy="IDENTITY" />
         </id>
 
-        <field name="name" type="string" column="name" length="50" unique="true" />
+        <field name="name" type="string" column="name" length="50" />
+        <field name="slug" type="string" column="slug" length="50" unique="true" />
         <field name="description" type="string" column="description" length="50" />
         <field name="isGlobal" type="boolean" column="is_global" />
 

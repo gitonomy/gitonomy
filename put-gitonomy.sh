@@ -3,5 +3,9 @@ if [ -d app/cache/repositories/gitonomy.git ]; then
     rm -Rf app/cache/repositories/gitonomy.git
 fi
 mkdir -p app/cache/repositories
-git clone --bare . app/cache/repositories/gitonomy.git
-./app/console gitonomy:project-create Gitonomy gitonomy
+git init --bare app/cache/repositories/gitonomy.git
+cp -r app/Resources/hooks app/cache/repositories/gitonomy.git/
+
+git remote add __tmp__ app/cache/repositories/gitonomy.git
+git push __tmp__ master
+git remote rm __tmp__

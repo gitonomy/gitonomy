@@ -25,6 +25,7 @@ class RoleType extends AbstractType
     {
         $builder
             ->add('name', 'text')
+            ->add('slug', 'text')
             ->add('description', 'text')
             ->add('permissions', 'entity', array(
                 'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',

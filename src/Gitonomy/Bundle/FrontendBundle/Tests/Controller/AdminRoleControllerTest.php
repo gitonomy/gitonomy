@@ -85,6 +85,7 @@ class AdminRoleControllerTest extends WebTestCase
 
         $this->client->submit($crawler->filter('#role input[type=submit]')->form(), array(
             'adminrole[name]'        => 'test',
+            'adminrole[slug]'        => 'slug',
             'adminrole[description]' => 'test',
             'adminrole[permissions]' => array(
                 $permissionA->getId()
@@ -93,6 +94,7 @@ class AdminRoleControllerTest extends WebTestCase
 
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('test');
 
+        $this->assertNotNull($role);
         $this->assertCount(1, $role->getPermissions());
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminrole/'.$role->getId().'/edit'));
