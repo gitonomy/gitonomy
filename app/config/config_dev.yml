@@ -22,9 +22,6 @@ monolog:
 swiftmailer:
     delivery_address: %mailer_user%
 
-assetic:
-    use_controller: true
-
 services:
     twig.extension.debug:
         class:  Twig_Extensions_Extension_Debug
