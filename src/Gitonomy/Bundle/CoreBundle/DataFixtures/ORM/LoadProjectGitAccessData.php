@@ -29,6 +29,7 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
     public function load(ObjectManager $manager)
     {
         $foobar = $manager->merge($this->getReference('project-foobar'));
+        $barbaz = $manager->merge($this->getReference('project-barbaz'));
 
         $lead      = $manager->merge($this->getReference('role-lead-developer'));
         $developer = $manager->merge($this->getReference('role-developer'));
@@ -37,7 +38,8 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
         $accesses = array(
             new ProjectGitAccess($foobar, $lead,      '*', true, true, true),
             new ProjectGitAccess($foobar, $developer, '*', true, true, false),
-            new ProjectGitAccess($foobar, $visitor,   '*', true, false, false)
+            new ProjectGitAccess($foobar, $visitor,   '*', true, false, false),
+            new ProjectGitAccess($barbaz, $lead,      '*', true, true, true)
         );
 
         foreach ($accesses as $access) {

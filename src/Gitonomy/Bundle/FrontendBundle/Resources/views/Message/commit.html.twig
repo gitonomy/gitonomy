@@ -1,0 +1,40 @@
+{% extends "GitonomyFrontendBundle:Message:message.html.twig" %}
+
+{% block sentence %}
+    {% set count = message.commitCount %}
+
+    {% if message.isForce %}<strong>force-</strong>{% endif %}<span class="message-blue">pushed</span> {% transchoice count %}
+        {0}no commits|{1} 1 commit|]1,Inf] %count% commits
+    {% endtranschoice %}.
+{% endblock %}
+
+{% block message %}
+    {% set count = message.commitCount %}
+
+    {% if count %}
+        <table class="table table-condensed commit-list">
+            <tbody>
+                {% for commit in message.commits %}
+                    <tr>
+                        <td class="message">
+                            <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                                {{ commit.shortMessage }}
+                            </a>
+                        </td>
+                        <td class="author">
+                            {{ commit.authorName }}
+                            <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if count > 5 %}
+                    <tr>
+                        <td colspan="2">
+                            <small>And {{ count - 5 }} others...</small>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock message %}

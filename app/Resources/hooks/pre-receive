@@ -1,5 +1,10 @@
 #!/bin/sh
 
+env="dev"
+if [ ! -z "$GITONOMY_ENV" ]; then
+    env="$GITONOMY_ENV"
+fi
+
 # Check the context informations
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
     echo >&2 "Context informations missing"
@@ -11,21 +16,21 @@ command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/conso
 
 check_reference()
 {
-	BEFORE="$(git rev-parse $1)"
-	AFTER="$(git rev-parse $2)"
-	REFERENCE="$3"
+    BEFORE="$(git rev-parse $1)"
+    AFTER="$(git rev-parse $2)"
+    REFERENCE="$3"
 
-	if [ "$AFTER" = "0000000000000000000000000000000000000000" ]; then
+    if [ "$AFTER" = "0000000000000000000000000000000000000000" ]; then
         REQUEST="GIT_DELETE"
-    else if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-        REQUEST="GIT_WRITE"
-    else if [ "$BEFORE" != "$(git merge-base $BEFORE $AFTER)" ]; then
+    elif [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+        REQUEST="GIT_CREATE"
+    elif [ "$BEFORE" != "$(git merge-base $BEFORE $AFTER)" ]; then
         REQUEST="GIT_FORCE"
     else
         REQUEST="GIT_WRITE"
-    fi fi fi
+    fi
 
-    $command gitonomy:git-permission-check "$GITONOMY_USER" "$GITONOMY_PROJECT" "$REQUEST" "$REFERENCE"
+    $command gitonomy:git-permission-check "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REQUEST" "$REFERENCE" "--env=$env"
     if [ "$?" != 0 ]; then
         cat >&2 <<END
 

@@ -24,6 +24,7 @@ class Project
     protected $repositorySize;
     protected $userRoles;
     protected $gitAccesses;
+    protected $feeds;
 
     public function __construct($name = null, $slug = null)
     {
@@ -100,4 +101,17 @@ class Project
     {
         return 'master';
     }
+
+    public function getFeeds()
+    {
+        return $this->feeds;
+    }
+
+    public function setFeeds($feeds)
+    {
+        $this->feeds = $feeds;
+
+        return $this;
+    }
 }
+

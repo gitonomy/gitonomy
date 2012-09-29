@@ -28,19 +28,13 @@
             </ul>
         </div>
         <div class="span6">
-            <div class="page-header">
-                <h2>SSH Access</h2>
-                <pre>{{ project_ssh(project) }}</pre>
-            </div>
             <section>
                 <div class="page-header">
-                    <h2>Users on the project</h2>
+                    <h2>News feed</h2>
                 </div>
-                {% for userRole in project.userRoles %}
-                    <h3><a href="#">{{ userRole.user.fullname }}</a> <small>{{ userRole.role.name }}</small></h3>
-                {% else %}
-                    <h3><small>No user associated to the project</small></h3>
-                {% endfor %}
+                <div>
+                    {% render "GitonomyFrontendBundle:Project:_showFeed" with { 'slug': project.slug, 'reference': reference|default(null) } %}
+                </div>
             </section>
         </div>
 {% endblock %}

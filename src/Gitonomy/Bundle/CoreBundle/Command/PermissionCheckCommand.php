@@ -12,7 +12,6 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +24,7 @@ use Gitonomy\Bundle\CoreBundle\Security\CliToken;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class PermissionCheckCommand extends ContainerAwareCommand
+class PermissionCheckCommand extends AbstractCommand
 {
     /**
      * @inheritdoc
@@ -60,25 +59,16 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $permission = $input->getArgument('permission');
-        $em   = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em         = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $projectSlug = $input->getOption('project');
         $project = null;
-        if ($projectSlug) {
-            $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($projectSlug);
-            if (null === $project) {
-                throw new \RuntimeException(sprintf('Project with slug "%s" not found', $projectSlug));
-            }
+        if (null !== $input->getOption('project')) {
+            $projectSlug = $input->getOption('project');
+            $project     = $this->getProject($projectSlug);
         }
 
         $username = $input->getArgument('username');
-        $user = null;
-        if ($username) {
-            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
-            if (null === $user) {
-                throw new \RuntimeException(sprintf('User "%s" not found', $username));
-            }
-        }
+        $user     = $this->getUser($username);
 
         $context = $this->getContainer()->get('security.context');
         $token = new CliToken($user->getRoles());

@@ -24,5 +24,11 @@
                 <cascade-persist />
             </cascade>
         </one-to-many>
+        <one-to-many field="feeds" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Feed" mapped-by="project">
+            <cascade>
+                <cascade-remove />
+                <cascade-persist />
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

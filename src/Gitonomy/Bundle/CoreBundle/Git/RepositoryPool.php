@@ -14,12 +14,14 @@ namespace Gitonomy\Bundle\CoreBundle\Git;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 use Gitonomy\Git;
 
 /**
  * Repository pool, containing all Git repositories.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class RepositoryPool
 {
@@ -76,7 +78,7 @@ class RepositoryPool
         rmdir($path);
     }
 
-    public function onProjectPush(ProjectEvent $event)
+    public function onProjectPush(PushReferenceEvent $event)
     {
         $project = $event->getProject();
         $repository = $this->getGitRepository($project);
