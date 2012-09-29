@@ -29,6 +29,7 @@ use Gitonomy\Git\Reference;
  * Controller for project displaying.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class ProjectController extends BaseController
 {
@@ -164,6 +165,27 @@ class ProjectController extends BaseController
         }
 
         return $this->render($tpl, $parameters);
+    }
+
+    public function _showFeedAction($slug, $reference)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $feed       = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Feed')->findOneBy(array(
+            'project'   => $project,
+            'reference' => 'refs/heads/'.$reference
+        ));
+
+        if (null === $feed) {
+            throw $this->createNotFoundException(sprintf('Feed "%s" not found', $reference));
+        }
+
+        return $this->render('GitonomyFrontendBundle:Project:_showFeed.html.twig', array(
+            'project'    => $project,
+            'feed'       => $feed,
+            'repository' => $repository,
+            'reference'  => $reference,
+        ));
     }
 
     /**

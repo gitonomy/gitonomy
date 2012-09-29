@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity
+        table="message"
+        name="Gitonomy\Bundle\CoreBundle\Entity\Message"
+        inheritance-type="JOINED"
+    >
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="publishedAt" column="published_at" type="datetime" />
+
+        <discriminator-column name="type" type="string" length="10" />
+        <discriminator-map>
+            <discriminator-mapping value="open" class="Gitonomy\Bundle\CoreBundle\Entity\Message\OpenMessage" />
+            <discriminator-mapping value="post" class="Gitonomy\Bundle\CoreBundle\Entity\Message\PostMessage" />
+            <discriminator-mapping value="close" class="Gitonomy\Bundle\CoreBundle\Entity\Message\CloseMessage" />
+            <discriminator-mapping value="commit" class="Gitonomy\Bundle\CoreBundle\Entity\Message\CommitMessage" />
+            <discriminator-mapping value="pr" class="Gitonomy\Bundle\CoreBundle\Entity\Message\PullRequestMessage" />
+            <discriminator-mapping value="merge" class="Gitonomy\Bundle\CoreBundle\Entity\Message\MergeMessage" />
+        </discriminator-map>
+
+        <many-to-one field="user" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" />
+        </many-to-one>
+
+        <many-to-one field="feed" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Feed" inversed-by="messages">
+            <join-column name="feed_id" referenced-column-name="id" nullable="false" />
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

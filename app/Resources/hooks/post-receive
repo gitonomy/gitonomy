@@ -1,5 +1,10 @@
 #!/bin/sh
 
+env="dev"
+if [ ! -z "$GITONOMY_ENV" ]; then
+    env="$GITONOMY_ENV"
+fi
+
 # Check the context informations
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
     echo >&2 "Context informations missing"
@@ -9,4 +14,16 @@ fi
 # Gitonomy console
 command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
 
-$command gitonomy:project-notify-push "$GITONOMY_USER" "$GITONOMY_PROJECT"
+project_notify()
+{
+    BEFORE="$(git rev-parse $1)"
+    AFTER="$(git rev-parse $2)"
+    REFERENCE="$3"
+
+    $command gitonomy:project-notify-push "$GITONOMY_PROJECT" "$GITONOMY_USER" "$REFERENCE" "$BEFORE" "$AFTER" "--env=$env"
+}
+
+while read before after reference
+do
+    project_notify $before $after $reference
+done
