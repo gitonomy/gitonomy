@@ -12,5 +12,17 @@
                 {% endif %}
             </li>
         {% endfor %}
+        <li class="pull-right">
+            {% if active != 'show' %}
+                <a class="btn btn-info" href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: path}) }}">
+                    Show
+                </a>
+            {% endif %}
+            {% if active != 'history' %}
+                <a class="btn btn-info" href="{{ path('gitonomyfrontend_project_showTreeHistory', {slug: project.slug, reference: reference, path: path}) }}">
+                    History
+                </a>
+            {% endif %}
+        </li>
     </ul>
 {% endif %}
