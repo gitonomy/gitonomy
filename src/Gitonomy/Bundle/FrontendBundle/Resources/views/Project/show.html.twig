@@ -29,9 +29,7 @@
         </div>
         <div class="span6">
             <section>
-                <div class="page-header">
-                    <h2>News feed</h2>
-                </div>
+                <h2>{{ reference }} <small>last activities</small></h2>
                 <div>
                     {% render "GitonomyFrontendBundle:Project:_showFeed" with { 'slug': project.slug, 'reference': reference|default(null) } %}
                 </div>
