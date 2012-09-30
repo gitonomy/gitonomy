@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- override -->
+        <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Debug\DebugRepositoryPool</parameter>
+
+        <parameter key="gitonomy_core.git.data_collector.class">Gitonomy\Bundle\CoreBundle\Debug\GitDataCollector</parameter>
+    </parameters>
+
+    <services>
+        <service id="gitonomy_core.git.data_collector" class="%gitonomy_core.git.data_collector.class%">
+            <tag name="data_collector" id="git" template="GitonomyCoreBundle:Profiler:git.html.twig" />
+        </service>
+    </services>
+</container>

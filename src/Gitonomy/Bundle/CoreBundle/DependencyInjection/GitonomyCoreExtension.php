@@ -15,6 +15,7 @@ namespace Gitonomy\Bundle\CoreBundle\DependencyInjection;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 
 /**
@@ -37,5 +38,14 @@ class GitonomyCoreExtension extends Extension
 
         // Path to repositories
         $container->setParameter('gitonomy_core.git.repository_path', $config['repository_path']);
+
+        if ($config['enable_profiler']) {
+            $loader->load('debug.xml');
+
+            $container
+                ->getDefinition('gitonomy_core.git.repository_pool')
+                ->addMethodCall('setDataCollector', array(new Reference('gitonomy_core.git.data_collector')))
+            ;
+        }
     }
 }
