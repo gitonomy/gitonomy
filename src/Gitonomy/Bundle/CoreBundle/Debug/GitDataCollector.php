@@ -51,8 +51,10 @@ class GitDataCollector extends DataCollector
     public function getTime()
     {
         $t = 0;
-        foreach ($this->data as $row) {
-            $t += $row['duration'];
+        if (null !== $this->data) {
+            foreach ($this->data as $row) {
+                $t += $row['duration'];
+            }
         }
 
         return $t;
@@ -60,6 +62,6 @@ class GitDataCollector extends DataCollector
 
     public function getData()
     {
-        return $this->data;
+        return null === $this->data ? array() : $this->data;
     }
 }

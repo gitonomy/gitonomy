@@ -9,14 +9,20 @@
         {% endif %}
     {% endset %}
     {% set text %}
-        <div class="sf-toolbar-info-piece">
-            <b>Commands</b>
-            <span>{{ collector.count }}</span>
-        </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Total duration</b>
-            <span>{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
-        </div>
+        {% if collector.count %}
+            <div class="sf-toolbar-info-piece">
+                <b>Commands</b>
+                <span>{{ collector.count }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Total duration</b>
+                <span>{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+            </div>
+        {% else %}
+            <div class="sf-toolbar-info-piece">
+                <span>No command executed</span>
+            </div>
+        {% endif %}
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
 {% endblock %}
@@ -45,6 +51,8 @@
                     <strong>Time</strong>: {{ "%.0f"|format(row.duration*1000) }} ms
                 </small>
             </li>
+        {% else %}
+            <li>nothing to see..</li>
         {% endfor %}
     </ul>
 {% endblock %}
