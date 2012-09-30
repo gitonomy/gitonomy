@@ -129,6 +129,17 @@ class ProjectControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('a:contains("Change the README filename")'));
     }
 
+    public function testTreeHistory()
+    {
+        $this->client->connect('alice');
+
+        $crawler = $this->client->request('GET', '/en_US/project/foobar/tree-history/master/README');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertCount(1, $crawler->filter('a:contains("Change the README filename")'));
+    }
+
     public function testTree_WithFile_DisplayContent()
     {
         $this->client->connect('alice');
