@@ -36,9 +36,15 @@ class GitonomyCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        // Path to repositories
+        // path to repositories
         $container->setParameter('gitonomy_core.git.repository_path', $config['repository_path']);
 
+        // async_storage
+        $container->getDefinition('gitonomy_core.event_dispatcher')->addMethodCall('setStorage', array(new Reference('gitonomy_core.event_dispatcher.storage_' . $config['async_storage'])));
+        $container->setParameter('gitonomy_core.event_dispatcher.storage_mysql.check_table',    $container->getParameter('kernel.debug'));
+        $container->setParameter('gitonomy_core.event_dispatcher.storage_mysql.requeue_errors', false);
+
+        // git profiler
         if ($config['enable_profiler']) {
             $loader->load('debug.xml');
 

@@ -34,6 +34,13 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('repository_path')->cannotBeEmpty()->end()
                 ->booleanNode('enable_profiler')->defaultFalse()->end()
+                ->scalarNode('async_storage')
+                    ->cannotBeEmpty()
+                    ->validate()
+                        ->ifNotInArray(array('direct', 'mysql'))
+                        ->thenInvalid('async_storage availables: direct, mysql')
+                    ->end()
+                ->end()
             ->end()
         ;
 

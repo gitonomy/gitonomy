@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
 
+gitonomy_core:
+    async_storage: direct
+
 framework:
     test: ~
     session:

@@ -5,9 +5,26 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- override -->
+        <parameter key="gitonomy_core.event_dispatcher.class">Gitonomy\Component\EventDispatcher\EventDispatcher</parameter>
+        <parameter key="gitonomy_core.event_dispatcher.storage_mysql.class">Gitonomy\Component\EventDispatcher\EventStorage\MySQLStorage</parameter>
+        <parameter key="gitonomy_core.event_dispatcher.storage_direct.class">Gitonomy\Component\EventDispatcher\EventStorage\DirectStorage</parameter>
         <parameter key="gitonomy_core.listener.feed.class">Gitonomy\Bundle\CoreBundle\Listener\FeedListener</parameter>
     </parameters>
     <services>
+
+        <service id="gitonomy_core.event_dispatcher" class="%gitonomy_core.event_dispatcher.class%" />
+
+        <service id="gitonomy_core.event_dispatcher.storage_direct" class="%gitonomy_core.event_dispatcher.storage_direct.class%" public="false">
+            <argument type="service" id="gitonomy_core.event_dispatcher" />
+        </service>
+
+        <service id="gitonomy_core.event_dispatcher.storage_mysql" class="%gitonomy_core.event_dispatcher.storage_mysql.class%" public="false">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <argument>%gitonomy_core.event_dispatcher.storage_mysql.check_table%</argument>
+            <argument>%gitonomy_core.event_dispatcher.storage_mysql.requeue_errors%</argument>
+        </service>
+
         <service id="gitonomy_core.listener.feed" class="%gitonomy_core.listener.feed.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
