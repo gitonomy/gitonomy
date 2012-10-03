@@ -6,7 +6,7 @@
 
 {% block content %}
     {% include "GitonomyFrontendBundle:Project:_navigation.html.twig" with {active: 'source'} %}
-    {% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" %}
+    {% include "GitonomyFrontendBundle:Project:_pathcrumb.html.twig" with {active: 'show'} %}
     <form id="code-wrapper" class="cm-s-lesser-elegant">
         <textarea id="code" name="code">{{ blob.content }}</textarea>
     </form>
