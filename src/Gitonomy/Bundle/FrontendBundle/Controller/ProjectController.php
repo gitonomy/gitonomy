@@ -167,6 +167,33 @@ class ProjectController extends BaseController
         return $this->render($tpl, $parameters);
     }
 
+    /**
+     * Displays tree history.
+     */
+    public function showTreeHistoryAction(Request $request, $slug, $reference, $path)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $branch     = $repository->getReferences()->getBranch($reference);
+        $log        = $repository->getLog($branch->getCommitHash(), $path);
+
+        $pager = new Pager(new GitLogAdapter($log));
+        $pager->setPerPage(50);
+        $pager->setPage($page = $request->query->get('page', 1));
+
+        return $this->render('GitonomyFrontendBundle:Project:showTreeHistory.html.twig', array(
+            'reference'     => $reference,
+            'log'           => $log,
+            'project'       => $project,
+            'repository'    => $repository,
+            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path),
+            'page'          => $page,
+            'pager'         => $pager
+        ));
+    }
+
     public function _showFeedAction($slug, $reference)
     {
         $project    = $this->getProject($slug);
