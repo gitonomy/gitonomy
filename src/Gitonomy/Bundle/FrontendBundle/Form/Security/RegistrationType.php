@@ -41,7 +41,9 @@ class RegistrationType extends AbstractType
             ->add('timezone', 'timezone')
             ->add('password', 'repeated',array(
                 'type'   => 'password',
-                'mapped' => false
+                'mapped' => false,
+                'first_options' => array('label' => 'Password'),
+                'second_options' => array('label' => 'Confirm password')
             ))
             ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
                 $user = $event->getData();
