@@ -13,9 +13,9 @@
 
     <services>
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
-            <tag name="kernel.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
-            <tag name="kernel.event_listener" event="gitonomy.project_delete" method="onProjectDelete" />
-            <tag name="kernel.event_listener" event="gitonomy.project_push" method="onProjectPush" />
+            <tag name="gitonomy.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
+            <tag name="gitonomy.event_listener" event="gitonomy.project_delete" method="onProjectDelete" />
+            <tag name="gitonomy.event_listener" event="gitonomy.project_push" method="onProjectPush" />
             <argument>%gitonomy_core.git.repository_path%</argument>
         </service>
 
@@ -24,7 +24,7 @@
         </service>
 
         <service id="gitonomy_core.git.hook_injector" class="%gitonomy_core.git.hook_injector.class%">
-            <tag name="kernel.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
+            <tag name="gitonomy.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
             <argument type="collection">
                 <argument key="pre-receive">%kernel.root_dir%/Resources/hooks/pre-receive</argument>

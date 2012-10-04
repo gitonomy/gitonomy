@@ -13,13 +13,16 @@
     </parameters>
     <services>
 
-        <service id="gitonomy_core.event_dispatcher" class="%gitonomy_core.event_dispatcher.class%" />
+        <service id="gitonomy_core.event_dispatcher" class="%gitonomy_core.event_dispatcher.class%">
+            <argument type="service" id="service_container" />
+        </service>
 
         <service id="gitonomy_core.event_dispatcher.storage_direct" class="%gitonomy_core.event_dispatcher.storage_direct.class%" public="false">
             <argument type="service" id="gitonomy_core.event_dispatcher" />
         </service>
 
         <service id="gitonomy_core.event_dispatcher.storage_mysql" class="%gitonomy_core.event_dispatcher.storage_mysql.class%" public="false">
+            <argument type="service" id="gitonomy_core.serializer" />
             <argument type="service" id="doctrine.dbal.default_connection" />
             <argument>%gitonomy_core.event_dispatcher.storage_mysql.check_table%</argument>
             <argument>%gitonomy_core.event_dispatcher.storage_mysql.requeue_errors%</argument>
@@ -28,7 +31,7 @@
         <service id="gitonomy_core.listener.feed" class="%gitonomy_core.listener.feed.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
-            <tag name="kernel.event_listener" event="gitonomy.project_push" method="onPush" />
+            <tag name="gitonomy.event_listener" event="gitonomy.project_push" method="onPush" />
         </service>
     </services>
 </container>

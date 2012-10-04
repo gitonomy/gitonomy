@@ -11,3 +11,5 @@ git remote add __tmp__ ../../../app/cache/repositories/symfony.git
 git push __tmp__ master
 git remote rm __tmp__
 cd ../../..
+
+php app/console gitonomy:events:process

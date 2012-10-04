@@ -50,11 +50,11 @@ class RepositoryPool
         $project = $event->getProject();
 
         $path = $this->getPath($project);
+
         Git\Admin::init($path);
 
         $repository = $this->getGitRepository($project);
         $project->setRepositorySize($repository->getSize());
-
     }
 
     /**

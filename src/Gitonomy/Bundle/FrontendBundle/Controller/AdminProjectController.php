@@ -195,7 +195,7 @@ class AdminProjectController extends BaseAdminController
      */
     protected function postCreate($object)
     {
-        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($object));
+        $this->get('gitonomy_core.event_dispatcher')->dispatchAsync(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($object));
         $em = $this->get('doctrine')->getManager();
 
         $em->persist($object);
@@ -207,7 +207,7 @@ class AdminProjectController extends BaseAdminController
      */
     protected function preDelete($object)
     {
-        $this->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($object));
+        $this->get('gitonomy_core.event_dispatcher')->dispatchAsync(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($object));
     }
 
     /**

@@ -86,6 +86,6 @@ EOF
     protected function dispatch(PushReferenceEvent $event)
     {
         $eventName = GitonomyEvents::PROJECT_PUSH;
-        $this->getContainer()->get('event_dispatcher')->dispatch($eventName, $event);
+        $this->getContainer()->get('gitonomy_core.event_dispatcher')->dispatchAsync($eventName, $event);
     }
 }

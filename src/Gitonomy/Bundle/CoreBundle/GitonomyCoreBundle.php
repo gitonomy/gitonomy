@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Gitonomy\Bundle\CoreBundle\DependencyInjection\Compiler\AddValidationFilesPass;
+use Gitonomy\Bundle\CoreBundle\DependencyInjection\Compiler\AddGitonomyListenersPass;
 
 class GitonomyCoreBundle extends Bundle
 {
@@ -24,5 +25,6 @@ class GitonomyCoreBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new AddValidationFilesPass());
+        $container->addCompilerPass(new AddGitonomyListenersPass());
     }
 }

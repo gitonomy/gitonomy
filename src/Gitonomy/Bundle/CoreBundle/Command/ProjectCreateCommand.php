@@ -68,10 +68,11 @@ EOF
         $em->flush();
 
         $event = new ProjectEvent($project);
-        $this->getContainer()->get('event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, $event);
 
         $em->persist($project);
         $em->flush();
+
+        $this->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, $event);
 
         $output->writeln(sprintf('Project <info>%s</info> was created!', $project->getName()));
     }

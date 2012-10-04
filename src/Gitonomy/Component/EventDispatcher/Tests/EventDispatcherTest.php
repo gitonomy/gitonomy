@@ -13,6 +13,7 @@
 namespace Gitonomy\Component\EventDispatcher\Tests;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\DependencyInjection\Container;
 
 use Gitonomy\Component\EventDispatcher\EventDispatcher;
 use Gitonomy\Component\EventDispatcher\AsyncEvent;
@@ -31,7 +32,8 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->method('store')
         ;
 
-        $dispatcher = new EventDispatcher();
+        $container = new Container();
+        $dispatcher = new EventDispatcher($container);
         $dispatcher->setStorage($storage);
 
         $test = $this;
@@ -59,7 +61,7 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($asyncEvent), $this->equalTo(true))
         ;
 
-        $dispatcher = new EventDispatcher();
+        $dispatcher = new EventDispatcher(new Container());
         $dispatcher->setStorage($storage);
 
         $ran = false;
@@ -90,7 +92,7 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($asyncEvent), $this->equalTo(false))
         ;
 
-        $dispatcher = new EventDispatcher();
+        $dispatcher = new EventDispatcher(new Container());
         $dispatcher->setStorage($storage);
 
         $dispatcher->addListener('foo', function () use (&$ran) {

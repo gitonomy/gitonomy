@@ -38,21 +38,22 @@ class LoadProjectData extends AbstractFixture implements ContainerAwareInterface
         $foobar->setRepositorySize(256);
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
-        $this->dispatch($foobar);
 
         $empty = new Project('Empty', 'empty');
         $empty->setRepositorySize(256);
         $manager->persist($empty);
         $this->setReference('project-empty', $empty);
-        $this->dispatch($empty);
 
         $barbaz = new Project('Barbaz', 'barbaz');
         $barbaz->setRepositorySize(352);
         $manager->persist($barbaz);
         $this->setReference('project-barbaz', $barbaz);
-        $this->dispatch($barbaz);
 
         $manager->flush();
+
+        $this->dispatch($foobar);
+        $this->dispatch($barbaz);
+        $this->dispatch($empty);
     }
 
     /**
@@ -74,7 +75,7 @@ class LoadProjectData extends AbstractFixture implements ContainerAwareInterface
     protected function dispatch(Project $project)
     {
         $this->container
-            ->get('event_dispatcher')
+            ->get('gitonomy_core.event_dispatcher')
             ->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project))
         ;
     }

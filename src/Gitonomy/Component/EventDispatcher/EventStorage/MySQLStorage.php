@@ -13,6 +13,7 @@
 namespace Gitonomy\Component\EventDispatcher\EventStorage;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Serializer\SerializerInterface;
 
 use Doctrine\DBAL\Connection;
 
@@ -29,9 +30,10 @@ class MySQLStorage implements EventStorageInterface
     protected $connection;
     protected $checkTable;
 
-    public function __construct(Connection $connection, $checkTable = true, $requeueErrors = true)
+    public function __construct(SerializerInterface $serializer, Connection $connection, $checkTable = true, $requeueErrors = true)
     {
         $this->connection    = $connection;
+        $this->serializer    = $serializer;
         $this->checkTable    = $checkTable;
         $this->requeueErrors = $requeueErrors;
 
@@ -61,9 +63,8 @@ class MySQLStorage implements EventStorageInterface
         }
 
         $eventName  = $result['eventName'];
-        $event      = unserialize($result['eventSerialized']);
+        $event      = $this->serializer->deserialize($result['eventSerialized'], $result['eventType'], 'json');
         $signature  = $result['signature'];
-
 
         $event = new AsyncEvent($eventName, $event, $signature);
 
@@ -95,22 +96,23 @@ class MySQLStorage implements EventStorageInterface
 
     protected function getTableQuery()
     {
-        return sprintf('CREATE TABLE %s (signature VARCHAR(40), createdAt DATETIME, isLocked TINYINT, eventName VARCHAR(64), eventSerialized TEXT);', self::TABLE_NAME);
+        return sprintf('CREATE TABLE %s (signature VARCHAR(40), createdAt DATETIME, isLocked TINYINT, eventName VARCHAR(64), eventType TEXT, eventSerialized TEXT);', self::TABLE_NAME);
     }
 
     protected function getCreateQuery(AsyncEvent $event)
     {
-        return sprintf('INSERT INTO %s (signature, createdAt, isLocked, eventName, eventSerialized) VALUES (%s, NOW(), 1, %s, %s)',
+        return sprintf('INSERT INTO %s (signature, createdAt, isLocked, eventName, eventType, eventSerialized) VALUES (%s, NOW(), 0, %s, %s, %s)',
             self::TABLE_NAME,
             $this->connection->quote($event->getSignature()),
             $this->connection->quote($event->getEventName()),
-            $this->connection->quote(serialize($event->getEvent()))
+            $this->connection->quote(get_class($event->getEvent())),
+            $this->connection->quote($this->serializer->serialize($event->getEvent(), 'json'))
         );
     }
 
     protected function getSelectQuery()
     {
-        return sprintf('SELECT signature, eventName, eventSerialized FROM %s WHERE isLocked = 0 ORDER BY createdAt LIMIT 1', self::TABLE_NAME);
+        return sprintf('SELECT signature, eventName, eventType, eventSerialized FROM %s WHERE isLocked = 0 ORDER BY createdAt LIMIT 1', self::TABLE_NAME);
     }
 
     protected function getDeleteQuery(AsyncEvent $event)

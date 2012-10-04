@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- override -->
+        <parameter key="gitonomy_core.serializer.class">Symfony\Component\Serializer\Serializer</parameter>
+        <parameter key="gitonomy_core.entities_normalizer.class">Gitonomy\Bundle\CoreBundle\Serializer\Normalizer\EntitiesNormalizer</parameter>
+        <parameter key="gitonomy_core.project_event_normalizer.class">Gitonomy\Bundle\CoreBundle\Serializer\Normalizer\ProjectEventNormalizer</parameter>
+        <parameter key="gitonomy_core.push_event_normalizer.class">Gitonomy\Bundle\CoreBundle\Serializer\Normalizer\PushReferenceEventNormalizer</parameter>
+        <parameter key="gitonomy_core.json_encoder.class">Symfony\Component\Serializer\Encoder\JsonEncoder</parameter>
+    </parameters>
+    <services>
+
+        <service id="gitonomy_core.serializer" class="%gitonomy_core.serializer.class%">
+            <argument type="collection">
+                <argument type="service" id="gitonomy_core.entities_normalizer" />
+                <argument type="service" id="gitonomy_core.project_event_normalizer" />
+                <argument type="service" id="gitonomy_core.push_event_normalizer" />
+            </argument>
+            <argument type="collection">
+                <argument type="service">
+                    <service class="%gitonomy_core.json_encoder.class%" />
+                </argument>
+            </argument>
+        </service>
+
+        <service id="gitonomy_core.entities_normalizer" class="%gitonomy_core.entities_normalizer.class%" public="false">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="gitonomy_core.push_event_normalizer" class="%gitonomy_core.push_event_normalizer.class%" public="false">
+            <argument type="service" id="gitonomy_core.git.repository_pool" />
+        </service>
+
+        <service id="gitonomy_core.project_event_normalizer" class="%gitonomy_core.project_event_normalizer.class%" public="false" />
+
+    </services>
+</container>

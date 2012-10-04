@@ -13,12 +13,12 @@
 namespace Gitonomy\Component\EventDispatcher;
 
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher as BaseEventDispatcher;
+use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class EventDispatcher extends BaseEventDispatcher
+class EventDispatcher extends ContainerAwareEventDispatcher
 {
     protected $storage;
 

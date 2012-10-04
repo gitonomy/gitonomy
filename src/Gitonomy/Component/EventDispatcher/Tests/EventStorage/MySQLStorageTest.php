@@ -31,6 +31,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
+        $this->serializer = $this->getMock('Symfony\Component\Serializer\SerializerInterface');
     }
 
     public function testCreateTable()
@@ -41,7 +42,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->matchesRegularExpression('/^CREATE TABLE/'));
         ;
 
-        $storage = new MySQLStorage($this->mock);
+        $storage = new MySQLStorage($this->serializer, $this->mock);
     }
 
     public function testCreateTableDisabled()
@@ -51,7 +52,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->method('executeQuery')
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
     }
 
     public function testStore_InsertRow()
@@ -62,7 +63,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->matchesRegularExpression('/^INSERT INTO/'));
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
         $storage->store(new AsyncEvent('foo', new Event()));
     }
 
@@ -77,7 +78,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($rs));
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
         $this->assertNull($storage->getNextToProcess(), "Storage returns null when no result in statement");
     }
 
@@ -87,7 +88,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
         $rs = $this->getMock('PDOStatement');
         $rs->expects($this->once())->method('fetch')->will($this->returnValue(array(
             'eventName'       => 'foo',
-            'eventSerialized' => serialize($event),
+            'eventSerialized' => '',
             'signature'       => 'bar'
         )));
 
@@ -97,7 +98,13 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($rs))
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $this->serializer
+            ->expects($this->once())
+            ->method('deserialize')
+            ->will($this->returnValue($event))
+        ;
+
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
         $asyncEvent = $storage->getNextToProcess();
 
         $this->assertTrue($asyncEvent instanceof AsyncEvent, "Async event returned correctly");
@@ -114,7 +121,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->matchesRegularExpression('/^UPDATE/'));
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
         $storage->acknowledge(new AsyncEvent('foo', new Event()), false);
     }
 
@@ -126,7 +133,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->matchesRegularExpression('/^DELETE/'));
         ;
 
-        $storage = new MySQLStorage($this->mock, false, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false, false);
         $storage->acknowledge(new AsyncEvent('foo', new Event()), false);
     }
 
@@ -138,7 +145,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->matchesRegularExpression('/^DELETE/'));
         ;
 
-        $storage = new MySQLStorage($this->mock, false);
+        $storage = new MySQLStorage($this->serializer, $this->mock, false);
         $storage->acknowledge(new AsyncEvent('foo', new Event()), true);
     }
 }
