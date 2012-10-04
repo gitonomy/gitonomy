@@ -91,10 +91,10 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
             'signature'       => 'bar'
         )));
 
-        $this->mock
-            ->expects($this->once())
+        $this->mock->expects($this->at(0))
             ->method('executeQuery')
-            ->will($this->returnValue($rs));
+            ->with($this->matchesRegularExpression('/^SELECT /'))
+            ->will($this->returnValue($rs))
         ;
 
         $storage = new MySQLStorage($this->mock, false);

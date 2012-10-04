@@ -64,7 +64,12 @@ class MySQLStorage implements EventStorageInterface
         $event      = unserialize($result['eventSerialized']);
         $signature  = $result['signature'];
 
-        return new AsyncEvent($eventName, $event, $signature);
+
+        $event = new AsyncEvent($eventName, $event, $signature);
+
+        $this->runSQL($this->getLockQuery($event));
+
+        return $event;
     }
 
     public function acknowledge(AsyncEvent $event, $isSuccess)
@@ -90,12 +95,12 @@ class MySQLStorage implements EventStorageInterface
 
     protected function getTableQuery()
     {
-        return sprintf('CREATE TABLE %s (signature VARCHAR(40), createdAt DATETIME, eventName VARCHAR(64), eventSerialized TEXT);', self::TABLE_NAME);
+        return sprintf('CREATE TABLE %s (signature VARCHAR(40), createdAt DATETIME, isLocked TINYINT, eventName VARCHAR(64), eventSerialized TEXT);', self::TABLE_NAME);
     }
 
     protected function getCreateQuery(AsyncEvent $event)
     {
-        return sprintf('INSERT INTO %s (signature, createdAt, eventName, eventSerialized) VALUES (%s, NOW(), %s, %s)',
+        return sprintf('INSERT INTO %s (signature, createdAt, isLocked, eventName, eventSerialized) VALUES (%s, NOW(), 1, %s, %s)',
             self::TABLE_NAME,
             $this->connection->quote($event->getSignature()),
             $this->connection->quote($event->getEventName()),
@@ -105,7 +110,7 @@ class MySQLStorage implements EventStorageInterface
 
     protected function getSelectQuery()
     {
-        return sprintf('SELECT signature, eventName, eventSerialized FROM %s ORDER BY createdAt LIMIT 1', self::TABLE_NAME);
+        return sprintf('SELECT signature, eventName, eventSerialized FROM %s WHERE isLocked = 0 ORDER BY createdAt LIMIT 1', self::TABLE_NAME);
     }
 
     protected function getDeleteQuery(AsyncEvent $event)
@@ -115,6 +120,11 @@ class MySQLStorage implements EventStorageInterface
 
     protected function getUpdateQuery(AsyncEvent $event)
     {
-        return sprintf('UPDATE %s SET createdAt = NOW() WHERE signature = %s', self::TABLE_NAME, $this->connection->quote($event->getSignature()));
+        return sprintf('UPDATE %s SET createdAt = NOW(), isLocked = 0 WHERE signature = %s', self::TABLE_NAME, $this->connection->quote($event->getSignature()));
+    }
+
+    protected function getLockQuery(AsyncEvent $event)
+    {
+        return sprintf('UPDATE %s SET isLocked = 1 WHERE signature = %s', self::TABLE_NAME, $this->connection->quote($event->getSignature()));
     }
 }
