@@ -1,0 +1,76 @@
+body, div, p, h1 {
+    margin:  0;
+    padding: 0;
+}
+
+body {
+    background-color: #ff8821;
+}
+
+.gitonomy-install {
+    width:  960px;
+    margin: 0 auto;
+    background-color: white;
+    padding-bottom: 1em;
+}
+
+.gitonomy-install h1, .gitonomy-install em {
+    text-align: center;
+}
+
+.gitonomy-install h1 {
+    font-weight: normal;
+    font-family: Tellural Alt;
+    padding: 0.2em 0 0 0;
+    font-size: 64px;
+    color: #ff8821;
+}
+
+.gitonomy-install h1 small {
+    font-size: 42px;
+    color: black;
+}
+
+.gitonomy-install footer {
+    padding: 3em 0 0 0;
+    text-align: center;
+    color: grey;
+    font-family: sans-serif;
+}
+
+.gitonomy-install ul.menu {
+    text-align: center;
+}
+
+.gitonomy-install ul.menu > li {
+    display: inline-block;
+    padding: 0.5em 0.2em;
+}
+
+.gitonomy-install ul.menu a {
+    margin:  0 0.5em;
+
+    font-family: sans-serif;
+    text-decoration: none;
+
+    color: grey;
+}
+
+.gitonomy-install ul.menu li.error a {
+    color: #ff8821;
+}
+
+.gitonomy-install ul.menu li.active a {
+    color: black;
+}
+
+.gitonomy-install ul.menu li.error {
+    border:             1px solid #ff8821;
+    -moz-border-radius: 24px;
+    border-radius:      24px;
+}
+
+.gitonomy-install section {
+    padding: 1em;
+    font-family: sans-serif;
+}

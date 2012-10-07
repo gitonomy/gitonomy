@@ -1,40 +1,27 @@
 {% extends "GitonomyDistributionBundle::layout.html.twig" %}
 
 {% block content %}
-    <p>
-        {% spaceless %}
-        {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' %}
-            <span style="background-color: yellow">
-        {% else %}
-            <span>
-        {% endif %}
+    {% spaceless %}
+    <ul class="menu">
+        <li class="
+        {{- app.request.attributes.get('_route') == 'gitonomydistribution_configuration_welcome' ? 'active' : '' -}}
+        ">
         <a href="{{ path('gitonomydistribution_configuration_welcome') }}">Welcome</a>
-        </span>
-        {% endspaceless %}
-        -
+        </li>
         {% for step in steps %}
-            {% spaceless %}
-                {% if _parent.step is defined and step.slug == _parent.step.slug %}
-                    <span style="background-color: yellow">
-                {% elseif not step.status(parameters) %}
-                    <span style="background-color: red">
-                {% else %}
-                    <span>
-                {% endif %}
+            <li class="
+            {{- _parent.step is defined and step.slug == _parent.step.slug ? 'active' : '' -}}
+            {{- not step.status(parameters) ? ' error' : ''}}
+            ">
                 <a href="{{ path('gitonomydistribution_configuration_step', {slug: step.slug}) }}">{{ step.name }}</a>
-                </span>
-            {% endspaceless %}
-            -
+            </li>
         {% endfor %}
-        {% spaceless %}
-            {% if app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' %}
-                <span style="background-color: yellow">
-            {% else %}
-                <span>
-            {% endif %}
+        <li class="
+            {{- app.request.attributes.get('_route') == 'gitonomydistribution_configuration_finish' ? 'active' : '' -}}
+        ">
             <a href="{{ path('gitonomydistribution_configuration_finish') }}">Finish</a>
-            </span>
-        {% endspaceless %}
-    </p>
+        </li>
+    </ul>
+    {% endspaceless %}
     {% block step_content '' %}
 {% endblock %}

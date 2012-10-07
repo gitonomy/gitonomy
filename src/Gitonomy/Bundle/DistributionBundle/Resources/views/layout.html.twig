@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/gitonomyfrontend/css/twitter-bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gitonomydistribution/css/main.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
@@ -10,5 +10,15 @@
 {% endblock %}
 
 {% block body %}
-    {% block content '' %}
+    <div class="gitonomy-install">
+        <header>
+            <h1>Gitonomy <small>installation</small></h1>
+        </header>
+        <section>
+            {% block content '' %}
+        </section>
+        <footer>
+            <p>Gitonomy is beautiful and you are beautiful, too.</p>
+        </footer>
+    </div>
 {% endblock %}
