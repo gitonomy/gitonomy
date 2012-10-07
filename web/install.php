@@ -6,7 +6,7 @@
     <body>
         <div class="gitonomy-install">
             <header>
-                <h1>Gitonomy <small>installation</small></h1>
+                <h1>Gitonomy <small>requirements</small></h1>
             </header>
             <section>
                 <?php

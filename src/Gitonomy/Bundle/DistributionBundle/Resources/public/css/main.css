@@ -74,3 +74,10 @@ body {
     padding: 1em;
     font-family: sans-serif;
 }
+
+.gitonomy-install form label {
+    display: block;
+    font-weight: bold;
+    padding-top: 0.6em;
+    padding-bottom: 0.1em;
+}
