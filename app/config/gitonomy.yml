@@ -1,7 +1,7 @@
 # Gitonomy core
 gitonomy_core:
     repository_path:   %repository_path%
-    async_storage:     mysql
+    async_storage:     direct
 
 gitonomy_frontend:
     project_name:      %project_name%
