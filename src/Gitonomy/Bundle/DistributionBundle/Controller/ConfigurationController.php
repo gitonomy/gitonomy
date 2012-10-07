@@ -8,6 +8,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Yaml\Yaml;
 
 use Gitonomy\Bundle\DistributionBundle\Installation\StepInterface;
+use Gitonomy\Bundle\DistributionBundle\Installation\StepList;
 
 class ConfigurationController extends Controller
 {
@@ -38,12 +39,7 @@ class ConfigurationController extends Controller
 
         $form = $this->getForm($step);
 
-        return $this->render($step->getTemplate(), array(
-            'steps'      => $steps,
-            'parameters' => $this->getParameters(),
-            'step'       => $step,
-            'form'       => $form->createView()
-        ));
+        return $this->renderStep($steps, $step, $form);
     }
 
     public function saveStepAction(Request $request, $slug)
@@ -63,17 +59,22 @@ class ConfigurationController extends Controller
             return $this->redirect($this->generateUrl('gitonomydistribution_configuration_step', array('slug' => $step->getSlug())));
         }
 
+        return $this->renderStep($steps, $step, $form);
+    }
+
+    protected function getSteps()
+    {
+        return $this->get('gitonomy_distribution.steps');
+    }
+
+    protected function renderStep(StepList $steps, StepInterface $step, Form $form)
+    {
         return $this->render($step->getTemplate(), array(
             'steps'      => $steps,
             'parameters' => $this->getParameters(),
             'step'       => $step,
             'form'       => $form->createView()
         ));
-    }
-
-    protected function getSteps()
-    {
-        return $this->get('gitonomy_distribution.steps');
     }
 
     protected function getForm(StepInterface $step)
@@ -92,26 +93,50 @@ class ConfigurationController extends Controller
 
     protected function getParameters()
     {
-        $file = $this->getConfigFile();
+        list($dist, $local) = $this->getDistAndLocal();
 
-        $data = Yaml::parse($file);
-
-        if (null === $data) {
-            return array();
-        }
-
-        return $data['parameters'];
+        return array_merge($dist, $local);
     }
 
     protected function setParameters(array $parameters)
     {
-        $file = $this->getConfigFile();
+        list($dist, $local) = $this->getDistAndLocal();
 
-        file_put_contents($file, Yaml::dump(array('parameters' => $parameters)));
+        $newLocal = array_merge($local, $parameters);
+
+        foreach ($newLocal as $key => $value) {
+            if (array_key_exists($key, $dist) && $value === $dist[$key]) {
+                unset($newLocal[$key]);
+            }
+        }
+
+        file_put_contents($this->getLocalFile(), Yaml::dump(array('parameters' => $newLocal)));
     }
 
-    protected function getConfigFile()
+    protected function getDistAndLocal()
+    {
+        $dist  = Yaml::parse($this->getDistributedFile());
+        $local = Yaml::parse($this->getLocalFile());
+
+        if (null === $local) {
+            $local = array();
+            $dist  = $dist['parameters'];
+        } else {
+            $local = $local['parameters'];
+            $dist  = $dist['parameters'];
+        }
+
+        return array($dist, $local);
+    }
+
+    protected function getDistributedFile()
+    {
+        return $this->container->getParameter('kernel.root_dir').'/config/parameters_dist.yml';
+    }
+
+    protected function getLocalFile()
     {
         return $this->container->getParameter('kernel.root_dir').'/config/parameters.yml';
+
     }
 }
