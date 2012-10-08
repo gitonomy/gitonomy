@@ -201,7 +201,6 @@
             "suggest": {
                 "doctrine/orm": "The Doctrine ORM integration is optional in the bundle."
             },
-            "time": "1348828243",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -238,7 +237,8 @@
                 "orm",
                 "persistence",
                 "dbal"
-            ]
+            ],
+            "time": "1348828243"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -268,30 +268,7 @@
                 "psr-0": {
                     "Doctrine\\Bundle\\FixturesBundle": ""
                 }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
-                    "name": "Doctrine Project",
-                    "homepage": "http://www.doctrine-project.org"
-                }
-            ],
-            "description": "Symfony DoctrineFixturesBundle",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "persistence",
-                "Fixture"
-            ]
+            }
         },
         {
             "name": "doctrine/orm",
@@ -380,7 +357,6 @@
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "1349040141",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -407,7 +383,8 @@
                 }
             ],
             "description": "Library for accessing git",
-            "homepage": "http://gitonomy.com"
+            "homepage": "http://gitonomy.com",
+            "time": "1349040141"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -441,7 +418,6 @@
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin"
             },
-            "time": "1349004759",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -473,7 +449,8 @@
                 "assets",
                 "compression",
                 "minification"
-            ]
+            ],
+            "time": "1349004759"
         },
         {
             "name": "monolog/monolog",
@@ -549,6 +526,7 @@
             "require": {
                 "symfony/framework-bundle": "2.1.*"
             },
+            "time": "1347340208",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -574,8 +552,7 @@
             "keywords": [
                 "distribution",
                 "configuration"
-            ],
-            "time": "1347340208"
+            ]
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -594,7 +571,6 @@
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1348747908",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -624,7 +600,8 @@
             "keywords": [
                 "mail",
                 "mailer"
-            ]
+            ],
+            "time": "1348747908"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -658,7 +635,6 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
-            "time": "1348938560",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -687,7 +663,8 @@
                 "assets",
                 "compression",
                 "minification"
-            ]
+            ],
+            "time": "1348938560"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -859,7 +836,6 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
-            "time": "1349116845",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -890,7 +866,8 @@
             "homepage": "http://symfony.com",
             "keywords": [
                 "framework"
-            ]
+            ],
+            "time": "1349116845"
         },
         {
             "name": "twig/extensions",
@@ -909,6 +886,7 @@
             "require": {
                 "twig/twig": "1.*"
             },
+            "time": "1346770278",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -920,24 +898,7 @@
                 "psr-0": {
                     "Twig_Extensions_": "lib/"
                 }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Common additional features for Twig that do not directly belong in core",
-            "homepage": "https://github.com/fabpot/Twig-extensions",
-            "keywords": [
-                "debug",
-                "i18n",
-                "text"
-            ],
-            "time": "1346770278"
+            }
         },
         {
             "name": "twig/twig",
@@ -956,7 +917,6 @@
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1348936415",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -986,7 +946,8 @@
             "homepage": "http://twig.sensiolabs.org",
             "keywords": [
                 "templating"
-            ]
+            ],
+            "time": "1348936415"
         }
     ],
     "packages-dev": null,
