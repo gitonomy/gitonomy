@@ -88,6 +88,7 @@ class MySQLStorageTest extends \PHPUnit_Framework_TestCase
         $rs = $this->getMock('PDOStatement');
         $rs->expects($this->once())->method('fetch')->will($this->returnValue(array(
             'eventName'       => 'foo',
+            'eventType'       => 'foo',
             'eventSerialized' => '',
             'signature'       => 'bar'
         )));
