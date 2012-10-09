@@ -1,6 +1,7 @@
 body, div, p, h1 {
     margin:  0;
     padding: 0;
+    font-family: sans-serif;
 }
 
 body {
@@ -13,6 +14,20 @@ body {
     background-color: white;
     padding-bottom: 1em;
 }
+
+/*** buttons ***/
+
+a.btn {
+    display: inline-block;
+    padding: 0.5em 1em;
+    background: #ff8821;
+    font-size: 1.4em;
+    color: white;
+    text-decoration: none;
+    border-radius: 1em;
+}
+
+/*** header ***/
 
 .gitonomy-install h1, .gitonomy-install em {
     text-align: center;
@@ -31,12 +46,15 @@ body {
     color: black;
 }
 
+/** footer **/
+
 .gitonomy-install footer {
     padding: 3em 0 0 0;
     text-align: center;
     color: grey;
-    font-family: sans-serif;
 }
+
+/*** menu ***/
 
 .gitonomy-install ul.menu {
     text-align: center;
@@ -50,7 +68,6 @@ body {
 .gitonomy-install ul.menu a {
     margin:  0 0.5em;
 
-    font-family: sans-serif;
     text-decoration: none;
 
     color: grey;
@@ -62,6 +79,7 @@ body {
 
 .gitonomy-install ul.menu li.active a {
     color: black;
+    text-decoration: underline;
 }
 
 .gitonomy-install ul.menu li.error {
@@ -70,14 +88,39 @@ body {
     border-radius:      24px;
 }
 
-.gitonomy-install section {
-    padding: 1em;
-    font-family: sans-serif;
-}
+/*** forms ***/
 
 .gitonomy-install form label {
     display: block;
+    width: 240px;
     font-weight: bold;
     padding-top: 0.6em;
     padding-bottom: 0.1em;
+    float: left;
+}
+
+.gitonomy-install form .clearfix {
+    clear: both;
+    padding-bottom: 10px;
+}
+
+/** common **/
+
+.gitonomy-install p {
+    padding: 0.5em 1em;
+}
+
+.gitonomy-install h2 {
+    padding: 0 1em;
+}
+
+.gitonomy-install form {
+    padding: 0 1em;
+}
+
+/** welcome page **/
+
+.welcome-buttons {
+    text-align: right;
+    padding: 1em;
 }

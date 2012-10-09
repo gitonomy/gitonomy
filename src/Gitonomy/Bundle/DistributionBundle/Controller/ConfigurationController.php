@@ -16,6 +16,7 @@ class ConfigurationController extends Controller
     {
         return $this->render('GitonomyDistributionBundle:Configuration:welcome.html.twig', array(
             'steps'      => $this->getSteps(),
+            'firstStep'  => $this->getSteps()->getFirst(),
             'parameters' => $this->getParameters()
         ));
     }

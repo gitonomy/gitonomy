@@ -27,6 +27,13 @@ class StepList implements \IteratorAggregate, \Countable
         return count($this->steps);
     }
 
+    public function getFirst()
+    {
+        reset($this->steps);
+
+        return current($this->steps);
+    }
+
     public function getIterator()
     {
         return new \ArrayIterator($this->steps);
