@@ -7,7 +7,7 @@ fi
 
 # Check the context informations
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
-    echo >&2 "Context informations missing"
+    echo >&2 "No environment variables GITONOMY_USER and/or GITONOMY_PROJECT"
     exit 1
 fi
 
