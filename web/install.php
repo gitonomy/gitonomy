@@ -18,7 +18,8 @@
                     $requirements = new WebGitonomyRequirements();
 
                     if ($requirements->isValid()) {
-                        echo '<p>Everything is OK, <a href="app_dev.php/install/welcome">continue</a>.</p>';
+                        echo '<p>Everything is OK</p>';
+                        echo '<p class="welcome-buttons"><a class="btn" href="app_dev.php/install/welcome">Continue &raquo;</a>.</p>';
                     } else {
                         echo '<p>Errors found:</p>';
                         echo '<ul>';
