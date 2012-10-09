@@ -13,9 +13,9 @@
                     require_once __DIR__.'/../app/bootstrap.php.cache';
 
                     use Symfony\Component\HttpFoundation\Request;
-                    use Gitonomy\Component\Requirements\GitonomyRequirements;
+                    use Gitonomy\Component\Requirements\WebGitonomyRequirements;
 
-                    $requirements = new GitonomyRequirements();
+                    $requirements = new WebGitonomyRequirements();
 
                     if ($requirements->isValid()) {
                         echo '<p>Everything is OK, <a href="app_dev.php/install/welcome">continue</a>.</p>';
