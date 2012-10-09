@@ -1,16 +1,15 @@
 {% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
 
-{% block title 'Profile' %}
+{% block title 'page.changeUsername.title'|trans({}, 'profile') %}
 {% set navigation_active = 'index' %}
 
 {% block column_right %}
     <div class="page-header">
-        <h1>Change username</h1>
+        <h1>{{ 'title.changeUsername'|trans({}, 'profile') }}</h1>
     </div>
-    <p>Sure, you are allowed to change your mind and your username on this website.</p>
-    <p>Just tell us, what's the new username you want?</p>
+    <p>{{ 'paragraph.changeUsername.introduction'|trans({}, 'profile') }}</p>
     <form action="{{ path('gitonomyfrontend_profile_changeUsername') }}" method="POST">
         {{ form_widget(form) }}
-        <p><input type="submit" class="btn btn-primary" value="Abracadabra!" /></p>
+        <p><input type="submit" class="btn btn-primary" value="{{ 'form.changeUsername.submit'|trans({}, 'profile') }}" /></p>
     </form>
 {% endblock %}

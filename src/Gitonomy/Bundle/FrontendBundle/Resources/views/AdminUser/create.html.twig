@@ -1,25 +1,25 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Create new '~object_type %}
+{% block title 'page.title.create'|trans({}, 'admin_user') %}
 {% set navigation_active = null %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Create new {{ object_type }}</h1>
+        <h1>{{ 'title.create'|trans({}, 'admin_user') }}</h1>
     </div>
     <form class="form-stacked" action="{{ path(route_prefix~'_create') }}" method="POST" id="user" novalidate>
         <div class="row">
             {{ form_errors(form) }}
-                <h2>User informations</h2>
+                <h2>{{ 'title.create.informations'|trans({}, 'admin_user') }}</h2>
             {{ form_row(form.username) }}
             {{ form_row(form.fullname) }}
             {{ form_row(form.timezone) }}
-                <h2>Global roles</h2>
+                <h2>{{ 'title.create.global_roles'|trans({}, 'admin_user') }}</h2>
             {{ form_widget(form.globalRoles) }}
             {{ form_rest(form) }}
             <hr />
         </div>
-        <input type="submit" class="btn btn-success" value="Create" />
-        <a href="{{ path(route_prefix~'_list') }}" class="btn">Cancel</a>
+        <input type="submit" class="btn btn-success" value="{{ 'button.create_user'|trans({}, 'admin_user') }}" />
+        <a href="{{ path(route_prefix~'_list') }}" class="btn">{{ 'button.back_to_list'|trans({}, 'admin_user') }}</a>
     </form>
 {% endblock %}

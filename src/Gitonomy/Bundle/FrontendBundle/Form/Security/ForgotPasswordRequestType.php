@@ -22,7 +22,7 @@ class ForgotPasswordRequestType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', 'email');
+        $builder->add('email', 'email', array('label' => 'form.email'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -30,6 +30,7 @@ class ForgotPasswordRequestType extends AbstractType
         $collectionConstraint = new  GitonomyAssert\UserEmail();
 
         $resolver->setDefaults(array(
+            'translation_domain' => 'forgot_password',
             'validation_constraint' => $collectionConstraint
         ));
     }

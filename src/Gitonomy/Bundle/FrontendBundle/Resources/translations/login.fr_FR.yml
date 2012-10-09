@@ -1,0 +1,8 @@
+page.title: "Connexion à %app%"
+title.login: "Connexion"
+form.username: "Nom d'utilisateur"
+form.password: "Mot de passe"
+form.remember_me: "Se souvenir de moi"
+form.submit: "Connexion"
+error.form_invalid: "Codes incorrects"
+link.forgot_password: "Vous avez oublié votre mot de passe ?"

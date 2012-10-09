@@ -1,6 +1,0 @@
-security:
-    username:     "Username"
-    password:     "Password"
-    remember_me:  "Remember me"
-    login:        "Login"
-    login_unable: "Unable to login"

@@ -28,4 +28,15 @@ class BaseController extends Controller
             throw new AccessDeniedException();
         }
     }
+
+    protected function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return $this->get('translator')->trans($id, $parameters, $domain, $locale);
+    }
+
+    protected function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
+    {
+        return $this->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
+    }
+
 }

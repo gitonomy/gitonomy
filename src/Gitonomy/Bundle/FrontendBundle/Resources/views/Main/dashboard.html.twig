@@ -1,10 +1,10 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Welcome to Gitonomy' %}
+{% block title 'page.title'|trans({}, 'dashboard') %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Your repositories</h1>
+        <h1>{{ 'title.repositories'|trans({}, 'dashboard') }}</h1>
     </div>
     <div class="row">
         {% for row in projects %}
@@ -16,13 +16,9 @@
                     <h2>
                         <a href="{{ path('gitonomyfrontend_project_show', {slug: project.slug}) }}">{{ project.name }}</a>
                         <small class="branches-tags pull-right">
-                          {% transchoice branches|length with {'%count%': branches|length} %}
-                            {0}|{1}1 branch|]1,Inf]%count% branches
-                          {% endtranschoice %}
-                          {% if branches|length and tags|length %}-{% endif %}
-                          {% transchoice tags|length with {'%count%': tags|length} %}
-                            {0}|{1}1 tag|]1,Inf]%count% tags
-                          {% endtranschoice %}
+                            {{ 'label.branches'|transchoice(branches|length, {'%count%': branches|length}, 'dashboard') }}
+                            {% if branches|length and tags|length %}-{% endif %}
+                            {{ 'label.tags'|transchoice(tags|length, {'%count%': tags|length}, 'dashboard') }}
                         </small>
                     </h2>
                     <pre>git clone {{ project_ssh(project) }}</pre>

@@ -1,6 +1,6 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'security.login'|trans({}, 'security') %}
+{% block title 'page.title'|trans({'%app%': gitonomy.name}, 'login') %}
 {% set navigation_active = null %}
 
 {% block content_javascript %}
@@ -15,13 +15,15 @@
     <div class="row">
         <div class="span4">
             <div class="page-header">
-                <h1>Login</h1>
+                <h1>{{ 'title.login'|trans({}, 'login') }}</h1>
             </div>
             <form class="form-stacked" action="{{ path('gitonomyfrontend_security_loginCheck') }}" method="POST" novalidate>
                 {{ form_widget(form) }}
-                <p><input class="btn btn-primary" type="submit" name="login" value="{{ 'security.login'|trans({}, 'security') }}" /></p>
+                <p><input class="btn btn-primary" type="submit" name="login" value="{{ 'form.submit'|trans({}, 'login') }}" /></p>
             </form>
-            <p><a href="{{ path('gitonomyfrontend_security_forgotPassword') }}">Forgot your password?</a></p>
+            <p><a href="{{ path('gitonomyfrontend_security_forgotPassword') }}">
+                {{ 'link.forgot_password'|trans({}, 'login') }}
+            </a></p>
         </div>
     </div>
 {% endblock %}

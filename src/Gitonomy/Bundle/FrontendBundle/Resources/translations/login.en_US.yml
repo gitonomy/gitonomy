@@ -1,0 +1,8 @@
+page.title: "Login to %app%"
+title.login: "Login"
+form.username: "Username"
+form.password: "Password"
+form.remember_me: "Remember me"
+form.submit: "Login"
+error.form_invalid:  "Bad credentials"
+link.forgot_password: "Forgot your password?"

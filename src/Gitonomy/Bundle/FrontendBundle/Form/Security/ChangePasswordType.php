@@ -36,9 +36,10 @@ class ChangePasswordType extends AbstractType
         $encoderFactory = $this->encoderFactory;
         $builder
             ->add('password', 'repeated', array(
-                'type'     => 'password',
+                'label'       => 'form.activate.password',
+                'type'        => 'password',
                 'constraints' => array(new NotBlank()),
-                'mapped'   => false,
+                'mapped'      => false,
             ))
             ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
                 $user = $event->getData();
@@ -59,7 +60,8 @@ class ChangePasswordType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'profile'
         ));
     }
 

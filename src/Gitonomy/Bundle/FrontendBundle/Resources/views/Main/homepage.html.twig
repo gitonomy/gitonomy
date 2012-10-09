@@ -1,6 +1,6 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Welcome to Gitonomy' %}
+{% block title 'page.title'|trans({'%app%': gitonomy.name}, 'homepage') %}
 
 {% block content %}
     <div class="hero-unit">
@@ -10,9 +10,13 @@
             <h1>{{ gitonomy.name }}</h1>
             <p>{{ gitonomy.baseline }}</p>
             <p>
-                <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn btn-primary btn-large">Connect</a>
-                {% if gitonomy.open_registration%}
-                    <a href="{{ path('gitonomyfrontend_security_register') }}" class="btn btn-large">Register</a>
+                <a href="{{ path('gitonomyfrontend_security_login') }}" class="btn btn-primary btn-large">
+                    {{ 'button.connect'|trans({}, 'homepage') }}
+                </a>
+                {% if gitonomy.open_registration %}
+                    <a href="{{ path('gitonomyfrontend_security_register') }}" class="btn btn-large">
+                        {{ 'button.register'|trans({}, 'homepage') }}
+                    </a>
                 {% endif %}
             </p>
         {% endif %}

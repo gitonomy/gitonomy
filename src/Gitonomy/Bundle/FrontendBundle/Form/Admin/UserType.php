@@ -22,10 +22,11 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', 'text')
-            ->add('fullname', 'text')
-            ->add('timezone', 'timezone')
+            ->add('username', 'text', array('label' => 'form.edit_informations.username'))
+            ->add('fullname', 'text', array('label' => 'form.edit_informations.fullname'))
+            ->add('timezone', 'timezone', array('label' => 'form.edit_informations.timezone'))
             ->add('globalRoles', 'entity', array(
+                'label'   => 'form.edit_informations.global_roles',
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
                 'query_builder' => function(EntityRepository $er) {
                     $query = $er
@@ -46,6 +47,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'admin_user',
             'user'       => null,
         ));
     }

@@ -1,11 +1,10 @@
 {% extends "GitonomyFrontendBundle:AdminUser:layout.html.twig" %}
 
-{% block title parent() ~ 'Project roles' %}
 {% set navigation_active = 'projectRoles' %}
 
 {% block content_right %}
     <div class="page-header">
-        <h2>Project roles</h2>
+        <h2>{{ 'title.edit_projects'|trans({}, 'admin_user') }}</h2>
     </div>
     {% if displayForm %}
         <form class="form" action="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId':object.id}) }}" method="POST" id="user_role_project" novalidate>
@@ -14,9 +13,9 @@
         <table class="bordered-table table table-striped">
             <thead>
                 <tr>
-                    <th>Project</th>
-                    <th>Role</th>
-                    <th>Action</th>
+                    <th>{{ 'table.roles.project'|trans({}, 'admin_user') }}</th>
+                    <th>{{ 'table.roles.role'|trans({}, 'admin_user') }}</th>
+                    <th>{{ 'table.roles.actions'|trans({}, 'admin_user') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,14 +23,14 @@
                     <tr>
                         <td>{{ projectRole.project.name }}</td>
                         <td>{{ projectRole.role.name }}</td>
-                        <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}" class="label label-important">delete</td>
+                        <td><a href="{{ path('gitonomyfrontend_adminuser_projectroles_delete', {'id': projectRole.id }) }}" class="label label-important">{{ 'button.delete'|trans({}, 'admin_user') }}</td>
                     </tr>
                 {% endfor %}
                 {% if displayForm %}
                     <tr>
                         <td>{{ form_widget(form.project) }}</td>
                         <td>{{ form_widget(form.role) }}</td>
-                        <td><input type="submit" class="btn btn-primary" value="Save" /></td>
+                        <td><input type="submit" class="btn btn-primary" value="{{ 'button.save_project_role'|trans({}, 'admin_user') }}" /></td>
                     </tr>
                 {% endif %}
             </tbody>

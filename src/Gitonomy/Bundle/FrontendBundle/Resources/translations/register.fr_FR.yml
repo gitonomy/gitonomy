@@ -1,0 +1,11 @@
+page.title: "Inscription"
+title.register: "Inscription"
+form.username: "Nom d'utilisateur"
+form.fullname: "Nom complet"
+form.email: "E-mail"
+form.timezone: "Fuseau horaire"
+form.password: "Mot de passe"
+form.password_confirm: "Confirmez votre mot de passe"
+form.submit: "S'inscrire"
+error.form_invalid: "Merci de revoir votre copie"
+notice.success: 'Votre compte a bien été créé !'

@@ -1,35 +1,29 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Profile' %}
+{% block title 'page.activate.title'|trans({}, 'profile') %}
 {% set navigation_active = null %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Activation <small>Check your personal informations</small></h1>
+        <h1>{{ 'title.activate'|trans({}, 'profile') }} <small>{{ 'title.activate.baseline'|trans({}, 'profile') }}</small></h1>
     </div>
     <div class="row">
         {{ form_errors(form) }}
         <div class="span6">
             <form action="{{ path('gitonomyfrontend_profile_activate', {'username': user.username, 'token': user.activationToken}) }}" id="user" method="POST" novalidate class="form-stacked">
-                <div class="page-header">
-                    <h2>Set your password</h2>
-                </div>
                 {{ form_widget(form) }}
                 {{ form_rest(form) }}
                 <hr />
-                <input class="btn btn-primary" type="submit" value="Activate your account" />
+                <input class="btn btn-primary" type="submit" value="{{ 'form.activate.submit'|trans({}, 'profile') }}" />
             </form>
         </div>
         <div class="span9">
-            <div class="page-header">
-                <h2>User informations</h2>
-            </div>
             <ul>
-                <li><strong>Username:</strong> {{ user.username }}</li>
-                <li><strong>Emails:</strong>
+                <li><strong>{{ 'label.activate.username'|trans({}, 'profile') }}</strong> {{ user.username }}</li>
+                <li><strong>{{ 'label.activate.emails'|trans({}, 'profile') }}</strong>
                     <ul>
                         {% for email in user.emails %}
-                            <li>{{ email.email }}{% if email.isDefault %} <em>(default)</em>{% endif %}</li>
+                            <li>{{ email.email }}{% if email.isDefault %} <em>{{ 'label.activate.is_default'|trans({}, 'profile') }}</em>{% endif %}</li>
                         {% endfor %}
                     </ul>
                 </li>

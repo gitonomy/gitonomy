@@ -28,12 +28,16 @@ class AdminUserController extends BaseAdminController
 {
     public function getMessage($object, $type)
     {
+        $params = array(
+            '%user%' => $object->getUsername()
+        );
         if ($type == self::MESSAGE_TYPE_CREATE) {
-            return sprintf('User "%s" is created', $object->getUsername());
+            return $this->trans('notice.user_created', $params, 'admin_user');
         } elseif ($type == self::MESSAGE_TYPE_UPDATE) {
+            return $this->trans('notice.user_updated', $params, 'admin_user');
             return sprintf('User "%s" is updated', $object->getUsername());
         } elseif ($type == self::MESSAGE_TYPE_DELETE) {
-            return sprintf('User "%s" is deleted', $object->getUsername());
+            return $this->trans('notice.user_deleted', $params, 'admin_user');
         }
 
         throw new \InvalidArgumentException('Unknown type '.$type);
@@ -92,7 +96,7 @@ class AdminUserController extends BaseAdminController
             $em->close();
             throw $e;
         }
-        $this->get('session')->setFlash('success', sprintf('Activation mail for user "%s" sent.', $user->getFullname()));
+        $this->get('session')->setFlash('success', $this->trans('notice.user_activation_mail', array('%user%' => $user->getFullname()), 'admin_user'));
 
         return $this->redirect($this->generateUrl($this->getRouteName('edit'), array(
             'id' => $user->getId()
@@ -111,7 +115,7 @@ class AdminUserController extends BaseAdminController
         $this->sendActivationMail($email);
 
         $message = sprintf('Activation mail for email "%s" sent.', $email->getEmail());
-        $this->get('session')->setFlash('success', $message);
+        $this->get('session')->setFlash('success', $this->trans('notice.email_activation_mail', array('%email%' => $email->getEmail())));
 
         return $this->redirect($this->generateUrl($this->getRouteName('email_list'), array(
             'id' => $email->getUser()->getId()
@@ -145,12 +149,11 @@ class AdminUserController extends BaseAdminController
                 $em->persist($userRoleProject);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', sprintf(
-                    'Created role "%s" for "%s" on project "%s" ',
-                    $userRoleProject->getRole()->getName(),
-                    $userRoleProject->getUser()->getFullname(),
-                    $userRoleProject->getProject()->getName()
-                ));
+                $this->get('session')->setFlash('success', $this->trans('notice.user_joined_project', array(
+                    '%role%' => $userRoleProject->getRole()->getName(),
+                    '%user%' => $userRoleProject->getUser()->getFullname(),
+                    '%project%' => $userRoleProject->getProject()->getName()
+                ), 'admin_user'));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
                     'userId' => $user->getId()
@@ -185,12 +188,10 @@ class AdminUserController extends BaseAdminController
                 $em->remove($userRole);
                 $em->flush();
 
-                $this->get('session')->setFlash('success',
-                    sprintf(
-                        'Removed user "%s" from project "%s".',
-                        $userRole->getUser()->getUsername(),
-                        $userRole->getProject()->getName()
-                ));
+                $this->get('session')->setFlash('success', $this->trans('notice.user_leaved_project', array(
+                    '%user%'    => $userRole->getUser()->getUsername(),
+                    '%project%' => $userRole->getProject()->getName()
+                ), 'admin_user'));
 
                 return $this->redirect($this->generateUrl($this->getRouteName('projectroles'), array(
                     'userId' => $userRole->getUser()->getId()
@@ -230,7 +231,7 @@ class AdminUserController extends BaseAdminController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->saveEmail($email);
-                $message = sprintf('Email "%s" added.', $email->getEmail());
+                $message = $this->trans('notice.email_created', array('%email%' => $email->getEmail()), 'admin_user');
 
                 return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
             }
@@ -257,7 +258,7 @@ class AdminUserController extends BaseAdminController
 
         $em->persist($user);
         $em->flush();
-        $message = sprintf('Email "%s" now as default.', $defaultEmail->getEmail());
+        $message = $this->trans('notice.email_as_default', array('%email%' => $defaultEmail->getEmail()));
 
         return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $user->getId()));
     }
@@ -279,7 +280,7 @@ class AdminUserController extends BaseAdminController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->remove($email);
                 $em->flush();
-                $message = sprintf('Email "%s" deleted.', $email->getEmail());
+                $message = $this->trans('notice.email_deleted', array('%email%' => $email->getEmail()));
 
                 return $this->successAndRedirect($message, 'gitonomyfrontend_adminuser_email_list', array('id' => $email->getUser()->getId()));
             }

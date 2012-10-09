@@ -1,0 +1,4 @@
+page.title: "Vos dépôts"
+title.repositories: "Vos dépôts"
+label.branches: "{0}|{1}1 branche|]1,Inf]%count% branches"
+label.tags: "{0}|{1}1 tag|]1,Inf]%count% tags"

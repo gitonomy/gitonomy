@@ -1,44 +1,50 @@
 {% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
 
-{% block title 'Manage my emails' %}
+{% block title 'page.emails.title'|trans({}, 'profile') %}
 {% set navigation_active = 'emails' %}
 
 {% block column_right %}
     <div class="page-header">
-        <h2>Emails</h2>
+        <h2>{{ 'title.emails'|trans({}, 'profile') }}</h2>
     </div>
     <form class="form" action="{{ path('gitonomyfrontend_profile_email_list') }}" method="POST" id="user_email" novalidate>
         {{ form_errors(form) }}
         <table class="bordered-table table table-striped">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Default</th>
-                    <th>Activated</th>
-                    <th>Actions</th>
+                    <th>{{ 'table.emails.column.email'|trans({}, 'profile') }}</th>
+                    <th>{{ 'table.emails.column.default'|trans({}, 'profile') }}</th>
+                    <th>{{ 'table.emails.column.is_active'|trans({}, 'profile') }}</th>
+                    <th>{{ 'table.emails.column.actions'|trans({}, 'profile') }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for email in object.emails %}
                     <tr id="email_{{ email.id }}">
                         <td>{{ email.email }}</td>
-                        <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
-                        <td>{% if email.active == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                        <td>{{ (email.isDefault ? 'table.emails.value.yes' : 'table.emails.value.no')|trans({}, 'profile') }}</td>
+                        <td>{{ (email.active ? 'table.emails.value.yes' : 'table.emails.value.no')|trans({}, 'profile') }}</td>
                         <td>
                             {% if not email.isDefault %}
                                 {% if email.active %}
-                                    <a href="{{ path('gitonomyfrontend_profile_email_default', {'emailId': email.id }) }}" class="label label-success">as default</a>
+                                    <a href="{{ path('gitonomyfrontend_profile_email_default', {'emailId': email.id }) }}" class="label label-success">
+                                        {{ 'button.emails.as_default'|trans({}, 'profile') }}
+                                    </a>
                                 {% else %}
-                                    <a href="{{ path('gitonomyfrontend_profile_email_sendactivation', {'emailId': email.id }) }}" class="label label-notice">send activation</a>
+                                    <a href="{{ path('gitonomyfrontend_profile_email_sendactivation', {'emailId': email.id }) }}" class="label label-notice">
+                                        {{ 'button.emails.send_activation'|trans({}, 'profile') }}
+                                    </a>
                                 {% endif %}
-                                <a href="{{ path('gitonomyfrontend_profile_email_delete', {'emailId': email.id }) }}" class="label label-important">delete</a>
+                                <a href="{{ path('gitonomyfrontend_profile_email_delete', {'emailId': email.id }) }}" class="label label-important">
+                                    {{ 'button.emails.delete'|trans({}, 'profile') }}
+                                </a>
                             {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="3">{{ form_widget(form.email) }}{{ form_errors(form.email) }}</td>
-                    <td><input type="submit" class="btn btn-success" value="Add" /></td>
+                    <td><input type="submit" class="btn btn-success" value="{{ 'form.create_email.submit'|trans({}, 'profile') }}" /></td>
                 </tr>
             </tbody>
         </table>

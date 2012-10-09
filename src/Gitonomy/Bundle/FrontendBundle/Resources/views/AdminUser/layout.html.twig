@@ -1,10 +1,10 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title object.fullname ~ ' | ' %}
+{% block title 'page.edit.title'|trans({'%user%': object.fullname}, 'admin_user') %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Edit user "{{ object.fullname }}"</h1>
+        <h1>{{ 'title.edit'|trans({'%user%': object.fullname}, 'admin_user') }}</h1>
     </div>
     <div class="row">
         <div class="span4">
@@ -12,17 +12,17 @@
                 <ul>
                     <li>
                         {{ navigation_active == 'edit' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id': object.id }) }}">Informations</a>
+                            <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id': object.id }) }}">{{ 'menu.informations'|trans({}, 'admin_user') }}</a>
                         {{ navigation_active == 'edit' ? '</strong>' : '' }}
                     </li>
                     <li>
                         {{ navigation_active == 'projectRoles' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId': object.id }) }}">User roles</a>
+                            <a href="{{ path('gitonomyfrontend_adminuser_projectroles', {'userId': object.id }) }}">{{ 'menu.roles'|trans({}, 'admin_user') }}</a>
                         {{ navigation_active == 'projectRoles' ? '</strong>' : '' }}
                     </li>
                     <li>
                         {{ navigation_active == 'emails' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_adminuser_email_list', {'id': object.id }) }}">Emails</a>
+                            <a href="{{ path('gitonomyfrontend_adminuser_email_list', {'id': object.id }) }}">{{ 'menu.emails'|trans({}, 'admin_user') }}</a>
                         {{ navigation_active == 'emails' ? '</strong>' : '' }}
                     </li>
                 </ul>

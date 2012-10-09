@@ -4,31 +4,34 @@
 <div class="navbar">
     <div class="navbar-inner">
         <ul class="nav pull-right">
-            {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') or is_granted('ROLE_SETTINGS') %}
+            {% if is_granted('ROLE_USER_LIST') or is_granted('ROLE_PROJECT_LIST') or is_granted('ROLE_ROLE_LIST') %}
                 <li class="admin dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Administration
+                        {{ 'menu.administration'|trans({}, 'navigation') }}
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         {% if is_granted('ROLE_USER_LIST') %}
-                            <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">Users</a></li>
+                            <li><a href="{{ path('gitonomyfrontend_adminuser_list') }}">
+                                {{ 'menu.administration.users'|trans({}, 'navigation') }}
+                            </a></li>
                         {% endif %}
                         {% if is_granted('ROLE_PROJECT_LIST') %}
-                            <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">Projects</a></li>
+                            <li><a href="{{ path('gitonomyfrontend_adminproject_list') }}">
+                                {{ 'menu.administration.projects'|trans({}, 'navigation') }}
+                            </a></li>
                         {% endif %}
                         {% if is_granted(['ROLE_ROLE_LIST']) %}
-                            <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">Roles</a></li>
-                        {% endif %}
-                        {% if is_granted(['ROLE_SETTINGS']) %}
-                            <li><a href="{{ path('gitonomyfrontend_adminsettings_index') }}">Settings</a></li>
+                            <li><a href="{{ path('gitonomyfrontend_adminrole_list') }}">
+                                {{ 'menu.administration.roles'|trans({}, 'navigation') }}
+                            </a></li>
                         {% endif %}
                     </ul>
                 </li>
             {% endif %}
             <li class="lang dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Lang
+                    {{ 'menu.lang'|trans({}, 'navigation') }}
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
@@ -44,16 +47,24 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('gitonomyfrontend_profile_index') }}">Configuration</a></li>
+                        <li><a href="{{ path('gitonomyfrontend_profile_index') }}">
+                            {{ 'menu.profile.index'|trans({}, 'navigation')}}
+                        </a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ path('gitonomyfrontend_security_logout') }}">Logout</a></li>
+                        <li><a href="{{ path('gitonomyfrontend_security_logout') }}">
+                            {{ 'menu.profile.logout'|trans({}, 'navigation') }}
+                        </a></li>
                     </ul>
                 </li>
             {% else %}
                 {% if gitonomy.open_registration %}
-                    <li><a href="{{ path('gitonomyfrontend_security_register') }}">Register</a></li>
+                    <li><a href="{{ path('gitonomyfrontend_security_register') }}">
+                        {{ 'menu.register'|trans({}, 'navigation') }}
+                    </a></li>
                 {% endif %}
-                <li><a href="{{ path('gitonomyfrontend_security_login') }}">Login</a></li>
+                <li><a href="{{ path('gitonomyfrontend_security_login') }}">
+                    {{ 'menu.login'|trans({}, 'navigation') }}
+                </a></li>
             {% endif %}
         </ul>
 

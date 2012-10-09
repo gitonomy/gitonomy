@@ -21,8 +21,8 @@ class InformationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fullname', 'text')
-            ->add('timezone', 'timezone')
+            ->add('fullname', 'text', array('label' => 'form.informations.fullname'))
+            ->add('timezone', 'timezone', array('label' => 'form.informations.timezone'))
         ;
     }
 
@@ -34,7 +34,8 @@ class InformationsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('profile_informations')
+            'validation_groups' => array('profile_informations'),
+            'translation_domain' => 'profile'
         ));
     }
 }

@@ -20,7 +20,7 @@ class UserEmailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', 'email');
+        $builder->add('email', 'email', array('label' => 'form.email'));
     }
 
     public function getName()
@@ -31,6 +31,7 @@ class UserEmailType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'translation_domain' => 'register',
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Email',
         ));
     }

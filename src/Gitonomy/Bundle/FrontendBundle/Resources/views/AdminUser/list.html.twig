@@ -1,40 +1,34 @@
 {% extends "GitonomyFrontendBundle::layout.html.twig" %}
 
-{% block title 'Users' %}
+{% block title 'page.list.title'|trans({}, 'admin_user') %}
 {% set navigation_active = null %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Users</h1>
+        <h1>{{ 'title.list'|trans({}, 'admin_user') }}</h1>
     </div>
-    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn btn-success">Create</a>
+    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn btn-success">{{ 'button.create_user'|trans({}, 'admin_user') }}</a>
     <hr />
     <table class="table table-striped" id="sortTableExample">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>Fullname</th>
-                <th>Default email</th>
+                <th>{{ 'table.list.column.username'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.fullname'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.email'|trans({}, 'admin_user') }}</th>
             </tr>
         </thead>
         <tbody>
             {% for object in objects %}
                 <tr>
-                    <td>{{ object.id }}</td>
                     <td>
                         <a href="{{ path('gitonomyfrontend_adminuser_edit', {'id': object.id}) }}">{{ object.username }}</a>
                     </td>
                     <td>{{ object.fullname }}</td>
                     <td>{{ object.hasDefaultEmail ? object.defaultEmail.email : '' }}</td>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">No roles</td>
-                </tr>
             {% endfor %}
         </tbody>
     </table>
     <hr />
-    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn btn-success">Create</a>
+    <a href="{{ path('gitonomyfrontend_adminuser_create') }}" class="btn btn-success">{{ 'button.create_user'|trans({}, 'admin_user') }}</a>
 {% endblock %}

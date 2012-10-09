@@ -5,17 +5,17 @@
 
 {% block content_right %}
     <div class="page-header">
-        <h2>Emails</h2>
+        <h2>{{ 'title.edit_emails'|trans({}, 'admin_user') }}</h2>
     </div>
     <form class="form" action="{{ path('gitonomyfrontend_adminuser_email_list', {'id':object.id}) }}" method="POST" id="user_email" novalidate>
         {{ form_errors(form) }}
         <table class="bordered-table table table-striped">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Default</th>
-                    <th>Activated</th>
-                    <th>Actions</th>
+                    <th>{{ 'table.emails.email'|trans({}, 'admin_user') }}</th>
+                    <th>{{ 'table.emails.is_default'|trans({}, 'admin_user') }}</th>
+                    <th>{{ 'table.emails.is_active'|trans({}, 'admin_user') }}</th>
+                    <th>{{ 'table.emails.actions'|trans({}, 'admin_user') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,19 +26,19 @@
                         <td>{% if email.isActive == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
                         <td>
                             {% if not email.isDefault %}
-                                <a href="{{ path('gitonomyfrontend_adminuser_email_default', {'id': object.id, 'emailId': email.id }) }}" class="label label-success">as default</a>
+                                <a href="{{ path('gitonomyfrontend_adminuser_email_default', {'id': object.id, 'emailId': email.id }) }}" class="label label-success">{{ 'button.edit_emails.set_default'|trans({}, 'admin_user') }}</a>
                                 {% if email.isActive %}
                                 {% else %}
-                                    <a href="{{ path('gitonomyfrontend_adminuser_email_sendactivation', {'id': object.id, 'emailId': email.id }) }}" class="label label-notice">send activation</a>
+                                    <a href="{{ path('gitonomyfrontend_adminuser_email_sendactivation', {'id': object.id, 'emailId': email.id }) }}" class="label label-notice">{{ 'button.edit_emails.activate'|trans({}, 'admin_user') }}</a>
                                 {% endif %}
                             {% endif %}
-                            <a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': object.id, 'emailId': email.id }) }}" class="label label-important">delete</a>
+                            <a href="{{ path('gitonomyfrontend_adminuser_email_delete', {'id': object.id, 'emailId': email.id }) }}" class="label label-important">{{ 'button.edit_emails.delete'|trans({}, 'admin_user') }}</a>
                         </td>
                     </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="3">{{ form_widget(form.email) }}{{ form_errors(form.email) }}</td>
-                    <td><input type="submit" class="btn btn-success" value="Add" /></td>
+                    <td><input type="submit" class="btn btn-success" value="{{ 'button.create_email'|trans({}, 'admin_user') }}" /></td>
                 </tr>
             </tbody>
         </table>

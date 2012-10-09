@@ -44,7 +44,7 @@ class ProfileController extends BaseController
                 $em->persist($user);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', 'Profile updated!');
+                $this->get('session')->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile'));
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_index'));
             }
@@ -74,7 +74,7 @@ class ProfileController extends BaseController
                 $em->persist($user);
                 $em->flush();
 
-                $this->get('session')->setFlash('success', 'This new username is so cool!');
+                $this->get('session')->setFlash('success', $this->trans('notice.usernamed_changed', array(), 'profile'));
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_changeUsername'));
             }
@@ -114,7 +114,7 @@ class ProfileController extends BaseController
                 } catch (\Exception $e) {
                     throw $e;
                 }
-                $message = sprintf('Email "%s" added.', $email->getEmail());
+                $message = $this->trans('notice.email_created', array('%email%' => $email->getEmail()), 'profile');
                 $this->get('session')->setFlash('success', $message);
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_emails'));
@@ -144,7 +144,7 @@ class ProfileController extends BaseController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->remove($email);
                 $em->flush();
-                $message = sprintf('Email "%s" deleted.', $email->getEmail());
+                $message = $this->trans('notice.email_deleted', array('%email%' => $email->getEmail()), 'profile');
                 $this->get('session')->setFlash('success', $message);
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -165,6 +165,7 @@ class ProfileController extends BaseController
         $token = $email->createActivationToken();
         $this->sendActivationMail($email, $token);
 
+        $message = $this->trans('notice.activation_sent', array('%email%' => $email->getEmail()), 'profile');
         $message = sprintf('Activation mail for "%s" sent.', $email->getEmail());
         $this->get('session')->setFlash('success', $message);
 
@@ -172,7 +173,7 @@ class ProfileController extends BaseController
     }
 
     /**
-     * Action to make as default an email from admin user
+     * Action to make as default an email
      */
     public function emailDefaultAction($emailId)
     {
@@ -183,8 +184,9 @@ class ProfileController extends BaseController
         $em           = $this->getDoctrine()->getEntityManager();
 
         if (!$defaultEmail->isActive()) {
-            throw new \LogicException(sprintf('Email "%d" is not actived!', $defaultEmail->getId()));
+            throw new \LogicException(sprintf('Email "%d" is not activated!', $defaultEmail->getId()));
         }
+
         foreach ($user->getEmails() as $email) {
             if ($email->isDefault()) {
                 $email->setDefault(false);
@@ -193,7 +195,7 @@ class ProfileController extends BaseController
 
         $defaultEmail->setDefault(true);
         $em->flush();
-        $message = sprintf('Email "%s" now as default.', $email->getEmail());
+        $message = $this->trans('notice.email_as_default', array('%email%' => $email->getEmail()), 'profile');
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -269,7 +271,8 @@ class ProfileController extends BaseController
         $em->remove($userSshKey);
         $em->flush();
 
-        $this->get('session')->setFlash('success', sprintf('SSH key "%s" deleted', $userSshKey->getTitle()));
+        $message = $this->trans('notice.ssh_key_deleted', array('%title%' => $userSshKey->getTitle()), 'profile');
+        $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
     }
@@ -291,6 +294,9 @@ class ProfileController extends BaseController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($userSshKey);
                 $em->flush();
+
+                $message = $this->trans('notice.ssh_key_created', array('%title%' => $userSshKey->getTitle()), 'profile');
+                $this->get('session')->setFlash('success', $message);
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
             }
@@ -330,7 +336,7 @@ class ProfileController extends BaseController
                 $user->removeActivationToken();
                 $em->flush();
 
-                $this->get('session')->setFlash('success', 'Profile updated!');
+                $this->get('session')->setFlash('success', $this->trans('notice.password_updated', array(), 'profile'));
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_profile_index'));
             }

@@ -7,17 +7,17 @@
                 <ul>
                     <li>
                         {{ navigation_active == 'index' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_profile_index') }}">Profile</a>
+                            <a href="{{ path('gitonomyfrontend_profile_index') }}">{{ 'menu.index'|trans({}, 'profile') }}</a>
                         {{ navigation_active == 'index' ? '</strong>' : '' }}
                     </li>
                     <li>
                         {{ navigation_active == 'sshKeys' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_profile_sshKeys') }}">SSH keys</a>
+                            <a href="{{ path('gitonomyfrontend_profile_sshKeys') }}">{{ 'menu.ssh_keys'|trans({}, 'profile') }}</a>
                         {{ navigation_active == 'sshKeys' ? '</strong>' : '' }}
                     </li>
                     <li>
                         {{ navigation_active == 'emails' ? '<strong>' : '' }}
-                            <a href="{{ path('gitonomyfrontend_profile_emails') }}">Emails</a>
+                            <a href="{{ path('gitonomyfrontend_profile_emails') }}">{{ 'menu.emails'|trans({}, 'profile') }}</a>
                         {{ navigation_active == 'emails' ? '</strong>' : '' }}
                     </li>
                     <li>

@@ -21,15 +21,16 @@ class ChangeUsernameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', 'text')
+            ->add('username', 'text', array('label' => 'form.changeUsername.username'))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('change_username'),
-            'data_class'        => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'validation_groups'  => array('change_username'),
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'profile'
         ));
     }
 

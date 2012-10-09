@@ -75,7 +75,7 @@ abstract class BaseAdminController extends BaseController
             throw new HttpException(404, sprintf('No %s found with id "%d".', $className, $id));
         }
 
-        $form      = $this->createAdminForm($object, array('action' => 'edit'));
+        $form    = $this->createAdminForm($object, array('action' => 'edit'));
         $request = $this->getRequest();
 
         if ('POST' == $request->getMethod()) {

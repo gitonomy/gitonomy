@@ -44,11 +44,11 @@ class SecurityController extends BaseController
             if ($form->isValid()) {
                 $this->saveUser($user);
 
-                $this->get('session')->setFlash('success', 'Your account was created!');
+                $this->get('session')->setFlash('success', $this->trans('notice.success', array(), 'register'));
 
                 return $this->redirect($this->generateUrl('gitonomyfrontend_main_homepage'));
             } else {
-                $this->get('session')->setFlash('warning', 'Roger, we have a problem with your form');
+                $this->get('session')->setFlash('warning', $this->trans('error.form_invalid', array(), 'register'));
             }
         }
 
@@ -64,8 +64,8 @@ class SecurityController extends BaseController
     {
         $form = $this->get('form.factory')->createNamed('', 'login');
 
-        if ($error = $this->getError($request)) {
-            $request->getSession()->setFlash('error', $error->getMessage());
+        if ($this->getError($request)) {
+            $request->getSession()->setFlash('error', $this->trans('error.form_invalid', array(), 'login'));
         }
 
         return $this->render('GitonomyFrontendBundle:Security:login.html.twig', array(

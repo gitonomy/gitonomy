@@ -1,11 +1,11 @@
 {% extends "GitonomyFrontendBundle:Profile:layout.html.twig" %}
 
-{% block title 'Profile' %}
+{% block title 'page.sshKeys.title'|trans({}, 'profile') %}
 {% set navigation_active = 'sshKeys' %}
 
 {% block column_right %}
     <div class="page-header">
-        <h2>SSH Keys <small>Manage your keyring</small></h2>
+        <h2>{{ 'title.sshKeys'|trans({}, 'profile') }} <small>{{ 'title.sshKeys.baseline'|trans({}, 'profile') }}</small></h2>
     </div>
     {% for key in sshKeys %}
         <div class="ssh-key">
@@ -13,19 +13,19 @@
             <pre>{{ key.content }}</pre>
             <p>
                 <a class="btn btn-danger
-btn btn-danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">Remove</a>
+btn btn-danger small" href="{{ path('gitonomyfrontend_profile_deleteSshKey', {'id': key.id }) }}">{{ 'button.sshKeys.delete_key'|trans({}, 'profile') }}</a>
                 {% if not key.isInstalled %}
-                    <span class="label label-info">INSTALLING</span>
+                    <span class="label label-info">{{ 'label.sshKeys.installing'|trans({}, 'profile') }}</span>
                 {% endif %}
             </p>
             <hr />
         </div>
     {% endfor %}
-    <h3>New key</h3>
+    <h3>{{ 'title.new_key'|trans({}, 'profile') }}</h3>
     <form action="{{ path('gitonomyfrontend_profile_createSshKey') }}" method="POST" class="form-stacked" novalidate>
         {{ form_row(form.title, {'field_attr': { 'class': 'span8'}})   }}
         {{ form_row(form.content, {'field_attr': { 'class': 'span8'}}) }}
         {{ form_rest(form) }}
-        <p><input type="submit" value="Add key" class="btn btn-primary" /></p>
+        <p><input type="submit" value="{{ 'form.ssh_key.submit'|trans({}, 'profile') }}" class="btn btn-primary" /></p>
     </form>
 {% endblock %}
