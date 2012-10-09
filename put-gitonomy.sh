@@ -8,4 +8,5 @@ cp -r app/Resources/hooks app/cache/repositories/gitonomy.git/
 
 git remote add __tmp__ app/cache/repositories/gitonomy.git
 git push __tmp__ master
+git push --all __tmp__
 git remote rm __tmp__
