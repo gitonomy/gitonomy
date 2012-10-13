@@ -1,56 +1,32 @@
 <?php
 
-require_once dirname(__FILE__).'/SymfonyRequirements.php';
-require_once dirname(__FILE__).'/GitonomyRequirements.php';
-
-$symfonyRequirements = new GitonomyRequirements();
-
-$iniPath = $symfonyRequirements->getPhpIniConfigPath();
-
-echo "********************************\n";
-echo "*                              *\n";
-echo "*  Symfony requirements check  *\n";
-echo "*                              *\n";
-echo "********************************\n\n";
-
-echo $iniPath ? sprintf("* Configuration file used by PHP: %s\n\n", $iniPath) : "* WARNING: No configuration file (php.ini) used by PHP!\n\n";
-
-echo "** ATTENTION **\n";
-echo "*  The PHP CLI can use a different php.ini file\n";
-echo "*  than the one used with your web server.\n";
-if ('\\' == DIRECTORY_SEPARATOR) {
-    echo "*  (especially on the Windows platform)\n";
-}
-echo "*  To be on the safe side, please also launch the requirements check\n";
-echo "*  from your web server using the web/config.php script.\n";
-
-echo_title('Mandatory requirements');
-
-foreach ($symfonyRequirements->getRequirements() as $req) {
-    echo_requirement($req);
-}
-
-echo_title('Optional recommendations');
-
-foreach ($symfonyRequirements->getRecommendations() as $req) {
-    echo_requirement($req);
-}
-
 /**
- * Prints a Requirement instance
+ * This file is part of Gitonomy.
+ *
+ * (c) Alexandre Salomé <alexandre.salome@gmail.com>
+ * (c) Julien DIDIER <genzo.wm@gmail.com>
+ *
+ * This source file is subject to the GPL license that is bundled
+ * with this source code in the file LICENSE.
  */
-function echo_requirement(Requirement $requirement)
-{
-    $result = $requirement->isFulfilled() ? 'OK' : ($requirement->isOptional() ? 'WARNING' : 'ERROR');
-    echo ' ' . str_pad($result, 9);
-    echo $requirement->getTestMessage() . "\n";
 
-    if (!$requirement->isFulfilled()) {
-        echo sprintf("          %s\n\n", $requirement->getHelpText());
-    }
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Gitonomy\Component\Requirements\GitonomyRequirements;
+
+$requirement = new GitonomyRequirements();
+
+if ($requirement->isValid()) {
+    echo "All indicators are in the green, looks fine\n";
+    echo "\n";
+    echo "Please web-access file install.php in a browser\n";
+
+    return;
 }
 
-function echo_title($title)
-{
-    echo "\n** $title **\n\n";
+echo "Roger, we have problems:\n";
+
+foreach ($requirement->getErrors() as $error) {
+    $msg = $error->getRequirement();
+    echo " - $msg\n";
 }

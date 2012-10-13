@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/gitonomydistribution/css/main.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript"src="{{ asset('bundles/gitonomyfrontend/js/jquery-1.7.1.min.js') }}"></script>
+    {% block content_javascript '' %}
+{% endblock %}
+
+{% block body %}
+    <div class="gitonomy-install">
+        <header>
+            <h1>Gitonomy <small>installation</small></h1>
+        </header>
+        <section>
+            {% block content '' %}
+        </section>
+        <footer>
+            <p>Gitonomy is beautiful and you are beautiful, too.</p>
+        </footer>
+    </div>
+{% endblock %}

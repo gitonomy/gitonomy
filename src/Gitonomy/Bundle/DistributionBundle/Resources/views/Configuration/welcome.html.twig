@@ -1,0 +1,20 @@
+{% extends "GitonomyDistributionBundle:Configuration:step.html.twig" %}
+
+{% block step_content %}
+    <h2>Welcome to web-installation tool</h2>
+    <p>
+        This <strong>step-by-step</strong> installation will help you to
+        configure <strong>Gitonomy</strong>.
+    </p>
+    <p>
+        At the top of the screen, you can see different steps. When one is
+        <strong>orange</strong>, it means you have something to do in there.
+    </p>
+    <p>
+        If it's black or grey, you may still want to look, to make manual
+        verifications or tweak configuration.
+    </p>
+    <p class="welcome-buttons">
+        <a class="btn" href="{{ path('gitonomydistribution_configuration_step', {slug: firstStep.slug}) }}">Start &raquo;</a>
+    </p>
+{% endblock %}
