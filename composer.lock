@@ -1,5 +1,5 @@
 {
-    "hash": "48bf8318d808f076984b0c514e298992",
+    "hash": "2a46638a51b882ba6bf1c1915dc3e0b8",
     "packages": [
         {
             "name": "doctrine/common",
@@ -116,18 +116,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal",
-                "reference": "fdc866a37959e43620e4f7ec519dc7dd8e30fc5b"
+                "reference": "219d96a1592e9e23087eb6861b4f8233d06c6463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/dbal/zipball/fdc866a37959e43620e4f7ec519dc7dd8e30fc5b",
-                "reference": "fdc866a37959e43620e4f7ec519dc7dd8e30fc5b",
+                "url": "https://github.com/doctrine/dbal/zipball/219d96a1592e9e23087eb6861b4f8233d06c6463",
+                "reference": "219d96a1592e9e23087eb6861b4f8233d06c6463",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
+            "time": "1349518912",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -151,7 +152,8 @@
                 },
                 {
                     "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
                 },
                 {
                     "name": "Roman Borschel",
@@ -169,8 +171,7 @@
                 "persistence",
                 "dbal",
                 "queryobject"
-            ],
-            "time": "1348120597"
+            ]
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -179,12 +180,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/DoctrineBundle.git",
-                "reference": "db818ceec46d05fed4f944b957f82a4ab5197e27"
+                "reference": "75e0ac4a4be04bfa39b282f8ebccd3ef4c8ebe32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/DoctrineBundle/zipball/db818ceec46d05fed4f944b957f82a4ab5197e27",
-                "reference": "db818ceec46d05fed4f944b957f82a4ab5197e27",
+                "url": "https://github.com/doctrine/DoctrineBundle/zipball/75e0ac4a4be04bfa39b282f8ebccd3ef4c8ebe32",
+                "reference": "75e0ac4a4be04bfa39b282f8ebccd3ef4c8ebe32",
                 "shasum": ""
             },
             "require": {
@@ -201,6 +202,7 @@
             "suggest": {
                 "doctrine/orm": "The Doctrine ORM integration is optional in the bundle."
             },
+            "time": "1349890948",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -237,8 +239,7 @@
                 "orm",
                 "persistence",
                 "dbal"
-            ],
-            "time": "1348828243"
+            ]
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -247,28 +248,51 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "186d605aa6b592bd577e07e0e9a2c420b02b2492"
+                "reference": "1e2c7af26f9f7ac9110d47cee8133d700fb99ae1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/DoctrineFixturesBundle/zipball/186d605aa6b592bd577e07e0e9a2c420b02b2492",
-                "reference": "186d605aa6b592bd577e07e0e9a2c420b02b2492",
+                "url": "https://github.com/doctrine/DoctrineFixturesBundle/zipball/1e2c7af26f9f7ac9110d47cee8133d700fb99ae1",
+                "reference": "1e2c7af26f9f7ac9110d47cee8133d700fb99ae1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "doctrine/data-fixtures": "*",
-                "symfony/doctrine-bridge": "2.1.*",
-                "doctrine/doctrine-bundle": "1.0.*"
+                "doctrine/doctrine-bundle": "1.0.*",
+                "symfony/doctrine-bridge": ">=2.1.0,<2.3-dev"
             },
-            "time": "1345465418",
+            "time": "1349789605",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Bundle\\FixturesBundle": ""
                 }
-            }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Doctrine Project",
+                    "homepage": "http://www.doctrine-project.org"
+                }
+            ],
+            "description": "Symfony DoctrineFixturesBundle",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "persistence",
+                "Fixture"
+            ]
         },
         {
             "name": "doctrine/orm",
@@ -276,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "831f0acdc562fd854256f6f0ef2623c6d92e4a70"
+                "reference": "65fabc20c9e807c7b5f86741d60d4a0cecab7ebc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/zipball/831f0acdc562fd854256f6f0ef2623c6d92e4a70",
-                "reference": "831f0acdc562fd854256f6f0ef2623c6d92e4a70",
+                "url": "https://github.com/doctrine/doctrine2/zipball/65fabc20c9e807c7b5f86741d60d4a0cecab7ebc",
+                "reference": "65fabc20c9e807c7b5f86741d60d4a0cecab7ebc",
                 "shasum": ""
             },
             "require": {
@@ -293,6 +317,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
+            "time": "1349703833",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -306,7 +331,7 @@
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Doctrine\\ORM": "lib/"
+                    "Doctrine\\ORM\\": "lib/"
                 }
             },
             "license": [
@@ -320,7 +345,8 @@
                 },
                 {
                     "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
                 },
                 {
                     "name": "Roman Borschel",
@@ -336,8 +362,7 @@
             "keywords": [
                 "database",
                 "orm"
-            ],
-            "time": "1348189822"
+            ]
         },
         {
             "name": "gitonomy/gitlib",
@@ -357,6 +382,7 @@
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
+            "time": "1349040141",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -383,8 +409,7 @@
                 }
             ],
             "description": "Library for accessing git",
-            "homepage": "http://gitonomy.com",
-            "time": "1349040141"
+            "homepage": "http://gitonomy.com"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -418,6 +443,7 @@
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin"
             },
+            "time": "1349004759",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -449,8 +475,7 @@
                 "assets",
                 "compression",
                 "minification"
-            ],
-            "time": "1349004759"
+            ]
         },
         {
             "name": "monolog/monolog",
@@ -526,7 +551,6 @@
             "require": {
                 "symfony/framework-bundle": "2.1.*"
             },
-            "time": "1347340208",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -552,7 +576,8 @@
             "keywords": [
                 "distribution",
                 "configuration"
-            ]
+            ],
+            "time": "1347340208"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -560,17 +585,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "1a987b45ea8dcbbe9680499800c67fc97a2d07f6"
+                "reference": "22731e907f5ca288c9bfde6b54f3611ace0a6c39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/1a987b45ea8dcbbe9680499800c67fc97a2d07f6",
-                "reference": "1a987b45ea8dcbbe9680499800c67fc97a2d07f6",
+                "url": "https://github.com/swiftmailer/swiftmailer/zipball/22731e907f5ca288c9bfde6b54f3611ace0a6c39",
+                "reference": "22731e907f5ca288c9bfde6b54f3611ace0a6c39",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "time": "1349196829",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -600,8 +626,7 @@
             "keywords": [
                 "mail",
                 "mailer"
-            ],
-            "time": "1348747908"
+            ]
         },
         {
             "name": "symfony/assetic-bundle",
@@ -635,6 +660,7 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
+            "time": "1348938560",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -663,8 +689,7 @@
                 "assets",
                 "compression",
                 "minification"
-            ],
-            "time": "1348938560"
+            ]
         },
         {
             "name": "symfony/monolog-bundle",
@@ -782,12 +807,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "2f5a4d7dbca5e586ddf3ae409528ae456f45b0b4"
+                "reference": "0247dd5237f11db4ee4bbc4efadfb72aabdb5887"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/2f5a4d7dbca5e586ddf3ae409528ae456f45b0b4",
-                "reference": "2f5a4d7dbca5e586ddf3ae409528ae456f45b0b4",
+                "url": "https://github.com/symfony/symfony/zipball/0247dd5237f11db4ee4bbc4efadfb72aabdb5887",
+                "reference": "0247dd5237f11db4ee4bbc4efadfb72aabdb5887",
                 "shasum": ""
             },
             "require": {
@@ -836,6 +861,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
+            "time": "1349880543",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -866,8 +892,7 @@
             "homepage": "http://symfony.com",
             "keywords": [
                 "framework"
-            ],
-            "time": "1349116845"
+            ]
         },
         {
             "name": "twig/extensions",
@@ -875,18 +900,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig-extensions",
-                "reference": "f904575642b1213db69b4a98f08397e722ba1cae"
+                "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/zipball/f904575642b1213db69b4a98f08397e722ba1cae",
-                "reference": "f904575642b1213db69b4a98f08397e722ba1cae",
+                "url": "https://github.com/fabpot/Twig-extensions/zipball/dcdff02fbac1282e6b8f4d0558cc7e9580105688",
+                "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688",
                 "shasum": ""
             },
             "require": {
                 "twig/twig": "1.*"
             },
-            "time": "1346770278",
+            "time": "1349889206",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -898,7 +923,23 @@
                 "psr-0": {
                     "Twig_Extensions_": "lib/"
                 }
-            }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "homepage": "https://github.com/fabpot/Twig-extensions",
+            "keywords": [
+                "debug",
+                "i18n",
+                "text"
+            ]
         },
         {
             "name": "twig/twig",
@@ -906,17 +947,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8"
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/120cde3fa54c31047edf1cd003752ca119dec9a8",
-                "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8",
+                "url": "https://github.com/fabpot/Twig/zipball/347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
+                "reference": "347bc81d6ed8e2bb793236aa9917c7e83f81c2b3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "time": "1349702400",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -946,8 +988,7 @@
             "homepage": "http://twig.sensiolabs.org",
             "keywords": [
                 "templating"
-            ],
-            "time": "1348936415"
+            ]
         }
     ],
     "packages-dev": null,

@@ -1,7 +1,17 @@
-gitonomydistribution_verification_index:
-    pattern: /verification
-    defaults: { _controller: "GitonomyDistributionBundle:Verification:index" }
+gitonomydistribution_configuration_welcome:
+    pattern: /install
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:welcome }
 
-gitonomydistribution_verification_mail:
-    pattern: /verification/mail
-    defaults: { _controller: "GitonomyDistributionBundle:Verification:mail" }
+gitonomydistribution_configuration_step:
+    pattern: /install/step/{slug}
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:step }
+    requirements: { _method: GET }
+
+gitonomydistribution_configuration_saveStep:
+    pattern: /install/step/{slug}
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:saveStep }
+    requirements: { _method: POST }
+
+gitonomydistribution_configuration_finish:
+    pattern: /install/finish
+    defaults: { _controller: GitonomyDistributionBundle:Configuration:finish }

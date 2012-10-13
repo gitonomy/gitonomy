@@ -12,17 +12,17 @@
 
 namespace Gitonomy\Bundle\DistributionBundle;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-use Gitonomy\Bundle\DistributionBundle\Configurator\Step\MailerStep;
-use Gitonomy\Bundle\DistributionBundle\Configurator\Step\GitonomyStep;
+use Gitonomy\Bundle\DistributionBundle\DependencyInjection\CompilerPass\AddStepToListPass;
 
 class GitonomyDistributionBundle extends Bundle
 {
-    public function boot()
+    public function build(ContainerBuilder $container)
     {
-        $configurator = $this->container->get('sensio.distribution.webconfigurator');
-        $configurator->addStep(new MailerStep($configurator->getParameters()));
-        $configurator->addStep(new GitonomyStep($configurator->getParameters()));
+        parent::build($container);
+
+        $container->addCompilerPass(new AddStepToListPass());
     }
 }
