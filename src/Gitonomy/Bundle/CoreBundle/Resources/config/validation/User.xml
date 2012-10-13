@@ -5,6 +5,7 @@
 
     <namespace prefix="DoctrineAssert">Symfony\Bridge\Doctrine\Validator\Constraints\</namespace>
     <namespace prefix="Assert">Symfony\Component\Validator\Constraints\</namespace>
+    <namespace prefix="SecurityAssert">Symfony\Component\Security\Core\Validator\Constraint\</namespace>
 
     <class name="Gitonomy\Bundle\CoreBundle\Entity\User">
         <!-- Make sure the email determines the user -->
@@ -42,6 +43,15 @@
                     <value>registration</value>
                     <value>admin</value>
                     <value>change_username</value>
+                </option>
+            </constraint>
+        </property>
+
+        <property name="oldPassword">
+            <constraint name="SecurityAssert:UserPassword">
+                <option name="message">Wrong value for your current password</option>
+                <option name="groups">
+                    <value>change_password</value>
                 </option>
             </constraint>
         </property>

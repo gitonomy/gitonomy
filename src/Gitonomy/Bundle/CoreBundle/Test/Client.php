@@ -73,6 +73,17 @@ class Client extends BaseClient
     }
 
     /**
+     * Logout the user.
+     *
+     */
+    public function logout()
+    {
+        $crawler = $this->request('GET', '/en_US/logout');
+
+        return $this->followRedirect();
+    }
+
+    /**
      * @inheritdoc
      */
     protected function doRequest($request)

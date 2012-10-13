@@ -53,6 +53,8 @@ class User implements UserInterface
      */
     protected $globalRoles;
 
+    protected $oldPassword;
+
     public function __construct($username = null, $fullname = null, $timezone = null)
     {
         $this->username = $username;
@@ -79,9 +81,24 @@ class User implements UserInterface
     /**
      * @inheritdoc
      */
-    public function setPassword($raw, PasswordEncoderInterface $encoder)
+    public function setOldPassword($oldPassword)
     {
-        $this->salt     = md5(uniqid().microtime());
+        $this->oldPassword = $oldPassword;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPassword($raw, PasswordEncoderInterface $encoder = null)
+    {
+        $this->salt = md5(uniqid().microtime());
+
+        if (null === $encoder) {
+            $this->password = $raw;
+
+            return;
+        }
+
         $this->password = $encoder->encodePassword($raw, $this->salt);
     }
 
@@ -241,6 +258,11 @@ class User implements UserInterface
             $this->markAllKeysAsUninstalled();
         }
         $this->username = $username;
+    }
+
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
     }
 
     public function getPassword()

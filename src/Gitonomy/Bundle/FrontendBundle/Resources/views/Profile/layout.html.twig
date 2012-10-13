@@ -20,6 +20,11 @@
                             <a href="{{ path('gitonomyfrontend_profile_emails') }}">Emails</a>
                         {{ navigation_active == 'emails' ? '</strong>' : '' }}
                     </li>
+                    <li>
+                        {{ navigation_active == 'password' ? '<strong>' : '' }}
+                            <a href="{{ path('gitonomyfrontend_profile_password') }}">Password</a>
+                        {{ navigation_active == 'password' ? '</strong>' : '' }}
+                    </li>
                 </ul>
             </div>
         </div>

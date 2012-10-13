@@ -200,6 +200,38 @@ class ProfileController extends BaseController
     }
 
     /**
+     * Change the password.
+     */
+    public function passwordAction()
+    {
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getUser();
+        $em->detach($session);
+
+        $user = $this->findUser($session->getId());
+        $form = $this->createForm('profile_password', $user);
+
+        $request = $this->getRequest();
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                $this->get('session')->setFlash('success', 'Your new password was conscientiously saved!');
+
+                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_password'));
+            }
+        }
+
+        return $this->render('GitonomyFrontendBundle:Profile:password.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
      * List SSH keys and form for adding a new one.
      */
     public function sshKeysAction()
@@ -310,6 +342,17 @@ class ProfileController extends BaseController
         ));
     }
 
+    protected function findUser($userId)
+    {
+        $em   = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository('GitonomyCoreBundle:User');
+        if (!$user = $repo->find($userId)) {
+            throw $this->createNotFoundException(sprintf('No User found with id "%d".', $userId));
+        }
+
+        return $user;
+    }
+
     protected function findEmail($emailId)
     {
         $user = $this->getUser();
@@ -340,7 +383,6 @@ class ProfileController extends BaseController
     protected function encodePassword(User $user)
     {
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        $user->setPassword($encoder->encodePassword($user->getPassword(), $user->regenerateSalt()));
 
         $em = $this->getDoctrine()->getEntityManagerForClass('Gitonomy\Bundle\CoreBundle\Entity\User');
     }

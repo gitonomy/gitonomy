@@ -143,6 +143,60 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('Email "'.$email->getEmail().'" deleted.', $node->text());
     }
 
+    public function testChangePasswordFail()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/password');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $form = $crawler->filter('form')->form(array(
+            'profile_password[oldPassword]' => 'ecila',
+        ));
+
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertFalse($response->isRedirect());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertEquals(1, $crawler->filter('#profile_password_oldPassword_field.error')->count());
+    }
+
+    public function testChangePasswordOk()
+    {
+        $this->client->connect('alice');
+
+        $crawler  = $this->client->request('GET', '/en_US/profile/password');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $form = $crawler->filter('form')->form(array(
+            'profile_password[oldPassword]' => 'alice',
+            'profile_password[password][first]' => 'ecila',
+            'profile_password[password][second]' => 'ecila',
+        ));
+        $crawler  = $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('/en_US/profile/password'));
+
+        $this->client->logout();
+
+        $crawler = $this->client->request('GET', '/en_US/login');
+        $form = $crawler->filter('form input[type=submit][value="Login"]')->form(array(
+            '_username' => 'alice',
+            '_password' => 'ecila'
+        ));
+        $this->client->submit($form);
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isRedirect('http://localhost/en_US'));
+    }
+
     public function testSshKeyListAndCreate()
     {
         $this->client->connect('bob');
@@ -172,7 +226,6 @@ class ProfileControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/en_US/profile/ssh-keys'));
 
         $crawler  = $this->client->followRedirect();
-        $response = $this->client->getResponse();
 
         $this->assertEquals(3, $crawler->filter('.ssh-key')->count());
 
@@ -221,7 +274,6 @@ class ProfileControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/en_US/profile/change-username'));
 
         $crawler  = $this->client->followRedirect();
-        $response = $this->client->getResponse();
 
         $this->assertEquals(1, $crawler->filter('.navbar a:contains("foobar")')->count());
     }
@@ -238,7 +290,6 @@ class ProfileControllerTest extends WebTestCase
         ));
 
         $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
 
         $this->assertFalse($response->isRedirect());
 

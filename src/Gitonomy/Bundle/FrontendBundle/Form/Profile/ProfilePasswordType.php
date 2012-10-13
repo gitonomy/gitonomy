@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
+namespace Gitonomy\Bundle\FrontendBundle\Form\Profile;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +19,12 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
-class RegistrationType extends AbstractType
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+
+/**
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
+class ProfilePasswordType extends AbstractType
 {
     private $encoderFactory;
 
@@ -33,11 +38,17 @@ class RegistrationType extends AbstractType
         $encoderFactory = $this->encoderFactory;
 
         $builder
-            ->add('username', 'text')
-            ->add('fullname', 'text')
-            ->add('defaultEmail', 'useremail')
-            ->add('timezone', 'timezone')
+            ->add('oldPassword', 'password', array(
+                'label'  => 'Current password',
+            ))
         ;
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'validation_groups'        => 'change_password',
+        ));
     }
 
     public function getParent()
@@ -47,14 +58,6 @@ class RegistrationType extends AbstractType
 
     public function getName()
     {
-        return 'user_registration';
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
-            'validation_groups' => array('registration')
-        ));
+        return 'profile_password';
     }
 }
