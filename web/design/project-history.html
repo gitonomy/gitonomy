@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Welcome to Gitonomy</title>
+
+        <link rel="stylesheet" href="/bundles/gitonomyfrontend/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="/bundles/gitonomyfrontend/bootstrap/css/bootstrap-responsive.css" />
+        <style>
+
+/** fonts **/
+@font-face {
+    font-family: 'LigatureSymbols';
+    src: url('LigatureSymbols-2.07.eot');
+    src: url('LigatureSymbols-2.07.eot?#iefix') format('embedded-opentype'),
+         url('LigatureSymbols-2.07.woff') format('woff'),
+         url('LigatureSymbols-2.07.ttf') format('truetype'),
+         url('LigatureSymbols-2.07.svg#LigatureSymbols') format('svg');
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+body , div , dl , dd , dt {
+    margin:0;
+    padding:0;
+}
+
+.lsf {
+  font-family: 'LigatureSymbols';
+  -webkit-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  -ms-text-rendering: optimizeLegibility;
+  -o-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+/** fonts **/
+@font-face {
+    font-family: 'telluralregular';
+    src: url('http://gitonomy.local/bundles/gitonomydistribution/fonts/tellural.eot');
+    src: url('http://gitonomy.local/bundles/gitonomydistribution/fonts/tellural.eot?#iefix') format('embedded-opentype'),
+         url('http://gitonomy.local/bundles/gitonomydistribution/fonts/tellural.woff') format('woff'),
+         url('http://gitonomy.local/bundles/gitonomydistribution/fonts/tellural.ttf') format('truetype'),
+         url('http://gitonomy.local/bundles/gitonomydistribution/fonts/tellural.svg#telluralregular') format('svg');
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+.bar {
+    background-color:#FF8821;
+    height:1000px;
+    float:left;
+}
+
+.bar .icon {
+    border-bottom:1px solid white;
+}
+
+.symbol {
+    font-size:2em;
+    color: white;
+    text-align:center;
+    width: 50px;
+    height:50px;
+    line-height:50px;
+}
+
+dt {
+    width:50px;
+    float:left;
+    clear:left;
+}
+
+dd {
+    /*display:none;*/
+    background-color:#FF8821;
+    width:200px;
+    color: white;
+    height:50px;
+    display:none;
+    line-height: 50px;
+    font-family: telluralregular;
+    font-size:20px;
+    padding-left: 60px;
+}
+
+dl {
+    width:auto;
+    float:left;
+}
+
+dl:hover dd {
+    display:block;
+}
+
+dd.username {
+    border-bottom:1px solid white;
+}
+
+        </style>
+
+    </head>
+    <body>
+        <div class="bar">
+            <dl>
+                <dt>
+                    <img class="icon" src="http://www.gravatar.com/avatar/5dcce511e6ff2406d847bcebf5c14fff?s=50" />
+                </dt>
+                <dd class="username">Julien DIDIER</dd>
+                <dt class="lsf symbol">list</dt>
+                <dd>Project list</dd>
+                <dt class="lsf symbol">add</dt>
+                <dd>New project</dd>
+                <dt class="lsf symbol">setting</dt>
+                <dd>Administration</dd>
+                <dt class="lsf symbol">you</dt>
+                <dd>Preferences</dd>
+                <dt class="lsf symbol">off</dt>
+                <dd>Disconnect</dd>
+            </dl>
+        </div>
+    </body>
+</html>
