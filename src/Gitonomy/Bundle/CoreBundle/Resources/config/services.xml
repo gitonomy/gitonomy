@@ -7,8 +7,10 @@
     <imports>
         <import resource="services/events.xml" />
         <import resource="services/git.xml" />
+        <import resource="services/mailer.xml" />
         <import resource="services/serializer.xml" />
         <import resource="services/security.xml" />
+        <import resource="services/templating.xml" />
         <import resource="services/test.xml" />
         <import resource="services/validator.xml" />
     </imports>

@@ -3,7 +3,7 @@ $white:         white
 $height:        600px
 $width:         1200px
 $heroHeight:    160px
-$heroWidth:     600px
+$heroWidth:     650px
 $contentBottom: 0px
 
 
@@ -15,7 +15,7 @@ body.splash
     left:     50%
     top:      50%
     margin-top: -($heroHeight/2)
-    margin-left: -$heroWidth
+    margin-left: -$width/2
     height:   $heroHeight
     width: $heroWidth
     color: white
@@ -35,24 +35,33 @@ body.splash
     left:     50%
     top:      50%
     margin-top: -($height/2) + $contentBottom
+    margin-left: -($width/2) + $heroWidth
     height:   $height
     width:    $width - $heroWidth
     display: table-cell
     line-height: $height
-    color:    white
-    background-image: url(../images/splash-halo.png)
-    background-repeat: no-repeat
-    background-position: left center
-    padding-left: 30px
 
     form
         margin:  0
         padding: 0
 
+        .error
+            text-shadow: white 0 0 3px
+            *
+                color: black
+
     > div
         vertical-align: middle
         display: inline-block
         line-height: 1em
+        background-color: rgba(255, 255, 255, 0.1)
+        border-radius: 10px
+        color: white
+        background-image: url(../images/splash-halo.png)
+        background-repeat: no-repeat
+        background-position: left center
+        width: $width - $heroWidth
+        padding: 20px 0
 
     a.link
         color: white

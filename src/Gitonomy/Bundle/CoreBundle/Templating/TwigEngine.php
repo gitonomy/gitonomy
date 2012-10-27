@@ -10,11 +10,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Templating;
+namespace Gitonomy\Bundle\CoreBundle\Templating;
 
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine as BaseTwigEngine;
+use Symfony\Bundle\TwigBundle\TwigEngine as BaseTwigEngine;
 
-class TimedTwigEngine extends BaseTwigEngine
+class TwigEngine extends BaseTwigEngine
 {
     public function loadTemplate($name)
     {

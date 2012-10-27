@@ -59,7 +59,7 @@ class RegisterType extends AbstractType
                     return;
                 }
 
-                $user->setDefaultEmail(new Email($user, $form->get('email')->getData()));
+                $user->createEmail($form->get('email')->getData(), true);
                 $user->setPassword($password, $encoderFactory->getEncoder($user));
             });
         ;

@@ -37,7 +37,7 @@ class UserForgotPassword
         $max->add(new \DateInterval('P2D')); // 2 days
         $now = new \DateTime();
 
-        return $now->getTimestamp() > $max->getTimeStamp();
+        return $now > $max;
     }
 
     public function validateToken($token)

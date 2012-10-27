@@ -20,6 +20,26 @@ splash_postRegister:
     defaults: { _controller: "GitonomyWebsiteBundle:Splash:postRegister" }
     requirements: { _method: POST }
 
+splash_forgotPassword:
+    pattern: /forgot-password
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:forgotPassword"}
+    requirements: { _method: GET }
+
+splash_postForgotPassword:
+    pattern: /forgot-password
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postForgotPassword"}
+    requirements: { _method: POST }
+
+splash_changePassword:
+    pattern: /forgot-password/{username}/{token}
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:changePassword"}
+    requirements: { _method: GET }
+
+splash_postChangePassword:
+    pattern: /forgot-password/{username}/{token}
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postChangePassword"}
+    requirements: { _method: POST }
+
 project_list:
     pattern: /projects
     defaults: { _controller: "GitonomyWebsiteBundle:Project:list" }

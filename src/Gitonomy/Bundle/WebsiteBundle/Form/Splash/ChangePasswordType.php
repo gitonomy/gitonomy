@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Security;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Splash;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,10 +36,11 @@ class ChangePasswordType extends AbstractType
         $encoderFactory = $this->encoderFactory;
         $builder
             ->add('password', 'repeated', array(
-                'label'       => 'form.activate.password',
-                'type'        => 'password',
-                'constraints' => array(new NotBlank()),
-                'mapped'      => false,
+                'type'           => 'password',
+                'constraints'    => array(new NotBlank()),
+                'mapped'         => false,
+                'first_options'  => array('label' => 'form.password'),
+                'second_options' => array('label' => 'form.password_confirm'),
             ))
             ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
                 $user = $event->getData();
@@ -61,7 +62,7 @@ class ChangePasswordType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\User',
-            'translation_domain' => 'profile'
+            'translation_domain' => 'forgot_password'
         ));
     }
 

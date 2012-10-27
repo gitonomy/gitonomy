@@ -10,14 +10,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Mail;
+namespace Gitonomy\Bundle\CoreBundle\Mailer;
 
 use Symfony\Component\Templating\EngineInterface;
+
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
  * Service to send emails
  *
  * @author Julien DIDIER <julien@jdidier.net>
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class Mailer
 {
@@ -32,8 +35,18 @@ class Mailer
         $this->mailFrom       = $from;
     }
 
-    public function sendMessage($template, $context = array(), $to)
+    public function mail($to, $template, $context = array())
     {
+        if ($to instanceof User) {
+            if (!$to->hasDefaultEmail()) {
+                throw new \RuntimeException('Can\'t send a mail to user '.$to->getUsername().': no mail');
+            }
+
+            $to = array($to->getDefaultEmail()->getEmail() => $to->getFullname());
+        } else {
+            throw new \RuntimeException('Unexpected type of mailto: '.gettype($to));
+        }
+
         $template = $this->templateEngine->loadTemplate($template);
 
         $subject  = $this->renderTwigBlock($template, 'subject',   $context);

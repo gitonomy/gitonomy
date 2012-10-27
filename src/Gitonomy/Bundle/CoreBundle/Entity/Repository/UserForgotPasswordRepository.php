@@ -18,7 +18,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class UserForgotPasswordRepository extends EntityRepository
 {
-    public function getToken(User $user)
+    public function findOneByUser(User $user)
     {
         $queryBuilder = $this
             ->createQueryBuilder('t')
