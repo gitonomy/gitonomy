@@ -1,0 +1,97 @@
+$orange: #ff8821
+$lightgrey: #f8f8f8
+$cell: 50px
+
+body
+    padding-left: 2*$cell
+    background-color: $lightgrey
+
+h1
+    line-height: $cell*2
+    margin: 0
+    font-size: $cell/1.3
+    font-family: tellural
+    font-weight: normal
+
+#global-menu
+    padding: 0
+    margin:  0
+    list-style-type: none
+
+    position: absolute
+    left:     0
+    top:      0
+    bottom:   0
+
+    font-family: tellural
+
+    background-color: $orange
+
+    > li:first-child
+        border-bottom: 1px solid white
+
+    > li > a
+        color: white
+        display: block
+        height: $cell
+        overflow:hidden
+
+        &.active
+            background-color: $orange/1.1
+            border-top:       2px solid $orange/1.2
+            height: $cell - 2px
+
+        &:hover
+            text-decoration: none
+
+        > div
+            display: inline-block
+            line-height: $cell
+            font-size: ($cell/1.5)
+
+        > .icon
+            width: $cell
+            text-align: center
+            overflow:hidden
+            position:relative
+
+            > img
+                position: absolute
+                left: 0
+                top: 0
+                display: block
+                width:  $cell
+                height: $cell
+
+        > .text
+            display: none
+            padding: 0 0.5em
+            font-size: ($cell/2)
+
+    &:hover > li > a > .text
+        display: inline-block
+
+#local-menu
+    float: left
+    width: 4*$cell
+
+    list-style-type: none
+    margin: 0
+
+    > li
+        height: $cell
+        line-height: $cell
+        font-family: tellural
+        font-size: $cell/2
+
+        > a
+            color: black
+            display: block
+            text-indent: 0.3em
+
+            &.active
+                background-color: white
+
+#content
+    background-color: white
+    margin-left: 4*$cell

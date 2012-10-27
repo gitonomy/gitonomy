@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <title>{% block title '' %}</title>
+    <head>
+        {% stylesheets filter="cssrewrite"
+            "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap.css"
+            "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap-responsive.css"
+            "bundles/gitonomywebsite/css/global.sass"
+            "bundles/gitonomywebsite/css/layout.sass"
+            "bundles/gitonomywebsite/css/fonts.sass"
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        <div id="global-menu-container">
+            <ul id="global-menu">
+                <li>
+                    <a href="#">
+                        <div class="icon"><img src="https://secure.gravatar.com/avatar/06e344c240d8669817fe8d34f64158e1?s=140" /></div>
+                        <div class="text">Alexandre Salomé</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"{% if global_navigation|default(null) == "projects" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">list</i></div>
+                        <div class="text">My projects</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"{% if global_navigation|default(null) == "new_project" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">add</i></div>
+                        <div class="text">New project</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">setting</i></div>
+                        <div class="text">Administration</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"{% if global_navigation|default(null) == "preferences" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">you</i></div>
+                        <div class="text">Preferences</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="icon"><i class="symbol">off</i></div>
+                        <div class="text">Disconnect</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        {% block content '' %}
+
+
+        {% javascripts
+            "bundles/gitonomywebsite/vendor/bootstrap/js/bootstrap.js"
+            "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.css"
+            "bundles/gitonomywebsite/vendor/codemirror/theme/elegant.css"
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </body>
+</html>

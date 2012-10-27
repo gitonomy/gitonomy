@@ -1,0 +1,3 @@
+repository_overview:
+    pattern: /projects/{slug}
+    defaults: { _controller: "GitonomyWebsiteBundle:Repository:overview" }
