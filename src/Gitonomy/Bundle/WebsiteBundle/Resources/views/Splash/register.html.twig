@@ -1,0 +1,17 @@
+{% extends "GitonomyWebsiteBundle::splash.html.twig" %}
+
+{% block content %}
+    <form class="form-horizontal">
+        {{ form_widget(form) }}
+        <div class="control-group">
+            <div class="controls">
+                <p>
+                    <button type="submit" class="btn">Create my account</button>
+                </p>
+                <p>
+                    <a class="link" href="{{ path('splash_login') }}">Go back</a>
+                </p>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,3 +1,17 @@
 {% extends "GitonomyWebsiteBundle::base.html.twig" %}
 
-{% block body_class = 'splash' %}
+{% block body_class 'splash' %}
+
+{% block body %}
+    <div id="splash-wrapper">
+        <div id="splash-hero">
+            <h1>Gitonomy</h1>
+            <h2>Git repositories inside your infrastructure</h2>
+        </div>
+        <div id="splash-content">
+            <div>
+                {% block content '' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
