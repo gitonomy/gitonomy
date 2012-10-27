@@ -1,3 +1,47 @@
-repository_overview:
+project_list:
+    pattern: /projects
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:list" }
+
+project_create:
+    pattern: /create-project
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:create" }
+
+project_newsfeed:
     pattern: /projects/{slug}
-    defaults: { _controller: "GitonomyWebsiteBundle:Repository:overview" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
+
+project_history:
+    pattern: /projects/{slug}/history
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
+
+project_source:
+    pattern: /projects/{slug}/source
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:source" }
+
+project_branches:
+    pattern: /projects/{slug}/branches
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:branches" }
+
+project_tags:
+    pattern: /projects/{slug}/tags
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
+
+administration_dashboard:
+    pattern: /admin
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:dashboard" }
+
+administration_users:
+    pattern: /admin/users
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:users" }
+
+administration_roles:
+    pattern: /admin/roles
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:roles" }
+
+preferences_informations:
+    pattern: /preferences
+    defaults: { _controller: "GitonomyWebsiteBundle:Preferences:informations" }
+
+preferences_sshKeys:
+    pattern: /preferences/ssh-keys
+    defaults: { _controller: "GitonomyWebsiteBundle:Preferences:sshKeys" }

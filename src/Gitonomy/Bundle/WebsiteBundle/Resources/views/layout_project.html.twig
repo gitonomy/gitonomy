@@ -3,20 +3,21 @@
 {% set global_navigation = 'projects' %}
 
 {% block content %}
-    <h1>
-        &lt;your project here&gt;
+    {% set slug = app.request.attributes.get('slug') %}
+    <h1 class="with-menu">
+        {{ slug }}
     </h1>
 
     <div id="wrapper">
         <ul id="local-menu">
-            <li><a href="#"{% if local_navigation == 'overview' %} class="active"{% endif %}>Overview</a></li>
-            <li><a href="#"{% if local_navigation == 'history' %} class="active"{% endif %}>History</a></li>
-            <li><a href="#"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
-            <li><a href="#"{% if local_navigation == 'branches' %} class="active"{% endif %}>Branches</a></li>
-            <li><a href="#"{% if local_navigation == 'tags' %} class="active"{% endif %}>Tags</a></li>
+            <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>Newsfeed</a></li>
+            <li><a href="{{ path('project_history', {slug: slug }) }}"{% if local_navigation == 'history' %} class="active"{% endif %}>History</a></li>
+            <li><a href="{{ path('project_source', {slug: slug }) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
+            <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>Branches</a></li>
+            <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>Tags</a></li>
         </ul>
 
-        <div id="content">
+        <div id="content" class="with-menu">
             {% block project_content '' %}
         </div>
     </div>

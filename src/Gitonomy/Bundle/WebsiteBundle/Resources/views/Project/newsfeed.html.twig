@@ -1,0 +1,75 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - Newsfeed' %}
+
+{% import _self as tpl %}
+
+{% macro commit_list() %}
+    {% set count = random(1..6) %}
+    {% if count == 6 %}
+        {% set count = random(6..200) %}
+    {% endif %}
+    <ul class="commits">
+        {% set limit = 5 < count ? 5 : count %}
+        {% for i in 1..limit %}
+            <li>{{ random([
+                "fix tests",
+                "update dependencies",
+                "add a new button on the user page",
+                "allow user to change the color of the sky",
+                "prevent administrator from massive flood",
+                "remove unused feature",
+                "new page for product derivation",
+                "add a disable feature to the API",
+                "security of API",
+                "fix the dependency to a non-used bundle",
+                "change the way world is constructed",
+                "paint wall in red",
+                "change the end of the boundaries",
+                "remove neo from the matrix"
+            ])}}
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'newsfeed' %}
+
+{% block project_content %}
+    <div class="newsfeed">
+        {% for i in 1..30 %}
+            {% set branch = random(['master', 'i18n', 'new-design', 'navigation', 'distribution']) %}
+            {% set x = random(1..6) %}
+            {% if x < 5 %}
+                <div class="news news-push">
+                    <p class="title">alice @ {{ branch }} {% if random(1..4) == 1 %}(forced){% endif %}</p>
+                    {{ tpl.commit_list() }}
+                </div>
+            {% elseif x == 5 %}
+                <div class="news small-news">
+                    <p class="title">alice deleted branch {{ branch }}</p>
+                </div>
+            {% elseif x == 6 %}
+                <div class="news small-news">
+                    <p class="title">alice create branch {{ branch }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+{% endblock %}
+
+{% block before_body_end %}
+    <script type="text/javascript">
+        $(function(){
+            var newsfeed   = $(".newsfeed");
+            var width     = newsfeed.width();
+            var key       = newsfeed.find(".news").eq(0);
+            var cardWidth = key.outerWidth(true);
+            var newWidth  = Math.floor(width / cardWidth) * cardWidth;
+
+          $('.newsfeed').masonry({
+            itemSelector : '.news',
+            columnWidth : cardWidth
+          });
+        });
+    </script>
+{% endblock %}

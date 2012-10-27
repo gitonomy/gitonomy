@@ -1,7 +1,7 @@
 _gitonomy_frontend:
     resource: "@GitonomyFrontendBundle/Resources/config/routing.yml"
 
-_gitonomy_Website:
+_gitonomy_website:
     resource: "@GitonomyWebsiteBundle/Resources/config/routing.yml"
     prefix: /{_locale}/v2
 

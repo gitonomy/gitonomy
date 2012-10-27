@@ -1,0 +1,21 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% block title 'Create a new project' %}
+
+{% set global_navigation = 'new_project' %}
+
+{% block content %}
+    <h1>Create a new project</h1>
+    <div id="content">
+        <form class="form-horizontal">
+            <legend>Project informations</legend>
+            {{ form_widget(form) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> Create new project</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+{% endblock %}

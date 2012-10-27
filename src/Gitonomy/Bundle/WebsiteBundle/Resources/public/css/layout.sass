@@ -1,9 +1,9 @@
 $orange: #ff8821
-$lightgrey: #f8f8f8
+$lightgrey: #efefef
 $cell: 50px
 
 body
-    padding-left: 2*$cell
+    padding-left: $cell*1.5
     background-color: $lightgrey
 
 h1
@@ -18,14 +18,22 @@ h1
     margin:  0
     list-style-type: none
 
-    position: absolute
+    position: fixed
     left:     0
     top:      0
     bottom:   0
 
+    width: $cell
+
     font-family: tellural
 
     background-color: $orange
+
+    &.not-hover
+        width: auto
+
+        > li > a > .text
+            display: inline-block
 
     > li:first-child
         border-bottom: 1px solid white
@@ -41,7 +49,7 @@ h1
             border-top:       2px solid $orange/1.2
             height: $cell - 2px
 
-        &:hover
+        &.not-hover
             text-decoration: none
 
         > div
@@ -68,9 +76,6 @@ h1
             padding: 0 0.5em
             font-size: ($cell/2)
 
-    &:hover > li > a > .text
-        display: inline-block
-
 #local-menu
     float: left
     width: 4*$cell
@@ -87,11 +92,14 @@ h1
         > a
             color: black
             display: block
-            text-indent: 0.3em
+            padding-left: $cell/4
 
             &.active
                 background-color: white
 
 #content
+    padding: 1px $cell/2
     background-color: white
-    margin-left: 4*$cell
+
+    &.with-menu
+        margin-left: 4*$cell

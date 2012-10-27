@@ -1,0 +1,38 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% block title 'Projects' %}
+
+{% set global_navigation = 'projects' %}
+
+{% block content %}
+    <h1>Projects</h1>
+    <div id="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Users</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in 1..400 %}
+                    <tr>
+                        <td><a href="{{ path('project_newsfeed', {slug: 'gitonomy'}) }}">Gitonomy</a></td>
+                        <td>12 MB</td>
+                        <td>14 users</td>
+                        <td><button class="btn"><i class="symbol">dropdown</i></button></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">No project found</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td colspan="4"><a href="{{ path('project_create') }}" class="btn btn-success"><i class="symbol">add</i> Create new project</a></td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+{% endblock %}

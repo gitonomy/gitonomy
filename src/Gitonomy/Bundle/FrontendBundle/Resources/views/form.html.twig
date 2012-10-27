@@ -1,12 +1,30 @@
 {% block field_row %}
 {% spaceless %}
-    <div id="{{ id }}_field" class="clearfix{% if errors|length %} error{% endif %}">
+    <div id="{{ id }}_field" class="control-group{% if errors|length %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
-        {{ form_widget(form, {'attr': field_attr|default({})}) }}
-        {{ form_errors(form) }}
+        <div class="controls">
+            {{ form_widget(form, {'attr': field_attr|default({})}) }}
+            {{ form_errors(form) }}
+        </div>
     </div>
 {% endspaceless %}
 {% endblock field_row %}
+
+{% block form_label %}
+{% spaceless %}
+    {% if not compound %}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {% endif %}
+    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' control-label')|trim}) %}
+    {% if required %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+    {% endif %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+{% endspaceless %}
+{% endblock form_label %}
 
 {% block field_errors %}
 {% spaceless %}

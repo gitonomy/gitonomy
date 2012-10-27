@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <title>{% block title '' %}</title>
+    <head>
+        {% stylesheets filter="cssrewrite"
+            "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap.css"
+            "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap-responsive.css"
+            "bundles/gitonomywebsite/css/global.sass"
+            "bundles/gitonomywebsite/css/layout.sass"
+            "bundles/gitonomywebsite/css/fonts.sass"
+            "bundles/gitonomywebsite/css/preferences/sshKeys.sass"
+            "bundles/gitonomywebsite/css/project/newsfeed.sass"
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        {% block body '' %}
+
+        {% javascripts
+            "bundles/gitonomywebsite/vendor/jquery-1.7.1.min.js"
+            "bundles/gitonomywebsite/vendor/jquery.masonry.min.js"
+            "bundles/gitonomywebsite/vendor/bootstrap/js/bootstrap.js"
+            "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.js"
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% block before_body_end '' %}
+    </body>
+</html>

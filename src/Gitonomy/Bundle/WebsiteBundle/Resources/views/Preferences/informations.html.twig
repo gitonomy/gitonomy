@@ -1,0 +1,20 @@
+{% extends "GitonomyWebsiteBundle::layout_preferences.html.twig" %}
+
+{% block title 'User informations' %}
+
+{% set local_navigation = 'informations' %}
+
+{% block preferences_content %}
+    <div id="content">
+        <form class="form-horizontal">
+            <legend>User informations</legend>
+            {{ form_widget(form) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit"><i class="symbol">save</i> Save informations</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+{% endblock %}
