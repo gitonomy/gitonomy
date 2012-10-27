@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="gitonomy_website.form.type.splash_register.class">Gitonomy\Bundle\WebsiteBundle\Form\Splash\RegisterType</parameter>
+        <parameter key="gitonomy_website.form.type.splash_login.class">Gitonomy\Bundle\WebsiteBundle\Form\Splash\LoginType</parameter>
+    </parameters>
+
+    <services>
+        <service id="gitonomy_website.form.type.splash_register" class="%gitonomy_website.form.type.splash_register.class%">
+            <argument type="service" id="security.encoder_factory" />
+            <tag name="form.type" alias="register" />
+        </service>
+        <service id="gitonomy_website.form.type.splash_login" class="%gitonomy_website.form.type.splash_login.class%">
+            <tag name="form.type" alias="login" />
+        </service>
+    </services>
+
+</container>

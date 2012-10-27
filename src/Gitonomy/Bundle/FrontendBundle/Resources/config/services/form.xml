@@ -8,7 +8,6 @@
         <parameter key="gitonomy_frontend.form.type.profile_ssh_key.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\SshKeyType</parameter>
         <parameter key="gitonomy_frontend.form.type.profile_informations.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\InformationsType</parameter>
         <parameter key="gitonomy_frontend.form.type.profile_password.class">Gitonomy\Bundle\FrontendBundle\Form\Profile\ProfilePasswordType</parameter>
-        <parameter key="gitonomy_frontend.form.type.user_registration.class">Gitonomy\Bundle\FrontendBundle\Form\Security\RegistrationType</parameter>
         <parameter key="gitonomy_frontend.form.type.login.class">Gitonomy\Bundle\FrontendBundle\Form\Security\LoginType</parameter>
         <parameter key="gitonomy_frontend.form.type.baseadmin.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\BaseAdminType</parameter>
         <parameter key="gitonomy_frontend.form.type.adminuser.class">Gitonomy\Bundle\FrontendBundle\Form\Admin\UserType</parameter>
@@ -37,10 +36,6 @@
         </service>
         <service id="gitonomy_frontend.form.type.login" class="%gitonomy_frontend.form.type.login.class%">
             <tag name="form.type" alias="login" />
-        </service>
-        <service id="gitonomy_frontend.form.type.user_registration" class="%gitonomy_frontend.form.type.user_registration.class%">
-            <argument type="service" id="security.encoder_factory" />
-            <tag name="form.type" alias="user_registration" />
         </service>
         <service id="gitonomy_frontend.form.type.baseadmin" class="%gitonomy_frontend.form.type.baseadmin.class%">
             <tag name="form.type" alias="baseadmin" />

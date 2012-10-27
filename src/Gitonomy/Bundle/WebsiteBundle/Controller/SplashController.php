@@ -5,6 +5,8 @@ namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
+use Gitonomy\Bundle\CoreBundle\Entity\User;
+
 class SplashController extends Controller
 {
     public function loginAction(Request $request)
@@ -36,11 +38,28 @@ class SplashController extends Controller
 
     public function registerAction()
     {
-        if ($this->isAuthenticated()) {
-            return $this->redirect($this->generateUrl('project_list'));
+        $form = $this->createForm('register', new User());
+
+        return $this->render('GitonomyWebsiteBundle:Splash:register.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    public function postRegisterAction(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm('register', $user);
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $this->persistEntity($user);
+            $this->get('session')->setFlash('success', $this->trans('notice.success', array(), 'register'));
+
+            return $this->redirect($this->generateUrl('splash_login'));
         }
 
-        $form = $this->createForm('user_registration');
+        $this->get('session')->setFlash('error', $this->trans('error.form_invalid', array(), 'register'));
 
         return $this->render('GitonomyWebsiteBundle:Splash:register.html.twig', array(
             'form' => $form->createView()

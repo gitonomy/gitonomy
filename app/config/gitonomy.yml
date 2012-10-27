@@ -3,16 +3,11 @@ gitonomy_core:
     repository_path:   %repository_path%
     async_storage:     direct
 
-gitonomy_frontend:
-    project_name:      %project_name%
-    project_baseline:  %project_baseline%
-    open_registration: %open_registration%
-    ssh_access:        %ssh_access%
-    allowed_locales:   [ fr_FR, en_US ]
-    mailer:
-        from_name:     %mailer_from_name%
-        from_email:    %mailer_from_email%
-
 twig:
     form:
-        resources: [ "GitonomyFrontendBundle::form.html.twig" ]
+        resources: [ "GitonomyWebsiteBundle::form.html.twig" ]
+    globals:
+        gitonomy:
+            name:       %project_name%
+            baseline:   %project_baseline%
+            ssh_access: %ssh_access%

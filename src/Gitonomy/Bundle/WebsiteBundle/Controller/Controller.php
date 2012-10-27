@@ -22,4 +22,11 @@ class Controller extends BaseController
     {
         return $this->get('security.context')->getToken()->getUser() instanceof User;
     }
+
+    protected function persistEntity($entity)
+    {
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->persist($entity);
+        $em->flush();
+    }
 }
