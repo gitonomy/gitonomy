@@ -7,5 +7,6 @@ form.timezone: "Timezone"
 form.password: "Password"
 form.password_confirm: "Confirm password"
 form.submit: "Register"
+form.cancel: "Cancel"
 error.form_invalid: "Roger, we have a problem with your form"
 notice.success: 'Your account was created!'

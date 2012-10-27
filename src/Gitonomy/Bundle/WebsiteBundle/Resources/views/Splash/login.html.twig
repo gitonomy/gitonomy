@@ -1,17 +1,24 @@
 {% extends "GitonomyWebsiteBundle::splash.html.twig" %}
 
+{% trans_default_domain 'login' %}
+
+{% block title 'page.title'|trans %}
+
 {% block content %}
-    <form class="form-horizontal">
+    <form method="POST" action="{{ path('splash_loginCheck') }}" class="form-horizontal">
+        <div class="control-group">
+            <div class="controls">
+                    <h2>{{ 'title.login'|trans }}</h2>
+            </div>
+        </div>
         {{ form_widget(form) }}
         <div class="control-group">
             <div class="controls">
                 <p>
-                    <button type="submit" class="btn">Login</button>
+                    <button type="submit" class="btn btn-primary">{{ 'form.submit'|trans }}</button>
+                    <a class="btn" href="{{ path('splash_register') }}">{{ 'button.register'|trans }}</a>
                 </p>
-                <p>
-                    <a class="link" href="{{ path('splash_register') }}">Register</a>
-                    -
-                    <a class="link" href="#">Lost your password?</a>
+                    <a class="link" href="#">{{ 'link.forgot_password'|trans }}</a>
                 </p>
             </div>
         </div>

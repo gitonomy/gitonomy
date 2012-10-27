@@ -2,8 +2,6 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 class PreferencesController extends Controller
 {
     public function informationsAction()

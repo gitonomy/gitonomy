@@ -38,7 +38,7 @@ class RegistrationType extends AbstractType
         $builder
             ->add('username', 'text', array('label' => 'form.username'))
             ->add('fullname', 'text', array('label' => 'form.fullname'))
-            ->add('defaultEmail', 'useremail')
+            ->add('email', 'email', array('mapped' => false))
             ->add('timezone', 'timezone', array('label' => 'form.timezone'))
             ->add('password', 'repeated',array(
                 'type'   => 'password',
@@ -59,7 +59,7 @@ class RegistrationType extends AbstractType
                     return;
                 }
 
-                $user->setDefaultEmail(new Email($user, $form->get('defaultEmail')->getData()));
+                $user->setDefaultEmail(new Email($user, $form->get('email')->getData()));
                 $user->setPassword($password, $encoderFactory->getEncoder($user));
             });
         ;
@@ -78,9 +78,9 @@ class RegistrationType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\User',
             'translation_domain' => 'register',
-            'validation_groups' => array('registration')
+            'validation_groups'  => array('registration')
         ));
     }
 }

@@ -31,7 +31,7 @@ class LoginType extends AbstractType
         $builder
             ->add('_username', 'text', array('label' => 'form.username'))
             ->add('_password', 'password', array('label' => 'form.password'))
-            ->add('_remember_me', 'checkbox', array('label' => 'form.remember_me'))
+            ->add('_remember_me', 'checkbox', array('label' => 'form.remember_me', 'required' => false))
         ;
     }
 

@@ -1,10 +1,8 @@
-_gitonomy_frontend:
-    resource: "@GitonomyFrontendBundle/Resources/config/routing.yml"
-
+# _gitonomy_frontend:
+#     resource: "@GitonomyFrontendBundle/Resources/config/routing.yml"
+#
 _gitonomy_website:
     resource: "@GitonomyWebsiteBundle/Resources/config/routing.yml"
-    prefix: /{_locale}/v2
-
 
 # Internal routing configuration to handle ESI
 #_internal:

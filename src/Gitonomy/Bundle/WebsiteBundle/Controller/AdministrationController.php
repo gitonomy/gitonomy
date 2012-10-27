@@ -2,8 +2,6 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 class AdministrationController extends Controller
 {
     public function dashboardAction()

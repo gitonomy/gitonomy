@@ -23,15 +23,15 @@ security:
         main:
             security:   true
             form_login:
-                login_path:          gitonomyfrontend_security_login
-                check_path:          gitonomyfrontend_security_loginCheck
-                default_target_path: gitonomyfrontend_main_homepage
+                login_path:          splash_login
+                check_path:          splash_loginCheck
+                default_target_path: splash_login
             remember_me:
                 key:      Fj_p1rmÉ!
                 lifetime: 31536000
                 path:     /
                 domain:   ~
             logout:
-                path:   gitonomyfrontend_security_logout
-                target: gitonomyfrontend_main_homepage
-            anonymous:  true
+                path:   splash_logout
+                target: splash_login
+            anonymous: true

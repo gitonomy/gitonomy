@@ -1,15 +1,22 @@
 {% extends "GitonomyWebsiteBundle::splash.html.twig" %}
 
+{% trans_default_domain "register" %}
+
+{% block title 'page.title'|trans %}
+
 {% block content %}
     <form class="form-horizontal">
+        <div class="control-group">
+            <div class="controls">
+                <h2>{{ 'title.register'|trans }}</h2>
+            </div>
+        </div>
         {{ form_widget(form) }}
         <div class="control-group">
             <div class="controls">
                 <p>
-                    <button type="submit" class="btn">Create my account</button>
-                </p>
-                <p>
-                    <a class="link" href="{{ path('splash_login') }}">Go back</a>
+                    <a class="btn" href="{{ path('splash_login') }}">{{ 'form.cancel'|trans }}</a>
+                    <button type="submit" class="btn btn-primary">{{ 'form.submit'|trans }}</button>
                 </p>
             </div>
         </div>
