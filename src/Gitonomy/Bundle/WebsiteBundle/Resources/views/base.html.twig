@@ -5,6 +5,8 @@
         {% stylesheets filter="cssrewrite"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap.css"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap-responsive.css"
+            "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.css"
+            "bundles/gitonomywebsite/vendor/codemirror/theme/elegant.css"
             "bundles/gitonomywebsite/css/global.sass"
             "bundles/gitonomywebsite/css/layout.sass"
             "bundles/gitonomywebsite/css/splash.sass"
@@ -22,11 +24,12 @@
 
         {% javascripts
             "bundles/gitonomywebsite/vendor/jquery-1.7.1.min.js"
+            "bundles/gitonomywebsite/js/d3.v2.js"
             "bundles/gitonomywebsite/vendor/jquery.masonry.min.js"
             "bundles/gitonomywebsite/vendor/bootstrap/js/bootstrap.js"
             "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.js"
+            "bundles/gitonomywebsite/vendor/codemirror/lib/util/loadmode.js"
             "bundles/gitonomywebsite/js/history.js"
-            "bundles/gitonomywebsite/js/d3.v2.js"
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}

@@ -18,7 +18,7 @@
 
 {% block before_body_end %}
     <script type="text/javascript">
-        CodeMirror.modeURL = "{{ asset('bundles/gitonomywebsite/codemirror/mode/%N/%N.js') }}";
+        CodeMirror.modeURL = "{{ asset('bundles/gitonomywebsite/vendor/codemirror/mode/%N/%N.js') }}";
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
             readOnly: true,
