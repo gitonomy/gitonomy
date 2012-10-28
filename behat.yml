@@ -1,0 +1,6 @@
+default:
+    extensions:
+        Gitonomy\QA\GitonomyExtension:
+            server_url: http://localhost:4444/wd/hub
+            base_url:   http://gitonomy.dev
+            app_dir:    /var/www/gitonomy.dev/app

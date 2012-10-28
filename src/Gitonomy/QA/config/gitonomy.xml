@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="gitonomy.kernel_factory" class="Gitonomy\QA\KernelFactory">
+            <argument>%gitonomy.kernel_factory.app_dir%</argument>
+        </service>
+
+        <service id="gionomy.kernel_aware_initializer" class="Gitonomy\QA\Initializer\KernelAwareInitializer">
+            <argument type="service" id="gitonomy.kernel_factory" />
+            <tag name="behat.context.initializer" />
+        </service>
+
+        <service id="gitonomy.browser_aware_initializer" class="Gitonomy\QA\Initializer\BrowserAwareInitializer">
+            <argument type="service">
+                <service class="WebDriver\Client">
+                    <argument>%gitonomy.browser.server_url%</argument>
+                </service>
+            </argument>
+            <argument type="service">
+                <service class="WebDriver\Capabilities">
+                    <argument>%gitonomy.browser.browser%</argument>
+                </service>
+            </argument>
+            <argument>%gitonomy.browser.base_url%</argument>
+            <tag name="behat.context.initializer" />
+            <tag name="behat.event_subscriber" />
+        </service>
+    </services>
+</container>

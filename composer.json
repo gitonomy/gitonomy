@@ -34,6 +34,11 @@
 
         "gitonomy/gitlib":                   "dev-master"
     },
+    "require-dev": {
+        "behat/behat":   "dev-custom",
+        "behat/gherkin": "dev-custom",
+        "alexandresalome/php-webdriver": "dev-master"
+        },
     "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
@@ -53,5 +58,38 @@
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "behat/behat",
+                "version": "dev-custom",
+                "source": {
+                    "url": "https://github.com/Behat/Behat.git",
+                    "type": "git",
+                    "reference": "develop"
+                },
+                "autoload": {
+                    "psr-0": {"Behat\\Behat": "src/"}
+                },
+                "bin": ["bin/behat"]
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "behat/gherkin",
+                "version": "dev-custom",
+                "source": {
+                    "url": "https://github.com/Behat/Gherkin.git",
+                    "type": "git",
+                    "reference": "develop"
+                },
+                "autoload": {
+                    "psr-0": {"Behat\\Gherkin": "src/"}
+                }
+            }
+        }
+    ]
 }

@@ -1,5 +1,5 @@
 {
-    "hash": "08d1e08d18d46e199dbe508f4af41f2c",
+    "hash": "0f9b00c0de184d30d7489a1bc6c1f3e1",
     "packages": [
         {
             "name": "doctrine/common",
@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "f5c1b38e2d03dd6428e9ceb3d27e6bba55a0f337"
+                "reference": "98c5b34f2b40fd04cf891052514f01f513077405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/zipball/f5c1b38e2d03dd6428e9ceb3d27e6bba55a0f337",
-                "reference": "f5c1b38e2d03dd6428e9ceb3d27e6bba55a0f337",
+                "url": "https://github.com/doctrine/doctrine2/zipball/98c5b34f2b40fd04cf891052514f01f513077405",
+                "reference": "98c5b34f2b40fd04cf891052514f01f513077405",
                 "shasum": ""
             },
             "require": {
@@ -317,7 +317,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1351037624",
+            "time": "1351360877",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -807,12 +807,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "d7a02b5433127fb580e29afa4c5ead2e12c7b76e"
+                "reference": "968197367644bf4612e0e7ff2560484cf6ac5bf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/d7a02b5433127fb580e29afa4c5ead2e12c7b76e",
-                "reference": "d7a02b5433127fb580e29afa4c5ead2e12c7b76e",
+                "url": "https://github.com/symfony/symfony/zipball/968197367644bf4612e0e7ff2560484cf6ac5bf9",
+                "reference": "968197367644bf4612e0e7ff2560484cf6ac5bf9",
                 "shasum": ""
             },
             "require": {
@@ -864,7 +864,7 @@
             "suggest": {
                 "doctrine/data-fixtures": "1.0.*"
             },
-            "time": "1351345698",
+            "time": "1351415994",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -997,7 +997,129 @@
             ]
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "alexandresalome/php-webdriver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexandresalome/php-webdriver",
+                "reference": "e547e11a40dc60414930e678dff5de7b57df5098"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/alexandresalome/php-webdriver/zipball/e547e11a40dc60414930e678dff5de7b57df5098",
+                "reference": "e547e11a40dc60414930e678dff5de7b57df5098",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "kriswallsmith/buzz": "dev-master"
+            },
+            "time": "1351117236",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "WebDriver": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Salomé",
+                    "email": "alexandre.salome@gmail.com",
+                    "homepage": "http://alexandre-salome.fr"
+                }
+            ],
+            "description": "WebDriver client for PHP"
+        },
+        {
+            "name": "behat/behat",
+            "version": "dev-custom",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Behat.git",
+                "reference": "develop"
+            },
+            "bin": [
+                "bin/behat"
+            ],
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Behat": "src/"
+                }
+            }
+        },
+        {
+            "name": "behat/gherkin",
+            "version": "dev-custom",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Gherkin.git",
+                "reference": "develop"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Gherkin": "src/"
+                }
+            }
+        },
+        {
+            "name": "kriswallsmith/buzz",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "http://github.com/kriswallsmith/Buzz.git",
+                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/kriswallsmith/Buzz/zipball/988bf14201ffbed940f23b42f87302e6adec4c21",
+                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "time": "1345206213",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
+            ]
+        }
+    ],
     "aliases": [
 
     ],
@@ -1012,6 +1134,9 @@
         "symfony/monolog-bundle": 20,
         "sensio/distribution-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
-        "gitonomy/gitlib": 20
+        "gitonomy/gitlib": 20,
+        "behat/behat": 20,
+        "behat/gherkin": 20,
+        "alexandresalome/php-webdriver": 20
     }
 }
