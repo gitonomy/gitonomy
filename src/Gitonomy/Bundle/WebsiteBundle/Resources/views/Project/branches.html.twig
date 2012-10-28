@@ -1,20 +1,38 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - Branches' %}
+{% block title app.request.attributes.get('slug') ~ ' - Tags' %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'branches' %}
 
 {% block project_content %}
-    <h2>Branches</h2>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
+    <div id="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last commit</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for branch in branches %}
+                    <tr>
+                        <td>{{ branch.name }}</td>
+                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: branch.commit.hash}) }}">{{ branch.commit.shortMessage }}</a></td>
+                        <td class="author">
+                            <img class="avatar" src="{{ gravatar(branch.commit.authorEmail, 16) }}" alt="{{ branch.commit.authorName }}" title="{{ branch.commit.authorName }}" />
+                            {{ branch.commit.authorName }}
+                        </td>
+                        <td>{{ branch.commit.authorDate.format('Y-m-d H:i:s') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">No Branches found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

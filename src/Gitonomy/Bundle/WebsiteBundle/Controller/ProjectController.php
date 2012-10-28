@@ -174,10 +174,17 @@ class ProjectController extends Controller
 
     public function branchesAction($slug)
     {
-        $project = $this->getProject($slug);
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $branches   = $repository->getReferences()->getBranches();
+
+        usort($branches, function($left, $right) {
+            return $left->getCommit()->getAuthorDate() < $right->getCommit()->getAuthorDate();
+        });
 
         return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
-            'project' => $project
+            'project'  => $project,
+            'branches' => $branches,
         ));
     }
 

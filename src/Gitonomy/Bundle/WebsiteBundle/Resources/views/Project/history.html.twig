@@ -45,8 +45,8 @@
                         </a>
                     </td>
                     <td class="author">
-                        {{ commit.authorName }}
                         <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        {{ commit.authorName }}
                     </td>
                 </tr>
             {% else %}
