@@ -7,12 +7,13 @@
 {% block content %}
     <h1>Create a new project</h1>
     <div id="content">
-        <form class="form-horizontal">
+    <form method="POST" action"{{ path('project_create') }}" class="form-horizontal" novalidate>
             <legend>Project informations</legend>
             {{ form_widget(form) }}
             <div class="control-group">
                 <div class="controls">
-                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> Create new project</button>
+                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> {{ 'form.submit'|trans }}</button>
+                    <a class="btn" href="{{ path('project_list') }}">{{ 'form.cancel'|trans }}</a>
                 </div>
             </div>
         </form>

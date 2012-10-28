@@ -2,13 +2,13 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
+
 class ProjectController extends Controller
 {
     public function listAction()
     {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->assertGranted('IS_AUTHENTICATED_REMEMBERED');
 
         $pool = $this->get('gitonomy_core.git.repository_pool');
 
@@ -25,11 +25,28 @@ class ProjectController extends Controller
 
     public function createAction()
     {
-        $form = $this->get('form.factory')->createNamedBuilder('project')
-            ->add('slug', 'text')
-            ->add('name', 'text')
-            ->getForm()
-        ;
+        $this->assertGranted('ROLE_PROJECT_CREATE');
+
+        $project = new Project();
+        $form    = $this->createForm('project', $project);
+        $request = $this->getRequest();
+
+        if ('GET' === $request->getMethod()) {
+            return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
+                'form' => $form->createView()
+            ));
+        }
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $this->persistEntity($project);
+            $this->setFlash('success', $this->trans('notice.success', array(), 'project_create'));
+
+            return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));
+        }
+
+        $this->setFlash('error', $this->trans('error.form_invalid', array(), 'register'));
 
         return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
             'form' => $form->createView()

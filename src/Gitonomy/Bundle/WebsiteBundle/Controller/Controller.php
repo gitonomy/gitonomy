@@ -34,6 +34,13 @@ class Controller extends BaseController
         return $this->get('security.context')->getToken()->getUser() instanceof User;
     }
 
+    protected function assertGranted($attributes, $object = null)
+    {
+        if (!$this->get('security.context')->isGranted($attributes, $object)) {
+            throw $this->createAccessDeniedException();
+        }
+    }
+
     protected function getRepository($name)
     {
         return $this->get('doctrine')->getEntityManager()->getRepository($name);

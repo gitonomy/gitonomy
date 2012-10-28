@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
+namespace Gitonomy\Bundle\WebsiteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -30,16 +30,12 @@ class ProjectType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
+            'action'     => 'create',
         ));
-    }
-
-    public function getParent()
-    {
-        return 'baseadmin';
     }
 
     public function getName()
     {
-        return 'adminproject';
+        return 'project';
     }
 }
