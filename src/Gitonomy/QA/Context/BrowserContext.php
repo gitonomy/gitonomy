@@ -4,29 +4,13 @@ namespace Gitonomy\QA\Context;
 
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\TableNode;
 
 use WebDriver\Browser;
+use WebDriver\By;
 
-class BrowserContext extends BehatContext
+class BrowserContext extends BaseBrowserContext
 {
-    protected $browser;
-    protected $baseUrl;
-
-    public function setBrowser(Browser $browser, $baseUrl)
-    {
-        $this->browser = $browser;
-        $this->baseUrl = preg_match('#/^$#', $baseUrl) ? $baseUrl : $baseUrl.'/';
-    }
-
-    public function getBrowser()
-    {
-        if (null === $this->browser) {
-            throw new \RuntimeException('Browser is missing');
-        }
-
-        return $this->browser;
-    }
-
     /**
      * @Given /^I am on "(.+)"$/
      */
@@ -44,7 +28,10 @@ class BrowserContext extends BehatContext
      */
     public function iShouldSeeATitle($text)
     {
-        throw new PendingException();
+        $title = $this->getBrowser()->getTitle();
+        if ($text !== $title) {
+            throw new \RuntimeException(sprintf('Expected title to be "%s", got "%s"', $text, $tile));
+        }
     }
 
     /**
@@ -52,7 +39,7 @@ class BrowserContext extends BehatContext
      */
     public function iClickOn($text)
     {
-        throw new PendingException();
+        $this->getBrowser()->element(By::xpath('//a[contains(text(), "'.$text.'")]|//button[contains(text(), "'.$text.'")]'))->click();
     }
 
     /**
@@ -60,7 +47,10 @@ class BrowserContext extends BehatContext
      */
     public function iShouldSee($text)
     {
-        throw new PendingException();
+        $all = $this->getBrowser()->element(By::tag('body'))->text();
+        if (false === strpos($all, $text)) {
+            throw new \RuntimeException('Unable to find "'.$text.'" in visible text :'."\n".$all);
+        }
     }
 
     /**
@@ -68,6 +58,19 @@ class BrowserContext extends BehatContext
      */
     public function iFill(TableNode $table)
     {
-        throw new PendingException();
+        foreach ($table->getRowsHash() as $key => $value) {
+            $this->iFillWith($key, $value);
+        }
+    }
+
+    /**
+     * @Then /^I fill "(.*)" with "(.*)"$/
+     */
+    public function iFillWith($field, $value)
+    {
+        $label = $this->getBrowser()->element(By::xpath('//label[contains(text(), "'.$field.'")]'));
+        $for = $label->attribute('for');
+        $input = $this->getBrowser()->element(By::id($for));
+        $input->value($value);
     }
 }

@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Behat\Behat\Context\Initializer\InitializerInterface;
 use Behat\Behat\Context\ContextInterface;
 
-use Gitonomy\QA\Context\BrowserContext;
+use Gitonomy\QA\Context\BrowserContextInterface;
 
 use WebDriver\Client as WebDriverClient;
 use WebDriver\Capabilities;
@@ -27,7 +27,7 @@ class BrowserAwareInitializer implements InitializerInterface, EventSubscriberIn
 
     public function supports(ContextInterface $context)
     {
-        return $context instanceof BrowserContext;
+        return $context instanceof BrowserContextInterface;
     }
 
     /**

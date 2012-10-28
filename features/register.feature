@@ -21,7 +21,7 @@ Feature: Register
             | Email | tomoto@pomo.com |
             | Timezone | Europe/Paris |
             | Password | haricoo |
-            | Password confirmation | haricoo |
+            | Confirm password | haricoo |
           And I click on "Register"
          Then I should see "You should have received a confirmation mail. Please read it to continue"
           And I should receive a mail with subject "Confirmation of your registration"
@@ -44,7 +44,7 @@ Feature: Register
             | Email | existing@example.org |
             | Timezone | Europe/Paris |
             | Password | haricoo |
-            | Password confirmation | haricoo |
+            | Confirm password | haricoo |
           And I click on "Register"
-         Then I should see "Roger, we have a problem with form"
+         Then I should see "Roger, we have a problem with your form"
           And I should see "This e-mail cannot be used"

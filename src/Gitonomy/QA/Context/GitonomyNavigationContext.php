@@ -2,10 +2,11 @@
 
 namespace Gitonomy\QA\Context;
 
-use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
 
-class GitonomyNavigationContext extends BehatContext
+use WebDriver\By;
+
+class GitonomyNavigationContext extends BaseBrowserContext
 {
     /**
      * @Given /^I am on a page with a menu$/
@@ -52,7 +53,7 @@ class GitonomyNavigationContext extends BehatContext
      */
     public function iShouldSeeARegisterForm()
     {
-        throw new PendingException();
+        $this->getBrowser()->element(By::xpath('//form//h2[contains(text(), "Register")]'));
     }
 
     /**

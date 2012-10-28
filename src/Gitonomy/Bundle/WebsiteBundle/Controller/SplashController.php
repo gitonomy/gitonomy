@@ -58,7 +58,7 @@ class SplashController extends Controller
 
         if ($form->isValid()) {
             $this->persistEntity($user);
-            $this->getSession->setFlash('success', $this->trans('notice.success', array(), 'register'));
+            $this->setFlash('success', $this->trans('notice.success', array(), 'register'));
 
             return $this->redirect($this->generateUrl('splash_login'));
         }
