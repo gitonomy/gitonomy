@@ -6,15 +6,30 @@
 {% set local_navigation = 'tags' %}
 
 {% block project_content %}
-    <h2>Tags</h2>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
+    <div id="content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last commit</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{ tag.name }}</td>
+                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: tag.commit.hash}) }}">{{ tag.commit.shortMessage }}</a></td>
+                        <td>{{ tag.commit.authorName }}</td>
+                        <td>{{ tag.commit.authorDate.format('Y-m-d H:i:s') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">No Tags found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

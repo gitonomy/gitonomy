@@ -61,7 +61,11 @@ class ProjectController extends Controller
 
     public function newsfeedAction($slug)
     {
-        return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig');
+        $project = $this->getProject($slug);
+
+        return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
+            'project' => $project,
+        ));
     }
 
     public function historyAction($slug, $reference = null, $path = null)
@@ -168,19 +172,29 @@ class ProjectController extends Controller
         return $this->render($tpl, $parameters);
     }
 
-    public function sourceAction($slug)
-    {
-        return $this->render('GitonomyWebsiteBundle:Project:source.html.twig');
-    }
-
     public function branchesAction($slug)
     {
-        return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig');
+        $project = $this->getProject($slug);
+
+        return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
+            'project' => $project
+        ));
     }
 
     public function tagsAction($slug)
     {
-        return $this->render('GitonomyWebsiteBundle:Project:tags.html.twig');
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $tags       = $repository->getReferences()->getTags();
+
+        usort($tags, function($left, $right) {
+            return $left->getCommit()->getAuthorDate() < $right->getCommit()->getAuthorDate();
+        });
+
+        return $this->render('GitonomyWebsiteBundle:Project:tags.html.twig', array(
+            'project' => $project,
+            'tags'    => $tags,
+        ));
     }
 
     /**

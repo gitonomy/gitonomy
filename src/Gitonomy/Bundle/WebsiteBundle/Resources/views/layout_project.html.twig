@@ -12,7 +12,7 @@
         <ul id="local-menu">
             <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>Newsfeed</a></li>
             <li><a href="{{ path('project_history', {slug: slug }) }}"{% if local_navigation == 'history' %} class="active"{% endif %}>History</a></li>
-            <li><a href="{{ path('project_source', {slug: slug }) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
+            <li><a href="{{ path('project_tree', {slug: project.slug, reference: reference|default(null)}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
             <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>Branches</a></li>
             <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>Tags</a></li>
         </ul>
