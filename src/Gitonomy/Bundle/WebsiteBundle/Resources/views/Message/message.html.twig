@@ -1,15 +1,16 @@
-<div class="thread-message">
-    <small class="time">
-        <span data-time="{{ message.publishedAt | date('U') }}">{{ message.publishedAt | date_relative }}</span>
-    </small>
+<div class="news">
     <div class="account-group">
         {% spaceless %}
-            <a href="{{ path('gitonomyfrontend_user_show', {'username': message.user.username}) }}">
+            <a href="{{ path('user_show', {'username': message.user.username}) }}">
                 <img class="avatar" src="{{ gravatar(message.user.defaultEmail.email, 16) }}" alt="{{ message.user.fullname }}" title="{{ message.user.fullname }}" />
                 <b>{{ message.user.fullname }}</b>
             </a>
         {% endspaceless %}
         {% block sentence '' %}
     </div>
+    <div class="ref">@{{ message.feed.reference }}</div>
     <div class="message">{% block message '' %}</div>
+    <div class="time">
+        <span data-time="{{ message.publishedAt | date('U') }}">{{ message.publishedAt.format('r') }}</span>
+    </div>
 </div>

@@ -62,10 +62,16 @@ class ProjectController extends Controller
 
     public function newsfeedAction($slug)
     {
-        $project = $this->getProject($slug);
+        $reference  = $this->getRequest()->query->get('reference');
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
-            'project' => $project,
+            'project'    => $project,
+            'messages'   => $messages,
+            'repository' => $repository,
+            'reference'  => $reference,
         ));
     }
 

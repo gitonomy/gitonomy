@@ -4,6 +4,9 @@ _splash:
 _project:
     resource: "@GitonomyWebsiteBundle/Resources/config/routing/project.yml"
 
+_user:
+    resource: "@GitonomyWebsiteBundle/Resources/config/routing/user.yml"
+
 administration_dashboard:
     pattern: /admin
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:dashboard" }

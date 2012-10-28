@@ -1,0 +1,3 @@
+user_show:
+    pattern: /user/{username}
+    defaults: { _controller: "GitonomyWebsiteBundle:User:show" }

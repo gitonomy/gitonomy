@@ -1,11 +1,24 @@
+$orange: #ff8821
+$lightgrey: #efefef
+$cell: 50px
+
 .newsfeed
     overflow: hidden
 
     > .news
         float: left
         width: 400px
-        margin: 2px
-        background-color: #eeeeee
+        margin: 10px
+        border: 1px solid $lightgrey
+
+        div
+            padding: 0 5px
 
         &.small-news
             width: 200px
+
+        .ref , .time
+            font-size: 0.7em
+
+        .time
+            border-top: 1px solid $lightgrey

@@ -6,6 +6,7 @@
     <entity
         table="message"
         name="Gitonomy\Bundle\CoreBundle\Entity\Message"
+        repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\MessageRepository"
         inheritance-type="JOINED"
     >
         <id name="id" type="integer" column="id">

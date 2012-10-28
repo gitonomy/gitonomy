@@ -1,4 +1,4 @@
-{% extends "GitonomyFrontendBundle:Message:message.html.twig" %}
+{% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
 {% block sentence %}
     {% set count = message.commitCount %}
@@ -17,12 +17,11 @@
                 {% for commit in message.commits %}
                     <tr>
                         <td class="message">
-                            <a title="{{ commit.message }}" href="{{ path('gitonomyfrontend_project_showCommit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
                                 {{ commit.shortMessage }}
                             </a>
                         </td>
                         <td class="author">
-                            {{ commit.authorName }}
                             <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
                         </td>
                     </tr>
