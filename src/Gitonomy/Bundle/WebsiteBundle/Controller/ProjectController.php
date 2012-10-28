@@ -66,9 +66,11 @@ class ProjectController extends Controller
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
         $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
+        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
             'project'    => $project,
+            'branches'   => $branches,
             'messages'   => $messages,
             'repository' => $repository,
             'reference'  => $reference,
