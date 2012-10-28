@@ -6,6 +6,14 @@ project_create:
     pattern: /create-project
     defaults: { _controller: "GitonomyWebsiteBundle:Project:create" }
 
+project_newsfeed:
+    pattern: /projects/{slug}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
+
+project_history:
+    pattern: /projects/{slug}/history
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
+
 project_source:
     pattern: /projects/{slug}/source
     defaults: { _controller: "GitonomyWebsiteBundle:Project:source" }
@@ -18,24 +26,16 @@ project_tags:
     pattern: /projects/{slug}/tags
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
 
-project_history:
-    pattern: /projects/{slug}/history
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
-
 project_commit:
     pattern: /projects/{slug}/commits/{hash}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:commit" }
 
 project_tree:
     pattern: /projects/{slug}/tree/{reference}/{path}
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "", reference: "master" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
     requirements: { path: ".*" }
 
 project_tree_history:
     pattern: /projects/{slug}/tree-history/{reference}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
     requirements: { path: ".*" }
-
-project_newsfeed:
-    pattern: /projects/{slug}
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
