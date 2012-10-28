@@ -5,16 +5,138 @@
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'history' %}
 
+{% macro pager(pager, reference) %}
+    {% if pager.pageCount > 1 %}
+        <div class="pagination">
+            <ul>
+                <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
+                    <a title="Previous page of commits" href="?page=1">«</a>
+                </li>
+                {% set lastPage = pager.lastPage %}
+                {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
+                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
+                {% endfor %}
+                <li{% if pager.isLastPage %} class="disabled"{% endif %}>
+                    <a href="?page={{ pager.pageCount }}{% if reference %}&reference={{ reference }}{% endif %}">»</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% set history_reference = reference %}
+{% if reference == null %}
+    {% set reference = "master" %}
+{% endif %}
+
 {% block project_content %}
-    <h2>History</h2>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
+    {% set results = pager.results %}
+    <div id="history" class="history-graph"></div>
+    <table class="table table-condensed commit-list">
+        <tbody>
+            {% for i, commit in results %}
+                <tr>
+                    <td class="message">
+                        {% for branch in data[i].branches %}
+                            <span class="label">{{ branch }}</span>
+                        {% endfor %}
+                        <a title="{{ commit.message }}" href="{{ path('project_commit_show', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            {{ commit.shortMessage }}
+                        </a>
+                    </td>
+                    <td class="author">
+                        {{ commit.authorName }}
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No commit to see here</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ _self.pager(pager, history_reference) }}
+{% endblock %}
+
+{% block before_body_end %}
+    <script>
+        var data = {{ data|json_encode|raw }};
+
+        var height = $("table.commit-list").height(),
+            cell_size = height / (data.length - 1),
+            width  = height/2,
+            cell_width = Math.floor(width/cell_size)
+        ;
+
+        var familyColor = d3.scale.category20();
+
+        var xAxis = d3.scale.linear()
+            .domain([0, cell_width])
+            .range([width - cell_size/2, cell_size/2])
+        ;
+
+        var yAxis = d3.scale.linear()
+            .domain([0, data.length])
+            .range([cell_size/2, height + cell_size/2])
+        ;
+
+        var history = d3.select("#history")
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+        ;
+
+        place_graph($(".history-graph"), $("table.commit-list"));
+
+        var graph = history_graph(data);
+
+        var commits = history
+            .selectAll('circle')
+            .data(graph.nodes)
+        ;
+
+        var links = history
+            .selectAll('path')
+            .data(graph.links)
+        ;
+
+        var commit_line = d3.svg.line()
+            .x(function (d) {
+                return xAxis(d.x);
+            })
+            .y(function (d) {
+                return yAxis(d.y);
+            })
+        ;
+
+
+        links.enter()
+            .append('path')
+            .attr('d', commit_line)
+            .style('stroke-linecap', 'round')
+            .style('stroke', function (path) {
+                return familyColor(path[0].family);
+            })
+            .style('stroke-width', '6')
+            .attr('radius', 0.1)
+            .style('fill', 'none')
+        ;
+
+        var g = commits.enter().append('g');
+
+        g.append('circle')
+            .attr('cx', function (node) {
+                return xAxis(node.x);
+            })
+            .attr('cy', function (node) {
+                return yAxis(node.y);
+            })
+            .attr('r', 4)
+            .attr('fill', 'white')
+            .style('stroke', 'black')
+            .style('stroke-width', '2')
+        ;
+
+    </script>
 {% endblock %}

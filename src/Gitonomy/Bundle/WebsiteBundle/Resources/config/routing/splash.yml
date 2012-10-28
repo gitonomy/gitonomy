@@ -1,0 +1,41 @@
+splash_login:
+    pattern: /login
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:login" }
+
+splash_loginCheck:
+    pattern: /login-check
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:loginCheck" }
+
+splash_logout:
+    pattern: /logout
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:logout" }
+
+splash_register:
+    pattern: /register
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:register" }
+    requirements: { _method: GET }
+
+splash_postRegister:
+    pattern: /register
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postRegister" }
+    requirements: { _method: POST }
+
+splash_forgotPassword:
+    pattern: /forgot-password
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:forgotPassword"}
+    requirements: { _method: GET }
+
+splash_postForgotPassword:
+    pattern: /forgot-password
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postForgotPassword"}
+    requirements: { _method: POST }
+
+splash_changePassword:
+    pattern: /forgot-password/{username}/{token}
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:changePassword"}
+    requirements: { _method: GET }
+
+splash_postChangePassword:
+    pattern: /forgot-password/{username}/{token}
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postChangePassword"}
+    requirements: { _method: POST }

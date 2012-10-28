@@ -1,0 +1,31 @@
+project_list:
+    pattern: /
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:list" }
+
+project_create:
+    pattern: /create-project
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:create" }
+
+project_newsfeed:
+    pattern: /projects/{slug}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
+
+project_history:
+    pattern: /projects/{slug}/history
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
+
+project_source:
+    pattern: /projects/{slug}/source
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:source" }
+
+project_branches:
+    pattern: /projects/{slug}/branches
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:branches" }
+
+project_tags:
+    pattern: /projects/{slug}/tags
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
+
+project_commit_show:
+    pattern: /projects/{slug}/commits/{hash}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }

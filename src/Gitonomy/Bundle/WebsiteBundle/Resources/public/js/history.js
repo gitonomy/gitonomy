@@ -163,10 +163,6 @@ var callback_registered = false;
 
 function place_graph($history, $table) {
     var offset = $table.offset();
-    $history.offset({
-        top:  offset.top,
-        left: 0
-    });
     $history.width(offset.left);
 
     if (!callback_registered) {

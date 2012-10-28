@@ -1,72 +1,8 @@
-splash_login:
-    pattern: /login
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:login" }
+_splash:
+    resource: "@GitonomyWebsiteBundle/Resources/config/routing/splash.yml"
 
-splash_loginCheck:
-    pattern: /login-check
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:loginCheck" }
-
-splash_logout:
-    pattern: /logout
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:logout" }
-
-splash_register:
-    pattern: /register
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:register" }
-    requirements: { _method: GET }
-
-splash_postRegister:
-    pattern: /register
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postRegister" }
-    requirements: { _method: POST }
-
-splash_forgotPassword:
-    pattern: /forgot-password
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:forgotPassword"}
-    requirements: { _method: GET }
-
-splash_postForgotPassword:
-    pattern: /forgot-password
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postForgotPassword"}
-    requirements: { _method: POST }
-
-splash_changePassword:
-    pattern: /forgot-password/{username}/{token}
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:changePassword"}
-    requirements: { _method: GET }
-
-splash_postChangePassword:
-    pattern: /forgot-password/{username}/{token}
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:postChangePassword"}
-    requirements: { _method: POST }
-
-project_list:
-    pattern: /
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:list" }
-
-project_create:
-    pattern: /create-project
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:create" }
-
-project_newsfeed:
-    pattern: /projects/{slug}
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
-
-project_history:
-    pattern: /projects/{slug}/history
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
-
-project_source:
-    pattern: /projects/{slug}/source
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:source" }
-
-project_branches:
-    pattern: /projects/{slug}/branches
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:branches" }
-
-project_tags:
-    pattern: /projects/{slug}/tags
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
+_project:
+    resource: "@GitonomyWebsiteBundle/Resources/config/routing/project.yml"
 
 administration_dashboard:
     pattern: /admin

@@ -216,17 +216,6 @@ class ProjectController extends BaseController
     }
 
     /**
-     * @return Repository
-     */
-    protected function getGitRepository(Project $project)
-    {
-        return $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-        ;
-    }
-
-    /**
      * @return Project
      */
     protected function getProject($slug)

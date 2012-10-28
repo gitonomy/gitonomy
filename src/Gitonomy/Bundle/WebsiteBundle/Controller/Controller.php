@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class Controller extends BaseController
@@ -46,6 +47,17 @@ class Controller extends BaseController
         return $this->get('doctrine')->getEntityManager()->getRepository($name);
     }
 
+    /**
+     * @return Repository
+     */
+    protected function getGitRepository(Project $project)
+    {
+        return $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
+        ;
+    }
+
     protected function persistEntity($entity)
     {
         $em = $this->get('doctrine')->getEntityManager();
@@ -53,8 +65,8 @@ class Controller extends BaseController
         $em->flush();
     }
 
-    protected function createAccessDeniedException()
+    protected function createAccessDeniedException($message = null)
     {
-        return new AccessDeniedException();
+        return new AccessDeniedException($message);
     }
 }

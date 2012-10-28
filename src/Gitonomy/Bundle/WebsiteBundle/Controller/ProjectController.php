@@ -3,6 +3,9 @@
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Component\Pagination\Pager;
+use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
+use Gitonomy\Git\Reference;
 
 class ProjectController extends Controller
 {
@@ -58,9 +61,46 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig');
     }
 
-    public function historyAction($slug)
+    public function historyAction($slug, $reference = null, $path = null)
     {
-        return $this->render('GitonomyWebsiteBundle:Project:history.html.twig');
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $request    = $this->getRequest();
+        $reference  = $request->query->get('reference');
+        $log        = $repository->getLog($reference);
+
+        $pager = new Pager(new GitLogAdapter($log));
+        $pager->setPerPage(50);
+        $pager->setPage($page = $request->query->get('page', 1));
+
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+
+        $references = $repository->getReferences();
+        $referenceName = function (Reference $reference) {
+            return $reference->getName();
+        };
+
+        $convert = function ($commit) use ($references, $referenceName) {
+            return array(
+                'hash'          => $commit->getHash(),
+                'short_message' => $commit->getShortMessage(),
+                'parents'       => $commit->getParentHashes(),
+                'tags'          => array_map($referenceName, $references->resolveTags($commit)),
+                'branches'      => array_map($referenceName, $references->resolveBranches($commit)),
+            );
+        };
+
+        return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
+            'project'    => $project,
+            'reference'  => $reference,
+            'repository' => $repository,
+            'pager'      => $pager,
+            'data'       => array_map($convert, (array) $pager->getResults()),
+            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path),
+        ));
     }
 
     public function sourceAction($slug)
@@ -76,5 +116,24 @@ class ProjectController extends Controller
     public function tagsAction($slug)
     {
         return $this->render('GitonomyWebsiteBundle:Project:tags.html.twig');
+    }
+
+    /**
+     * @return Project
+     */
+    protected function getProject($slug)
+    {
+        $user = $this->getUser();
+
+        $project = $this->getDoctrine()->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
+        if (null === $project) {
+            throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
+        }
+
+        if (!$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)) {
+            throw $this->createAccessDeniedException('You are not contributor of the project');
+        }
+
+        return $project;
     }
 }

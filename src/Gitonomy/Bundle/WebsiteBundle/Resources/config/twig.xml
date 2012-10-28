@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="gitonomy_website.twig.gitonomy.class">Gitonomy\Bundle\WebsiteBundle\Twig\GitonomyExtension</parameter>
+    </parameters>
+    <services>
+        <service id="gitonomy_website.twig.gitonomy" class="%gitonomy_website.twig.gitonomy.class%">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+
+</container>

@@ -7,7 +7,7 @@
         <ul id="global-menu">
             <li>
                 <a href="#" onClick="$('#global-menu').toggleClass('active'); return false;">
-                    <div class="icon"><img src="{{ app.user.avatar }}" /></div>
+                    <div class="icon"><img src="{{ gravatar(app.user.defaultEmail.email, 50) }}" /></div>
                     <div class="text">{{ app.user.fullname }}</div>
                 </a>
             </li>

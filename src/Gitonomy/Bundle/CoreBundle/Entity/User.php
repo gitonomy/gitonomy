@@ -318,11 +318,4 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
-
-    public function getAvatar($size = 50)
-    {
-        $email = $this->getDefaultEmail()->getEmail();
-
-        return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size.'&d='.urlencode('https://twimg0-a.akamaihd.net/profile_images/2607009547/ul0ipa013nmkvm0s6sy4.png');
-    }
 }
