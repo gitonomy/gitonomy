@@ -73,7 +73,7 @@
     {{ _self.pager(pager, reference) }}
 {% endblock %}
 
-{% block before_body_end %}
+{% block javascript_content %}
     <script>
         var data = {{ data|json_encode|raw }};
 

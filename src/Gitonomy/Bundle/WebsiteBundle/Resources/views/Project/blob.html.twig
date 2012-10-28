@@ -16,7 +16,7 @@
     </form>
 {% endblock %}
 
-{% block before_body_end %}
+{% block javascript_content %}
     <script type="text/javascript">
         CodeMirror.modeURL = "{{ asset('bundles/gitonomywebsite/vendor/codemirror/mode/%N/%N.js') }}";
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
