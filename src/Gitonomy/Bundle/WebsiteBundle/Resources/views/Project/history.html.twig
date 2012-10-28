@@ -24,46 +24,45 @@
     {% endif %}
 {% endmacro %}
 
-{% set history_reference = reference %}
-{% if reference == null %}
-    {% set reference = "master" %}
-{% endif %}
-
 {% block project_content %}
     {% set results = pager.results %}
-    <div id="history" class="history-graph"></div>
-    <table class="table table-condensed commit-list">
-        <tbody>
-            {% for i, commit in results %}
-                <tr>
-                    <td class="message">
-                        {% for branch in data[i].branches %}
-                            <span class="label">{{ branch }}</span>
-                        {% endfor %}
-                        <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                            {{ commit.shortMessage }}
-                        </a>
-                    </td>
-                    <td class="author">
-                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
-                        {{ commit.authorName }}
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td>No commit to see here</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {{ _self.pager(pager, history_reference) }}
+
+    {{ _self.pager(pager, reference) }}
+    <div id="history"></div>
+    <div id="history-commits-container">
+        <table id="history-commits" class="table table-condensed commit-list">
+            <tbody>
+                {% for i, commit in results %}
+                    <tr>
+                        <td class="message">
+                            {% for branch in data[i].branches %}
+                                <span class="label">{{ branch }}</span>
+                            {% endfor %}
+                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                                {{ commit.shortMessage }}
+                            </a>
+                        </td>
+                        <td class="author">
+                            <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                            {{ commit.authorName }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>No commit to see here</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ _self.pager(pager, reference) }}
 {% endblock %}
 
 {% block before_body_end %}
     <script>
         var data = {{ data|json_encode|raw }};
 
-        var height = $("table.commit-list").height(),
+        var height = $("#history-commits").height(),
             cell_size = height / (data.length - 1),
             width  = height/2,
             cell_width = Math.floor(width/cell_size)
@@ -87,7 +86,7 @@
             .attr('height', height)
         ;
 
-        place_graph($(".history-graph"), $("table.commit-list"));
+        place_graph($("#history"), $("#history-commits"));
 
         var graph = history_graph(data);
 
