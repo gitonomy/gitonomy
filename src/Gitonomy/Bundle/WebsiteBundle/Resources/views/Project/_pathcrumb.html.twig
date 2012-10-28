@@ -1,18 +1,19 @@
 {% if path != "" %}
     {% set path_record = "" %}
-    <ul class="pathcrumb">
-        {% for segment in path_exploded %}
-            {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
-            <li{% if loop.last %} class="active"{% endif %}>
-                {% if not loop.last %}
-                    <a href="{{ path('project_tree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
-                    <span class="divider">/</span>
-                {% else %}
-                    {{ segment }}
-                {% endif %}
-            </li>
-        {% endfor %}
-        <li class="pull-right">
+    <div class="actionbar">
+        <div class="btn-group pull-right">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                {{ reference|default(project.defaultBranch) }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                {% for branch in branches %}
+                    <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name, path: path }) }}">{{ branch.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="pull-right">
             {% if active != 'show' %}
                 <a class="btn btn-info" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
                     Show
@@ -23,6 +24,34 @@
                     History
                 </a>
             {% endif %}
-        </li>
-    </ul>
+        </div>
+
+        <ul class="pathcrumb">
+            {% for segment in path_exploded %}
+                {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
+                <li{% if loop.last %} class="active"{% endif %}>
+                    {% if not loop.last %}
+                        <a href="{{ path('project_tree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
+                        <span class="divider">/</span>
+                    {% else %}
+                        {{ segment }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <div class="actionbar">
+        <div class="btn-group pull-right">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                {{ reference|default(project.defaultBranch) }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                {% for branch in branches %}
+                    <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endif %}

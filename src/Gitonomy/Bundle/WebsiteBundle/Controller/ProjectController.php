@@ -84,6 +84,7 @@ class ProjectController extends Controller
         $request    = $this->getRequest();
         $reference  = $request->query->get('reference');
         $log        = $repository->getLog($reference);
+        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
 
         $pager = new Pager(new GitLogAdapter($log));
         $pager->setPerPage(50);
@@ -116,6 +117,7 @@ class ProjectController extends Controller
             'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
             'path_exploded' => explode('/', $path),
+            'branches'      => $branches,
         ));
     }
 
@@ -143,6 +145,7 @@ class ProjectController extends Controller
     {
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
+        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
 
         $revision = $repository->getRevision($reference);
         $commit = $revision->getResolved();
@@ -167,7 +170,8 @@ class ProjectController extends Controller
             'repository'    => $repository,
             'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
-            'path_exploded' => explode('/', $path)
+            'path_exploded' => explode('/', $path),
+            'branches'      => $branches,
         );
 
         if ($element instanceof Blob) {
@@ -222,6 +226,7 @@ class ProjectController extends Controller
         $repository = $this->getGitRepository($project);
         $branch     = $repository->getReferences()->getBranch($reference);
         $log        = $repository->getLog($branch->getCommitHash(), $path);
+        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
 
         $pager = new Pager(new GitLogAdapter($log));
         $pager->setPerPage(50);
@@ -236,7 +241,8 @@ class ProjectController extends Controller
             'path'          => $path,
             'path_exploded' => explode('/', $path),
             'page'          => $page,
-            'pager'         => $pager
+            'pager'         => $pager,
+            'branches'      => $branches,
         ));
     }
 

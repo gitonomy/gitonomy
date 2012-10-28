@@ -27,7 +27,22 @@
 {% block project_content %}
     {% set results = pager.results %}
 
-    {{ _self.pager(pager, reference) }}
+    <div class="actionbar">
+        <div class="btn-group branch">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                {{ reference|default('All') }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                {% for branch in branches %}
+                    <li><a href="{{ path('project_history', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>
+                {% endfor %}
+                <li class="divider"></li>
+                <li><a href="{{ path('project_history', { slug: project.slug }) }}">All</a></li>
+            </ul>
+        </div>
+    </div>
+
     <div id="history"></div>
     <div id="history-commits-container">
         <table id="history-commits" class="table table-condensed commit-list">
