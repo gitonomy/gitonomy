@@ -161,13 +161,15 @@ function history_graph(commits) {
 
 var callback_registered = false;
 
-function place_graph($history, $table) {
-    var offset = $table.offset();
-    $history.width(offset.left);
+function place_graph($history, $table, $wrapper) {
+    var offset  = $table.offset();
+    var offsetB = $wrapper.offset();
+    $history.width(offset.left - offsetB.left);
+    $history.offset({left: offsetB.left});
 
     if (!callback_registered) {
         $(window).resize(function() {
-            place_graph($history, $table);
+            place_graph($history, $table, $wrapper);
         });
         callback_registered = true;
     }
