@@ -41,7 +41,7 @@ splash_postChangePassword:
     requirements: { _method: POST }
 
 project_list:
-    pattern: /projects
+    pattern: /
     defaults: { _controller: "GitonomyWebsiteBundle:Project:list" }
 
 project_create:

@@ -6,7 +6,21 @@ class ProjectController extends Controller
 {
     public function listAction()
     {
-        return $this->render('GitonomyWebsiteBundle:Project:list.html.twig');
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $pool = $this->get('gitonomy_core.git.repository_pool');
+
+        $entities = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
+        $projects = array();
+        foreach ($entities as $entity) {
+            $projects[] = array($entity, $pool->getGitRepository($entity));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Project:list.html.twig', array(
+            'projects' => $projects
+        ));
     }
 
     public function createAction()

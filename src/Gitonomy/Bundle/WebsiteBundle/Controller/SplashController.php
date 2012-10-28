@@ -21,7 +21,7 @@ class SplashController extends Controller
 
         $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
         if ($error) {
-            $request->getSession()->setFlash('error', $this->trans('error.form_invalid', array(), 'login'));
+            $this->setFlash('error', $this->trans('error.form_invalid', array(), 'login'));
             $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
@@ -58,7 +58,7 @@ class SplashController extends Controller
 
         if ($form->isValid()) {
             $this->persistEntity($user);
-            $this->get('session')->setFlash('success', $this->trans('notice.success', array(), 'register'));
+            $this->getSession->setFlash('success', $this->trans('notice.success', array(), 'register'));
 
             return $this->redirect($this->generateUrl('splash_login'));
         }

@@ -5,7 +5,7 @@
 {% block title 'page.title'|trans %}
 
 {% block content %}
-    <form method="POST" action"{{ path('splash_postRegister') }}" class="form-horizontal">
+    <form method="POST" action"{{ path('splash_postRegister') }}" class="form-horizontal" novalidate>
         <div class="control-group">
             <div class="controls">
                 <h2>{{ 'title.register'|trans }}</h2>

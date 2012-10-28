@@ -11,20 +11,23 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Access</th>
                     <th>Size</th>
-                    <th>Users</th>
+                    <th>Branches</th>
+                    <th>Tags</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in 1..400 %}
+                {% for project in projects %}
                     <tr>
-                        <td><a href="{{ path('project_newsfeed', {slug: 'gitonomy'}) }}">Gitonomy</a></td>
-                        <td>12 MB</td>
-                        <td>14 users</td>
-                        <td><button class="btn"><i class="symbol">dropdown</i></button></td>
+                        <td><a href="{{ path('project_newsfeed', {slug: project[0].slug}) }}">{{ project[0].name }}</a></td>
+                        <td><code>git clone {{ gitonomy.ssh_access~':'~project[0].slug~'.git' }}</code></td>
+                        <td>{{ '%.2f'|format(project[0].repositorySize/1024) }} Mo</td>
+                        <td>{{ project[1].references.branches|length }}</td>
+                        <td>{{ project[1].references.tags|length }}</td>
                     </tr>
-                    {% else %}
+                {% else %}
                     <tr>
                         <td colspan="4">No project found</td>
                     </tr>

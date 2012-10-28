@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
@@ -43,5 +44,10 @@ class Controller extends BaseController
         $em = $this->get('doctrine')->getEntityManager();
         $em->persist($entity);
         $em->flush();
+    }
+
+    protected function createAccessDeniedException()
+    {
+        return new AccessDeniedException();
     }
 }
