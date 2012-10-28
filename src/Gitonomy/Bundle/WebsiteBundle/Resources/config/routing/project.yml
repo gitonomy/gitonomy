@@ -26,10 +26,16 @@ project_tags:
     pattern: /projects/{slug}/tags
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
 
-project_commit_show:
+project_commit:
     pattern: /projects/{slug}/commits/{hash}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:commit" }
 
 project_tree:
-    pattern: /projects/{slug}/tree
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree" }
+    pattern: /projects/{slug}/tree/{reference}/{path}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
+    requirements: { path: ".*" }
+
+project_tree_history:
+    pattern: /projects/{slug}/tree-history/{reference}/{path}
+    defaults: { _controller: "GitonomyFrontendBundle:Project:showTreeHistory", path: "" }
+    requirements: { path: ".*" }

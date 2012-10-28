@@ -2,10 +2,13 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
+use Gitonomy\Git\Blob;
+use Gitonomy\Git\Tree;
+use Gitonomy\Git\Reference;
+
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
-use Gitonomy\Git\Reference;
 
 class ProjectController extends Controller
 {
@@ -118,6 +121,51 @@ class ProjectController extends Controller
             'reference'  => $project->getDefaultBranch(),
             'commit'     => $commit
         ));
+    }
+
+    /**
+     * Displays tree
+     */
+    public function treeAction($slug, $reference, $path)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+
+        $revision = $repository->getRevision($reference);
+        $commit = $revision->getResolved();
+        if ($repository->getReferences()->hasBranch($reference)) {
+            $branch = $reference;
+        } else {
+            $branch = $project->getDefaultBranch();
+        }
+
+        $tree = $commit->getTree();
+        if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
+            $path = substr($path, 1);
+        }
+
+        $element = $tree->resolvePath($path);
+
+        $parameters = array(
+            'reference'     => $reference,
+            'branch'        => $branch,
+            'commit'        => $commit,
+            'project'       => $project,
+            'repository'    => $repository,
+            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path)
+        );
+
+        if ($element instanceof Blob) {
+            $parameters['blob'] = $element;
+            $tpl = 'GitonomyWebsiteBundle:Project:blob.html.twig';
+        } elseif ($element instanceof Tree) {
+            $parameters['tree'] = $element;
+            $tpl = 'GitonomyWebsiteBundle:Project:tree.html.twig';
+        }
+
+        return $this->render($tpl, $parameters);
     }
 
     public function sourceAction($slug)

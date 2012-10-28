@@ -1,0 +1,32 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - History' %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'source' %}
+{% set mode = codemirror_mode(path) %}
+
+{% block project_content %}
+    {% set diff = commit.diff %}
+
+    <h1>Source {{ path }}</h1>
+
+    <form id="code-wrapper" class="cm-s-lesser-elegant">
+        <textarea id="code" name="code">{{ blob.content }}</textarea>
+    </form>
+{% endblock %}
+
+{% block before_body_end %}
+    <script type="text/javascript">
+        CodeMirror.modeURL = "{{ asset('bundles/gitonomywebsite/codemirror/mode/%N/%N.js') }}";
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            readOnly: true,
+            lineNumberFormatter: function(ln) {
+                return '<a name="L'+ ln +'"></a><a href="#L'+ ln +'">'+ ln +'</a>';
+            }
+        });
+        editor.setOption("mode", '{{ mode }}');
+        CodeMirror.autoLoadMode(editor, '{{ mode }}');
+    </script>
+{% endblock %}

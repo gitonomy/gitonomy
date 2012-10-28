@@ -40,7 +40,7 @@
                         {% for branch in data[i].branches %}
                             <span class="label">{{ branch }}</span>
                         {% endfor %}
-                        <a title="{{ commit.message }}" href="{{ path('project_commit_show', {'slug': project.slug, 'hash': commit.hash }) }}">
+                        <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
                             {{ commit.shortMessage }}
                         </a>
                     </td>

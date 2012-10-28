@@ -30,7 +30,15 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'gravatar' => new \Twig_Function_Method($this, 'getGravatar'),
+            'gravatar'        => new \Twig_Function_Method($this, 'getGravatar'),
+            'codemirror_mode' => new \Twig_Function_Method($this, 'getCodemirrorMode'),
+        );
+    }
+
+    public function getTests()
+    {
+        return array(
+            'git_tree'     => new \Twig_Test_Method($this, 'isGitTree'),
         );
     }
 
@@ -46,5 +54,32 @@ class GitonomyExtension extends \Twig_Extension
         }
 
         return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
+    }
+
+    public function isGitTree($tree)
+    {
+        return $tree instanceof Tree;
+    }
+
+    public function getCodemirrorMode($path)
+    {
+        switch (true) {
+            case preg_match('#\.sh$#', $path):
+                return 'shell';
+            case preg_match('#\.json$#', $path):
+                return 'javascript';
+            case preg_match('#\.md$#', $path):
+                return 'markdown';
+            case preg_match('#\.xml$#', $path):
+                return 'xml';
+            case preg_match('#\.(yml|yaml)$#', $path):
+                return 'yaml';
+            case preg_match('#\.(php|php5|phtml)$#', $path):
+                return 'php';
+            case preg_match('#\.html(\.twig)?$#', $path):
+                return 'htmlmixed';
+            default:
+                return 'text';
+        }
     }
 }
