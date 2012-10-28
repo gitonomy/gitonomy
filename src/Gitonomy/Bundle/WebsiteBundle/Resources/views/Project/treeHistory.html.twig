@@ -1,0 +1,57 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - Tree history' %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'source' %}
+
+{% macro pager(pager) %}
+    {% if pager.pageCount > 1 %}
+        <div class="pagination">
+            <ul>
+                <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
+                    <a title="Previous page of commits" href="?page=1">«</a>
+                </li>
+                {% set lastPage = pager.lastPage %}
+                {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
+                    <li{% if curPage == pager.page %} class="active"{% endif %}>
+                        <a href="?page={{ curPage }}" title="Go to page of commits number {{ curPage }}">
+                            {{ curPage }}
+                        </a>
+                    </li>
+                {% endfor %}
+                <li{% if pager.isLastPage %} class="disabled"{% endif %}>
+                    <a href="?page={{ pager.pageCount }}">»</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% block project_content %}
+    {% set results = pager.results %}
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'history'} %}
+    {{ _self.pager(pager) }}
+    <table class="table table-condensed commit-list">
+        <tbody>
+            {% for i, commit in results %}
+                <tr>
+                    <td class="message">
+                        <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            {{ commit.shortMessage }}
+                        </a>
+                    </td>
+                    <td class="author">
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        {{ commit.authorName }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No commit to see here</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ _self.pager(pager) }}
+{% endblock %}

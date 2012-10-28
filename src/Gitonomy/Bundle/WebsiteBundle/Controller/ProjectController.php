@@ -5,6 +5,7 @@ namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 use Gitonomy\Git\Blob;
 use Gitonomy\Git\Tree;
 use Gitonomy\Git\Reference;
+use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Component\Pagination\Pager;
@@ -201,6 +202,33 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:tags.html.twig', array(
             'project' => $project,
             'tags'    => $tags,
+        ));
+    }
+
+    /**
+     * Displays tree history.
+     */
+    public function treeHistoryAction(Request $request, $slug, $reference, $path)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $branch     = $repository->getReferences()->getBranch($reference);
+        $log        = $repository->getLog($branch->getCommitHash(), $path);
+
+        $pager = new Pager(new GitLogAdapter($log));
+        $pager->setPerPage(50);
+        $pager->setPage($page = $request->query->get('page', 1));
+
+        return $this->render('GitonomyWebsiteBundle:Project:treeHistory.html.twig', array(
+            'reference'     => $reference,
+            'log'           => $log,
+            'project'       => $project,
+            'repository'    => $repository,
+            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path),
+            'page'          => $page,
+            'pager'         => $pager
         ));
     }
 

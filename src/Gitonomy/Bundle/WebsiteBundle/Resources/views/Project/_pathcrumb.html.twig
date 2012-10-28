@@ -1,11 +1,11 @@
 {% if path != "" %}
     {% set path_record = "" %}
-    <ul class="breadcrumb">
+    <ul class="pathcrumb">
         {% for segment in path_exploded %}
             {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
             <li{% if loop.last %} class="active"{% endif %}>
                 {% if not loop.last %}
-                    <a href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
+                    <a href="{{ path('project_tree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
                     <span class="divider">/</span>
                 {% else %}
                     {{ segment }}
@@ -14,16 +14,15 @@
         {% endfor %}
         <li class="pull-right">
             {% if active != 'show' %}
-                <a class="btn btn-info" href="{{ path('gitonomyfrontend_project_showTree', {slug: project.slug, reference: reference, path: path}) }}">
+                <a class="btn btn-info" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
                     Show
                 </a>
             {% endif %}
             {% if active != 'history' %}
-                <a class="btn btn-info" href="{{ path('gitonomyfrontend_project_showTreeHistory', {slug: project.slug, reference: reference, path: path}) }}">
+                <a class="btn btn-info" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
                     History
                 </a>
             {% endif %}
         </li>
     </ul>
 {% endif %}
-{% debug path %}

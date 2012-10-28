@@ -8,6 +8,8 @@
 {% block project_content %}
     {% set diff = commit.diff %}
 
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show'} %}
+
     <table class="table table-striped">
         <thead>
             <tr>

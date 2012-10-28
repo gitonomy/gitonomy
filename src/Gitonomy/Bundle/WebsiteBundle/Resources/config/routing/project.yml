@@ -32,10 +32,10 @@ project_commit:
 
 project_tree:
     pattern: /projects/{slug}/tree/{reference}/{path}
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "", reference: "master" }
     requirements: { path: ".*" }
 
 project_tree_history:
     pattern: /projects/{slug}/tree-history/{reference}/{path}
-    defaults: { _controller: "GitonomyFrontendBundle:Project:showTreeHistory", path: "" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
     requirements: { path: ".*" }

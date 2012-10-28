@@ -8,7 +8,7 @@
 {% block project_content %}
     {% set diff = commit.diff %}
 
-    <h1>Commit {{ commit.hash }}</h1>
+    <h2>Commit {{ commit.hash }}</h2>
 
     {% for parent in commit.parents %}
         <ul>
@@ -18,7 +18,7 @@
 
     <pre>{{ commit.message }}</pre>
 
-    <h2>Summary</h2>
+    <h3>Summary</h3>
 
     {% for file in diff.files %}
         <h5>
@@ -31,7 +31,7 @@
 
     <hr />
 
-    <h2>Changes</h2>
+    <h3>Changes</h3>
 
     {% for file in diff.files %}
         <ul>
