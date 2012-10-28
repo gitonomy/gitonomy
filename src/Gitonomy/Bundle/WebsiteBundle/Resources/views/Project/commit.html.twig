@@ -1,0 +1,52 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - History' %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'history' %}
+
+{% block project_content %}
+    {% set diff = commit.diff %}
+
+    <h1>Commit {{ commit.hash }}</h1>
+
+    {% for parent in commit.parents %}
+        <ul>
+            <li><strong>parent:</strong> <a href="{{ path('project_commit_show', {'slug': project.slug, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
+        </ul>
+    {% endfor %}
+
+    <pre>{{ commit.message }}</pre>
+
+    <h2>Summary</h2>
+
+    {% for file in diff.files %}
+        <h5>
+            <a class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}">
+                Full-file
+            </a>
+            {{ file.newName }} ( {{ file.additions }} additions, {{ file.deletions }} deletions)
+        </h5>
+    {% endfor %}
+
+    <hr />
+
+    <h2>Changes</h2>
+
+    {% for file in diff.files %}
+        <ul>
+            <li><strong>Old</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
+            <li><strong>New</strong>: {{ file.newName }} ({{ file.newMode }})</li>
+            {% for change in file.changes %}
+                <p><code>@@ -{{ change.rangeOldStart }},{{ change.rangeOldCount }} +{{ change.rangeNewStart }},{{ change.rangeNewCount }}</code></p>
+                <pre>
+                    {% for line in change.lines %}
+                        <span style="{% if line[0] == 1 %}background-color: #aaffaa{% elseif line[0] == -1 %};background-color: #ffaaaa{% endif %}">
+                            {{ line[1] }}
+                        </span>
+                    {% endfor %}
+                </pre>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

@@ -103,6 +103,23 @@ class ProjectController extends Controller
         ));
     }
 
+    /**
+     * Displays a commit.
+     */
+    public function commitAction($slug, $hash)
+    {
+        $project    = $this->getProject($slug);
+        $repository = $this->getGitRepository($project);
+        $commit     = $repository->getCommit($hash);
+
+        return $this->render('GitonomyWebsiteBundle:Project:commit.html.twig', array(
+            'project'    => $project,
+            'repository' => $repository,
+            'reference'  => $project->getDefaultBranch(),
+            'commit'     => $commit
+        ));
+    }
+
     public function sourceAction($slug)
     {
         return $this->render('GitonomyWebsiteBundle:Project:source.html.twig');

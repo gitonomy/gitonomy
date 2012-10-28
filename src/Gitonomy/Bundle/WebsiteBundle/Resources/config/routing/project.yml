@@ -28,4 +28,8 @@ project_tags:
 
 project_commit_show:
     pattern: /projects/{slug}/commits/{hash}
-    defaults: { _controller: "GitonomyFrontendBundle:Project:showCommit" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:commit" }
+
+project_tree:
+    pattern: /projects/{slug}/tree
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:tree" }
