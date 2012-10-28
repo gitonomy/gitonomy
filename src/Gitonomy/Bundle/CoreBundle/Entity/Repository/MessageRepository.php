@@ -19,7 +19,7 @@ class MessageRepository extends EntityRepository
 
         if ($reference) {
             $qb
-                ->where('reference = :reference')
+                ->andWhere('f.reference = :reference')
                 ->setParameter('reference', 'refs/heads/'.$reference)
             ;
         }
