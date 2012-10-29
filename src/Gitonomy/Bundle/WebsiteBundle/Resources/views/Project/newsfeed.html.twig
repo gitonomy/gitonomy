@@ -8,10 +8,10 @@
 {% block project_content %}
     <div class="actionbar">
         <div class="btn-group pull-right">
-            <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <a class="menu dropdown-toggle" data-toggle="dropdown">
                 {{ reference|default('All') }}
                 <span class="caret"></span>
-            </button>
+            </a>
             <ul class="dropdown-menu pull-right">
                 {% for branch in branches %}
                     <li><a href="{{ path('project_newsfeed', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>

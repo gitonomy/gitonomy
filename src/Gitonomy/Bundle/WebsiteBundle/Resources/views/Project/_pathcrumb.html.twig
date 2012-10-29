@@ -2,10 +2,10 @@
     {% set path_record = "" %}
     <div class="actionbar">
         <div class="btn-group pull-right">
-            <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <a class="menu" class="dropdown-toggle" data-toggle="dropdown">
                 {{ reference|default(project.defaultBranch) }}
                 <span class="caret"></span>
-            </button>
+            </a>
             <ul class="dropdown-menu pull-right">
                 {% for branch in branches %}
                     <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name, path: path }) }}">{{ branch.name }}</a></li>
@@ -15,12 +15,12 @@
 
         <div class="pull-right">
             {% if active != 'show' %}
-                <a class="btn btn-info" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
+                <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
                     Show
                 </a>
             {% endif %}
             {% if active != 'history' %}
-                <a class="btn btn-info" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
+                <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
                     History
                 </a>
             {% endif %}
@@ -43,10 +43,10 @@
 {% else %}
     <div class="actionbar">
         <div class="btn-group pull-right">
-            <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <a class="menu dropdown-toggle" data-toggle="dropdown">
                 {{ reference|default(project.defaultBranch) }}
                 <span class="caret"></span>
-            </button>
+            </a>
             <ul class="dropdown-menu pull-right">
                 {% for branch in branches %}
                     <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>
