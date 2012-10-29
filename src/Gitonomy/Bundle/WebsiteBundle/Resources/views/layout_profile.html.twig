@@ -1,0 +1,20 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% set global_navigation = 'profile' %}
+
+{% block content %}
+    <h1 class="with-menu">
+        Profile
+    </h1>
+
+    <div id="wrapper">
+        <ul id="local-menu">
+            <li><a href="{{ path('profile_informations') }}"{% if local_navigation == 'informations' %} class="active"{% endif %}>Informations</a></li>
+            <li><a href="{{ path('profile_sshKeys') }}"{% if local_navigation == 'sshKeys' %} class="active"{% endif %}>SSH Keys</a></li>
+        </ul>
+
+        <div id="content" class="with-menu">
+            {% block profile_content '' %}
+        </div>
+    </div>
+{% endblock %}

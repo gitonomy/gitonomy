@@ -12,6 +12,10 @@
 
         <!-- Project -->
         <parameter key="gitonomy_website.form.type.project.class">Gitonomy\Bundle\WebsiteBundle\Form\ProjectType</parameter>
+
+        <!-- Profile -->
+        <parameter key="gitonomy_website.form.type.profile_informations.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\InformationsType</parameter>
+        <parameter key="gitonomy_website.form.type.profile_email.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\EmailType</parameter>
     </parameters>
 
     <services>
@@ -32,6 +36,14 @@
         <service id="gitonomy_website.form.type.project" class="%gitonomy_website.form.type.project.class%">
             <argument type="service" id="security.encoder_factory" />
             <tag name="form.type" alias="project" />
+        </service>
+
+        <!-- Profile -->
+        <service id="gitonomy_website.form.type.profile_informations" class="%gitonomy_website.form.type.profile_informations.class%">
+            <tag name="form.type" alias="profile_informations" />
+        </service>
+        <service id="gitonomy_website.form.type.profile_email" class="%gitonomy_website.form.type.profile_email.class%">
+            <tag name="form.type" alias="profile_email" />
         </service>
     </services>
 

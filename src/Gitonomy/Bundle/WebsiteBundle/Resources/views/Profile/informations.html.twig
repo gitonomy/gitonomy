@@ -1,0 +1,58 @@
+{% extends "GitonomyWebsiteBundle::layout_profile.html.twig" %}
+
+{% block title 'User profile' %}
+
+{% set local_navigation = 'informations' %}
+
+{% block profile_content %}
+    <div id="content">
+        <form class="form-horizontal" method="POST" action="{{ path('profile_informations') }}">
+            <legend>User profile</legend>
+            {{ form_widget(form) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit"><i class="symbol">save</i> Save informations</button>
+                </div>
+            </div>
+        </form>
+
+        <form class="form" action="{{ path('profile_email_create') }}" method="POST" id="user_email">
+            <legend>Emails</legend>
+            {{ form_errors(form) }}
+            <table class="bordered-table table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ 'table.emails.email'|trans({}, 'admin_user') }}</th>
+                        <th>{{ 'table.emails.is_default'|trans({}, 'admin_user') }}</th>
+                        <th>{{ 'table.emails.is_active'|trans({}, 'admin_user') }}</th>
+                        <th>{{ 'table.emails.actions'|trans({}, 'admin_user') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for email in user.emails %}
+                        <tr id="email_{{ email.id }}">
+                            <td>{{ email.email }}</td>
+                            <td>{% if email.isDefault == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                            <td>{% if email.isActive == 1 %}{{'yes'|trans }}{% else %}{{ 'no'|trans }}{% endif %}</td>
+                            <td>
+                                {% if not email.isDefault %}
+                                    <a href="{{ path('profile_emails_default', {'id': email.id }) }}" class="label label-success">{{ 'button.edit_emails.set_default'|trans({}, 'admin_user') }}</a>
+                                    {% if email.isActive %}
+                                    {% else %}
+                                        <a href="{{ path('profile_emails_sendactivation', {'id': email.id }) }}" class="label label-notice">{{ 'button.edit_emails.activate'|trans({}, 'admin_user') }}</a>
+                                    {% endif %}
+                                {% endif %}
+                                <a href="{{ path('profile_emails_delete', {'id': email.id }) }}" class="label label-important">{{ 'button.edit_emails.delete'|trans({}, 'admin_user') }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3">{{ form_widget(form_email.email) }}{{ form_errors(form_email.email) }}</td>
+                        <td><input type="submit" class="btn btn-success" value="{{ 'button.create_email'|trans({}, 'admin_user') }}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ form_rest(form_email) }}
+        </form>
+    </div>
+{% endblock %}

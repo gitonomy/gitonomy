@@ -10,32 +10,30 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Profile;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Profile;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class InformationsType extends AbstractType
+class EmailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('fullname', 'text', array('label' => 'form.informations.fullname'))
-            ->add('timezone', 'timezone', array('label' => 'form.informations.timezone'))
-        ;
+        $builder->add('email', 'email', array('label' => 'form.email'));
     }
 
     public function getName()
     {
-        return 'profile_informations';
+        return 'profile_email';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('profile_informations'),
-            'translation_domain' => 'profile'
+            'validation_groups'  => array('profile'),
+            'translation_domain' => 'profile',
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\Email',
         ));
     }
 }

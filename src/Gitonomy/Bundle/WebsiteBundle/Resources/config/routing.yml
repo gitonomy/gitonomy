@@ -7,6 +7,9 @@ _project:
 _user:
     resource: "@GitonomyWebsiteBundle/Resources/config/routing/user.yml"
 
+_profile:
+    resource: "@GitonomyWebsiteBundle/Resources/config/routing/profile.yml"
+
 administration_dashboard:
     pattern: /admin
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:dashboard" }
@@ -18,11 +21,3 @@ administration_users:
 administration_roles:
     pattern: /admin/roles
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:roles" }
-
-preferences_informations:
-    pattern: /preferences
-    defaults: { _controller: "GitonomyWebsiteBundle:Preferences:informations" }
-
-preferences_sshKeys:
-    pattern: /preferences/ssh-keys
-    defaults: { _controller: "GitonomyWebsiteBundle:Preferences:sshKeys" }

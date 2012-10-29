@@ -1,0 +1,23 @@
+profile_informations:
+    pattern: /profile
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:informations" }
+
+profile_email_create:
+    pattern: /profile/emails/create
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailCreate" }
+
+profile_emails_default:
+    pattern:  /profile/emails/{id}/default
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailDefault" }
+
+profile_emails_sendactivation:
+    pattern:  /profile/emails/{id}/send-activation
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailSendActivation" }
+
+profile_emails_delete:
+    pattern:  /profile/emails/{id}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailDelete" }
+
+profile_sshKeys:
+    pattern: /profile/ssh-keys
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:sshKeys" }

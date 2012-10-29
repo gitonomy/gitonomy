@@ -27,35 +27,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\Email;
 class ProfileController extends BaseController
 {
     /**
-     * Edit global informations.
-     */
-    public function indexAction()
-    {
-        $this->assertGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-
-        $form = $this->createForm('profile_informations', $user);
-
-        $request = $this->getRequest();
-        if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
-
-                $this->get('session')->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile'));
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_index'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:Profile:index.html.twig', array(
-            'form' => $form->createView()
-        ));
-    }
-
-    /**
      * Change the username.
      */
     public function changeUsernameAction()
@@ -85,78 +56,6 @@ class ProfileController extends BaseController
         ));
     }
 
-    /**
-     * Manage emails.
-     */
-    public function emailsAction()
-    {
-        $this->assertGranted('IS_AUTHENTICATED_FULLY');
-
-        $user    = $this->getUser();
-        $email   = $user->createEmail();
-        $request = $this->getRequest();
-
-        $form = $this->createForm('useremail', $email, array(
-            'validation_groups' => 'profile',
-        ));
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                try {
-                    $em->getConnection()->beginTransaction();
-                    $token = $email->createActivationToken();
-                    $em->persist($user);
-                    $em->flush();
-                    $this->sendActivationMail($email, $token);
-                    $em->commit();
-                } catch (\Exception $e) {
-                    throw $e;
-                }
-                $message = $this->trans('notice.email_created', array('%email%' => $email->getEmail()), 'profile');
-                $this->get('session')->setFlash('success', $message);
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_emails'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:Profile:emails.html.twig', array(
-            'object' => $user,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Action to delete an email for a user from admin user
-     */
-    public function emailDeleteAction($emailId)
-    {
-        $this->assertGranted('IS_AUTHENTICATED_FULLY');
-
-        $email   = $this->findEmail($emailId);
-        $form    = $this->createFormBuilder()->getForm();
-        $request = $this->getRequest();
-
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->remove($email);
-                $em->flush();
-                $message = $this->trans('notice.email_deleted', array('%email%' => $email->getEmail()), 'profile');
-                $this->get('session')->setFlash('success', $message);
-
-                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
-            }
-        }
-
-        return $this->render('GitonomyFrontendBundle:Profile:deleteEmail.html.twig', array(
-            'object' => $email,
-            'form'   => $form->createView(),
-        ));
-    }
-
     public function emailSendActivationAction($emailId)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
@@ -167,35 +66,6 @@ class ProfileController extends BaseController
 
         $message = $this->trans('notice.activation_sent', array('%email%' => $email->getEmail()), 'profile');
         $message = sprintf('Activation mail for "%s" sent.', $email->getEmail());
-        $this->get('session')->setFlash('success', $message);
-
-        return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
-    }
-
-    /**
-     * Action to make as default an email
-     */
-    public function emailDefaultAction($emailId)
-    {
-        $this->assertGranted('IS_AUTHENTICATED_FULLY');
-
-        $defaultEmail = $this->findEmail($emailId);
-        $user         = $defaultEmail->getUser();
-        $em           = $this->getDoctrine()->getEntityManager();
-
-        if (!$defaultEmail->isActive()) {
-            throw new \LogicException(sprintf('Email "%d" is not activated!', $defaultEmail->getId()));
-        }
-
-        foreach ($user->getEmails() as $email) {
-            if ($email->isDefault()) {
-                $email->setDefault(false);
-            }
-        }
-
-        $defaultEmail->setDefault(true);
-        $em->flush();
-        $message = $this->trans('notice.email_as_default', array('%email%' => $email->getEmail()), 'profile');
         $this->get('session')->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('gitonomyfrontend_profile_email_list'));
@@ -350,8 +220,7 @@ class ProfileController extends BaseController
 
     protected function findUser($userId)
     {
-        $em   = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository('GitonomyCoreBundle:User');
+        $repo = $this->getRepository('GitonomyCoreBundle:User');
         if (!$user = $repo->find($userId)) {
             throw $this->createNotFoundException(sprintf('No User found with id "%d".', $userId));
         }
@@ -362,8 +231,7 @@ class ProfileController extends BaseController
     protected function findEmail($emailId)
     {
         $user = $this->getUser();
-        $em   = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository('GitonomyCoreBundle:Email');
+        $repo = $this->getRepository('GitonomyCoreBundle:Email');
         if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $emailId))) {
             throw $this->createNotFoundException(sprintf('No Email found with id "%d".', $emailId));
         }
