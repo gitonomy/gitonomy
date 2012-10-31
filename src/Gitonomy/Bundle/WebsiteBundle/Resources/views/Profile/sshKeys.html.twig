@@ -1,30 +1,34 @@
-{% extends "GitonomyWebsiteBundle::layout_preferences.html.twig" %}
+{% extends "GitonomyWebsiteBundle::layout_profile.html.twig" %}
 
 {% block title 'SSH keys' %}
 
 {% set local_navigation = 'sshKeys' %}
 
-{% block preferences_content %}
+{% block profile_content %}
     <div id="content">
         <div class="ssh-keyring">
-            <form action="#" class="key key-new" method="POST">
-                <h3><i class="symbol">add</i> New key</h3>
-                <div class="key-content">{{ form_widget(createForm) }}</div>
+            <form action="{{ path('profile_createSshKey') }}" class="key key-new" method="POST">
+                <h3><i class="symbol">add</i> {{ 'title.sshKeys.create'|trans({}, 'profile') }}</h3>
+                <div class="key-content">
+                    {{ form_rest(form) }}
+                </div>
                 <div class="key-actions">
-                    <button type="submit" class="btn btn-small btn-info"><i class="symbol">plus</i> Create</button>
+                    <button type="submit" class="btn btn-small btn-info"><i class="symbol">plus</i> {{ 'form.ssh_key.submit'|trans({}, 'profile') }}</button>
                 </div>
             </form>
-            {% for i in 1..6 %}
+            {% for key in sshKeys %}
                 <div class="key{{ random([' key-large','']) }}">
                     <h3>
                         <i class="symbol">key</i>
-                        Home key
+                        {{ key.title }}
                         <span class="pull-right">
-                            <a href="#" class="btn btn-info">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
+                            {% if not key.isInstalled %}
+                                <span class="label label-info">{{ 'label.sshKeys.installing'|trans({}, 'profile') }}</span>
+                            {% endif %}
+                            <a href="{{ path('profile_deleteSshKey', {'id': key.id }) }}" class="btn btn-danger">{{ 'button.sshKeys.delete_key'|trans({}, 'profile') }}</a>
                         </span>
                     </h3>
-                    <div class="key-content">ssh-rsa {{ random(['AAAAB3NzaC1yc2EAAAADAQABAAABAQDp3Jz6S0GxJz00I6JgECHGj9BVVQgpid98TKVtV9VyoXryD050EouX5tBgq6c5BmAoMkXiHjUfB2T+eXuqoH7IkU6oP7w+cg0l0dEp4BppjJlSl0WWsCtTIMW/M/3WXY5blbs7XU591da/+mv6VQU64/hg7EyDDHqeeJWXAFJZ8Q5bwKPw1r04hZVH82y4wSie127rVSnhZZFXjZwZpmnrvgAatW3IWf8V3vabnAT5eI7s/B3zuBi3s72AppRkUSSpKhaITVmBWE6xBZpzFIqv6sCLyUzNvHJFNxrDqi8++jyvZoQh7F2WFUXxtIlaPXowRAArqoBYj1qddSJw8IRzAAAAB3NzaC1yc2EAAAADAQABAAABAQDp3Jz6S0GxJz00I6JgECHGj9BVVQgpid98TKVtV9VyoXryD050EouX5tBgq6c5BmAoMkXiHjUfB2T+eXuqoH7IkU6oP7w+cg0l0dEp4BppjJlSl0WWsCtTIMW/M/3WXY5blbs7XU591da/+mv6VQU64/hg7EyDDHqeeJWXAFJZ8Q5bwKPw1r04hZVH82y4wSie127rVSnhZZFXjZwZpmnrvgAatW3IWf8V3vabnAT5eI7s/B3zuBi3s72AppRkUSSpKhaITVmBWE6xBZpzFIqv6sCLyUzNvHJFNxrDqi8++jyvZoQh7F2WFUXxtIlaPXowRAArqoBYj1qddSJw8IRz', 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDp3Jz6S0GxJz00I6JgECHGj9BVVQgpid98TKVtV9VyoXryD050EouX5tBgq6c5BmAoMkXiHjUfB2T+eXuqoH7IkU6oP7w+cg0l0dEp4BppjJlSl0WWsCtTIMW/M/3WXY5blbs7XU591da/+mv6VQU64/hg7EyDDHqeeJWXAFJZ8Q5bwKPw1r04hZVH82y4wSie127rVSnhZZFXjZwZpmnrvgAatW3IWf8V3vabnAT5eI7s/B3zuBi3s72AppRkUSSpKhaITVmBWE6xBZpzFIqv6sCLyUzNvHJFNxrDqi8++jyvZoQh7F2WFUXxtIlaPXowRAArqoBYj1qddSJw8IRz'])}}  alexandre.salome@gmail.com</div>
+                    <div class="key-content">{{ key.content }}</div>
                     <div class="key-actions">
                     </div>
                 </div>

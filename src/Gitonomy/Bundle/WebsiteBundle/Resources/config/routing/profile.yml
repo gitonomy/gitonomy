@@ -21,3 +21,11 @@ profile_emails_delete:
 profile_sshKeys:
     pattern: /profile/ssh-keys
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:sshKeys" }
+
+profile_deleteSshKey:
+    pattern: /{_locale}/profile/delete-ssh-key/{id}
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:deleteSshKey" }
+
+profile_createSshKey:
+    pattern: /{_locale}/profile/create-ssh-key
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:createSshKey" }

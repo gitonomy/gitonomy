@@ -144,7 +144,7 @@ class ProfileController extends BaseController
         $message = $this->trans('notice.ssh_key_deleted', array('%title%' => $userSshKey->getTitle()), 'profile');
         $this->get('session')->setFlash('success', $message);
 
-        return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
+        return $this->redirect($this->generateUrl('profile_sshKeys'));
     }
 
     /**
@@ -168,7 +168,7 @@ class ProfileController extends BaseController
                 $message = $this->trans('notice.ssh_key_created', array('%title%' => $userSshKey->getTitle()), 'profile');
                 $this->get('session')->setFlash('success', $message);
 
-                return $this->redirect($this->generateUrl('gitonomyfrontend_profile_sshKeys'));
+                return $this->redirect($this->generateUrl('profile_sshKeys'));
             }
         }
 

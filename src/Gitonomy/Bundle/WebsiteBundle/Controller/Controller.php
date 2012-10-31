@@ -65,6 +65,13 @@ class Controller extends BaseController
         $em->flush();
     }
 
+    protected function removeEntity($entity)
+    {
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->remove($entity);
+        $em->flush();
+    }
+
     protected function createAccessDeniedException($message = null)
     {
         return new AccessDeniedException($message);
