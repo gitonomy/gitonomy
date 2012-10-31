@@ -10,13 +10,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Validation\Constraints;
+namespace Gitonomy\Bundle\CoreBundle\Validation\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class UserEmailValidator extends ConstraintValidator
+class NewEmailValidator extends ConstraintValidator
 {
     /**
      * @var Symfony\Bundle\DoctrineBundle\Registry
@@ -30,16 +30,12 @@ class UserEmailValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        if (false === $value || (empty($value) && '0' != $value)) {
-            $this->context->addViolation($constraint->message);
-
+        if (!$value) {
             return;
         }
 
-        $email = $value->getEmail();
-        $email = $this->doctrineRegistry->getRepository('GitonomyCoreBundle:Email')->findByEmail($email);
-
-        if (null === $email) {
+        $email = $this->doctrineRegistry->getRepository('GitonomyCoreBundle:Email')->findOneByEmail($value);
+        if ($email) {
             $this->setMessage($constraint->message);
         }
     }

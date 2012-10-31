@@ -53,13 +53,11 @@ class User implements UserInterface
      */
     protected $globalRoles;
 
-    protected $oldPassword;
-
     public function __construct($username = null, $fullname = null, $timezone = null)
     {
-        $this->username = $username;
-        $this->fullname = $fullname;
-        $this->timezone = null === $timezone ? date_default_timezone_get() : $timezone;
+        $this->username     = $username;
+        $this->fullname     = $fullname;
+        $this->timezone     = null === $timezone ? date_default_timezone_get() : $timezone;
         $this->sshKeys      = new ArrayCollection();
         $this->emails       = new ArrayCollection();
         $this->projectRoles = new ArrayCollection();
@@ -76,14 +74,6 @@ class User implements UserInterface
         }
 
         return $user->getUsername() === $this->username;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setOldPassword($oldPassword)
-    {
-        $this->oldPassword = $oldPassword;
     }
 
     /**
@@ -120,6 +110,9 @@ class User implements UserInterface
         return $roles;
     }
 
+    /**
+     * @return Email
+     */
     public function createEmail($email = null, $setDefault = false)
     {
         $email = new Email($this, $email);
@@ -140,8 +133,14 @@ class User implements UserInterface
         return $key;
     }
 
-    public function setDefaultEmail(Email $email)
+    public function setDefaultEmail($email)
     {
+        if (is_string($email)) {
+            $email = new Email($email);
+        } elseif (!$email instanceof Email) {
+            throw new \InvalidArgumentException(sprintf('Unable to convert a %s to a Email', gettype($email)));
+        }
+
         foreach ($this->emails as $current) {
             if ($current !== $email && $current->isDefault()) {
                 $current->setDefault(false);
@@ -235,16 +234,17 @@ class User implements UserInterface
         $email->setUser($this);
         $this->emails->add($email);
     }
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function createForgotPasswordToken()
     {
         $token = new UserForgotPassword($this);
 
         return $token;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getUsername()
@@ -257,12 +257,8 @@ class User implements UserInterface
         if ($username !== $this->username) {
             $this->markAllKeysAsUninstalled();
         }
-        $this->username = $username;
-    }
 
-    public function getOldPassword()
-    {
-        return $this->oldPassword;
+        $this->username = $username;
     }
 
     public function getPassword()

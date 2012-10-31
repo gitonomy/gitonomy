@@ -12,7 +12,7 @@
         <import resource="services/security.xml" />
         <import resource="services/templating.xml" />
         <import resource="services/test.xml" />
-        <import resource="services/validator.xml" />
+        <import resource="services/validation.xml" />
     </imports>
 
 </container>

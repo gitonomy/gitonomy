@@ -18,11 +18,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Validator\Constraint\UserPassword;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class ProfilePasswordType extends AbstractType
 {
@@ -38,8 +40,12 @@ class ProfilePasswordType extends AbstractType
         $encoderFactory = $this->encoderFactory;
 
         $builder
-            ->add('oldPassword', 'password', array(
+            ->add('old_password', 'password', array(
                 'label'  => 'Current password',
+                'mapped' => false,
+                'constraints' => array(
+                    new UserPassword()
+                )
             ))
         ;
     }

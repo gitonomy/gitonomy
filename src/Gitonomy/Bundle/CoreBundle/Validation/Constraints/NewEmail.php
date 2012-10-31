@@ -10,19 +10,19 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Validation\Constraints;
+namespace Gitonomy\Bundle\CoreBundle\Validation\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
  */
-class UserEmail extends Constraint
+class NewEmail extends Constraint
 {
-    public $message = 'This e-mail is not present in our database';
+    public $message = 'This e-mail is already present in our database';
 
     public function validatedBy()
     {
-        return 'user_email';
+        return 'new_email';
     }
 }

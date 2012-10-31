@@ -23,13 +23,7 @@ Feature: Register
             | Password | haricoo |
             | Confirm password | haricoo |
           And I click on "Register"
-         Then I should see "You should have received a confirmation mail. Please read it to continue"
-          And I should receive a mail with subject "Confirmation of your registration"
-          And I should see "Welcome to you, Tomoto Pomo"
-
-        Given I click on "Activate my account"
-         Then I should see "Your account is now active, welcome to Gitonomy"
-          And I should see navigation menu with my fullname "Tomoto Pomo"
+         Then I should see "Your account was created!"
 
     Scenario: I shouldn't be able to register with an e-mail already used
 
@@ -47,4 +41,4 @@ Feature: Register
             | Confirm password | haricoo |
           And I click on "Register"
          Then I should see "Roger, we have a problem with your form"
-          And I should see "This e-mail cannot be used"
+          And I should see "This e-mail is already present in our database"

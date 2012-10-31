@@ -47,15 +47,6 @@
             </constraint>
         </property>
 
-        <property name="oldPassword">
-            <constraint name="SecurityAssert:UserPassword">
-                <option name="message">Wrong value for your current password</option>
-                <option name="groups">
-                    <value>change_password</value>
-                </option>
-            </constraint>
-        </property>
-
         <property name="password">
             <constraint name="Assert:NotBlank">
                 <option name="groups">
