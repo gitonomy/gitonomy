@@ -246,6 +246,15 @@ class ProjectController extends Controller
         ));
     }
 
+    public function permissionsAction($slug)
+    {
+        $project = $this->getProject($slug);
+
+        return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
+            'project'       => $project
+        ));
+    }
+
     /**
      * @return Project
      */

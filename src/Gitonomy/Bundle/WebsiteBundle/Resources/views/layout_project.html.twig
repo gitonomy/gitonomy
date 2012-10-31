@@ -15,6 +15,7 @@
             <li><a href="{{ path('project_tree', {slug: project.slug, reference: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
             <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>Branches</a></li>
             <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>Tags</a></li>
+            <li><a href="{{ path('project_permissions', {slug: slug }) }}"{% if local_navigation == 'permissions' %} class="active"{% endif %}>Permissions</a></li>
         </ul>
 
         <div id="content" class="with-menu">

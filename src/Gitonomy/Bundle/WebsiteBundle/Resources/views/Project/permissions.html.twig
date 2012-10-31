@@ -1,0 +1,92 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - Admin' %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'admin' %}
+
+{% block project_content %}
+    <div id="content">
+        <h2>User roles</h2>
+        <table class="bordered-table table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for userRole in project.userRoles %}
+                    <tr>
+                        <td>{{ userRole.user.fullname }}</td>
+                        <td>{{ userRole.role.name }}</td>
+                        <td><a href="#" class="label label-important">delete</a></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td><select id="adminuserroleproject_user" name="adminuserroleproject[user]" required="required"><option value="1">Admin</option><option value="6">Inactive</option><option value="7">User</option></select></td>
+                    <td><select id="adminuserroleproject_role" name="adminuserroleproject[role]" required="required"><option value="4">Developer</option><option value="2">Lead developer</option><option value="3">Visitor</option></select></td>
+                    <td><input type="submit" class="btn btn-success"></td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Git accesses</h2>
+        <form class="form" action="/en_US/adminproject/1/git-accesses" method="POST" id="project_git_accesses" novalidate="">
+            <table class="table table-striped bordered-table">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Reference</th>
+                        <th>Write?</th>
+                        <th>Admin?</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lead developer</td>
+                        <td>*</td>
+                        <td>yes</td>
+                        <td>yes</td>
+                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/1/delete">delete</a></td>
+                    </tr>
+                    <tr>
+                        <td>Developer</td>
+                        <td>*</td>
+                        <td>yes</td>
+                        <td>no</td>
+                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/2/delete">delete</a></td>
+                    </tr>
+                    <tr>
+                        <td>Visitor</td>
+                        <td>*</td>
+                        <td>no</td>
+                        <td>no</td>
+                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/3/delete">delete</a></td>
+                    </tr>
+                </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <select id="project_git_access_role" name="project_git_access[role]" required="required"><option value="1">Administrator</option><option value="2">Lead developer</option><option value="3">Visitor</option><option value="4">Developer</option></select>
+                    </td>
+                    <td>
+                        <input type="text" id="project_git_access_reference" name="project_git_access[reference]" required="required" value="*">
+                    </td>
+                    <td>
+                        <input type="checkbox" id="project_git_access_write" name="project_git_access[write]" required="required" value="1">
+                    </td>
+                    <td>
+                        <input type="checkbox" id="project_git_access_admin" name="project_git_access[admin]" required="required" value="1">
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-primary" value="Save">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="project_git_access__token" name="project_git_access[_token]" value="8ced379e0254e64f162978e1720ba09af5ad8578">
+        </form>
+    </div>
+{% endblock %}

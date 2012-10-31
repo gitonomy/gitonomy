@@ -1,4 +1,0 @@
-page.title: "Your repositories"
-title.repositories: "Your repositories"
-label.branches: "{0}|{1}1 branch|]1,Inf]%count% branches"
-label.tags: "{0}|{1}1 tag|]1,Inf]%count% tags"

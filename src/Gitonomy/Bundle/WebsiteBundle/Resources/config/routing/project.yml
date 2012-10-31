@@ -39,3 +39,7 @@ project_tree_history:
     pattern: /projects/{slug}/tree-history/{reference}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
     requirements: { path: ".*" }
+
+project_permissions:
+    pattern: /projects/{slug}/permissions
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:permissions" }
