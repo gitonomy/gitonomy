@@ -39,7 +39,6 @@ class GitAccessCommand extends AbstractCommand
             ->addArgument('project', InputArgument::REQUIRED, 'The project')
             ->addArgument('role', InputArgument::REQUIRED, 'The role (ex: visitor, dev, lead-dev, admin)')
             ->addArgument('reference', InputArgument::REQUIRED, 'The git reference')
-            ->addArgument('isRead', null, InputArgument::OPTIONAL, 'Is readable?')
             ->addArgument('isWrite', null, InputArgument::OPTIONAL, 'Is writable?')
             ->addArgument('isAdmin', null, InputArgument::OPTIONAL, 'Is admin?')
             ->addOption('stderr', null, InputOption::VALUE_OPTIONAL, 'Use stderr for errors ?', true)
@@ -74,10 +73,9 @@ EOF
         $em        = $this->getContainer()->get('doctrine')->getEntityManager();
 
         if ('create' === $verb) {
-            $isRead  = $input->getArgument('isRead');
             $isWrite = $input->getArgument('isWrite');
             $isAdmin = $input->getArgument('isAdmin');
-            $access  = new ProjectGitAccess($project, $role, $reference, $isRead, $isWrite, $isAdmin);
+            $access  = new ProjectGitAccess($project, $role, $reference, $isWrite, $isAdmin);
 
             $em->persist($access);
             $em->flush();
