@@ -65,6 +65,12 @@ class Controller extends BaseController
         $em->flush();
     }
 
+    protected function flush()
+    {
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->flush();
+    }
+
     protected function removeEntity($entity)
     {
         $em = $this->get('doctrine')->getEntityManager();

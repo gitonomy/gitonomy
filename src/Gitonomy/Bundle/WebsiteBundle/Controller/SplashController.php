@@ -149,4 +149,20 @@ class SplashController extends Controller
 
         return array($user, $forgotPassword);
     }
+
+    public function activateEmailAction($token)
+    {
+        $email = $this->getRepository('GitonomyCoreBundle:Email')->findOneByActivationToken($token);
+
+        if (!$email) {
+            throw $this->createNotFoundException(sprintf('Token "%s" not found', $token));
+        }
+
+        $email->validateActivationToken($token);
+        $this->flush();
+
+        return $this->render('GitonomyWebsiteBundle:Splash:activateEmail.html.twig', array(
+            'email' => $email,
+        ));
+    }
 }

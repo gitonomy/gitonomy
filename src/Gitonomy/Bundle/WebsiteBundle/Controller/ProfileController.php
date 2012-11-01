@@ -110,6 +110,26 @@ class ProfileController extends Controller
         return $this->redirect($this->generateUrl('profile_informations'));
     }
 
+    public function emailSendActivationAction($id)
+    {
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
+
+        $email = $this->findEmail($id);
+        $token = $email->createActivationToken();
+        $this->flush();
+
+        $this->mail($email, 'GitonomyWebsiteBundle:Mail:activateEmail.mail.twig', array(
+            'email' => $email,
+            'token' => $token
+        ));
+
+        $message = $this->trans('notice.activation_sent', array('%email%' => $email->getEmail()), 'profile');
+        $message = sprintf('Activation mail for "%s" sent.', $email->getEmail());
+        $this->setFlash('success', $message);
+
+        return $this->redirect($this->generateUrl('profile_informations'));
+    }
+
     public function sshKeysAction()
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
@@ -120,17 +140,6 @@ class ProfileController extends Controller
             'sshKeys' => $this->getUser()->getSshKeys(),
             'form'    => $form->createView()
         ));
-    }
-
-    protected function findEmail($id)
-    {
-        $user = $this->getUser();
-        $repo = $this->getRepository('GitonomyCoreBundle:Email');
-        if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $id))) {
-            throw $this->createNotFoundException(sprintf('No Email found with id "%d".', $id));
-        }
-
-        return $email;
     }
 
     /**
@@ -188,5 +197,16 @@ class ProfileController extends Controller
             'sshKeys' => $user->getSshKeys(),
             'form'    => $form->createView()
         ));
+    }
+
+    protected function findEmail($id)
+    {
+        $user = $this->getUser();
+        $repo = $this->getRepository('GitonomyCoreBundle:Email');
+        if (!$email = $repo->findOneBy(array('user' => $user, 'id' => $id))) {
+            throw $this->createNotFoundException(sprintf('No Email found with id "%d".', $id));
+        }
+
+        return $email;
     }
 }

@@ -14,6 +14,7 @@ namespace Gitonomy\Bundle\CoreBundle\Mailer;
 
 use Symfony\Component\Templating\EngineInterface;
 
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
@@ -43,6 +44,8 @@ class Mailer
             }
 
             $to = array($to->getDefaultEmail()->getEmail() => $to->getFullname());
+        } elseif ($to instanceof Email) {
+            $to = array($to->getEmail() => $to->getUser()->getFullname());
         } else {
             throw new \RuntimeException('Unexpected type of mailto: '.gettype($to));
         }

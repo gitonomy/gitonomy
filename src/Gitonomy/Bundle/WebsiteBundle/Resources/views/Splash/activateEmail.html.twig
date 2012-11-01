@@ -1,0 +1,29 @@
+{% extends "GitonomyWebsiteBundle::splash.html.twig" %}
+
+{% trans_default_domain 'email' %}
+
+{% block title 'page.title'|trans %}
+
+{% block content %}
+<div  class="form-horizontal">
+    <div class="control-group">
+        <div class="controls">
+            <h2>{{ 'title.main'|trans }}</h2>
+        </div>
+    </div>
+
+    <p>Your mail "<strong>{{ email.email }}</strong>" is now active.</p>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>
+            You are not connected to the website. For it, go to
+            <a href="{{ path('splash_login') }}">login page</a>
+            and enter your credentials.
+        </p>
+    {% else %}
+        <p>
+            You can set it as your default e-mail. For it, go to
+            <a href="{{ path('profile_informations') }}">the profile informations page</a>.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

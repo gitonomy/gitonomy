@@ -1,4 +1,4 @@
-{% extends "GitonomyFrontendBundle::layout.mail.twig" %}
+{% extends "GitonomyWebsiteBundle::layout_mail.mail.twig" %}
 
 {% block subject parent() ~ 'You need to activate an email' | raw %}
 
@@ -9,7 +9,7 @@
     You registered a new email on {{ gitonomy.name }}.
     To fully use it, you have to activate it.
 
-    <a href="{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activationToken}) }}">Activate email {{ email.email }}</a>
+    <a href="{{ url('splash_activateEmail', {token: email.activationToken}) }}">Activate email {{ email.email }}</a>
 {% endblock %}
 
 {% block content_text %}
@@ -20,5 +20,5 @@ You registered a new email on {{ gitonomy.name }}.
 To fully use it, you have to activate it.
 
 Follow this link :
-{{ url('gitonomyfrontend_email_activate', {'username': user.username, 'hash': email.activationToken}) }}
+{{ url('splash_activateEmail', {token: email.activationToken}) }}
 {% endblock %}

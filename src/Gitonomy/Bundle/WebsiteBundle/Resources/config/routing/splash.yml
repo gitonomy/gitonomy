@@ -39,3 +39,9 @@ splash_postChangePassword:
     pattern: /forgot-password/{username}/{token}
     defaults: { _controller: "GitonomyWebsiteBundle:Splash:postChangePassword"}
     requirements: { _method: POST }
+
+splash_activateEmail:
+    pattern: /activate-email/{token}
+    defaults: { _controller: "GitonomyWebsiteBundle:Splash:activateEmail" }
+    requirements:
+        token:    \w+
