@@ -25,20 +25,20 @@ class ProfileController extends Controller
 
     public function saveInformationsAction(Request $request)
     {
-        $request = $this->getRequest();
-        if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+        $form = $this->createForm('profile_informations', $this->getUser());
+        if ($form->bind($request)->isValid()) {
+            $this->flush();
+            $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile_informations'));
 
-                $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile_informations'));
-
-                return $this->redirect($this->generateUrl('profile_informations'));
-            }
+            return $this->redirect($this->generateUrl('profile_informations'));
         }
 
+        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
+            'user'       => $user,
+            'form'       => $form->createView(),
+            'form_email' => $this->createForm('profile_email', new Email($user))->createView(),
+            'token'      => $this->createToken('profile')
+        ));
     }
 
     public function createEmailAction(Request $request)
