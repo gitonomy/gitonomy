@@ -1,0 +1,7 @@
+menu.newsfeed:    "Actualité"
+menu.history:     "Historique"
+menu.source:      "Source"
+menu.branches:    "Branches"
+menu.tags:        "Tags"
+menu.permissions: "Permissions"
+contextual.all_branches: "Toutes les branches"

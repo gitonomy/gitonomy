@@ -1,0 +1,4 @@
+page.title: "%project% - Historique"
+pagination.first: "Première page de commits"
+pagination.number: "Page %number% de commits"
+pagination.last: "Dernière page de commits"

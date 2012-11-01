@@ -1,5 +1,7 @@
 {% extends "GitonomyWebsiteBundle::layout.html.twig" %}
 
+{% trans_default_domain 'navigation_project' %}
+
 {% set global_navigation = 'projects' %}
 
 {% block content %}
@@ -10,12 +12,12 @@
 
     <div id="wrapper">
         <ul id="local-menu">
-            <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>Newsfeed</a></li>
-            <li><a href="{{ path('project_history', {slug: slug }) }}"{% if local_navigation == 'history' %} class="active"{% endif %}>History</a></li>
-            <li><a href="{{ path('project_tree', {slug: project.slug, reference: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>Source</a></li>
-            <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>Branches</a></li>
-            <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>Tags</a></li>
-            <li><a href="{{ path('project_permissions', {slug: slug }) }}"{% if local_navigation == 'permissions' %} class="active"{% endif %}>Permissions</a></li>
+            <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>{{ 'menu.newsfeed'|trans }}</a></li>
+            <li><a href="{{ path('project_history', {slug: slug }) }}"{% if local_navigation == 'history' %} class="active"{% endif %}>{{ 'menu.history'|trans }}</a></li>
+            <li><a href="{{ path('project_tree', {slug: project.slug, reference: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>{{ 'menu.source'|trans }}</a></li>
+            <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>{{ 'menu.branches'|trans }}</a></li>
+            <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>{{ 'menu.tags'|trans }}</a></li>
+            <li><a href="{{ path('project_permissions', {slug: slug }) }}"{% if local_navigation == 'permissions' %} class="active"{% endif %}>{{ 'menu.permissions'|trans }}</a></li>
         </ul>
 
         <div id="content" class="with-menu">

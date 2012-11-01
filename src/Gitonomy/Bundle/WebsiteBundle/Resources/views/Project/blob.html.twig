@@ -1,9 +1,11 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - History' %}
 
+{% trans_default_domain 'project_source' %}
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
+
+{% block title 'page.title'|trans({'%project%': project.name}) %}
 {% set mode = codemirror_mode(path) %}
 
 {% block project_content %}

@@ -1,23 +1,26 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - History' %}
+{% trans_default_domain 'project_history' %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'history' %}
 
+{% block title 'page.title'|trans({'%project%': project.name}) %}
+
 {% macro pager(pager, reference) %}
+    {% trans_default_domain 'project_history' %}
     {% if pager.pageCount > 1 %}
         <div class="pagination">
             <ul>
                 <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
-                    <a title="Previous page of commits" href="?page=1">«</a>
+                    <a title="{{ 'pagination.first'|trans }}" href="?page=1">«</a>
                 </li>
                 {% set lastPage = pager.lastPage %}
                 {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
-                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="Go to page of commits number {{ curPage }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
+                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="{{ 'pagination.number'|trans({'%number%': curPage}) }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
                 {% endfor %}
                 <li{% if pager.isLastPage %} class="disabled"{% endif %}>
-                    <a href="?page={{ pager.pageCount }}{% if reference %}&reference={{ reference }}{% endif %}">»</a>
+                    <a title="{{ 'pagination.last'|trans }}" href="?page={{ pager.pageCount }}{% if reference %}&amp;reference={{ reference }}{% endif %}">»</a>
                 </li>
             </ul>
         </div>
@@ -30,6 +33,8 @@
     <div class="actionbar">
         {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_history', reference: reference, withAll: true} %}
     </div>
+
+    {{ _self.pager(pager, reference) }}
 
     <div id="history"></div>
     <div id="history-commits-container">
