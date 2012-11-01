@@ -30,17 +30,14 @@ class ProjectGitAccess
     protected $role;
 
     protected $reference;
-    protected $isRead;
     protected $isWrite;
     protected $isAdmin;
 
-    public function __construct(Project $project, Role $role = null, $reference = '*',
-        $isRead = false, $isWrite = false, $isAdmin = false)
+    public function __construct(Project $project, Role $role = null, $reference = '*', $isWrite = false, $isAdmin = false)
     {
         $this->project   = $project;
         $this->role      = $role;
         $this->reference = $reference;
-        $this->isRead    = $isRead;
         $this->isWrite   = $isWrite;
         $this->isAdmin   = $isAdmin;
     }
@@ -107,16 +104,6 @@ class ProjectGitAccess
     public function setReference($reference)
     {
         $this->reference = $reference;
-    }
-
-    public function isRead()
-    {
-        return $this->isRead;
-    }
-
-    public function setRead($isRead)
-    {
-        $this->isRead = $isRead;
     }
 
     public function isWrite()

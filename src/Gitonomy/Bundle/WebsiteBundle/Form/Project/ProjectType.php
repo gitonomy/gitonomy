@@ -10,35 +10,32 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Project;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class ProjectGitAccessType extends AbstractType
+class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('role', 'entity', array(
-            'class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
-            'property' => 'name'
-        ));
-        $builder->add('reference', 'text');
-        $builder->add('read',  'checkbox');
-        $builder->add('write', 'checkbox');
-        $builder->add('admin', 'checkbox');
+        $builder->add('name', 'text');
+        if ('create' === $options['action']) {
+            $builder->add('slug', 'text');
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess',
+            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
+            'action'     => 'create',
         ));
     }
 
     public function getName()
     {
-        return 'project_git_access';
+        return 'project';
     }
 }

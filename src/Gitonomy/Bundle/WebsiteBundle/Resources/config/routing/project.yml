@@ -45,16 +45,22 @@ project_permissions:
     defaults: { _controller: "GitonomyWebsiteBundle:Project:permissions" }
     requirements: { _method: GET }
 
-project_permissionsCreateRole:
-    pattern: /projects/{slug}/permissions/role
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateRole" }
-    requirements: { _method: GET }
-
 project_postPermissionsCreateRole:
     pattern: /projects/{slug}/permissions/role
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateRole" }
     requirements: { _method: POST }
 
-project_permissionsDeleteRole:
+project_postPermissionsDeleteRole:
     pattern: /projects/{slug}/permissions/role/{id}/delete
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:permissionsDeleteRole" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsDeleteRole" }
+    requirements: { _method: POST }
+
+project_postPermissionsCreateGitAccess:
+    pattern: /projects/{slug}/permissions/git-access
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateGitAccess" }
+    requirements: { _method: POST }
+
+project_postPermissionsDeleteGitAccess:
+    pattern: /projects/{slug}/permissions/git-access/{id}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsDeleteGitAccess" }
+    requirements: { _method: POST }

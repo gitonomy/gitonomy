@@ -76,4 +76,14 @@ class Controller extends BaseController
     {
         return new AccessDeniedException($message);
     }
+
+    protected function createToken($intention)
+    {
+        return $this->get('form.csrf_provider')->generateCsrfToken($intention);
+    }
+
+    protected function isTokenValid($intention, $token)
+    {
+        return $this->get('form.csrf_provider')->isCsrfTokenValid($intention, $token);
+    }
 }

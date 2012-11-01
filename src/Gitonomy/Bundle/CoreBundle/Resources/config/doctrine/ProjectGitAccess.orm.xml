@@ -13,7 +13,6 @@
         </id>
 
         <field name="reference" type="string" column="reference" length="128" />
-        <field name="isRead" type="boolean" column="is_read" />
         <field name="isWrite" type="boolean" column="is_write" />
         <field name="isAdmin" type="boolean" column="is_admin" />
 

@@ -11,8 +11,9 @@
         <parameter key="gitonomy_website.form.type.change_password.class">Gitonomy\Bundle\WebsiteBundle\Form\Splash\ChangePasswordType</parameter>
 
         <!-- Project -->
-        <parameter key="gitonomy_website.form.type.project.class">Gitonomy\Bundle\WebsiteBundle\Form\ProjectType</parameter>
-        <parameter key="gitonomy_website.form.type.project_role.class">Gitonomy\Bundle\WebsiteBundle\Form\ProjectRoleType</parameter>
+        <parameter key="gitonomy_website.form.type.project.class">Gitonomy\Bundle\WebsiteBundle\Form\Project\ProjectType</parameter>
+        <parameter key="gitonomy_website.form.type.project_role.class">Gitonomy\Bundle\WebsiteBundle\Form\Project\RoleType</parameter>
+        <parameter key="gitonomy_website.form.type.project_git_access.class">Gitonomy\Bundle\WebsiteBundle\Form\Project\GitAccessType</parameter>
 
         <!-- Profile -->
         <parameter key="gitonomy_website.form.type.profile_informations.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\InformationsType</parameter>
@@ -43,6 +44,11 @@
         <service id="gitonomy_website.form.type.project_role" class="%gitonomy_website.form.type.project_role.class%">
             <argument type="service" id="security.encoder_factory" />
             <tag name="form.type" alias="project_role" />
+        </service>
+
+        <service id="gitonomy_website.form.type.project_git_access" class="%gitonomy_website.form.type.project_git_access.class%">
+            <argument type="service" id="security.encoder_factory" />
+            <tag name="form.type" alias="project_git_access" />
         </service>
 
         <!-- Profile -->

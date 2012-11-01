@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
+use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
 
@@ -247,12 +248,15 @@ class ProjectController extends Controller
 
     public function permissionsAction($slug)
     {
-        $project = $this->getProject($slug);
-        $roleForm = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
+        $project       = $this->getProject($slug);
+        $roleForm      = $this->createForm('project_role',       null, array('usedUsers' => $project->getUsers()));
+        $gitAccessForm = $this->createForm('project_git_access');
 
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
             'project'       => $project,
-            'roleForm'      => $roleForm->createView()
+            'roleForm'      => $roleForm->createView(),
+            'gitAccessForm' => $gitAccessForm->createView(),
+            'token'         => $this->createToken('project_permissions')
         ));
     }
 
@@ -261,49 +265,91 @@ class ProjectController extends Controller
         $project = $this->getProject($slug);
         $role    = new UserRoleProject(null, $project);
         $roleForm = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
+        $gitAccessForm = $this->createForm('project_git_access');
 
-        $roleForm->bind($request);
-        if ($roleForm->isValid()) {
+        if ($roleForm->bind($request)->isValid()) {
             $this->persistEntity($role);
+            $this->setFlash('success', $this->trans('notice.role_created', array(), 'project_permissions'));
 
             return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
         }
 
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
             'project'       => $project,
-            'roleForm'      => $roleForm->createView()
+            'roleForm'      => $roleForm->createView(),
+            'gitAccessForm' => $gitAccessForm->createView(),
+            'token'         => $this->createToken('project_permissions')
         ));
     }
 
-    public function permissionsDeleteRoleAction(Request $request, $slug, $id)
+    public function postPermissionsDeleteRoleAction(Request $request, $slug, $id)
     {
         $project = $this->getProject($slug);
         $role    = $this->getRepository('GitonomyCoreBundle:UserRoleProject')->find($id);
+
         if ($role->getProject()->getSlug() !== $project->getSlug()) {
             throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isTokenValid('project_permissions', $request->query->get('_token'))) {
+            $this->setFlash('error', $this->trans('error.token_invalid', array(), 'project_permissions'));
+
+            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+        }
+
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->remove($role);
+        $em->flush();
+        $this->setFlash('success', $this->trans('notice.role_deleted', array(), 'project_permissions'));
+
+        return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+    }
+
+    public function postPermissionsCreateGitAccessAction(Request $request, $slug)
+    {
+        $project       = $this->getProject($slug);
+        $gitAccess     = new ProjectGitAccess($project);
+        $roleForm      = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
+        $gitAccessForm = $this->createForm('project_git_access', $gitAccess);
+
+        if ($gitAccessForm->bind($request)->isValid()) {
+            $this->persistEntity($gitAccess);
+            $this->setFlash('success', $this->trans('notice.git_access_created', array(), 'project_permissions'));
+
+            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
+            'project'       => $project,
+            'roleForm'      => $roleForm->createView(),
+            'gitAccessForm' => $gitAccessForm->createView(),
+            'token'         => $this->createToken('project_permissions')
+        ));
+    }
+
+    public function postPermissionsDeleteGitAccessAction(Request $request, $slug, $id)
+    {
+        $project = $this->getProject($slug);
+        $role    = $this->getRepository('GitonomyCoreBundle:ProjectGitAccess')->find($id);
+
+        if ($role->getProject()->getSlug() !== $project->getSlug()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isTokenValid('project_permissions', $request->query->get('_token'))) {
+            $this->setFlash('error', $this->trans('error.token_invalid', array(), 'project_permissions'));
+
+            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
         }
 
         $em = $this->get('doctrine')->getEntityManager();
         $em->remove($role);
         $em->flush();
 
+        $this->setFlash('success', $this->trans('notice.git_access_deleted', array(), 'project_permissions'));
+
         return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
-
-        $roleForm = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
-
-        $roleForm->bind($request);
-        if ($roleForm->isValid()) {
-            $this->persistEntity($role);
-
-            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
-        }
-
-        return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
-            'project'       => $project,
-            'roleForm'      => $roleForm->createView()
-        ));
     }
-
 
     public function _branchActivityAction($project, $route, $reference = null, $withAll = false)
     {

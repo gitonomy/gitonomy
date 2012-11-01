@@ -5,17 +5,19 @@
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'permissions' %}
 
+{% trans_default_domain "project_permissions" %}
+
 {% block project_content %}
     <div id="content">
-        <h2>User roles</h2>
-        <form method="POST" action="{{ path('project_permissionsCreateRole', {slug: project.slug}) }}">
+        <h2>{{ 'title.user_role'|trans }}</h2>
+        <form method="POST" action="{{ path('project_postPermissionsCreateRole', {slug: project.slug}) }}">
             {{ form_errors(roleForm) }}
             <table class="bordered-table table table-striped">
                 <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Role</th>
-                        <th>Action</th>
+                        <th>{{ 'table.role.column.user'|trans }}</th>
+                        <th>{{ 'table.role.column.role'|trans }}</th>
+                        <th>{{ 'table.role.column.actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,9 +25,15 @@
                         <tr>
                             <td>{{ userRole.user.fullname }}</td>
                             <td>{{ userRole.role.name }}</td>
-                            <td><a href="{{ path('project_permissionsDeleteRole', {slug: project.slug, id: userRole.id}) }}" class="label label-important">delete</a></td>
+                            <td>
+                                <a data-method="POST" href="{{ path('project_postPermissionsDeleteRole', {slug: project.slug, id: userRole.id, _token: token}) }}">
+                                    <i class="symbol">trash</i> {{ 'link.role.delete'|trans }}
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
+                </tbody>
+                <tfoot>
                     <tr>
                         <td>
                             {{ form_widget(roleForm.user) }}
@@ -35,68 +43,63 @@
                             {{ form_widget(roleForm.role) }}
                             {{ form_errors(roleForm.role) }}
                         </td>
-                        <td><input type="submit" class="btn btn-success" /></td>
+                        <td><input type="submit" class="btn btn-success" value="{{ 'form.role.submit'|trans }}" /></td>
                     </tr>
-                </tbody>
+                </tfoot>
             </table>
             {{ form_rest(roleForm) }}
         </form>
-        <h2>Git accesses</h2>
-        <form class="form" action="/en_US/adminproject/1/git-accesses" method="POST" id="project_git_accesses" novalidate="">
-            <table class="table table-striped bordered-table">
+        <h2>{{ 'title.git_accesses'|trans }}</h2>
+        <form method="POST" action="{{ path('project_postPermissionsCreateGitAccess', {slug: project.slug}) }}">
+            {{ form_errors(gitAccessForm) }}
+            <table class="bordered-table table table-striped">
                 <thead>
                     <tr>
-                        <th>Role</th>
-                        <th>Reference</th>
-                        <th>Write?</th>
-                        <th>Admin?</th>
-                        <th>&nbsp;</th>
+                        <th>{{ 'table.git_accesses.column.role'|trans }}</th>
+                        <th>{{ 'table.git_accesses.column.reference'|trans }}</th>
+                        <th>{{ 'table.git_accesses.column.admin'|trans }}</th>
+                        <th>{{ 'table.git_accesses.column.role'|trans }}</th>
+                        <th>{{ 'table.git_accesses.column.actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Lead developer</td>
-                        <td>*</td>
-                        <td>yes</td>
-                        <td>yes</td>
-                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/1/delete">delete</a></td>
-                    </tr>
-                    <tr>
-                        <td>Developer</td>
-                        <td>*</td>
-                        <td>yes</td>
-                        <td>no</td>
-                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/2/delete">delete</a></td>
-                    </tr>
-                    <tr>
-                        <td>Visitor</td>
-                        <td>*</td>
-                        <td>no</td>
-                        <td>no</td>
-                        <td><a class="label label-important" href="/en_US/adminproject/git-accesses/3/delete">delete</a></td>
-                    </tr>
+                    {% for gitAccess in project.gitAccesses %}
+                        <tr>
+                            <td>{{ gitAccess.role.name }}</td>
+                            <td>{{ gitAccess.reference }}</td>
+                            <td>{{ (gitAccess.write ? '<i class="symbol">ok</i>' : '&nbsp;')|raw }}</td>
+                            <td>{{ (gitAccess.admin ? '<i class="symbol">ok</i>' : '&nbsp;')|raw }}</td>
+                            <td>
+                                <a data-method="POST" href="{{ path('project_postPermissionsDeleteGitAccess', {slug: project.slug, id: gitAccess.id, _token: token}) }}">
+                                    <i class="symbol">trash</i> {{ 'link.git_access.delete'|trans }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <select id="project_git_access_role" name="project_git_access[role]" required="required"><option value="1">Administrator</option><option value="2">Lead developer</option><option value="3">Visitor</option><option value="4">Developer</option></select>
-                    </td>
-                    <td>
-                        <input type="text" id="project_git_access_reference" name="project_git_access[reference]" required="required" value="*">
-                    </td>
-                    <td>
-                        <input type="checkbox" id="project_git_access_write" name="project_git_access[write]" required="required" value="1">
-                    </td>
-                    <td>
-                        <input type="checkbox" id="project_git_access_admin" name="project_git_access[admin]" required="required" value="1">
-                    </td>
-                    <td>
-                        <input type="submit" class="btn btn-primary" value="Save">
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        <input type="hidden" id="project_git_access__token" name="project_git_access[_token]" value="8ced379e0254e64f162978e1720ba09af5ad8578">
+                <tfoot>
+                    <tr>
+                        <td>
+                            {{ form_widget(gitAccessForm.role) }}
+                            {{ form_errors(gitAccessForm.role) }}
+                        </td>
+                        <td>
+                            {{ form_widget(gitAccessForm.reference) }}
+                            {{ form_errors(gitAccessForm.reference) }}
+                        </td>
+                        <td>
+                            {{ form_widget(gitAccessForm.write) }}
+                            {{ form_errors(gitAccessForm.write) }}
+                        </td>
+                        <td>
+                            {{ form_widget(gitAccessForm.admin) }}
+                            {{ form_errors(gitAccessForm.admin) }}
+                        </td>
+                        <td><input type="submit" class="btn btn-success" value="{{ 'form.git_access.submit'|trans }}" /></td>
+                    </tr>
+                </foot>
+            </table>
+            {{ form_rest(gitAccessForm) }}
         </form>
     </div>
 {% endblock %}
