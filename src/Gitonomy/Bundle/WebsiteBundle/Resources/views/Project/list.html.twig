@@ -1,19 +1,20 @@
 {% extends "GitonomyWebsiteBundle::layout.html.twig" %}
 
-{% block title 'Projects' %}
-
+{% trans_default_domain 'project_list' %}
 {% set global_navigation = 'projects' %}
+
+{% block title 'page.title'|trans %}
 
 {% block content %}
     <h1>
-        Projects
+        {{ 'title'|trans }}
     </h1>
 
     <div id="content">
         {% if is_granted('ROLE_PROJECT_CREATE') %}
             <div class="actionbar">
                 <div class="pull-right">
-                    <a href="{{ path('project_create') }}" class="menu"><i class="symbol">add</i> Create new project</a>
+                    <a href="{{ path('project_create') }}" class="menu"><i class="symbol">add</i> {{ 'contextual.new_project'|trans }}</a>
                 </div>
             </div>
         {% endif %}
@@ -21,11 +22,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Access</th>
-                    <th>Size</th>
-                    <th>Branches</th>
-                    <th>Tags</th>
+                    <th>{{ 'table.column.name'|trans }}</th>
+                    <th>{{ 'table.column.access'|trans }}</th>
+                    <th>{{ 'table.column.size'|trans }}</th>
+                    <th>{{ 'table.column.branches'|trans }}</th>
+                    <th>{{ 'table.column.tags'|trans }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -40,7 +41,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4">No project found</td>
+                        <td colspan="4">{{ 'table.no_row_found'|trans }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

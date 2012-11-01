@@ -37,11 +37,11 @@
 {% endblock field_errors %}
 
 {% block checkbox_row %}
-    <div class="control-group">
+    <div class="control-group checkbox" id="{{ id }}_field">
         <div class="controls">
             <label for="{{ id }}">
                 {{ form_widget(form) }}
-                {{ label|trans({}, translation_domain) }}
+                {{ label|default(name|humanize)|trans({}, translation_domain) }}
             </label>
             {{ form_errors(form) }}
         </div>

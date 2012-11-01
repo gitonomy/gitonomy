@@ -113,7 +113,12 @@ a.btn {
     float: left;
 }
 
-.gitonomy-install form .clearfix {
+.gitonomy-install form .control-group.checkbox {
+    padding-left: 240px;
+}
+
+.gitonomy-install form .control-group {
+    overflow: hidden;
     clear: both;
     padding-bottom: 10px;
 }
