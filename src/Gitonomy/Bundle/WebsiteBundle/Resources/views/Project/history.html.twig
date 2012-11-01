@@ -28,19 +28,7 @@
     {% set results = pager.results %}
 
     <div class="actionbar">
-        <div class="btn-group pull-right">
-            <a class="menu dropdown-toggle" data-toggle="dropdown">
-                {{ reference|default('All') }}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu pull-right">
-                {% for branch in branches %}
-                    <li><a href="{{ path('project_history', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>
-                {% endfor %}
-                <li class="divider"></li>
-                <li><a href="{{ path('project_history', { slug: project.slug }) }}">All</a></li>
-            </ul>
-        </div>
+        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_history', reference: reference, withAll: true} %}
     </div>
 
     <div id="history"></div>

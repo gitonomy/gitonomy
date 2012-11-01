@@ -1,17 +1,7 @@
 {% if path != "" %}
     {% set path_record = "" %}
     <div class="actionbar">
-        <div class="btn-group pull-right">
-            <a class="menu" class="dropdown-toggle" data-toggle="dropdown">
-                {{ reference|default(project.defaultBranch) }}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu pull-right">
-                {% for branch in branches %}
-                    <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name, path: path }) }}">{{ branch.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference} %}
 
         <div class="pull-right">
             {% if active != 'show' %}
@@ -42,16 +32,6 @@
     </div>
 {% else %}
     <div class="actionbar">
-        <div class="btn-group pull-right">
-            <a class="menu dropdown-toggle" data-toggle="dropdown">
-                {{ reference|default(project.defaultBranch) }}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu pull-right">
-                {% for branch in branches %}
-                    <li><a href="{{ path('project_tree', { slug: project.slug, reference: branch.name }) }}">{{ branch.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference} %}
     </div>
 {% endif %}

@@ -85,7 +85,6 @@ class ProjectController extends Controller
         $request    = $this->getRequest();
         $reference  = $request->query->get('reference');
         $log        = $repository->getLog($reference);
-        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
 
         $pager = new Pager(new GitLogAdapter($log));
         $pager->setPerPage(50);
@@ -99,26 +98,25 @@ class ProjectController extends Controller
             return $reference->getName();
         };
 
-        $convert = function ($commit) use ($references, $referenceName) {
+        $convert = function ($commit) use ($project, $reference, $references, $referenceName) {
             return array(
-                'hash'          => $commit->getHash(),
-                'short_message' => $commit->getShortMessage(),
-                'parents'       => $commit->getParentHashes(),
-                'tags'          => array_map($referenceName, $references->resolveTags($commit)),
-                'branches'      => array_map($referenceName, $references->resolveBranches($commit)),
+                'hash'            => $commit->getHash(),
+                'short_message'   => $commit->getShortMessage(),
+                'parents'         => $commit->getParentHashes(),
+                'tags'            => array_map($referenceName, $references->resolveTags($commit)),
+                'branches'        => array_map($referenceName, $references->resolveBranches($commit)),
             );
         };
 
         return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
-            'project'    => $project,
-            'reference'  => $reference,
-            'repository' => $repository,
-            'pager'      => $pager,
-            'data'       => array_map($convert, (array) $pager->getResults()),
+            'project'       => $project,
+            'reference'     => $reference,
+            'repository'    => $repository,
+            'pager'         => $pager,
+            'data'          => array_map($convert, (array) $pager->getResults()),
             'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
             'path_exploded' => explode('/', $path),
-            'branches'      => $branches,
         ));
     }
 
@@ -303,6 +301,41 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
             'project'       => $project,
             'roleForm'      => $roleForm->createView()
+        ));
+    }
+
+
+    public function _branchActivityAction($project, $route, $reference = null, $withAll = false)
+    {
+        $project    = $this->getProject($project);
+        $repository = $this->getGitRepository($project);
+        $rows       = array();
+        $references = $repository->getReferences();
+
+        $against = $references->getBranch(null === $reference ? $project->getDefaultBranch() : $reference);
+
+        foreach ($references->getBranches() as $branch) {
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
+            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
+
+            $rows[] = array(
+                'branch'           => $branch,
+                'above'            => count($logAbove->getCommits()),
+                'behind'           => count($logBehind->getCommits()),
+                'lastModification' => $branch->getLastModification(),
+            );
+        }
+
+        usort($rows, function ($left, $right) {
+            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
+        });
+
+        return $this->render('GitonomyWebsiteBundle:Project:_branchActivity.html.twig', array(
+            'project'   => $project,
+            'branches'  => $rows,
+            'route'     => $route,
+            'reference' => $reference,
+            'withAll'   => $withAll,
         ));
     }
 
