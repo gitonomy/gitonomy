@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
@@ -92,5 +93,10 @@ class Controller extends BaseController
     protected function isTokenValid($intention, $token)
     {
         return $this->get('form.csrf_provider')->isCsrfTokenValid($intention, $token);
+    }
+
+    protected function dispatch($eventName, Event $event)
+    {
+        $this->get('gitonomy_core.event_dispatcher')->dispatchAsync($eventName, $event);
     }
 }

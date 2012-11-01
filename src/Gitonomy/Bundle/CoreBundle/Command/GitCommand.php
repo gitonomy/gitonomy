@@ -120,26 +120,20 @@ EOF
 
     protected function outputUserInformations(OutputInterface $output, User $user)
     {
-        $projectName     = $this->getContainer()->getParameter('gitonomy_frontend.project.name');
-        $projectBaseline = $this->getContainer()->getParameter('gitonomy_frontend.project.baseline');
-        $sshAccess       = $this->getContainer()->getParameter('gitonomy_frontend.ssh_access');
-
-        $output->writeln(sprintf("<info>%s</info> - %s", $projectName, $projectBaseline));
         $output->writeln("");
         $output->writeln("You are identified as ".$user->getUsername());
         $output->writeln("");
 
         $projectRoles = $user->getProjectRoles();
 
-        $output->writeln(sprintf("   %-32s %-32s %s", "Project", "Your role", "Checkout URL"));
-        $output->writeln(sprintf("   %-32s %-32s %s", "-------", "---------", "------------"));
+        $output->writeln(sprintf("   %-32s %-32s", "Project", "Your role"));
+        $output->writeln(sprintf("   %-32s %-32s", "-------", "---------"));
 
         foreach ($projectRoles as $projectRole) {
             $projectName = $projectRole->getProject()->getName();
             $projectSlug = $projectRole->getProject()->getSlug();
-            $projectUrl  = $sshAccess.':'.$projectSlug.'.git';
             $roleName    = $projectRole->getRole()->getName();
-            $output->writeln(sprintf("   %-32s %-32s %s", $projectName, $roleName, $projectUrl));
+            $output->writeln(sprintf("   %-32s %-32s", $projectName, $roleName));
         }
 
         $output->writeln("");

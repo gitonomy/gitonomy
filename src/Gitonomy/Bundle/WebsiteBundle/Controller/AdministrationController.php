@@ -92,11 +92,11 @@ class AdministrationController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                $this->persistEntity($user);
+                $this->persistEntity($role);
 
                 $this->setFlash('success', $this->trans('notice.role_created', array(), 'administration'));
 
-                return $this->redirect($this->generateUrl('administration_editRole', array('id' => $role->getId())));
+                return $this->redirect($this->generateUrl('administration_roles'));
             }
         }
 

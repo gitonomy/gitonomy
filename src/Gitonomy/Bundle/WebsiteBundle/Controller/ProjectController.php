@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
 
@@ -55,6 +57,9 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $this->persistEntity($project);
+
+            $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
+
             $this->setFlash('success', $this->trans('notice.success', array(), 'project_create'));
 
             return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));

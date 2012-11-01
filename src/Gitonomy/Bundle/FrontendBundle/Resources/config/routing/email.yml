@@ -1,6 +1,0 @@
-gitonomyfrontend_email_activate:
-    pattern: /{_locale}/email/{username}/activate/{hash}
-    defaults: { _controller: "GitonomyFrontendBundle:Email:activate" }
-    requirements:
-        username: \w+
-        hash:     \w+

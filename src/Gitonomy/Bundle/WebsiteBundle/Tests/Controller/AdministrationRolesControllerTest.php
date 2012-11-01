@@ -51,7 +51,6 @@ class AdministrationRolesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), "Page responses correctly");
-        $this->assertContains('Administration', $crawler->filter('h1')->text(), "Title is present");
     }
 
     public function testCreateAsAnonymous()
@@ -80,7 +79,6 @@ class AdministrationRolesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Create new role', $crawler->filter('h1')->text());
 
         $this->client->submit($crawler->filter('form button[type=submit]')->form(), array(
             'administration_role[name]'        => 'test',
@@ -148,12 +146,12 @@ class AdministrationRolesControllerTest extends WebTestCase
 
         $this->assertTrue($response->isSuccessful());
 
-        $this->client->submit($crawler->filter('#role input[type=submit]')->form(), array(
+        $this->client->submit($crawler->filter('form button[type=submit]')->form(), array(
             'administration_role[name]'        => $role->getName(),
             'administration_role[description]' => $role->getDescription(),
         ));
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$role->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/roles'));
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
     }

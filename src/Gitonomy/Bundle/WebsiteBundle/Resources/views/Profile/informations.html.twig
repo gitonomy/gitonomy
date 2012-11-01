@@ -42,7 +42,7 @@
                                         {% if email.isActive %}
                                             <a rel="tooltip" title="{{ 'button.default_email'|trans }}" data-method="POST" href="{{ path('profile_defaultEmail', {id: email.id, token: token }) }}" class="btn btn-small email-default"><i class="icon-star"></i></a>
                                         {% else %}
-                                            <a rel="tooltip" title="{{ 'button.activate_email'|trans }}" data-method="POST" href="{{ path('profile_activateEmail', {'id': email.id, token: token }) }}" class="btn btn-small"><i class="icon-envelope"></i></a>
+                                            <a rel="tooltip" title="{{ 'button.activate_email'|trans }}" data-method="POST" href="{{ path('profile_activateEmail', {'id': email.id, token: token }) }}" class="btn btn-small send-activation"><i class="icon-envelope"></i></a>
                                         {% endif %}
                                         <a rel="tooltip" title="{{ 'button.delete_email'|trans }}" data-method="POST" href="{{ path('profile_deleteEmail', {'id': email.id, token: token }) }}" class="btn btn-danger btn-small email-delete"><i class="icon-fire icon-white"></i></a>
                                     {% endif %}

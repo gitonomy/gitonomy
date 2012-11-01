@@ -212,14 +212,9 @@ class ProfileController extends Controller
     /**
      * Submit action for a SSH key creation.
      */
-    public function createSshKeyAction()
+    public function createSshKeyAction(Request $request)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
-        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
-
-            return $this->redirect($this->generateUrl('profile_informations'));
-        }
 
         $user = $this->getUser();
 
@@ -239,7 +234,7 @@ class ProfileController extends Controller
             }
         }
 
-        return $this->render('GitonomyFrontendBundle:Profile:sshKeys.html.twig', array(
+        return $this->render('GitonomyWebsiteBundle:Profile:sshKeys.html.twig', array(
             'sshKeys' => $user->getSshKeys(),
             'form'    => $form->createView()
         ));
