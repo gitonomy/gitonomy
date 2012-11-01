@@ -1,6 +1,8 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - History' %}
+{% trans_default_domain 'project_history' %}
+
+{% block title 'page.commit.title'|trans({'%hash%': commit.hash}) %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'history' %}
@@ -8,30 +10,51 @@
 {% block project_content %}
     {% set diff = commit.diff %}
 
-    <h2>Commit {{ commit.hash }}</h2>
+    <div class="commit-header">
+        <div class="message">{{ commit.message|nl2br }}</div>
+        <div class="author">
+            <img src="{{ gravatar(commit.authorName, 16) }}" />
+1            <strong>{{ commit.authorName }}</strong> on {{ commit.authorDate.format('Y-m-d H:i:s') }}
+        </div>
+        <div class="footer">
+            <span>{{ commit.hash }}</span>
 
-    {% for parent in commit.parents %}
-        <ul>
-            <li><strong>parent:</strong> <a href="{{ path('project_commit', {'slug': project.slug, 'hash': parent.hash}) }}">{{ parent.hash }}</a></li>
-        </ul>
-    {% endfor %}
+            <span class="pull-right">
+                {% for parent in commit.parents %}
+                    {% if loop.first %}<strong>{{ 'label.commit.parents'|trans }}</strong>{% endif %}
+                    <a href="{{ path('project_commit', {'slug': project.slug, 'hash': parent.hash}) }}">{{ parent.hash }}</a>
+                    {%- if not loop.last %},{% endif %}
+                {% endfor %}
+            </span>
+        </div>
+    </div>
 
-    <pre>{{ commit.message }}</pre>
+    <legend>{{ 'title.commit.summary'|trans }}</legend>
 
-    <h3>Summary</h3>
+    <table class="commit-summary">
+        {% for file in diff.files %}
+            <tr>
+                <td class="actions">
+                    <div class="btn-group">
+                        <a rel="tooltip" title="{{ 'label.button.file_diff'|trans }}" class="btn btn-small" href="#{{ file.newName }}"><i class="icon-list"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}"><i class="icon-file"></i></a>
+                    </div>
+                </td>
+                <td class="count">
+                    {% if file.additions %}
+                        <span class="plus">+{{ file.additions }}</span>
+                    {% endif %}
+                    {% if file.deletions %}
+                        <span class="minus">-{{ file.deletions }}</span>
+                    {% endif %}
+                <td>
+                    {{ file.newName }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
-    {% for file in diff.files %}
-        <h5>
-            <a class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}">
-                Full-file
-            </a>
-            {{ file.newName }} ( {{ file.additions }} additions, {{ file.deletions }} deletions)
-        </h5>
-    {% endfor %}
-
-    <hr />
-
-    <h3>Changes</h3>
+    <legend>Changes</legend>
 
     {% for file in diff.files %}
         <ul>
