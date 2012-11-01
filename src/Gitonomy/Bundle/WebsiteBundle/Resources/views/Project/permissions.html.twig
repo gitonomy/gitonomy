@@ -10,7 +10,7 @@
 {% block project_content %}
     <div id="content">
         <h2>{{ 'title.user_role'|trans }}</h2>
-        <form method="POST" action="{{ path('project_postPermissionsCreateRole', {slug: project.slug}) }}">
+        <form method="POST" action="{{ path('project_postPermissionsCreateRole', {slug: project.slug}) }}" id="user-role">
             {{ form_errors(roleForm) }}
             <table class="bordered-table table table-striped">
                 <thead>
@@ -54,7 +54,7 @@
             {{ form_rest(roleForm) }}
         </form>
         <h2>{{ 'title.git_accesses'|trans }}</h2>
-        <form method="POST" action="{{ path('project_postPermissionsCreateGitAccess', {slug: project.slug}) }}">
+        <form method="POST" action="{{ path('project_postPermissionsCreateGitAccess', {slug: project.slug}) }}" id="git-access">
             {{ form_errors(gitAccessForm) }}
             <table class="bordered-table table table-striped">
                 <thead>

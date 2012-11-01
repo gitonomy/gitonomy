@@ -21,7 +21,12 @@ class ProjectController extends Controller
 
         $pool = $this->get('gitonomy_core.git.repository_pool');
 
-        $entities = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
+        if ($this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL')) {
+            $entities = $this->getRepository('GitonomyCoreBundle:Project')->findAll();
+        } else {
+            $entities = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
+        }
+
         $projects = array();
         foreach ($entities as $entity) {
             $projects[] = array($entity, $pool->getGitRepository($entity));
@@ -68,7 +73,7 @@ class ProjectController extends Controller
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
         $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
-        $references = $this->getGitRepository($project)->getReferences();
+        $references = $repository->getReferences();
 
         if (!$references->hasBranches()) {
             return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
@@ -256,8 +261,10 @@ class ProjectController extends Controller
 
     public function permissionsAction($slug)
     {
+        $this->assertGranted('ROLE_PROJECT_EDIT');
+
         $project       = $this->getProject($slug);
-        $roleForm      = $this->createForm('project_role',       null, array('usedUsers' => $project->getUsers()));
+        $roleForm      = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
         $gitAccessForm = $this->createForm('project_git_access');
 
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
@@ -405,7 +412,10 @@ class ProjectController extends Controller
             throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
         }
 
-        if (!$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)) {
+        if (
+            !$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)
+            && !$this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL', $project)
+        ) {
             throw $this->createAccessDeniedException('You are not contributor of the project');
         }
 

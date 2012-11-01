@@ -31,15 +31,15 @@ class AdminUserControllerTest extends WebTestCase
 
     public function testListAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/list');
+        $crawler  = $this->client->request('GET', '/admin/users');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testListAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/list');
+        $crawler  = $this->client->request('GET', '/admin/users');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -47,25 +47,24 @@ class AdminUserControllerTest extends WebTestCase
     public function testListAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/list');
+        $crawler  = $this->client->request('GET', '/admin/users');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Users', $crawler->filter('h1')->text());
-        $this->assertEquals(4, $crawler->filter('table thead tr th')->count());
+        $this->assertContains('Administration', $crawler->filter('h1')->text());
     }
 
     public function testCreateAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
+        $crawler  = $this->client->request('GET', '/admin/users/create');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testCreateAsConnected()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
+        $crawler  = $this->client->request('GET', '/admin/users/create');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -74,16 +73,15 @@ class AdminUserControllerTest extends WebTestCase
     {
         $this->client->connect('admin');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/create');
+        $crawler  = $this->client->request('GET', '/admin/users/create');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Create new user', $crawler->filter('h1')->text());
 
         $form = $crawler->filter('#user input[type=submit]')->form(array(
-            'adminuser[username]'           => 'test',
-            'adminuser[fullname]'           => 'test',
-            'adminuser[timezone]'           => 'Europe/Paris',
+            'user[username]'           => 'test',
+            'user[fullname]'           => 'test',
+            'user[timezone]'           => 'Europe/Paris',
         ));
 
         $this->client->submit($form);
@@ -91,22 +89,22 @@ class AdminUserControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('test');
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/users/'.$user->getId().'/edit'));
 
         $this->assertNotEmpty($user);
     }
 
     public function testEditAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/edit');
+        $crawler  = $this->client->request('GET', '/admin/users/1/edit');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testEditAsAlice()
     {
         $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/1/edit');
+        $crawler  = $this->client->request('GET', '/admin/users/1/edit');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -118,7 +116,7 @@ class AdminUserControllerTest extends WebTestCase
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/edit');
+        $crawler  = $this->client->request('GET', '/admin/users/'.$user->getId().'/edit');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -128,7 +126,7 @@ class AdminUserControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$user->getId().'/edit'));
     }
 
     public function testSendActivationForAdmin()
@@ -138,7 +136,7 @@ class AdminUserControllerTest extends WebTestCase
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/activate');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/activate');
         $response = $this->client->getResponse();
 
         // no mail sent
@@ -158,7 +156,7 @@ class AdminUserControllerTest extends WebTestCase
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
 
         $this->client->followRedirects(false);
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/activate');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/activate');
         $response = $this->client->getResponse();
         $this->assertNotEquals(500, $response->getStatusCode());
         $this->client->followRedirects(true);
@@ -168,7 +166,7 @@ class AdminUserControllerTest extends WebTestCase
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/edit'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$user->getId().'/edit'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-success');
@@ -186,17 +184,17 @@ class AdminUserControllerTest extends WebTestCase
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneByName('Barbaz');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/userrole');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/userrole');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_role_project input[type=submit]')->form(array(
-            'adminuserroleproject[project]' => $project->getId(),
-            'adminuserroleproject[role]'    => $role->getId(),
+            'adminroleproject[project]' => $project->getId(),
+            'adminroleproject[role]'    => $role->getId(),
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/userrole'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$user->getId().'/userrole'));
     }
 
     public function testAdminCreateEmailExists()
@@ -205,7 +203,7 @@ class AdminUserControllerTest extends WebTestCase
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
 
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/emails');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/emails');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
@@ -225,7 +223,7 @@ class AdminUserControllerTest extends WebTestCase
 
         $this->client->connect('admin');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/emails');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/emails');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('#user_email input[type=submit]')->form(array(
@@ -241,7 +239,7 @@ class AdminUserControllerTest extends WebTestCase
 
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('admin@mydomain.tld');
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$email->getUser()->getId().'/emails'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$email->getUser()->getId().'/emails'));
         $crawler = $this->client->followRedirect();
 
         $node = $crawler->filter('div.alert-success');
@@ -262,12 +260,12 @@ class AdminUserControllerTest extends WebTestCase
         $this->assertNotEmpty($email);
         $user  = $email->getUser();
 
-        $crawler   = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/emails/'.$email->getId().'/send-activation');
+        $crawler   = $this->client->request('GET', '/admin/'.$user->getId().'/emails/'.$email->getId().'/send-activation');
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/emails'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$user->getId().'/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-success');
@@ -281,9 +279,11 @@ class AdminUserControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
+        $this->markTestSkipped();
+
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testDeleteAsAlice()
@@ -293,7 +293,7 @@ class AdminUserControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -305,14 +305,14 @@ class AdminUserControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/'.$user->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/users'));
     }
 
     public function testDeleteUserRole()
@@ -327,13 +327,13 @@ class AdminUserControllerTest extends WebTestCase
             'project' => $project
         ));
 
-        $crawler  = $this->client->request('GET', '/en_US/adminuser/projectrole/'.$projectRole->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/admin/projectrole/'.$projectRole->getId().'/delete');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('input[type=submit][value=Delete]')->form();
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/adminuser/'.$user->getId().'/userrole'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/'.$user->getId().'/userrole'));
     }
 }

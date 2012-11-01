@@ -17,7 +17,9 @@
             <li><a href="{{ path('project_tree', {slug: project.slug, reference: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>{{ 'menu.source'|trans }}</a></li>
             <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>{{ 'menu.branches'|trans }}</a></li>
             <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>{{ 'menu.tags'|trans }}</a></li>
-            <li><a href="{{ path('project_permissions', {slug: slug }) }}"{% if local_navigation == 'permissions' %} class="active"{% endif %}>{{ 'menu.permissions'|trans }}</a></li>
+            {% if is_granted('ROLE_PROJECT_EDIT') %}
+                <li><a href="{{ path('project_permissions', {slug: slug }) }}"{% if local_navigation == 'permissions' %} class="active"{% endif %}>{{ 'menu.permissions'|trans }}</a></li>
+            {% endif %}
         </ul>
 
         <div id="content" class="with-menu">

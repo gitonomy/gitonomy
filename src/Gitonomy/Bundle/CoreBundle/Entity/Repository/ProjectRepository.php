@@ -18,6 +18,16 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class ProjectRepository extends EntityRepository
 {
+    public function findAll()
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     public function findByUser(Entity\User $user)
     {
         return $this
