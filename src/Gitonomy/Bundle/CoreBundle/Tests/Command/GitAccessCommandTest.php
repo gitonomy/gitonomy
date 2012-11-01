@@ -31,7 +31,7 @@ class GitAccessCommandTest extends CommandTestCase
 
     public function testSimpleCreateCase()
     {
-        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git-access create barbaz admin master 1 1 1');
+        list($statusCode ,$output) = $this->runCommand($this->client, 'gitonomy:git-access create barbaz admin master 1 1');
 
         $this->assertEquals(0, $statusCode, 'statusCode is equal to 0');
         $this->assertEquals("The git-access was successfully created!\n", $output);
