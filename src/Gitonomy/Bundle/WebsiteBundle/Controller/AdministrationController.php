@@ -58,7 +58,7 @@ class AdministrationController extends Controller
 
                 $this->setFlash('success', $this->trans('notice.user_updated', array(), 'administration'));
 
-                return $this->redirect($this->generateUrl('administration_editUser', array('id' => $user->getId())));
+                return $this->redirect($this->generateUrl('administration_users'));
             }
         }
 
