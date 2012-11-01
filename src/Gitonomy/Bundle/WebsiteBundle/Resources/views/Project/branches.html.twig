@@ -1,19 +1,20 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - Tags' %}
-
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'branches' %}
+{% trans_default_domain 'project_branches' %}
+
+{% block title 'page.title'|trans({'%project%': project.name}) %}
 
 {% block project_content %}
     <div id="content">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Last commit</th>
-                    <th>Author</th>
-                    <th>Date</th>
+                    <th>{{ 'table.column.branch'|trans }}</th>
+                    <th>{{ 'table.column.last_commit'|trans }}</th>
+                    <th>{{ 'table.column.author'|trans }}</th>
+                    <th>{{ 'table.column.date'|trans }}</th>
                 </tr>
             </thead>
             <tbody>

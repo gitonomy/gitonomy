@@ -1,0 +1,5 @@
+page.title: "%project% - Branches"
+table.column.branch: "Branch"
+table.column.last_commit: "Last commit"
+table.column.author: "Author"
+table.column.date: "Date"
