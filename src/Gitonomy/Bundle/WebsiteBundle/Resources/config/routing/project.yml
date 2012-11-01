@@ -43,3 +43,18 @@ project_tree_history:
 project_permissions:
     pattern: /projects/{slug}/permissions
     defaults: { _controller: "GitonomyWebsiteBundle:Project:permissions" }
+    requirements: { _method: GET }
+
+project_permissionsCreateRole:
+    pattern: /projects/{slug}/permissions/role
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateRole" }
+    requirements: { _method: GET }
+
+project_postPermissionsCreateRole:
+    pattern: /projects/{slug}/permissions/role
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateRole" }
+    requirements: { _method: POST }
+
+project_permissionsDeleteRole:
+    pattern: /projects/{slug}/permissions/role/{id}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:permissionsDeleteRole" }

@@ -8,6 +8,7 @@ use Gitonomy\Git\Reference;
 use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Component\Pagination\Pager;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
 
@@ -249,9 +250,59 @@ class ProjectController extends Controller
     public function permissionsAction($slug)
     {
         $project = $this->getProject($slug);
+        $roleForm = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
 
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
-            'project'       => $project
+            'project'       => $project,
+            'roleForm'      => $roleForm->createView()
+        ));
+    }
+
+    public function postPermissionsCreateRoleAction(Request $request, $slug)
+    {
+        $project = $this->getProject($slug);
+        $role    = new UserRoleProject(null, $project);
+        $roleForm = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
+
+        $roleForm->bind($request);
+        if ($roleForm->isValid()) {
+            $this->persistEntity($role);
+
+            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
+            'project'       => $project,
+            'roleForm'      => $roleForm->createView()
+        ));
+    }
+
+    public function permissionsDeleteRoleAction(Request $request, $slug, $id)
+    {
+        $project = $this->getProject($slug);
+        $role    = $this->getRepository('GitonomyCoreBundle:UserRoleProject')->find($id);
+        if ($role->getProject()->getSlug() !== $project->getSlug()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->remove($role);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+
+        $roleForm = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
+
+        $roleForm->bind($request);
+        if ($roleForm->isValid()) {
+            $this->persistEntity($role);
+
+            return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
+            'project'       => $project,
+            'roleForm'      => $roleForm->createView()
         ));
     }
 

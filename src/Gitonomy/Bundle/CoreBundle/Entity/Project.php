@@ -52,6 +52,16 @@ class Project
         return null;
     }
 
+    public function getUsers()
+    {
+        $result = array();
+        foreach ($this->userRoles as $userRole) {
+            $result[] = $userRole->getUser();
+        }
+
+        return $result;
+    }
+
     public function getId()
     {
         return $this->id;
