@@ -1,0 +1,17 @@
+{% set flashes = app.session.flashes %}
+
+{% if  flashes | length > 0 %}
+    <div class="flash-messages">
+    {% for flash, message in flashes %}
+        <p class="{{ flash }}">
+            {% if flash == "success" %}
+                <i class="symbol">check</i>
+            {% elseif flash == "error" %}
+                <i class="symbol">surprise</i>
+            {% endif %}
+            {{ message | raw }}
+        </p>
+    {% endfor %}
+    </div>
+{% endif %}
+
