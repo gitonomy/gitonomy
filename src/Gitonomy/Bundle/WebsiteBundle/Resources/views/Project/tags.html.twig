@@ -1,19 +1,20 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - Tags' %}
-
+{% trans_default_domain 'project_tags' %}
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'tags' %}
+
+{% block title 'page.title'|trans({'%project%': project.name}) %}
 
 {% block project_content %}
     <div id="content">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Last commit</th>
-                    <th>Author</th>
-                    <th>Date</th>
+                    <th>{{ 'table.name'|trans }}</th>
+                    <th>{{ 'table.last_commit'|trans }}</th>
+                    <th>{{ 'table.author'|trans }}</th>
+                    <th>{{ 'table.date'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +32,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4">No Tags found</td>
+                        <td colspan="4">{{ 'table.no_row'|trans }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

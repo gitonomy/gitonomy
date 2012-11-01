@@ -1,0 +1,6 @@
+page.title: "%project% - Tags"
+table.name: "Nom"
+table.last_commit: "Dernier commit"
+table.author: "Auteur"
+table.date: "Date"
+table.no_row: "Aucun tag trouvé"
