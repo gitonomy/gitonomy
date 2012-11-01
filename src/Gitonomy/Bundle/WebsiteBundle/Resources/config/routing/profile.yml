@@ -1,31 +1,42 @@
 profile_informations:
     pattern: /profile
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:informations" }
+    requirements: { _method: GET }
 
-profile_email_create:
+profile_saveInformations:
+    pattern: /profile
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:saveInformations" }
+    requirements: { _method: POST }
+
+profile_createEmail:
     pattern: /profile/emails/create
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailCreate" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:createEmail" }
 
-profile_emails_default:
+profile_defaultEmail:
     pattern:  /profile/emails/{id}/default
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailDefault" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:defaultEmail" }
+    requirements: { _method: POST }
 
-profile_emails_sendactivation:
-    pattern:  /profile/emails/{id}/send-activation
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailSendActivation" }
+profile_activateEmail:
+    pattern:  /profile/emails/{id}/activate
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:activateEmail" }
+    requirements: { _method: POST }
 
-profile_emails_delete:
+profile_deleteEmail:
     pattern:  /profile/emails/{id}/delete
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:emailDelete" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:deleteEmail" }
+    requirements: { _method: POST }
 
 profile_sshKeys:
     pattern: /profile/ssh-keys
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:sshKeys" }
 
 profile_deleteSshKey:
-    pattern: /{_locale}/profile/delete-ssh-key/{id}
+    pattern: /profile/delete-ssh-key/{id}
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:deleteSshKey" }
+    requirements: { _method: POST }
 
 profile_createSshKey:
-    pattern: /{_locale}/profile/create-ssh-key
+    pattern: /profile/create-ssh-key
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:createSshKey" }
+    requirements: { _method: POST }

@@ -2,6 +2,8 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
@@ -10,10 +12,19 @@ class ProfileController extends Controller
     public function informationsAction()
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+
         $user = $this->getUser();
 
-        $form = $this->createForm('profile_informations', $user);
+        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
+            'user'       => $user,
+            'form'       => $this->createForm('profile_informations', $user)->createView(),
+            'form_email' => $this->createForm('profile_email', new Email($user))->createView(),
+            'token'      => $this->createToken('profile')
+        ));
+    }
 
+    public function saveInformationsAction(Request $request)
+    {
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
@@ -22,97 +33,90 @@ class ProfileController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile'));
+                $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile_informations'));
 
                 return $this->redirect($this->generateUrl('profile_informations'));
             }
         }
 
-        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
-            'form_email' => $this->createForm('profile_email', new Email($user))->createView(),
-        ));
     }
 
-    public function emailCreateAction()
+    public function createEmailAction(Request $request)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
 
+        $user  = $this->getUser();
         $email = new Email($user);
-        $form = $this->createForm('profile_email', $email);
+        $form  = $this->createForm('profile_email', $email);
 
-        $request = $this->getRequest();
-        if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($email);
-                $em->flush();
+        if ($form->bind($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($email);
+            $em->flush();
 
-                $this->setFlash('success', $this->trans('notice.profile_email_saved', array(), 'profile'));
+            $this->setFlash('success', $this->trans('notice.email_created', array(), 'profile_informations'));
 
-                return $this->redirect($this->generateUrl('profile_informations'));
-            }
+            return $this->redirect($this->generateUrl('profile_informations'));
         }
 
         return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
-            'user' => $user,
-            'form' => $this->createForm('profile_informations', $user)->createView(),
+            'user'       => $user,
+            'form'       => $this->createForm('profile_informations', $user)->createView(),
             'form_email' => $form->createView(),
         ));
     }
 
-    /**
-     * Action to delete an email for a user from admin user
-     */
-    public function emailDeleteAction($id)
+    public function deleteEmailAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
+            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+
+            return $this->redirect($this->generateUrl('profile_informations'));
+        }
 
         $email = $this->findEmail($id);
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($email);
         $em->flush();
-        $this->setFlash('success', $this->trans('notice.email_deleted', array('%email%' => $email->getEmail()), 'profile'));
+        $this->setFlash('success', $this->trans('notice.email_deleted', array(), 'profile_informations'));
 
         return $this->redirect($this->generateUrl('profile_informations'));
     }
 
-    /**
-     * Action to make as default an email
-     */
-    public function emailDefaultAction($id)
+    public function defaultEmailAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
+            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+
+            return $this->redirect($this->generateUrl('profile_informations'));
+        }
 
         $defaultEmail = $this->findEmail($id);
         $user         = $defaultEmail->getUser();
 
         if (!$defaultEmail->isActive()) {
-            throw new \LogicException(sprintf('Email "%d" is not activated!', $defaultEmail->getId()));
+            throw $this->createAccessDeniedException('Cannot activate a mail that was not activated');
         }
 
-        foreach ($user->getEmails() as $email) {
-            if ($email->isDefault()) {
-                $email->setDefault(false);
-            }
-        }
+        $user->setDefaultEmail($defaultEmail);
+        $this->persistEntity($defaultEmail);
 
-        $defaultEmail->setDefault(true);
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->flush();
-        $message = $this->trans('notice.email_as_default', array('%email%' => $email->getEmail()), 'profile');
-        $this->get('session')->setFlash('success', $message);
+        $this->setFlash('success', $this->trans('notice.default_email_changed', array(), 'profile_informations'));
 
         return $this->redirect($this->generateUrl('profile_informations'));
     }
 
-    public function emailSendActivationAction($id)
+    public function activateEmailAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
+            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+
+            return $this->redirect($this->generateUrl('profile_informations'));
+        }
 
         $email = $this->findEmail($id);
         $token = $email->createActivationToken();
@@ -123,9 +127,7 @@ class ProfileController extends Controller
             'token' => $token
         ));
 
-        $message = $this->trans('notice.activation_sent', array('%email%' => $email->getEmail()), 'profile');
-        $message = sprintf('Activation mail for "%s" sent.', $email->getEmail());
-        $this->setFlash('success', $message);
+        $this->setFlash('success', $this->trans('notice.activation_sent', array(), 'profile_informations'));
 
         return $this->redirect($this->generateUrl('profile_informations'));
     }
@@ -150,6 +152,11 @@ class ProfileController extends Controller
     public function deleteSshKeyAction($id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
+            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+
+            return $this->redirect($this->generateUrl('profile_informations'));
+        }
 
         $userSshKey = $this->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
 
@@ -175,6 +182,12 @@ class ProfileController extends Controller
     public function createSshKeyAction()
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
+            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+
+            return $this->redirect($this->generateUrl('profile_informations'));
+        }
+
         $user = $this->getUser();
 
         $userSshKey = new UserSshKey($user);

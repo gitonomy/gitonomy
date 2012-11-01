@@ -22,12 +22,15 @@ class Email
     protected $isDefault;
     protected $activationToken;
 
-    public function __construct(User $user, $email = null)
+    public function __construct(User $user, $email = null, $isActive = false)
     {
         $this->user  = $user;
         $this->email = $email;
-
         $this->isDefault = false;
+
+        if (!$isActive) {
+            $this->createActivationToken();
+        }
     }
 
     public function getId()

@@ -35,7 +35,7 @@ class InformationsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'validation_groups'  => array('profile'),
-            'translation_domain' => 'profile'
+            'translation_domain' => 'profile_informations'
         ));
     }
 }
