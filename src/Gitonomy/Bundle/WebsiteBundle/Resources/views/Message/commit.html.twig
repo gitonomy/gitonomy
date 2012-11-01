@@ -1,16 +1,18 @@
 {% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
+{% trans_default_domain 'newsfeed' %}
+
 {% block sentence %}
     {% set count = message.commitCount %}
-
-    {% if message.isForce %}<strong>force-</strong>{% endif %}<span class="message-blue">pushed</span> {% transchoice count %}
-        {0}no commits|{1} 1 commit|]1,Inf] %count% commits
-    {% endtranschoice %}.
+    {% if message.isForce %}
+        {{ 'message.commit_forced'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
+    {% else %}
+        {{ 'message.commit_pushed'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
+    {% endif %}
 {% endblock %}
 
 {% block message %}
     {% set count = message.commitCount %}
-
     {% if count %}
         <table class="table table-condensed commit-list">
             <tbody>

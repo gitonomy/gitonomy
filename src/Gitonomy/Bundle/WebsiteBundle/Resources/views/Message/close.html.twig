@@ -1,5 +1,7 @@
 {% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
+{% trans_default_domain 'newsfeed' %}
+
 {% block sentence %}
-    <span class="message-red">closed</span> this thread.
+    {{ 'message.thread_closed'|trans|replace({'%before_verb%': '<span class="message-red">', '%after_verb%': '</span>'})|raw }}
 {% endblock %}

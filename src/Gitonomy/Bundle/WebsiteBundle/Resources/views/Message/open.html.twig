@@ -1,5 +1,5 @@
 {% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
-{% block sentence %}
-    <span class="message-green">opened</span> this thread by a git command.
-{% endblock %}
+{% trans_default_domain 'newsfeed' %}
+
+{% block sentence 'message.thread_created'|trans|replace({'%before_verb%': '<span class="message-green">', '%after_verb%': '</span>'})|raw %}

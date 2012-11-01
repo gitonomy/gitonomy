@@ -1,3 +1,5 @@
 {% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
-{% block sentence 'merged the branch.' %}
+{% trans_default_domain 'newsfeed' %}
+
+{% block sentence 'message.merged'|trans %}

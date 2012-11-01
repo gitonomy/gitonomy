@@ -1,0 +1,7 @@
+message.thread_created: "%before_verb%created%after_verb% this branch"
+message.thread_closed: "%before_verb%deleted%after_verb% this branch"
+message.commit_forced: "%before_verb%forced%after_verb% %commits"
+message.commit_pushed: "%before_verb%pushed%after_verb% %commits%"
+message.merged: "merged branch"
+message.post: "a posté un message"
+inline.commits: "{0}no commits|{1} 1 commit|]1,Inf] %count% commits"

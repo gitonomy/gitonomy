@@ -1,6 +1,8 @@
 {% extends "GitonomyWebsiteBundle:Message:message.html.twig" %}
 
-{% block sentence 'wrote something.' %}
+{% trans_default_domain 'newsfeed' %}
+
+{% block sentence 'message.post'|trans %}
 
 {% block message %}
     <p>{{ message.message }}</p>
