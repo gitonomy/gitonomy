@@ -4,7 +4,6 @@ splash_login:
 
 splash_loginCheck:
     pattern: /login-check
-    defaults: { _controller: "GitonomyWebsiteBundle:Splash:loginCheck" }
 
 splash_logout:
     pattern: /logout
