@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\WebsiteBundle\Form;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Administration;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -54,6 +54,6 @@ class UserType extends AbstractType
 
     public function getName()
     {
-        return 'user';
+        return 'administration_user';
     }
 }

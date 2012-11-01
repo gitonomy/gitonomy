@@ -20,8 +20,9 @@
         <parameter key="gitonomy_website.form.type.profile_email.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\EmailType</parameter>
         <parameter key="gitonomy_website.form.type.profile_ssh_key.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\SshKeyType</parameter>
 
-        <!-- User -->
-        <parameter key="gitonomy_website.form.type.user.class">Gitonomy\Bundle\WebsiteBundle\Form\UserType</parameter>
+        <!-- Administration -->
+        <parameter key="gitonomy_website.form.type.administration_user.class">Gitonomy\Bundle\WebsiteBundle\Form\Administration\UserType</parameter>
+        <parameter key="gitonomy_website.form.type.administration_role.class">Gitonomy\Bundle\WebsiteBundle\Form\Administration\RoleType</parameter>
     </parameters>
 
     <services>
@@ -65,9 +66,12 @@
             <tag name="form.type" alias="profile_ssh_key" />
         </service>
 
-        <!-- User -->
-        <service id="gitonomy_website.form.type.user" class="%gitonomy_website.form.type.user.class%">
-            <tag name="form.type" alias="user" />
+        <!-- Administration -->
+        <service id="gitonomy_website.form.type.administration_user" class="%gitonomy_website.form.type.administration_user.class%">
+            <tag name="form.type" alias="administration_user" />
+        </service>
+        <service id="gitonomy_website.form.type.administration_role" class="%gitonomy_website.form.type.administration_role.class%">
+            <tag name="form.type" alias="administration_role" />
         </service>
     </services>
 

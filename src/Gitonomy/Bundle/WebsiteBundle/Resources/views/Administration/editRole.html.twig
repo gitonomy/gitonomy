@@ -1,16 +1,16 @@
 {% extends "GitonomyWebsiteBundle::layout_administration.html.twig" %}
 
-{% set local_navigation = 'users' %}
+{% set local_navigation = 'roles' %}
 
 {% block administration_content %}
     <div id="content">
-        <form method="POST" action"{{ path('administration_createUser') }}" class="form-horizontal">
-            <legend>Create a new user</legend>
+        <form method="POST" action"{{ path('administration_editRole', {id: role.id}) }}" class="form-horizontal" novalidate>
+            <legend>Edit role {{ role.name }}</legend>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
                     <button class="btn btn-success" type="submit"><i class="symbol">plus</i> {{ 'form.submit'|trans }}</button>
-                    <a class="btn" href="{{ path('administration_users') }}">{{ 'form.cancel'|trans }}</a>
+                    <a class="btn" href="{{ path('administration_roles') }}">{{ 'form.cancel'|trans }}</a>
                 </div>
             </div>
         </form>

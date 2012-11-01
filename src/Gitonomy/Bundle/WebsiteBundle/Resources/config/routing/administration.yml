@@ -17,3 +17,11 @@ administration_editUser:
 administration_roles:
     pattern: /admin/roles
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:roles" }
+
+administration_createRole:
+    pattern: /admin/roles/create
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:createRole" }
+
+administration_editRole:
+    pattern: /admin/roles/{id}/edit
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:editRole" }

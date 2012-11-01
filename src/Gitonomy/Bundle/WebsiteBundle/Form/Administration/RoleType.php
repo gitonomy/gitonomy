@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Administration;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -56,13 +56,8 @@ class RoleType extends AbstractType
         ));
     }
 
-    public function getParent()
-    {
-        return 'baseadmin';
-    }
-
     public function getName()
     {
-        return 'adminrole';
+        return 'administration_role';
     }
 }

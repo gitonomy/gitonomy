@@ -3,13 +3,31 @@
 {% set local_navigation = 'roles' %}
 
 {% block administration_content %}
-    <h2>Visitor</h2>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
-    <p>bla bla bla</p>
+    <div class="actionbar">
+        <div class="pull-right">
+            <a href="{{ path('administration_createRole') }}" class="menu"><i class="symbol">add</i> Create new role</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ 'table.list.column.name'|trans({}, 'admin_role') }}</th>
+                <th>{{ 'table.list.column.description'|trans({}, 'admin_role') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for role in roles %}
+                <tr>
+                    <td>{{ role.name }}</td>
+                    <td>{{ role.description }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a class="btn btn-small" href="{{ path('administration_editRole', {id: role.id}) }}"><i class="icon-edit"></i></a>
+                            <a class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
