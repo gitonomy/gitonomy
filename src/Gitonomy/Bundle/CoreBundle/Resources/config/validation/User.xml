@@ -20,6 +20,13 @@
         </constraint>
 
         <property name="username">
+            <constraint name="Assert:NotBlank">
+                <option name="groups">
+                    <value>registration</value>
+                    <value>admin</value>
+                    <value>change_username</value>
+                </option>
+            </constraint>
             <constraint name="Assert:MinLength">
                 <option name="limit">3</option>
                 <option name="groups">

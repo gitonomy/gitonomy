@@ -3,66 +3,36 @@
 {% set local_navigation = 'users' %}
 
 {% block administration_content %}
+    <div class="actionbar">
+        <div class="pull-right">
+            <a href="{{ path('administration_createUser') }}" class="menu"><i class="symbol">add</i> Create new user</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Fullname</th>
-                <th>Username</th>
-                <th>E-mails</th>
-                <th>Timezone</th>
-                <th>Culture</th>
-                <th>Actions</th>
+                <th>{{ 'table.list.column.fullname'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.username'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.email'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.culture'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.action'|trans({}, 'admin_user') }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
-            <tr>
-                <td>Alexandre Salomé</td>
-                <td>alex</td>
-                <td>alexandre.salome@gmail.com, wodkaist@gmail.com</td>
-                <td>Europe/Paris</td>
-                <td>fr_FR</td>
-                <td><button class="btn">Actions <i class="symbol">dropdown</i></button></td>
-            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.fullname }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.hasDefaultEmail ? user.defaultEmail.email : '' }}</td>
+                    <td>{{ user.timezone }}</td>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a class="btn btn-small" href="{{ path('administration_editUser', {id: user.id}) }}"><i class="icon-edit"></i></a>
+                            <a class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

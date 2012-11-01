@@ -9,7 +9,6 @@
 
     <div id="wrapper">
         <ul id="local-menu">
-            <li><a href="{{ path('administration_dashboard') }}"{% if local_navigation == 'dashboard' %} class="active"{% endif %}>Dashboard</a></li>
             <li><a href="{{ path('administration_users') }}"{% if local_navigation == 'users' %} class="active"{% endif %}>Users</a></li>
             <li><a href="{{ path('administration_roles') }}"{% if local_navigation == 'roles' %} class="active"{% endif %}>Roles</a></li>
         </ul>

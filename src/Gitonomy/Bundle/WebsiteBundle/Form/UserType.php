@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Admin;
+namespace Gitonomy\Bundle\WebsiteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -46,19 +46,14 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\User',
-            'translation_domain' => 'admin_user',
-            'user'       => null,
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'administration',
+            'user'               => null,
         ));
-    }
-
-    public function getParent()
-    {
-        return 'baseadmin';
     }
 
     public function getName()
     {
-        return 'adminuser';
+        return 'user';
     }
 }

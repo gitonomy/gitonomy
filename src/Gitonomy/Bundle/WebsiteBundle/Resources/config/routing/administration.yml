@@ -6,6 +6,14 @@ administration_users:
     pattern: /admin/users
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:users" }
 
+administration_createUser:
+    pattern: /admin/users/create
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:createUser" }
+
+administration_editUser:
+    pattern: /admin/users/{id}/edit
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:editUser" }
+
 administration_roles:
     pattern: /admin/roles
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:roles" }
