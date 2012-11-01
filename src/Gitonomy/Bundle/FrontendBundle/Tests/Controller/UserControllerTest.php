@@ -31,7 +31,7 @@ class UserControllerTest extends WebTestCase
 
     public function testShowAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/user/alice');
+        $crawler  = $this->client->request('GET', '/user/alice');
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isRedirect());
@@ -53,7 +53,7 @@ class UserControllerTest extends WebTestCase
     {
         $this->client->connect($userFrom);
 
-        $crawler  = $this->client->request('GET', '/en_US/user/'.$userTo);
+        $crawler  = $this->client->request('GET', '/user/'.$userTo);
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());

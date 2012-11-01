@@ -12,6 +12,7 @@
         <ul id="local-menu">
             <li><a href="{{ path('profile_informations') }}"{% if local_navigation == 'informations' %} class="active"{% endif %}>Informations</a></li>
             <li><a href="{{ path('profile_sshKeys') }}"{% if local_navigation == 'sshKeys' %} class="active"{% endif %}>SSH Keys</a></li>
+            <li><a href="{{ path('profile_password') }}"{% if local_navigation == 'password' %} class="active"{% endif %}>Password</a></li>
         </ul>
 
         <div id="content" class="with-menu">

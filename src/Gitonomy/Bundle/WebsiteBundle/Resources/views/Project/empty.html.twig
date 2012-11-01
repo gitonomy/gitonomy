@@ -1,0 +1,18 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% block title app.request.attributes.get('slug') ~ ' - Project is empty' %}
+
+{% set global_navigation = 'projects' %}
+
+{% block content %}
+    <h1>{{ project.name }}</h1>
+    <div id="content">
+        <h2>How to make your first commit:</h2>
+        <pre>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}
+cd {{ project.slug }}
+echo "Hello world" > README
+git add -A
+git commit -m "Hello world"
+git push origin master
+    </div>
+{% endblock %}

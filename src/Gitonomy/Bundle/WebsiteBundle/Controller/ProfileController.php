@@ -50,6 +50,8 @@ class ProfileController extends Controller
         $form  = $this->createForm('profile_email', $email);
 
         if ($form->bind($request)->isValid()) {
+            $email->createActivationToken();
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($email);
             $em->flush();
@@ -130,6 +132,37 @@ class ProfileController extends Controller
         $this->setFlash('success', $this->trans('notice.activation_sent', array(), 'profile_informations'));
 
         return $this->redirect($this->generateUrl('profile_informations'));
+    }
+
+    /**
+     * Change the password.
+     */
+    public function passwordAction()
+    {
+        $this->assertGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getUser();
+        $em->detach($session);
+
+        $user = $this->getRepository('GitonomyCoreBundle:User')->find($session->getId());
+        $form = $this->createForm('profile_password', $user);
+
+        $request = $this->getRequest();
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->flush();
+
+                $this->setFlash('success', 'Your new password was conscientiously saved!');
+
+                return $this->redirect($this->generateUrl('profile_password'));
+            }
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Profile:password.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     public function sshKeysAction()

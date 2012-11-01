@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
+namespace Gitonomy\Bundle\WebsiteBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -34,16 +34,16 @@ class ProjectControllerTest extends WebTestCase
 
     public function testShowAsDisconnected()
     {
-        $crawler  = $this->client->request('GET', '/en_US/project/foobar');
+        $crawler  = $this->client->request('GET', '/projects/foobar');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testShowAsNotPermitted()
     {
         $this->client->connect('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/barbaz');
+        $crawler  = $this->client->request('GET', '/projects/barbaz');
         $response = $this->client->getResponse();
 
         $this->assertEquals(403, $response->getStatusCode());
@@ -53,7 +53,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/foobar');
+        $crawler  = $this->client->request('GET', '/projects/foobar');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -63,7 +63,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/empty');
+        $crawler  = $this->client->request('GET', '/projects/empty');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -73,7 +73,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/foobar/history?reference=master');
+        $crawler  = $this->client->request('GET', '/projects/foobar/history?reference=master');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -83,7 +83,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/empty/history');
+        $crawler  = $this->client->request('GET', '/projects/empty/history');
         $response = $this->client->getResponse();
 
         $this->assertEquals(500, $response->getStatusCode()); // fatal: bad default revision 'HEAD'
@@ -93,7 +93,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/project/foobar/history?reference=new-feature');
+        $crawler  = $this->client->request('GET', '/projects/foobar/history?reference=new-feature');
         $response = $this->client->getResponse();
 
         $this->assertCount(0, $crawler->filter('a:contains("Add a test script")'));
@@ -105,13 +105,13 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', 'en_US/project/foobar');
+        $crawler = $this->client->request('GET', '/projects/foobar');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(1, $crawler->filter('a:contains("Add a test script")'));
 
-        $crawler = $this->client->request('GET', '/en_US/project/foobar?reference=pagination');
+        $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -122,7 +122,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', '/en_US/project/foobar/tree/master');
+        $crawler = $this->client->request('GET', '/projects/foobar/tree/master');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -133,7 +133,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', '/en_US/project/foobar/tree-history/master/README');
+        $crawler = $this->client->request('GET', '/projects/foobar/tree-history/master/README');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -144,7 +144,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', 'en_US/project/foobar/tree/master/run.php');
+        $crawler = $this->client->request('GET', '/projects/foobar/tree/master/run.php');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());

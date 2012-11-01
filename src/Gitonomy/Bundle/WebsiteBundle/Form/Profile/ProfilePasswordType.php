@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\Profile;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\Profile;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -59,7 +59,7 @@ class ProfilePasswordType extends AbstractType
 
     public function getParent()
     {
-        return 'userpassword';
+        return 'user_password';
     }
 
     public function getName()

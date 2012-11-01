@@ -31,23 +31,23 @@ class SecurityControllerTest extends WebTestCase
 
     public function testRegister()
     {
-        $crawler  = $this->client->request('GET', '/en_US/register');
+        $crawler  = $this->client->request('GET', '/register');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        $form = $crawler->filter('form input[type=submit]')->form(array(
-            'user_registration[username]'            => 'test',
-            'user_registration[fullname]'            => 'Test example',
-            'user_registration[defaultEmail][email]' => 'test@example.org',
-            'user_registration[password][first]'     => 'test',
-            'user_registration[password][second]'    => 'test',
+        $form = $crawler->filter('form button[type=submit]')->form(array(
+            'register[username]'         => 'test',
+            'register[fullname]'         => 'Test example',
+            'register[email]'            => 'test@example.org',
+            'register[password][first]'  => 'test',
+            'register[password][second]' => 'test',
         ));
 
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US'));
+        $this->assertTrue($response->isRedirect('/login'));
 
         $crawler = $this->client->followRedirect();
         $node = $crawler->filter('div.alert-success');
@@ -58,50 +58,50 @@ class SecurityControllerTest extends WebTestCase
 
     public function testLogin()
     {
-        $crawler = $this->client->request('GET', '/en_US/login');
+        $crawler = $this->client->request('GET', '/login');
 
-        $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             '_username' => 'foo',
             '_password' => 'bar',
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/login'));
 
         $crawler = $this->client->followRedirect();
 
         $this->assertEquals('Bad credentials', $crawler->filter('.alert-error')->text());
-        $this->assertEquals(1, $crawler->filter('.navbar a:contains("Login")')->count());
     }
 
     public function testInactiveLogin()
     {
-        $crawler = $this->client->request('GET', '/en_US/login');
+        $crawler = $this->client->request('GET', '/login');
 
-        $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             '_username' => 'inactive',
             '_password' => 'inactive',
         ));
 
         $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/login'));
     }
 
     public function testRememberme()
     {
-        $crawler = $this->client->request('GET', '/en_US/login');
+        $crawler = $this->client->request('GET', '/login');
 
-        $form = $crawler->filter('input[type=submit][value=Login]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             '_username'    => 'alice',
             '_password'    => 'alice',
             '_remember_me' => true,
         ));
 
         $this->client->submit($form);
+        $this->client->followRedirect();
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/'));
         $crawler = $this->client->followRedirect();
 
         $cookieJar = $this->client->getCookieJar();
@@ -109,46 +109,49 @@ class SecurityControllerTest extends WebTestCase
 
         $cookieJar->expire('MOCKSESSID');
 
-        $crawler = $this->client->request('GET', '/en_US');
-        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
+        $crawler = $this->client->request('GET', '/');
+        $this->assertEquals(1, $crawler->filter('#global-menu a:contains("Alice")')->count());
 
         $cookieJar->expire('MOCKSESSID');
         $cookieJar->expire('REMEMBERME');
 
-        $crawler = $this->client->request('GET', '/en_US');
+        $crawler = $this->client->request('GET', '/');
 
-        $this->assertEquals(0, $crawler->filter('.navbar a:contains("alice")')->count());
+        $this->assertEquals(0, $crawler->filter('#splash-content a:contains("Alice")')->count());
     }
 
     public function testLogout()
     {
         $crawler = $this->client->connect('alice');
 
-        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
+        $crawler = $this->client->request('GET', '/');
+        $link = $crawler->filter('#global-menu a:contains("Logout")');
+        $this->assertEquals(1, $link->count());
+        $this->client->click($link->link());
 
-        $this->client->click($crawler->filter('a:contains("Logout")')->link());
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/en_US'));
-        $crawler = $this->client->followRedirect();
-        $this->assertEquals(1, $crawler->filter('a:contains("Login")')->count());
+        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/login'));
     }
 
     public function testForgotPassword()
     {
-        $crawler  = $this->client->request('GET', '/en_US/password');
+        $crawler = $this->client->request('GET', '/login');
+        $link = $crawler->filter('#splash-content a:contains("Forgot your password?")');
+        $this->assertEquals(1, $link->count());
+        $crawler = $this->client->click($link->link());
+
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Forgot your password ?', $crawler->filter('h1')->text());
+        $this->assertEquals('Forgot your password?', $crawler->filter('#splash-content h2')->text());
 
-        $form = $crawler->filter('form input[type=submit]')->form(array(
-            'forgot_password_request[email]' => 'alice@example.org'
+        $form = $crawler->filter('form button[type=submit]')->form(array(
+            'email' => 'alice@example.org'
         ));
 
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/password'));
+        $this->assertTrue($response->isRedirect('/login'));
 
         $profile = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
@@ -169,14 +172,14 @@ class SecurityControllerTest extends WebTestCase
 
     public function testChangePassword()
     {
-        $crawler  = $this->client->request('GET', '/en_US/password/alice/forgottokenalice');
+        $crawler  = $this->client->request('GET', '/forgot-password/alice/forgottokenalice');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals('Change password for Alice', $crawler->filter('h1')->text());
+        $this->assertEquals('Change your password', $crawler->filter('#splash-content h2')->text());
 
-        $form = $crawler->filter('form input[type=submit]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             'change_password[password][first]'  => 'foobar',
             'change_password[password][second]' => 'foobar'
         ));
@@ -184,23 +187,24 @@ class SecurityControllerTest extends WebTestCase
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US'));
+        $this->assertTrue($response->isRedirect('/login'));
 
         $crawler = $this->client->connect('alice', 'foobar');
+        $crawler = $this->client->request('GET', '/');
 
-        $this->assertEquals(1, $crawler->filter('.navbar a:contains("alice")')->count());
+        $this->assertEquals(1, $crawler->filter('#global-menu a:contains("Alice")')->count());
     }
 
     public function testChangePasswordWithNoPassword()
     {
-        $crawler  = $this->client->request('GET', '/en_US/password/alice/forgottokenalice');
+        $crawler  = $this->client->request('GET', '/forgot-password/alice/forgottokenalice');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals('Change password for Alice', $crawler->filter('h1')->text());
+        $this->assertEquals('Change your password', $crawler->filter('#splash-content h2')->text());
 
-        $form = $crawler->filter('form input[type=submit]')->form();
+        $form = $crawler->filter('form button[type=submit]')->form();
 
         $crawler  = $this->client->submit($form);
 
@@ -209,7 +213,7 @@ class SecurityControllerTest extends WebTestCase
 
     public function testChangePasswordWithExpiredToken()
     {
-        $crawler  = $this->client->request('GET', '/en_US/password/bob/forgottokenbob');
+        $crawler  = $this->client->request('GET', '/forgot-password/bob/forgottokenbob');
         $response = $this->client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -217,7 +221,7 @@ class SecurityControllerTest extends WebTestCase
 
     public function testChangePasswordWithWrongToken()
     {
-        $crawler  = $this->client->request('GET', '/en_US/password/alice/foobar');
+        $crawler  = $this->client->request('GET', '/forgot-password/alice/foobar');
         $response = $this->client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());

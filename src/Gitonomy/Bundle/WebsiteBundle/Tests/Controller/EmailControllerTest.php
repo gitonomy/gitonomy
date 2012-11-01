@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Tests\Controller;
+namespace Gitonomy\Bundle\WebsiteBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -36,22 +36,22 @@ class EmailControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/'.$email->getActivationToken());
+        $crawler = $this->client->request('GET', '/activate-email/'.$email->getActivationToken());
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('Email active', $crawler->filter('h1')->text());
+        $this->assertEquals('Email active', $crawler->filter('#splash-content h2')->text());
 
-        $crawler = $this->client->request('GET', '/en_US/profile/emails');
+        $crawler = $this->client->request('GET', '/profile');
 
-        $link = $crawler->filter('#email_'.$email->getId().' a:contains("as default")')->link();
-        $crawler = $this->client->click($link);
+        $link = $crawler->filter('#email_'.$email->getId().' .email-default')->attr('href');
+        $crawler = $this->client->request('POST', $link);
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/profile'));
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-success');
+        $node    = $crawler->filter('.flash-messages p.success');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email "'.$email->getEmail().'" now as default.', $node->text());
+        $this->assertContains('Your default email address has been changed', $node->text());
     }
 
     public function testActiveEmailIncorrectHash()
@@ -61,7 +61,7 @@ class EmailControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler = $this->client->request('GET', '/en_US/email/'.$email->getUser()->getUsername().'/activate/azerty');
+        $crawler = $this->client->request('GET', '/email/'.$email->getUser()->getUsername().'/activate/azerty');
 
         $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
     }

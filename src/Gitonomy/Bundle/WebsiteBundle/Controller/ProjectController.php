@@ -68,7 +68,15 @@ class ProjectController extends Controller
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
         $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
-        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
+        $references = $this->getGitRepository($project)->getReferences();
+
+        if (!$references->hasBranches()) {
+            return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
+                'project'    => $project,
+            ));
+        }
+
+        $branches   = $references->getBranches();
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
             'project'    => $project,

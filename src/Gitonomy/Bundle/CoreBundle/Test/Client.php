@@ -60,9 +60,9 @@ class Client extends BaseClient
     {
         $password = null !== $password ? $password : $username;
 
-        $crawler = $this->request('GET', '/en_US/login');
+        $crawler = $this->request('GET', '/login');
 
-        $form = $crawler->filter('form input[type=submit][value="Login"]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             '_username' => $username,
             '_password' => $password
         ));
@@ -78,7 +78,7 @@ class Client extends BaseClient
      */
     public function logout()
     {
-        $crawler = $this->request('GET', '/en_US/logout');
+        $crawler = $this->request('GET', '/logout');
 
         return $this->followRedirect();
     }

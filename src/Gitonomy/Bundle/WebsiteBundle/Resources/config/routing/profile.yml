@@ -31,6 +31,10 @@ profile_sshKeys:
     pattern: /profile/ssh-keys
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:sshKeys" }
 
+profile_password:
+    pattern: /profile/password
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:password" }
+
 profile_deleteSshKey:
     pattern: /profile/delete-ssh-key/{id}
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:deleteSshKey" }

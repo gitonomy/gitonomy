@@ -27,10 +27,6 @@ class Email
         $this->user  = $user;
         $this->email = $email;
         $this->isDefault = false;
-
-        if (!$isActive) {
-            $this->createActivationToken();
-        }
     }
 
     public function getId()

@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\FrontendBundle\Form\User;
+namespace Gitonomy\Bundle\WebsiteBundle\Form\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -62,6 +62,6 @@ class UserPasswordType extends AbstractType
 
     public function getName()
     {
-        return 'userpassword';
+        return 'user_password';
     }
 }

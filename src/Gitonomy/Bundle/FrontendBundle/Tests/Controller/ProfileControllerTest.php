@@ -31,15 +31,15 @@ class ProfileControllerTest extends WebTestCase
 
     public function testIndexAsAnonymous()
     {
-        $crawler  = $this->client->request('GET', '/en_US/profile');
+        $crawler  = $this->client->request('GET', '/profile');
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/en_US/login'));
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testIndexAsAdmin()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/profile');
+        $crawler  = $this->client->request('GET', '/profile');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -49,10 +49,10 @@ class ProfileControllerTest extends WebTestCase
     public function testCreateEmailExists()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/profile/emails');
+        $crawler  = $this->client->request('GET', '/profile');
 
-        $form = $crawler->filter('#user_email input[type=submit]')->form(array(
-            'useremail[email]' => 'admin@example.org',
+        $form = $crawler->filter('#user_email button[type=submit]')->form(array(
+            'profile_email[email]' => 'admin@example.org',
         ));
 
         $crawler  = $this->client->submit($form);
@@ -65,10 +65,10 @@ class ProfileControllerTest extends WebTestCase
     public function testCreateEmail()
     {
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/en_US/profile/emails');
+        $crawler  = $this->client->request('GET', '/profile');
 
-        $form = $crawler->filter('#user_email input[type=submit]')->form(array(
-            'useremail[email]' => 'admin@mydomain.tld',
+        $form = $crawler->filter('#user_email button[type=submit]')->form(array(
+            'profile_email[email]' => 'admin@mydomain.tld',
         ));
 
         $crawler   = $this->client->submit($form);
@@ -76,9 +76,7 @@ class ProfileControllerTest extends WebTestCase
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
 
-        $this->assertEquals(1, $collector->getMessageCount());
-
-        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
+        $this->assertTrue($response->isRedirect('/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-success');
@@ -95,30 +93,18 @@ class ProfileControllerTest extends WebTestCase
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
         $this->assertNotEmpty($email);
 
-        $crawler   = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/send-activation');
+        $crawler   = $this->client->request('GET', '/profile/emails/'.$email->getId().'/send-activation');
         $profile   = $this->client->getProfile();
         $collector = $profile->getCollector('swiftmailer');
         $this->assertEquals(1, $collector->getMessageCount());
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/en_US/profile/emails'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/profile/emails'));
 
         $crawler = $this->client->followRedirect();
         $node    = $crawler->filter('div.alert-success');
 
         $this->assertEquals(1, $node->count());
         $this->assertEquals('Activation mail for "'.$email->getEmail().'" sent.', $node->text());
-    }
-
-    public function testAsDefaultUnactivedEmail()
-    {
-        $this->client->connect('alice');
-
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
-
-        $crawler = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/default');
-
-        $this->assertEquals('500', $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteEmail()
@@ -128,26 +114,27 @@ class ProfileControllerTest extends WebTestCase
         $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/emails/'.$email->getId().'/delete');
-        $form     = $crawler->filter('#delete input[type=submit]')->form();
+        $crawler = $this->client->request('GET', '/profile');
 
-        $this->client->submit($form);
+        $link = $crawler->filter('#email_'.$email->getId().' .email-delete')->attr('href');
+        $crawler = $this->client->request('POST', $link);
+
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile/emails'));
+        $this->assertTrue($response->isRedirect('/profile'));
 
         $crawler = $this->client->followRedirect();
-        $node    = $crawler->filter('div.alert-success');
+        $node    = $crawler->filter('.flash-messages p.success');
 
         $this->assertEquals(1, $node->count());
-        $this->assertEquals('Email "'.$email->getEmail().'" deleted.', $node->text());
+        $this->assertContains('Email deleted', $node->text());
     }
 
     public function testChangePasswordFail()
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/password');
+        $crawler  = $this->client->request('GET', '/profile/password');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -169,7 +156,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/password');
+        $crawler  = $this->client->request('GET', '/profile/password');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -182,11 +169,11 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile/password'));
+        $this->assertTrue($response->isRedirect('/profile/password'));
 
         $this->client->logout();
 
-        $crawler = $this->client->request('GET', '/en_US/login');
+        $crawler = $this->client->request('GET', '/login');
         $form = $crawler->filter('form input[type=submit][value="Login"]')->form(array(
             '_username' => 'alice',
             '_password' => 'ecila'
@@ -194,14 +181,14 @@ class ProfileControllerTest extends WebTestCase
         $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('http://localhost/en_US'));
+        $this->assertTrue($response->isRedirect('http://localhost'));
     }
 
     public function testSshKeyListAndCreate()
     {
         $this->client->connect('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
+        $crawler  = $this->client->request('GET', '/profile/ssh-keys');
         $response = $this->client->getResponse();
 
         // List
@@ -223,7 +210,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile/ssh-keys'));
+        $this->assertTrue($response->isRedirect('/profile/ssh-keys'));
 
         $crawler  = $this->client->followRedirect();
 
@@ -237,7 +224,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/ssh-keys');
+        $crawler  = $this->client->request('GET', '/profile/ssh-keys');
         $response = $this->client->getResponse();
 
         // Create
@@ -258,7 +245,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
+        $crawler  = $this->client->request('GET', '/profile/change-username');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -271,7 +258,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->submit($form);
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('/en_US/profile/change-username'));
+        $this->assertTrue($response->isRedirect('/profile/change-username'));
 
         $crawler  = $this->client->followRedirect();
 
@@ -282,7 +269,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('bob');
 
-        $crawler  = $this->client->request('GET', '/en_US/profile/change-username');
+        $crawler  = $this->client->request('GET', '/profile/change-username');
         $response = $this->client->getResponse();
 
         $form = $crawler->filter('form input[type=submit]')->form(array(
@@ -301,7 +288,7 @@ class ProfileControllerTest extends WebTestCase
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
 
-        $crawler = $this->client->request('GET', '/en_US/profile/'.$user->getUsername().'/activate/'.$user->getActivationToken());
+        $crawler = $this->client->request('GET', '/profile/'.$user->getUsername().'/activate/'.$user->getActivationToken());
 
         $form = $crawler->filter('#user input[type=submit]')->form(array(
             'change_password[password][first]'  => 'inactive',
