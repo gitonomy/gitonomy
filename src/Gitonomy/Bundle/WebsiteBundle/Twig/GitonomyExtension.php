@@ -49,10 +49,6 @@ class GitonomyExtension extends \Twig_Extension
 
     public function getGravatar($email, $size = 50)
     {
-        if ($email === null) {
-            return '<span class="lsf">user</span>';
-        }
-
         return 'http://www.gravatar.com/avatar/'.md5($email).'?s='.$size;
     }
 

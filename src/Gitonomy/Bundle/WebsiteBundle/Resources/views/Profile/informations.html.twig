@@ -41,8 +41,8 @@
                                     {% else %}
                                         <a href="{{ path('profile_emails_sendactivation', {'id': email.id }) }}" class="label label-notice">{{ 'button.edit_emails.activate'|trans({}, 'admin_user') }}</a>
                                     {% endif %}
+                                    <a href="{{ path('profile_emails_delete', {'id': email.id }) }}" class="label label-important">{{ 'button.edit_emails.delete'|trans({}, 'admin_user') }}</a>
                                 {% endif %}
-                                <a href="{{ path('profile_emails_delete', {'id': email.id }) }}" class="label label-important">{{ 'button.edit_emails.delete'|trans({}, 'admin_user') }}</a>
                             </td>
                         </tr>
                     {% endfor %}
