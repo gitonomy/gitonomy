@@ -1,0 +1,7 @@
+page.title: "%project% - History"
+table.mode: "Mode"
+table.filename: "Filename"
+table.date: "Date"
+table.message: "Message"
+contextual.show: "Show"
+contextual.history: "History"

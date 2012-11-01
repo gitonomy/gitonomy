@@ -1,3 +1,5 @@
+{% trans_default_domain 'project_source' %}
+
 {% if path != "" %}
     {% set path_record = "" %}
     <div class="actionbar">
@@ -6,12 +8,12 @@
         <div class="pull-right">
             {% if active != 'show' %}
                 <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
-                    Show
+                    {{ 'contextual.show'|trans }}
                 </a>
             {% endif %}
             {% if active != 'history' %}
                 <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
-                    History
+                    {{ 'contextual.history'|trans }}
                 </a>
             {% endif %}
         </div>

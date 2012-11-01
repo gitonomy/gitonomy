@@ -1,9 +1,10 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - History' %}
-
+{% trans_default_domain 'project_source' %}
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
+
+{% block title 'page.title'|trans({'%project%': project.name}) %}
 
 {% block project_content %}
     {% set diff = commit.diff %}
@@ -13,11 +14,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th width="100">Mode</th>
+                <th width="100">{{ 'table.mode'|trans }}</th>
                 <th width="20">&nbsp;</td>
-                <th>Filename</th>
-                <th>Date</th>
-                <th>Message</th>
+                <th>{{ 'table.filename'|trans }}</th>
+                <th>{{ 'table.date'|trans }}</th>
+                <th>{{ 'table.message'|trans }}</th>
             </tr>
         </thead>
         <tbody>
