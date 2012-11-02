@@ -32,7 +32,7 @@ fi
 
 for project in gitonomy symfony; do
     echo ">>> Adding user $USER as lead developer on project $project"
-    ./app/console gitonomy:git-access create $project lead-dev "*" 1 1 1
+    ./app/console gitonomy:git-access create $project lead-dev "*" 1 1
     ./app/console gitonomy:user-role-create user  "Lead developer" $project
     ./app/console gitonomy:user-role-create admin "Lead developer" $project
 done
