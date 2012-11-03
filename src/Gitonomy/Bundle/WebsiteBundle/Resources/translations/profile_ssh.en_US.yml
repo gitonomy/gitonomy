@@ -1,0 +1,16 @@
+title:
+    create: "Create a key"
+
+form:
+    title: "Title"
+    content: "Content"
+
+button:
+    create: "Save"
+    delete: "Remove"
+
+label:
+    installing: Installing
+
+notice:
+    ssh_key_created: "SSH key created!"

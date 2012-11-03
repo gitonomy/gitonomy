@@ -1,0 +1,16 @@
+title:
+    create: "Créer une clé"
+
+form:
+    title: "Titre"
+    content: "Contenu"
+
+button:
+    create: "Enregistrer"
+    delete: "Supprimer"
+
+label:
+    installing: "En cours d'installation"
+
+notice:
+    ssh_key_created: "Clé SSH créée !"

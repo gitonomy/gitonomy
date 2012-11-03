@@ -1,16 +1,18 @@
 {% extends "GitonomyWebsiteBundle::layout_administration.html.twig" %}
 
+{% trans_default_domain 'administration_user' %}
+
 {% set local_navigation = 'users' %}
 
 {% block administration_content %}
     <div id="content">
         <form method="POST" action"{{ path('administration_editUser', {id: user.id}) }}" class="form-horizontal" novalidate>
-            <legend>Edit user {{ user.username }}</legend>
+            <legend>{{ 'form.legend.edit'|trans({'%username%': user.username}) }}</legend>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
-                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> {{ 'form.submit'|trans }}</button>
-                    <a class="btn" href="{{ path('administration_users') }}">{{ 'form.cancel'|trans }}</a>
+                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> {{ 'button.edit'|trans }}</button>
+                    <a class="btn" href="{{ path('administration_users') }}">{{ 'button.cancel'|trans }}</a>
                 </div>
             </div>
         </form>

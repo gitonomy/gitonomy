@@ -1,0 +1,15 @@
+page:
+    title:
+        create:  "Create a new project"
+
+title:
+    create: "New project"
+
+form:
+    legend: Create a new project
+    name: Name
+    slug: Slug
+
+button:
+    create: Create
+    cancel: Cancel

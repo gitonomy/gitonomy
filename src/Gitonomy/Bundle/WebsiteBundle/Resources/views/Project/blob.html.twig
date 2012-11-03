@@ -1,7 +1,7 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-
 {% trans_default_domain 'project_source' %}
+
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
 
@@ -11,7 +11,7 @@
 {% block project_content %}
     {% set diff = commit.diff %}
 
-    <h1>Source {{ path }}</h1>
+    <h1>{{ 'title.source.title'|trans({':path': path}) }}</h1>
 
     <form id="code-wrapper" class="cm-s-lesser-elegant">
         <textarea id="code" name="code">{{ blob.content }}</textarea>

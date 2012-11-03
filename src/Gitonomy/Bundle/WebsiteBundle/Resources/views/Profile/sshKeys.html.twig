@@ -1,6 +1,8 @@
 {% extends "GitonomyWebsiteBundle::layout_profile.html.twig" %}
 
-{% block title 'SSH keys' %}
+{% trans_default_domain 'profile_ssh' %}
+
+{% block title 'page.title'|trans %}
 
 {% set local_navigation = 'sshKeys' %}
 
@@ -8,12 +10,12 @@
     <div id="content">
         <div class="ssh-keyring">
             <form action="{{ path('profile_createSshKey') }}" class="key key-new" method="POST">
-                <h3><i class="symbol">add</i> {{ 'title.sshKeys.create'|trans({}, 'profile') }}</h3>
+                <h3><i class="symbol">add</i> {{ 'title.create'|trans }}</h3>
                 <div class="key-content">
                     {{ form_rest(form) }}
                 </div>
                 <div class="key-actions">
-                    <button type="submit" class="btn btn-small btn-info"><i class="symbol">plus</i> {{ 'form.ssh_key.submit'|trans({}, 'profile') }}</button>
+                    <button type="submit" class="btn btn-small btn-info"><i class="symbol">plus</i> {{ 'button.create'|trans }}</button>
                 </div>
             </form>
             {% for key in sshKeys %}
@@ -23,9 +25,9 @@
                         {{ key.title }}
                         <span class="pull-right">
                             {% if not key.isInstalled %}
-                                <span class="label label-info">{{ 'label.sshKeys.installing'|trans({}, 'profile') }}</span>
+                                <span class="label label-info">{{ 'label.installing'|trans }}</span>
                             {% endif %}
-                            <a href="{{ path('profile_deleteSshKey', {'id': key.id }) }}" class="btn btn-danger">{{ 'button.sshKeys.delete_key'|trans({}, 'profile') }}</a>
+                            <a href="{{ path('profile_deleteSshKey', {'id': key.id }) }}" class="btn btn-danger">{{ 'button.delete'|trans }}</a>
                         </span>
                     </h3>
                     <div class="key-content">{{ key.content }}</div>

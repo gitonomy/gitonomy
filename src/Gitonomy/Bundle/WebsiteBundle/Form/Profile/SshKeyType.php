@@ -21,15 +21,15 @@ class SshKeyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', array('label' => 'form.ssh_key.title'))
-            ->add('content', 'textarea', array('label' => 'form.ssh_key.content'))
+            ->add('title', 'text', array('label' => 'form.title'))
+            ->add('content', 'textarea', array('label' => 'form.content'))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain' => 'profile'
+            'translation_domain' => 'profile_ssh'
         ));
     }
 

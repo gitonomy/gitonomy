@@ -1,0 +1,7 @@
+menu:
+    project_list: Mes projets
+    project_create: Nouveau projet
+    administration: Administration
+    profile: Profil
+    logout: Déconnexion
+    login: Connexion

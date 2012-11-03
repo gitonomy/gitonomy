@@ -1,0 +1,40 @@
+page:
+    title: Administration des utilisateurs
+
+action:
+    create: "Nouvel utilisateur"
+
+title:
+    create: "Créer un nouvel utilisateur"
+
+button:
+    create: Enregister
+    edit: Enregister
+    cancel: Annuler
+
+form:
+    username: Surnom
+    fullname: Nom complet
+    timezone: Fuseau horaire
+    global_roles: Rôles globaux
+
+    legend:
+        edit: "Edition de l'utilisateur %username%"
+
+table:
+    list:
+        column:
+            fullname: Nom
+            username: Surnom
+            timezone: Fuseau horaire
+            email: Courriel
+            culture: Culture
+
+tooltip:
+    edit: Editer cet utilisateur
+    delete: Supprimer cet utilisateur
+
+notice:
+    created: Utilisé prêt à travailler
+    updated: Utilisateur édité
+    deleted: Utilisateur viré

@@ -20,17 +20,18 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text');
+        $builder->add('name', 'text', array('label' => 'form.name'));
         if ('create' === $options['action']) {
-            $builder->add('slug', 'text');
+            $builder->add('slug', 'text', array('label' => 'form.slug'));
         }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
-            'action'     => 'create',
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
+            'translation_domain' => 'project',
+            'action'             => 'create',
         ));
     }
 

@@ -1,0 +1,15 @@
+page:
+    title:
+        create:  "Créer un nouveau project"
+
+title:
+    create: "Nouveau projet"
+
+form:
+    legend: "Créer un nouveau project"
+    name: Nom
+    slug: Jeton
+
+button:
+    create: Créer
+    cancel: Annuler

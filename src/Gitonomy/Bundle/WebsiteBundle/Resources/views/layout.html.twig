@@ -1,5 +1,6 @@
 {% extends "GitonomyWebsiteBundle::base.html.twig" %}
 
+{% trans_default_domain 'menu' %}
 
 {% block body %}
     {% include "GitonomyWebsiteBundle::flash.html.twig" %}
@@ -16,33 +17,33 @@
                 <li>
                     <a href="{{ path('project_list') }}"{% if global_navigation|default(null) == "projects" %} class="active"{% endif %}>
                         <div class="icon"><i class="symbol">list</i></div>
-                        <div class="text">My projects</div>
+                        <div class="text">{{ 'menu.project_list'|trans }}</div>
                     </a>
                 </li>
                 {% if is_granted('ROLE_PROJECT_CREATE') %}
                     <li>
                         <a href="{{ path('project_create') }}"{% if global_navigation|default(null) == "new_project" %} class="active"{% endif %}>
                             <div class="icon"><i class="symbol">add</i></div>
-                            <div class="text">New project</div>
+                            <div class="text">{{ 'menu.project_create'|trans }}</div>
                         </a>
                     </li>
                 {% endif %}
                 <li>
                     <a href="{{ path('administration_users') }}"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
                         <div class="icon"><i class="symbol">setting</i></div>
-                        <div class="text">Administration</div>
+                        <div class="text">{{ 'menu.administration'|trans }}</div>
                     </a>
                 </li>
                 <li>
                     <a href="{{ path('profile_informations') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
                         <div class="icon"><i class="symbol">you</i></div>
-                        <div class="text">Profile</div>
+                        <div class="text">{{ 'menu.profile'|trans }}</div>
                     </a>
                 </li>
                 <li>
                     <a href="{{ path('splash_logout') }}">
                         <div class="icon"><i class="symbol">off</i></div>
-                        <div class="text">Logout</div>
+                        <div class="text">{{ 'menu.logout'|trans }}</div>
                     </a>
                 </li>
             {% else %}
@@ -55,7 +56,7 @@
                 <li>
                     <a href="{{ path('splash_login') }}">
                         <div class="icon"><i class="symbol">login</i></div>
-                        <div class="text">Login</div>
+                        <div class="text">{{ 'menu.login'|trans }}</div>
                     </a>
                 </li>
             {% endif %}

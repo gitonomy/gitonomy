@@ -1,6 +1,8 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - Newsfeed' %}
+{% trans_default_domain 'newsfeed' %}
+
+{% block title 'page.title'|trans({':branch': app.request.attributes.get('slug')}) %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'newsfeed' %}

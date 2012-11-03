@@ -1,0 +1,5 @@
+title: "Profile"
+menu:
+    informations: "Informations"
+    ssh_keys: "SSH keys"
+    password: "Password"

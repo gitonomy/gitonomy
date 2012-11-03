@@ -41,8 +41,8 @@ class UserPasswordType extends AbstractType
             ->add('password', 'repeated', array(
                 'type'   => 'password',
                 'mapped' => false,
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Confirm password')
+                'first_options' => array('label' => 'form.password'),
+                'second_options' => array('label' => 'form.confirm_password')
             ))
             ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
                 $user = $event->getData();

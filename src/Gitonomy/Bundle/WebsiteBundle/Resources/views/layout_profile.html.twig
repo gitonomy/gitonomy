@@ -1,18 +1,19 @@
 {% extends "GitonomyWebsiteBundle::layout.html.twig" %}
 
+{% trans_default_domain 'profile_navigation' %}
+
 {% set global_navigation = 'profile' %}
 
 {% block content %}
     <h1 class="with-menu">
-        Profile
+        {{ 'title'|trans }}
     </h1>
-
 
     <div id="wrapper">
         <ul id="local-menu">
-            <li><a href="{{ path('profile_informations') }}"{% if local_navigation == 'informations' %} class="active"{% endif %}>Informations</a></li>
-            <li><a href="{{ path('profile_sshKeys') }}"{% if local_navigation == 'sshKeys' %} class="active"{% endif %}>SSH Keys</a></li>
-            <li><a href="{{ path('profile_password') }}"{% if local_navigation == 'password' %} class="active"{% endif %}>Password</a></li>
+            <li><a href="{{ path('profile_informations') }}"{% if local_navigation == 'informations' %} class="active"{% endif %}>{{ 'menu.informations'|trans }}</a></li>
+            <li><a href="{{ path('profile_sshKeys') }}"{% if local_navigation == 'sshKeys' %} class="active"{% endif %}>{{ 'menu.ssh_keys'|trans }}</a></li>
+            <li><a href="{{ path('profile_password') }}"{% if local_navigation == 'password' %} class="active"{% endif %}>{{ 'menu.password'|trans }}</a></li>
         </ul>
 
         <div id="content" class="with-menu">

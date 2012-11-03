@@ -1,0 +1,40 @@
+page:
+    title: Administration of users
+
+action:
+    create: "New user"
+
+title:
+    create: Create new user
+
+button:
+    create: Save
+    edit: Save
+    cancel: Cancel
+
+form:
+    username: Username
+    fullname: Fullname
+    timezone: Timezone
+    global_roles: Global roles
+
+    legend:
+        edit: Edit user %username%
+
+table:
+    list:
+        column:
+            fullname: Fullname
+            username: Username
+            timezone: Timezone
+            email: Email
+            culture: Culture
+
+tooltip:
+    edit: Edit this user
+    delete: Delete this user
+
+notice:
+    created: User created
+    updated: User updated
+    deleted: User deleted

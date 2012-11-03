@@ -1,0 +1,37 @@
+page:
+    title: Administration of roles
+
+action:
+    create: New role
+
+title:
+    create: Create new role
+
+button:
+    create: Save
+    edit: Save
+    cancel: Cancel
+
+form:
+    name: Name
+    slug: Slug
+    description: Description
+    permissions: Permissions
+
+    legend:
+        edit: Edit role %name%
+
+table:
+    list:
+        column:
+            name: Name
+            description: Description
+
+tooltip:
+    edit: Edit this role
+    delete: Delete this role
+
+notice:
+    created: Role created
+    updated: Role updated
+    deleted: Role deleted

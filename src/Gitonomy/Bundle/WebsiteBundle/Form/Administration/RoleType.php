@@ -24,16 +24,15 @@ class RoleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('slug', 'text')
-            ->add('description', 'text')
+            ->add('name', 'text', array('label' => 'form.name'))
+            ->add('slug', 'text', array('label' => 'form.slug'))
+            ->add('description', 'text', array('label' => 'form.description'))
             ->add('permissions', 'entity', array(
-                'class'    => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
-                'property' => 'name',
-                'multiple' => true,
-                'expanded' => true,
-                'translation_domain' => 'admin_roles',
-                // 'group_by' => 'parent.name',
+                'class'              => 'Gitonomy\Bundle\CoreBundle\Entity\Permission',
+                'property'           => 'name',
+                'multiple'           => true,
+                'expanded'           => true,
+                'label'              => 'form.permissions',
                 'query_builder' => function (Options $options) use ($options) {
                     return function (EntityRepository $repository) use ($options) {
                         return $repository
@@ -51,8 +50,9 @@ class RoleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
-            'is_global'  => true
+            'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\Role',
+            'translation_domain' => 'administration_role',
+            'is_global'          => true
         ));
     }
 

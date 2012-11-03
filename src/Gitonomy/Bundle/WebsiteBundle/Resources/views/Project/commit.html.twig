@@ -54,12 +54,12 @@
         {% endfor %}
     </table>
 
-    <legend>Changes</legend>
+    <legend>{{ 'title.commit.changes'|trans }}</legend>
 
     {% for file in diff.files %}
         <ul>
-            <li><strong>Old</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
-            <li><strong>New</strong>: {{ file.newName }} ({{ file.newMode }})</li>
+            <li><strong>{{ 'text.old'|trans }}</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
+            <li><strong>{{ 'text.new'|trans }}</strong>: {{ file.newName }} ({{ file.newMode }})</li>
             {% for change in file.changes %}
                 <p><code>@@ -{{ change.rangeOldStart }},{{ change.rangeOldCount }} +{{ change.rangeNewStart }},{{ change.rangeNewCount }}</code></p>
                 <pre>

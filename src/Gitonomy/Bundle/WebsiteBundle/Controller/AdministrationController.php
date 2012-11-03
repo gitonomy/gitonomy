@@ -33,7 +33,7 @@ class AdministrationController extends Controller
             if ($form->isValid()) {
                 $this->persistEntity($user);
 
-                $this->setFlash('success', $this->trans('notice.user_created', array(), 'administration'));
+                $this->setFlash('success', $this->trans('notice.created', array(), 'administration_user'));
 
                 return $this->redirect($this->generateUrl('administration_editUser', array('id' => $user->getId())));
             }
@@ -57,7 +57,7 @@ class AdministrationController extends Controller
             if ($form->isValid()) {
                 $this->flush();
 
-                $this->setFlash('success', $this->trans('notice.user_updated', array(), 'administration'));
+                $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_user'));
 
                 return $this->redirect($this->generateUrl('administration_users'));
             }
@@ -69,6 +69,17 @@ class AdministrationController extends Controller
         ));
     }
 
+    public function deleteUserAction(Request $request, $id)
+    {
+        $this->assertGranted('ROLE_USER_DELETE');
+
+        $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
+
+        $this->removeEntity($user);
+        $this->setFlash('success', $this->trans('notice.deleted', array(), 'administration_user'));
+
+        return $this->redirect($this->generateUrl('administration_users'));
+    }
 
     public function rolesAction()
     {
@@ -94,7 +105,7 @@ class AdministrationController extends Controller
             if ($form->isValid()) {
                 $this->persistEntity($role);
 
-                $this->setFlash('success', $this->trans('notice.role_created', array(), 'administration'));
+                $this->setFlash('success', $this->trans('notice.created', array(), 'administration_role'));
 
                 return $this->redirect($this->generateUrl('administration_roles'));
             }
@@ -118,7 +129,7 @@ class AdministrationController extends Controller
             if ($form->isValid()) {
                 $this->flush();
 
-                $this->setFlash('success', $this->trans('notice.role_updated', array(), 'administration'));
+                $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_role'));
 
                 return $this->redirect($this->generateUrl('administration_roles'));
             }
@@ -128,5 +139,17 @@ class AdministrationController extends Controller
             'role' => $role,
             'form' => $form->createView(),
         ));
+    }
+
+    public function deleteRoleAction($id)
+    {
+        $this->assertGranted('ROLE_USER_DELETE');
+
+        $role = $this->getRepository('GitonomyCoreBundle:Role')->find($id);
+
+        $this->removeEntity($role);
+        $this->setFlash('success', $this->trans('notice.deleted', array(), 'administration_role'));
+
+        return $this->redirect($this->generateUrl('administration_roles'));
     }
 }

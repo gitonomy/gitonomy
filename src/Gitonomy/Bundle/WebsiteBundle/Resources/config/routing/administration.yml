@@ -14,6 +14,12 @@ administration_editUser:
     pattern: /admin/users/{id}/edit
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:editUser" }
 
+administration_deleteUser:
+    pattern: /admin/users/{id}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:deleteUser" }
+    requirements:
+        method: POST
+
 administration_roles:
     pattern: /admin/roles
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:roles" }
@@ -25,3 +31,10 @@ administration_createRole:
 administration_editRole:
     pattern: /admin/roles/{id}/edit
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:editRole" }
+
+administration_deleteRole:
+    pattern: /admin/roles/{id}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:deleteRole" }
+    requirements:
+        method: POST
+

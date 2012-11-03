@@ -41,11 +41,11 @@ class ProfilePasswordType extends AbstractType
 
         $builder
             ->add('old_password', 'password', array(
-                'label'  => 'Current password',
+                'label'  => 'form.current_password',
                 'mapped' => false,
                 'constraints' => array(
                     new UserPassword()
-                )
+                ),
             ))
         ;
     }
@@ -53,7 +53,8 @@ class ProfilePasswordType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups'        => 'change_password',
+            'validation_groups'  => 'change_password',
+            'translation_domain' => 'profile_password'
         ));
     }
 

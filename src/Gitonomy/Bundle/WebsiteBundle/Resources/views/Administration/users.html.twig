@@ -1,21 +1,24 @@
 {% extends "GitonomyWebsiteBundle::layout_administration.html.twig" %}
 
+{% trans_default_domain 'administration_user' %}
+
+{% block title 'page.title'|trans %}
+
 {% set local_navigation = 'users' %}
 
 {% block administration_content %}
     <div class="actionbar">
         <div class="pull-right">
-            <a href="{{ path('administration_createUser') }}" class="menu"><i class="symbol">add</i> Create new user</a>
+            <a href="{{ path('administration_createUser') }}" class="menu"><i class="symbol">add</i> {{ 'action.create'|trans }}</a>
         </div>
     </div>
     <table class="table">
         <thead>
             <tr>
-                <th>{{ 'table.list.column.fullname'|trans({}, 'admin_user') }}</th>
-                <th>{{ 'table.list.column.username'|trans({}, 'admin_user') }}</th>
-                <th>{{ 'table.list.column.email'|trans({}, 'admin_user') }}</th>
-                <th>{{ 'table.list.column.culture'|trans({}, 'admin_user') }}</th>
-                <th>{{ 'table.list.column.action'|trans({}, 'admin_user') }}</th>
+                <th>{{ 'table.list.column.fullname'|trans }}</th>
+                <th>{{ 'table.list.columnname'|trans }}</th>
+                <th>{{ 'table.list.column.email'|trans }}</th>
+                <th>{{ 'table.list.column.culture'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +30,8 @@
                     <td>{{ user.timezone }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a class="btn btn-small" href="{{ path('administration_editUser', {id: user.id}) }}"><i class="icon-edit"></i></a>
-                            <a class="btn btn-small btn-danger"><i class="icon-fire icon-white"></i></a>
+                            <a rel="tooltip" title="{{ 'tooltip.edit'|trans }} " class="btn btn-small" href="{{ path('administration_editUser', {id: user.id}) }}"><i class="icon-edit"></i></a>
+                            <a rel="tooltip" title="{{ 'tooltip.delete'|trans }} " class="btn btn-small btn-danger"  data-method="POST" href="{{ path('administration_deleteUser', {id: user.id}) }}"><i class="icon-fire icon-white"></i></a>
                         </div>
                     </td>
                 </tr>

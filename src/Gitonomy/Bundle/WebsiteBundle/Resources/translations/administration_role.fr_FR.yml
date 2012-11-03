@@ -1,0 +1,37 @@
+page:
+    title: "Administration des rôles"
+
+action:
+    create: "Nouveau rôle"
+
+title:
+    create: "Créer un nouveau rôle"
+
+button:
+    create: Enregister
+    edit: Enregister
+    cancel: Annuler
+
+form:
+    name: Nom
+    slug: Jeton
+    description: Description
+    permissions: Permissions
+
+    legend:
+        edit: "Edition du rôle %name%"
+
+table:
+    list:
+        column:
+            name: Nom
+            description: Description
+
+tooltip:
+    edit: Editer ce rôle
+    delete: Supprimer ce rôle
+
+notice:
+    created: Rôle créé
+    updated: Rôle mis à jour
+    deleted: Rôle supprimé
