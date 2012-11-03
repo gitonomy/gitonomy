@@ -1,6 +1,9 @@
 title:
     create: "Create a key"
 
+page:
+    title: "Manage your SSH keys"
+
 form:
     title: "Title"
     content: "Content"
