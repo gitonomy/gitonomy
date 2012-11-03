@@ -1,5 +1,8 @@
 page:
-    title: "Administration des rôles"
+    title:
+        main: Administration des rôles
+        create: Nouveau rôle
+        edit: Edition du rôle %name%
 
 action:
     create: "Nouveau rôle"
@@ -19,6 +22,7 @@ form:
     permissions: Permissions
 
     legend:
+        create: Créer un nouveau rôle
         edit: "Edition du rôle %name%"
 
 table:

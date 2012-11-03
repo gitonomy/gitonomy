@@ -1,5 +1,8 @@
 page:
-    title: Administration of roles
+    title:
+        main: Administration of roles
+        create: Create new role
+        edit: Edit role %name%
 
 action:
     create: New role
@@ -19,6 +22,7 @@ form:
     permissions: Permissions
 
     legend:
+        create: Create a new role
         edit: Edit role %name%
 
 table:

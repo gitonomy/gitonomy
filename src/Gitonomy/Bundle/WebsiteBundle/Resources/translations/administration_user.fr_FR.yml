@@ -1,5 +1,8 @@
 page:
-    title: Administration des utilisateurs
+    title:
+        main: Administration des utilisateurs
+        create: Créer un nouvel utilisateur
+        edit: Editer l'utilisateur %username%
 
 action:
     create: "Nouvel utilisateur"
@@ -19,6 +22,7 @@ form:
     global_roles: Rôles globaux
 
     legend:
+        create: Créer un nouvel utilisateur
         edit: "Edition de l'utilisateur %username%"
 
 table:

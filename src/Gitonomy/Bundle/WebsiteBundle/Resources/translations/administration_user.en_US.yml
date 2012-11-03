@@ -1,5 +1,8 @@
 page:
-    title: Administration of users
+    title:
+        main: Administration of users
+        create: Create a new user
+        edit: Edit %username% user
 
 action:
     create: "New user"
@@ -19,6 +22,7 @@ form:
     global_roles: Global roles
 
     legend:
+        create: Create new user
         edit: Edit user %username%
 
 table:

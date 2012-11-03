@@ -2,6 +2,8 @@
 
 {% trans_default_domain 'administration_user' %}
 
+{% block title 'page.title.edit'|trans({'%username%': user.username}) %}
+
 {% set local_navigation = 'users' %}
 
 {% block administration_content %}
