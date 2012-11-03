@@ -9,7 +9,7 @@
 {% block project_content %}
     {% set diff = commit.diff %}
 
-    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show', project: project, reference: reference|default(project.defaultBranch)} %}
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show', project: project, reference: reference|default(project.defaultBranch), path: path} %}
 
     <table class="table table-striped">
         <thead>

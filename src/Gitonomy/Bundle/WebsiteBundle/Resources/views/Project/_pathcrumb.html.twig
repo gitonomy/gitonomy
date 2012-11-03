@@ -3,7 +3,7 @@
 {% if path != "" %}
     {% set path_record = "" %}
     <div class="actionbar">
-        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference} %}
+        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference, path: path} %}
 
         <div class="pull-right">
             {% if active != 'show' %}
@@ -19,6 +19,10 @@
         </div>
 
         <ul class="pathcrumb">
+            <li>
+                <a href="{{ path('project_tree', {slug: project.slug, reference:reference}) }}">..</a>
+                <span class="divider">/</span>
+            </li>
             {% for segment in path_exploded %}
                 {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
                 <li{% if loop.last %} class="active"{% endif %}>
@@ -34,6 +38,6 @@
     </div>
 {% else %}
     <div class="actionbar">
-        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference} %}
+        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference, path: path} %}
     </div>
 {% endif %}

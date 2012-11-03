@@ -371,7 +371,7 @@ class ProjectController extends Controller
         return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
     }
 
-    public function _branchActivityAction($project, $route, $reference = null, $withAll = false)
+    public function _branchActivityAction($project, $route, $reference = null, $path = null, $withAll = false)
     {
         $project    = $this->getProject($project);
         $repository = $this->getGitRepository($project);
@@ -401,6 +401,7 @@ class ProjectController extends Controller
             'branches'  => $rows,
             'route'     => $route,
             'reference' => $reference,
+            'path'      => $path,
             'withAll'   => $withAll,
         ));
     }
