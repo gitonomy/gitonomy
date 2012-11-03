@@ -189,7 +189,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Create a new project', $crawler->filter('h1')->text());
+        $this->assertEquals('New project', $crawler->filter('h1')->text());
 
         $form = $crawler->filter('form button[type=submit]')->form(array(
             'project[name]' => 'test',
