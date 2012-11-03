@@ -1,0 +1,19 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% trans_default_domain 'error' %}
+
+{% block title 'page.title'|trans({':message': status_text}) %}
+
+{% block content %}
+    <h1 class="with-menu">
+        {{ 'title.main'|trans({':name': gitonomy.name}) }}
+    </h1>
+
+    <div id="wrapper">
+        <div id="content">
+            <p>{{ status_code }} - {{ status_text }}</p>
+
+            <p>{{ 'paragraph.main'|trans }}</p>
+        </div>
+    </div>
+{% endblock %}

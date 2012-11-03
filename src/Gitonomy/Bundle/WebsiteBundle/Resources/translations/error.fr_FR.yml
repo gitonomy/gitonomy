@@ -1,0 +1,8 @@
+page:
+    title: "Erreur inopinée: :message"
+
+title:
+    main: "Flûte, :name est cassé !"
+
+paragraph:
+    main: "Si c'est une urgence, appelez le +44 0118 999 881 999 119 7253."

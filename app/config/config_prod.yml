@@ -7,6 +7,9 @@ doctrine:
         result_cache_driver:   apc
         query_cache_driver:    apc
 
+twig:
+    exception_controller:     Gitonomy\Bundle\WebsiteBundle\Controller\ErrorController::showAction
+
 monolog:
     handlers:
         main:

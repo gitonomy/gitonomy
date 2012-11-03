@@ -178,7 +178,11 @@ class ProjectController extends Controller
             $path = substr($path, 1);
         }
 
-        $element = $tree->resolvePath($path);
+        try {
+            $element = $tree->resolvePath($path);
+        } catch (\InvalidArgumentException $e) {
+            throw $this->createNotFoundException($e->getMessage());
+        }
 
         $parameters = array(
             'reference'     => $reference,

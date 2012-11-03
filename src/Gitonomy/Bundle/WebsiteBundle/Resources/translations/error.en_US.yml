@@ -1,0 +1,8 @@
+page:
+    title: An error occured: :message
+
+title:
+    main: Mayday! Mayday! :name is broken!
+
+paragraph:
+    main: "If it's a emergency, please call 0118 999 881 999 119 7253."

@@ -6,44 +6,59 @@
     {% block content '' %}
     <div id="global-menu-container">
         <ul id="global-menu">
-            <li>
-                <a href="#" onClick="$('#global-menu').toggleClass('active'); return false;">
-                    <div class="icon"><img src="{{ gravatar(app.user.defaultEmail.email, 50) }}" /></div>
-                    <div class="text">{{ app.user.fullname }}</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('project_list') }}"{% if global_navigation|default(null) == "projects" %} class="active"{% endif %}>
-                    <div class="icon"><i class="symbol">list</i></div>
-                    <div class="text">My projects</div>
-                </a>
-            </li>
-            {% if is_granted('ROLE_PROJECT_CREATE') %}
+            {% if app.user %}
                 <li>
-                    <a href="{{ path('project_create') }}"{% if global_navigation|default(null) == "new_project" %} class="active"{% endif %}>
-                        <div class="icon"><i class="symbol">add</i></div>
-                        <div class="text">New project</div>
+                    <a href="#" onClick="$('#global-menu').toggleClass('active'); return false;">
+                        <div class="icon"><img src="{{ gravatar(app.user.defaultEmail.email, 50) }}" /></div>
+                        <div class="text">{{ app.user.fullname }}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('project_list') }}"{% if global_navigation|default(null) == "projects" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">list</i></div>
+                        <div class="text">My projects</div>
+                    </a>
+                </li>
+                {% if is_granted('ROLE_PROJECT_CREATE') %}
+                    <li>
+                        <a href="{{ path('project_create') }}"{% if global_navigation|default(null) == "new_project" %} class="active"{% endif %}>
+                            <div class="icon"><i class="symbol">add</i></div>
+                            <div class="text">New project</div>
+                        </a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('administration_users') }}"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">setting</i></div>
+                        <div class="text">Administration</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('profile_informations') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
+                        <div class="icon"><i class="symbol">you</i></div>
+                        <div class="text">Profile</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('splash_logout') }}">
+                        <div class="icon"><i class="symbol">off</i></div>
+                        <div class="text">Logout</div>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="#" onClick="$('#global-menu').toggleClass('active'); return false;">
+                        <div class="icon"><img src="{{ gravatar(gitonomy.email, 50) }}" /></div>
+                        <div class="text">{{ gitonomy.name }}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('splash_login') }}">
+                        <div class="icon"><i class="symbol">login</i></div>
+                        <div class="text">Login</div>
                     </a>
                 </li>
             {% endif %}
-            <li>
-                <a href="{{ path('administration_users') }}"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
-                    <div class="icon"><i class="symbol">setting</i></div>
-                    <div class="text">Administration</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('profile_informations') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
-                    <div class="icon"><i class="symbol">you</i></div>
-                    <div class="text">Profile</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('splash_logout') }}">
-                    <div class="icon"><i class="symbol">off</i></div>
-                    <div class="text">Logout</div>
-                </a>
-            </li>
         </ul>
     </div>
 {% endblock %}

@@ -11,3 +11,4 @@ twig:
             name:       %project_name%
             baseline:   %project_baseline%
             ssh_access: %ssh_access%
+            email:      %mailer_from_email%

@@ -9,6 +9,9 @@ framework:
     session:
         storage_id: session.storage.filesystem
 
+twig:
+    exception_controller:     Gitonomy\Bundle\WebsiteBundle\Controller\ErrorController::showAction
+
 web_profiler:
     toolbar: false
     intercept_redirects: false
