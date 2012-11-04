@@ -36,3 +36,52 @@
     .plus
         color: green
         font-weight: bold
+
+
+
+.changeset
+
+    .file
+        margin-top: 10px
+
+        > header
+            background-color: #efefef
+            padding: 10px
+
+            span.file
+                font-weight: bold
+
+                &.deleted
+                    font-weight: normal
+                    text-decoration: line-through
+
+
+table.commit-diff
+    border: 1px solid #dfdfdf
+    width: 100%
+
+    td
+        font-family: monospace
+
+    td.old, td.new
+        padding: 0 5px
+        background-color: #efefef
+        border-right: 1px solid #dfdfdf
+
+    td.source
+        width: 100%
+
+        pre
+            background: none
+            border:  0
+            margin:  0
+            padding: 0
+
+        &.plus
+            background-color: #ddffdd
+
+        &.minus
+            background-color: #ffdddd
+
+    td.skip
+        background-color: #efefef

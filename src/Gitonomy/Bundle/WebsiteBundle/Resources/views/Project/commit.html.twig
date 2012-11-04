@@ -14,7 +14,7 @@
         <div class="message">{{ commit.message|nl2br }}</div>
         <div class="author">
             <img src="{{ gravatar(commit.authorName, 16) }}" />
-1            <strong>{{ commit.authorName }}</strong> on {{ commit.authorDate.format('Y-m-d H:i:s') }}
+            <strong>{{ commit.authorName }}</strong> on {{ commit.authorDate.format('Y-m-d H:i:s') }}
         </div>
         <div class="footer">
             <span>{{ commit.hash }}</span>
@@ -32,12 +32,11 @@
     <legend>{{ 'title.commit.summary'|trans }}</legend>
 
     <table class="commit-summary">
-        {% for file in diff.files %}
+        {% for i,file in diff.files %}
             <tr>
                 <td class="actions">
                     <div class="btn-group">
-                        <a rel="tooltip" title="{{ 'label.button.file_diff'|trans }}" class="btn btn-small" href="#{{ file.newName }}"><i class="icon-list"></i></a>
-                        <a rel="tooltip" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}"><i class="icon-file"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.file_diff'|trans }}" class="btn btn-small" href="#diff-file-{{ i }}"><i class="icon-list"></i></a>
                     </div>
                 </td>
                 <td class="count">
@@ -56,20 +55,55 @@
 
     <legend>{{ 'title.commit.changes'|trans }}</legend>
 
-    {% for file in diff.files %}
-        <ul>
-            <li><strong>{{ 'text.old'|trans }}</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
-            <li><strong>{{ 'text.new'|trans }}</strong>: {{ file.newName }} ({{ file.newMode }})</li>
-            {% for change in file.changes %}
-                <p><code>@@ -{{ change.rangeOldStart }},{{ change.rangeOldCount }} +{{ change.rangeNewStart }},{{ change.rangeNewCount }}</code></p>
-                <pre>
-                    {% for line in change.lines %}
-                        <span style="{% if line[0] == 1 %}background-color: #aaffaa{% elseif line[0] == -1 %};background-color: #ffaaaa{% endif %}">
-                            {{ line[1] }}
-                        </span>
-                    {% endfor %}
-                </pre>
-            {% endfor %}
-        </ul>
-    {% endfor %}
+    <div class="changeset">
+        {% for i, file in diff.files %}
+            <div class="file" id="diff-file-{{ i }}">
+                <header>
+                    {% if file.oldName == file.newName and file.oldMode == file.newMode %}
+                        <span class="file">{{ file.oldName }}</span>
+                    {% elseif file.oldName == null %}
+                        <span class="file">{{ file.newName }} ({{ file.newMode }})</span>
+                    {% elseif file.newName == null %}
+                        <span class="file deleted">{{ file.oldName }} ({{ file.oldMode }})</span>
+                    {% elseif file.oldMode != file.newMode %}
+                        <span class="changemod">{{ 'diff.label.file_mode_changed'|trans({'%old%': file.oldMode, '%new%': file.newMode}) }}</span>
+                    {% else %}
+                        <ul>
+                            <li><strong>{{ 'text.old'|trans }}</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
+                            <li><strong>{{ 'text.new'|trans }}</strong>: {{ file.newName }} ({{ file.newMode }})</li>
+                        </ul>
+                    {% endif %}
+                    <div class="btn-group pull-right">
+                        <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}"><i class="icon-file"></i></a>
+                    </div>
+                </header>
+                <div class="file-changes">
+                    <table class="commit-diff">
+                        {% for change in file.changes %}
+                            {% if not loop.first %}
+                                <tr><td class="skip" colspan="3">&nbsp;</td></tr>
+                            {% endif %}
+                            {% set old = change.rangeOldStart %}
+                            {% set new = change.rangeNewStart %}
+                            {%- for x, line in change.lines -%}
+                                <tr class="{{ line[0] != 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
+                                    <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
+                                    <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
+                                    <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' : '' }} source"><pre>{{ line[1] }}</pre></td>
+                                </tr>
+                                {%- if line[0] == 1 -%}
+                                    {%- set new = new + 1 -%}
+                                {%- elseif line[0] == -1 -%}
+                                    {%- set old = old + 1 -%}
+                                {%- else -%}
+                                    {%- set new = new + 1 -%}
+                                    {%- set old = old + 1 -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
