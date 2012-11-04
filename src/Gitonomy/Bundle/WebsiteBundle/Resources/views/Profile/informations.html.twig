@@ -10,7 +10,7 @@
     <div id="content">
         <form class="form-horizontal" method="POST" action="{{ path('profile_saveInformations') }}">
             <legend>{{ 'title.informations'|trans }}</legend>
-            {{ form_widget(form) }}
+            {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
                     <button class="btn btn-success" type="submit"><i class="symbol">save</i> {{ 'form.informations.submit'|trans }}</button>
@@ -19,7 +19,7 @@
         </form>
 
         <form class="form" action="{{ path('profile_createEmail') }}" method="POST" id="user_email">
-            <legend>Emails</legend>
+            <legend>{{ 'title.email'|trans }}</legend>
             {{ form_errors(form) }}
             <table class="bordered-table table table-striped">
                 <thead>

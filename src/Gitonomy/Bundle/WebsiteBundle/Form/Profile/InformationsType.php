@@ -21,6 +21,7 @@ class InformationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('username', 'text', array('label' => 'form.informations.username'))
             ->add('fullname', 'text', array('label' => 'form.informations.fullname'))
             ->add('timezone', 'timezone', array('label' => 'form.informations.timezone'))
         ;
