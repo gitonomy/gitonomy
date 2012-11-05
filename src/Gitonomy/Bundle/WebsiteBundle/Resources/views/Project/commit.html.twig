@@ -74,6 +74,9 @@
                         </ul>
                     {% endif %}
                     <div class="btn-group pull-right">
+                        <a rel="tooltip" title="{{ 'label.button.old'|trans }}" class="btn btn-small show-old"><i class="icon-chevron-left"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.diff'|trans }}" disabled="disabled" class="btn btn-small show-diff"><i class="icon-eye-close"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.new'|trans }}" class="btn btn-small show-new"><i class="icon-chevron-right"></i></a>
                         <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}"><i class="icon-file"></i></a>
                     </div>
                 </header>
@@ -86,7 +89,7 @@
                             {% set old = change.rangeOldStart %}
                             {% set new = change.rangeNewStart %}
                             {%- for x, line in change.lines -%}
-                                <tr class="{{ line[0] != 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
+                                <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
                                     <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
                                     <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
                                     <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' : '' }} source"><pre>{{ line[1] }}</pre></td>
@@ -106,4 +109,10 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block javascript_content %}
+    {% javascripts "bundles/gitonomywebsite/js/commit.js" %}
+        <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+    {% endjavascripts %}
 {% endblock %}
