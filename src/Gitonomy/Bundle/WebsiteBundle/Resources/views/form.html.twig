@@ -30,7 +30,7 @@
 {% spaceless %}
     {% if errors|length > 0 %}
         {% for error in errors %}
-            <p><span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span></p>
+            <div><span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span></div>
         {% endfor %}
     {% endif %}
 {% endspaceless %}

@@ -142,10 +142,8 @@ class ProfileControllerTest extends WebTestCase
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->markTestSkipped();
-
         $form = $crawler->filter('form')->form(array(
-            'profile_password[oldPassword]' => 'ecila',
+            'profile_password[old_password]' => 'ecila',
         ));
 
         $crawler  = $this->client->submit($form);
@@ -154,7 +152,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals(1, $crawler->filter('#profile_password_oldPassword_field.error')->count());
+        $this->assertEquals(1, $crawler->filter('#profile_password_old_password_field.error')->count());
     }
 
     public function testChangePasswordOk()
@@ -164,12 +162,10 @@ class ProfileControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/profile/password');
         $response = $this->client->getResponse();
 
-        $this->markTestSkipped();
-
         $this->assertEquals(200, $response->getStatusCode());
 
         $form = $crawler->filter('form')->form(array(
-            'profile_password[oldPassword]' => 'alice',
+            'profile_password[old_password]' => 'alice',
             'profile_password[password][first]' => 'ecila',
             'profile_password[password][second]' => 'ecila',
         ));
@@ -180,15 +176,15 @@ class ProfileControllerTest extends WebTestCase
 
         $this->client->logout();
 
+        $this->client->followRedirects();
         $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->filter('form input[type=submit][value="Login"]')->form(array(
+        $form = $crawler->filter('form button[type=submit]')->form(array(
             '_username' => 'alice',
             '_password' => 'ecila'
         ));
-        $this->client->submit($form);
-        $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isRedirect('http://localhost'));
+        $crawler = $this->client->submit($form);
+        $this->assertEquals('Projects', trim($crawler->filter('h1')->text()));
     }
 
     public function testSshKeyListAndCreate()
@@ -244,33 +240,7 @@ class ProfileControllerTest extends WebTestCase
 
         $this->assertFalse($response->isRedirect());
 
-        $this->assertEquals("No newline permitted", $crawler->filter('#profile_ssh_key_content + p span.help-inline')->text());
-    }
-
-    public function testChangeUsername()
-    {
-        $this->client->connect('bob');
-
-        $this->markTestSkipped();
-
-        $crawler  = $this->client->request('GET', '/profile/change-username');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Change username', $crawler->filter('h1')->text());
-
-        $form = $crawler->filter('form input[type=submit]')->form(array(
-            'change_username[username]' => 'foobar'
-        ));
-
-        $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/profile/change-username'));
-
-        $crawler  = $this->client->followRedirect();
-
-        $this->assertEquals(1, $crawler->filter('.navbar a:contains("foobar")')->count());
+        $this->assertEquals("No newline permitted", $crawler->filter('#profile_ssh_key_content + div span.help-inline')->text());
     }
 
     public function testChangeWrongUsername()

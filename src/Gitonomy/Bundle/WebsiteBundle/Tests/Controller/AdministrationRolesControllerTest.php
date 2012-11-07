@@ -110,7 +110,7 @@ class AdministrationRolesControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
 
-        $this->assertEquals(1, $crawler->filter('#administration_role_name_field p:contains("This value is already used")')->count());
+        $this->assertEquals(1, $crawler->filter('#administration_role_name_field span:contains("This value is already used")')->count());
     }
 
     public function testEditAsAnonymous()

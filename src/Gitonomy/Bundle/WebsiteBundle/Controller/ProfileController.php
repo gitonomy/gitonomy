@@ -137,27 +137,16 @@ class ProfileController extends Controller
     /**
      * Change the password.
      */
-    public function passwordAction()
+    public function passwordAction(Request $request)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm('profile_password', $this->getUser());
 
-        $session = $this->getUser();
-        $em->detach($session);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->flush();
+            $this->setFlash('success', 'Your new password was conscientiously saved!');
 
-        $user = $this->getRepository('GitonomyCoreBundle:User')->find($session->getId());
-        $form = $this->createForm('profile_password', $user);
-
-        $request = $this->getRequest();
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->flush();
-
-                $this->setFlash('success', 'Your new password was conscientiously saved!');
-
-                return $this->redirect($this->generateUrl('profile_password'));
-            }
+            return $this->redirect($this->generateUrl('profile_password'));
         }
 
         return $this->render('GitonomyWebsiteBundle:Profile:password.html.twig', array(

@@ -39,12 +39,16 @@ class UserPasswordType extends AbstractType
 
         $builder
             ->add('password', 'repeated', array(
-                'type'   => 'password',
-                'mapped' => false,
-                'first_options' => array('label' => 'form.password'),
+                'type'           => 'password',
+                'mapped'         => false,
+                'first_options'  => array('label' => 'form.password'),
                 'second_options' => array('label' => 'form.confirm_password')
             ))
-            ->addEventListener(FormEvents::BIND, function (FormEvent $event) use ($encoderFactory) {
+            ->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($encoderFactory) {
+                if (!$event->getForm()->isValid()) {
+                    return;
+                }
+
                 $user = $event->getData();
                 if (!$user instanceof User) {
                     throw new \RuntimeException('Data for registration form should be a user');

@@ -53,7 +53,6 @@ class ProfilePasswordType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups'  => 'change_password',
             'translation_domain' => 'profile_password'
         ));
     }
