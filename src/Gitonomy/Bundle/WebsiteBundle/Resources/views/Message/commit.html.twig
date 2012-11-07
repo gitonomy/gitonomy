@@ -19,7 +19,7 @@
                 {% for commit in message.commits %}
                     <tr>
                         <td class="message">
-                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': message.feed.project.slug, 'hash': commit.hash }) }}">
                                 {{ commit.shortMessage }}
                             </a>
                         </td>

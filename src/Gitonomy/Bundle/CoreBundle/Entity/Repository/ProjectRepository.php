@@ -34,9 +34,7 @@ class ProjectRepository extends EntityRepository
             ->createQueryBuilder('p')
             ->leftJoin('p.userRoles', 'ur')
             ->where('ur.user = :user')
-            ->setParameters(array(
-                'user' => $user
-            ))
+            ->setParameter('user', $user)
             ->getQuery()
             ->execute()
         ;

@@ -1,0 +1,6 @@
+page.title: "%fullname% - Profile"
+title.main: "%fullname%"
+title.newsfeed: "Last activity"
+title.projects: "Projects"
+table.column.project: "Project"
+table.column.role: "Role"
