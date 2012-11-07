@@ -1,4 +1,4 @@
-{% extends "GitonomyWebsiteBundle::splash.html.twig" %}
+{% extends "GitonomyWebsiteBundle::layout_splash.html.twig" %}
 
 {% trans_default_domain 'login' %}
 
@@ -23,4 +23,12 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block javascript_content %}
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $("#_username").focus();
+        });
+    </script>
 {% endblock %}
