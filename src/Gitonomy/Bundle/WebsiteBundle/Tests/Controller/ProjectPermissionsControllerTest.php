@@ -64,7 +64,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('foobar', $crawler->filter('h1')->text());
+        $this->assertContains('Foobar', $crawler->filter('h1')->text());
     }
 
     public function testUserRoles()
