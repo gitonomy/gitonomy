@@ -1,0 +1,45 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% trans_default_domain 'profile_show' %}
+
+{% block title 'page.title'|trans({'%username%': user.username}) %}
+
+{% block content %}
+    <h1>
+        <img src="" />
+        {{ 'title.main'|trans({'%username%': user.username}) }}
+    </h1>
+
+    <div id="content">
+
+        <div class="row show-grid">
+            <div class="span4">
+                <p></p>
+            </div>
+            <div class="span4">
+
+            </div>
+
+            <div class="span4">
+                <legend>{{ 'title.projects'|trans }}</legend>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'table.column.project'|trans }}</th>
+                            <th>{{ 'table.column.role'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                            <tr>
+                                <td>{{ project.name }}</td>
+                                <td>{{ project.getUserRole(user).role.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

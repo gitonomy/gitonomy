@@ -27,4 +27,17 @@ class MessageRepository extends EntityRepository
 
         return $qb->getQuery()->execute();
     }
+
+    public function findByUser(User $user, $limit = 10)
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->leftJoin('m.feed', 'f')
+            ->where('f.project = :project')
+            ->setParameter('project', $project)
+            ->orderBy('m.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResults()
+        ;
+    }
 }

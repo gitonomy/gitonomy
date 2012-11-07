@@ -1,0 +1,5 @@
+page.title: "%username% - Profile"
+title.main: "%username%"
+title.projects: "Projects"
+table.column.project: "Project"
+table.column.role: "Role"
