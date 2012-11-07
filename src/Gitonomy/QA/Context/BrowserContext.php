@@ -43,13 +43,16 @@ class BrowserContext extends BaseBrowserContext
     }
 
     /**
-     * @Then /^I should see "(.*)"$/
+     * @Then /^I should (not )?see "(.*)"$/
      */
-    public function iShouldSee($text)
+    public function iShouldSee($not, $text)
     {
         $all = $this->getBrowser()->element(By::tag('body'))->text();
-        if (false === strpos($all, $text)) {
+        $pos = strpos($all, $text);
+        if ($not === "" && false === $pos) {
             throw new \RuntimeException('Unable to find "'.$text.'" in visible text :'."\n".$all);
+        } elseif ($not === "not " && false !== $pos) {
+            throw new \RuntimeException('Found text "'.$text.'" in visible text :'."\n".$all);
         }
     }
 

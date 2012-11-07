@@ -10,7 +10,7 @@ Feature: Register
 
     Scenario: I should be able to register
 
-        Given I am on "/"
+        Given I am on "/logout"
           And I click on "Register"
          Then I should see a title "Register"
           And I should see a register form
@@ -27,7 +27,7 @@ Feature: Register
 
     Scenario: I shouldn't be able to register with an e-mail already used
 
-        Given I am on "/"
+        Given I am on "/logout"
           And I click on "Register"
          Then I should see a title "Register"
           And I should see a register form

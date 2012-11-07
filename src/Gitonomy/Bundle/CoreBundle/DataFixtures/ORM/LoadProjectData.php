@@ -49,6 +49,11 @@ class LoadProjectData extends AbstractFixture implements ContainerAwareInterface
         $manager->persist($barbaz);
         $this->setReference('project-barbaz', $barbaz);
 
+        $secret = new Project('Secret', 'secret');
+        $secret->setRepositorySize(564);
+        $manager->persist($secret);
+        $this->setReference('project-secret', $secret);
+
         $manager->flush();
 
         $this->dispatch($foobar);

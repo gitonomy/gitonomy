@@ -69,6 +69,7 @@ git push origin master:master -q
 cd ../..
 
 git init --bare  app/cache/repositories/empty.git -q
+git init --bare  app/cache/repositories/secret.git -q
 
 echo ">>> Installing assets"
 rm -Rf web/bundles

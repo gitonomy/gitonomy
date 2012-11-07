@@ -8,6 +8,7 @@ use Behat\Gherkin\Node\TableNode;
 
 use Gitonomy\QA\KernelFactory;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 
 class ApiContext extends BehatContext
 {
@@ -25,14 +26,6 @@ class ApiContext extends BehatContext
         }
 
         return $this->kernelFactory;
-    }
-
-    /**
-     * @Given /^user "([^"]*)" has SSH key named "([^"]*)", content "(.*)"$/
-     */
-    public function userHasSshKeyNamedKeyAContent($username, $keyname, $content)
-    {
-        throw new PendingException();
     }
 
     /**
@@ -93,6 +86,33 @@ class ApiContext extends BehatContext
             $user->createEmail($username.'@example.org', true);
 
             $em->persist($user);
+            $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^user "([^"]*)" has SSH key named "([^"]*)", content "(.*)"$/
+     */
+    public function userHasSshKeyNamedKeyAContent($username, $title, $content)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $title, $content) {
+            $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
+
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+            $key = null;
+            foreach ($user->getSshKeys() as $current) {
+                if ($current->getTitle() === $title) {
+                    $key = $current;
+                }
+            }
+
+            if (!$key) {
+                $key = new UserSshKey($user, $title, $content);
+                $em->persist($key);
+            } else {
+                $key->setContent($content);
+            }
+
             $em->flush();
         });
     }
