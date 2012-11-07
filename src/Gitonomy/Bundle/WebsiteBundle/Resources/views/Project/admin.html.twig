@@ -1,0 +1,22 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% trans_default_domain "project_admin" %}
+
+{% block title 'page.title'|trans({'%project%': project.name}) %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'admin' %}
+
+{% block project_content %}
+    <div id="content">
+        <h2>{{ 'title.informations'|trans }}</h2>
+        <form method="POST" action="{{ path('project_admin', {slug: project.slug}) }}" class="form-horizontal">
+            {{ form_rest(form) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success" type="submit"><i class="symbol">save</i> {{ 'form.informations.submit'|trans }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

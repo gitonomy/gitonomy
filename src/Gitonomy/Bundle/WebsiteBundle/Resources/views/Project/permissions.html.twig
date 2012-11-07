@@ -2,7 +2,7 @@
 
 {% trans_default_domain "project_permissions" %}
 
-{% block title 'page.title'|trans({'%branch%': app.request.attributes.get('slug')}) %}
+{% block title 'page.title'|trans({'%project%': project.name}) %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'permissions' %}

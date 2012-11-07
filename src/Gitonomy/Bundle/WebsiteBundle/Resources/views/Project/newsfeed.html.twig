@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'newsfeed' %}
 
-{% block title 'page.title'|trans({':branch': app.request.attributes.get('slug')}) %}
+{% block title 'page.title'|trans({':branch': project.name}) %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'newsfeed' %}

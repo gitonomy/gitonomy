@@ -1,4 +1,4 @@
-page.title: "%branch% - Permissions"
+page.title: "%project% - Permissions"
 title.user_role: "Rôles utilisateur"
 title.git_accesses: "Accès git"
 form.role.submit: "Créer"

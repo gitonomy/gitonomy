@@ -7,8 +7,6 @@ title:
 
 form:
     legend: Create a new project
-    name: Name
-    slug: Slug
 
 button:
     create: Create

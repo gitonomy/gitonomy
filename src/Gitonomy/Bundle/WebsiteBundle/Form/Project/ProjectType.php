@@ -20,9 +20,9 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => 'form.name'));
+        $builder->add('name', 'text', array('label' => 'form.informations.name'));
         if ('create' === $options['action']) {
-            $builder->add('slug', 'text', array('label' => 'form.slug'));
+            $builder->add('slug', 'text', array('label' => 'form.informations.slug'));
         }
     }
 
@@ -30,7 +30,7 @@ class ProjectType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'         => 'Gitonomy\Bundle\CoreBundle\Entity\Project',
-            'translation_domain' => 'project',
+            'translation_domain' => 'project_admin',
             'action'             => 'create',
         ));
     }

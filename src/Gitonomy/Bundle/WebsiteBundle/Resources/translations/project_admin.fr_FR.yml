@@ -1,0 +1,6 @@
+page.title: "%project% - Administration"
+title.informations: "Informations"
+form.informations.name: "Nom du projet"
+form.informations.slug: "Jeton du projet"
+form.informations.submit: "Sauver ces informations"
+notice.informations_saved: "Les informations du projet ont bien été sauvegardées"

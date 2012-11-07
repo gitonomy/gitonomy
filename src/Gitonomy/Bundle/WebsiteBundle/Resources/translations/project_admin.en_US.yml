@@ -1,0 +1,6 @@
+page.title: "%project% - Administration"
+title.informations: "Informations"
+form.informations.name: "Name of project"
+form.informations.slug: "Slug of project"
+form.informations.submit: "Save informations"
+notice.informations_saved: "Project informations saved"

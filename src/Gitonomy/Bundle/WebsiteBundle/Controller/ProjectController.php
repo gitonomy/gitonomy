@@ -375,6 +375,24 @@ class ProjectController extends Controller
         return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
     }
 
+    public function adminAction(Request $request, $slug)
+    {
+        $project = $this->getProject($slug);
+        $form    = $this->createForm('project', $project, array('action' => 'edit'));
+
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->flush();
+            $this->setFlash('success', $this->trans('notice.informations_saved', array(), 'project_admin'));
+
+            return $this->redirect($this->generateUrl('project_admin', array('slug' => $slug)));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Project:admin.html.twig', array(
+            'form'    => $form->createView(),
+            'project' => $project
+        ));
+    }
+
     public function _branchActivityAction($project, $route, $reference = null, $path = null, $withAll = false)
     {
         $project    = $this->getProject($project);

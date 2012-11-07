@@ -64,3 +64,7 @@ project_postPermissionsDeleteGitAccess:
     pattern: /projects/{slug}/permissions/git-access/{id}/delete
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsDeleteGitAccess" }
     requirements: { _method: POST }
+
+project_admin:
+    pattern: /projects/{slug}/admin
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:admin" }

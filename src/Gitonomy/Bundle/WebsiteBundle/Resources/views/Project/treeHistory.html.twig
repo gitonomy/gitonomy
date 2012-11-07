@@ -1,6 +1,8 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
-{% block title app.request.attributes.get('slug') ~ ' - Tree history' %}
+{% trans_default_domain 'project_history' %}
+
+{% block title 'page.tree_history.title'|trans({'%project%': project.name, '%path%': path}) %}
 
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
@@ -10,18 +12,18 @@
         <div class="pagination">
             <ul>
                 <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
-                    <a title="Previous page of commits" href="?page=1">«</a>
+                    <a title="{{ 'pagination.first'|trans }}" href="?page=1">«</a>
                 </li>
                 {% set lastPage = pager.lastPage %}
                 {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
                     <li{% if curPage == pager.page %} class="active"{% endif %}>
-                        <a href="?page={{ curPage }}" title="Go to page of commits number {{ curPage }}">
+                        <a href="?page={{ curPage }}" title="{{ 'pagination.number'|trans({'%number%': curPage}) }}">
                             {{ curPage }}
                         </a>
                     </li>
                 {% endfor %}
                 <li{% if pager.isLastPage %} class="disabled"{% endif %}>
-                    <a href="?page={{ pager.pageCount }}">»</a>
+                    <a title="{{ 'pagination.last'|trans }}" href="?page={{ pager.pageCount }}">»</a>
                 </li>
             </ul>
         </div>
@@ -48,7 +50,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td>No commit to see here</td>
+                    <td>{{ 'pagination.empty'|trans }}</td>
                 </tr>
             {% endfor %}
         </tbody>

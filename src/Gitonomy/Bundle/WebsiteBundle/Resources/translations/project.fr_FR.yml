@@ -7,8 +7,6 @@ title:
 
 form:
     legend: "Créer un nouveau project"
-    name: Nom
-    slug: Jeton
 
 button:
     create: Créer
