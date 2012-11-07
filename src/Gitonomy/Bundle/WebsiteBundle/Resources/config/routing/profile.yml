@@ -44,7 +44,3 @@ profile_createSshKey:
     pattern: /profile/create-ssh-key
     defaults: { _controller: "GitonomyWebsiteBundle:Profile:createSshKey" }
     requirements: { _method: POST }
-
-user_show:
-    pattern: /user/{username}
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:show" }
