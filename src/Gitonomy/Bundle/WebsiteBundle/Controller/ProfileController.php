@@ -27,12 +27,20 @@ class ProfileController extends Controller
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
-        $user     = $this->findByUsername($username);
-        $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUsers(array($user, $this->getUser()));
+        $user = $this->findByUsername($username);
+
+        if ($this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL')) {
+            $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
+        } else {
+            $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUsers(array($user, $this->getUser()));
+        }
+
+        $newsfeed = $this->getRepository('GitonomyCoreBundle:Message')->findByUser($user, $projects);
 
         return $this->render('GitonomyWebsiteBundle:Profile:show.html.twig', array(
             'user'     => $user,
             'projects' => $projects,
+            'newsfeed' => $newsfeed,
         ));
     }
 

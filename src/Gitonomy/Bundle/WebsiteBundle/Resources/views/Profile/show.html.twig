@@ -2,25 +2,28 @@
 
 {% trans_default_domain 'profile_show' %}
 
-{% block title 'page.title'|trans({'%username%': user.username}) %}
+{% block title 'page.title'|trans({'%fullname%': user.fullname}) %}
 
 {% block content %}
     <h1>
         <img src="" />
-        {{ 'title.main'|trans({'%username%': user.username}) }}
+        {{ 'title.main'|trans({'%fullname%': user.fullname}) }}
     </h1>
 
     <div id="content">
 
         <div class="row show-grid">
-            <div class="span4">
-                <p></p>
+            <div class="span9">
+                <legend>{{ 'title.newsfeed'|trans }}</legend>
+                <div class="newsfeed">
+                    {% for message in newsfeed %}
+                        {% set template = "GitonomyWebsiteBundle:Message:"~message.name~".html.twig" %}
+                        {% include template with {message: message} %}
+                    {% endfor %}
+                </div>
             </div>
-            <div class="span4">
 
-            </div>
-
-            <div class="span4">
+            <div class="span3">
                 <legend>{{ 'title.projects'|trans }}</legend>
                 <table class="table">
                     <thead>
@@ -32,7 +35,7 @@
                     <tbody>
                         {% for project in projects %}
                             <tr>
-                                <td>{{ project.name }}</td>
+                                <td><a href="{{ path('project_newsfeed', {slug: project.slug}) }}">{{ project.name }}</a></td>
                                 <td>{{ project.getUserRole(user).role.name }}</td>
                             </tr>
                         {% endfor %}
@@ -42,4 +45,21 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block javascript_content %}
+    <script type="text/javascript">
+        $(function(){
+            var newsfeed   = $(".newsfeed");
+            var width     = newsfeed.width();
+            var key       = newsfeed.find(".news").eq(0);
+            var cardWidth = key.outerWidth(true);
+            var newWidth  = Math.floor(width / cardWidth) * cardWidth;
+
+          $('.newsfeed').masonry({
+            itemSelector : '.news',
+            columnWidth : cardWidth
+          });
+        });
+    </script>
 {% endblock %}
