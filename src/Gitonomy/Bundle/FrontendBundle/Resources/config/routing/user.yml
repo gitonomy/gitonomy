@@ -1,3 +1,0 @@
-gitonomyfrontend_user_show:
-    pattern: /{_locale}/user/{username}
-    defaults: { _controller: "GitonomyFrontendBundle:User:show" }
