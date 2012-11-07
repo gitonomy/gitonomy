@@ -42,7 +42,8 @@ class UserControllerTest extends WebTestCase
         return array(
             array('bob',   'alice', array('Foobar')),
             array('alice', 'bob',   array('Foobar')),
-            array('alice', 'alice', array('Foobar', 'Empty', 'Barbaz'))
+            array('alice', 'alice', array('Foobar', 'Empty', 'Barbaz')),
+            array('admin', 'alice', array('Foobar', 'Empty', 'Barbaz'))
         );
     }
 

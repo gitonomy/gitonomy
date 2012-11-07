@@ -33,6 +33,10 @@ class MessageRepository extends EntityRepository
     {
         $ids = array_map(function($project) { return $project->getId(); }, $projects);
 
+        if (0 === count($ids)) {
+            return;
+        }
+
         return $this->createQueryBuilder('m')
             ->leftJoin('m.feed', 'f')
             ->where('m.user = :user')
