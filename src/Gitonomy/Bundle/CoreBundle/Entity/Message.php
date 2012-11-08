@@ -47,6 +47,7 @@ class Message
         } else {
             $log = $event->getReference()->getLog(array($defaultBranch));
         }
+
         $log->setLimit(5);
         $commits = array();
         foreach ($log as $commit) {
@@ -114,5 +115,44 @@ class Message
         $this->publishedAt = $publishedAt ? $publishedAt : new \DateTime();
 
         return $this;
+    }
+
+    public function isBranch()
+    {
+        return preg_match('#^refs/heads/#', $this->getFeed()->getReference());
+    }
+
+    public function getBranch()
+    {
+        if (!$this->isBranch()) {
+            throw new \LogicException(sprintf('Feed "%s" is not a branch', $this->getFeed()->getReference()));
+        }
+
+        return substr($this->getFeed()->getReference(), 11); // refs/heads/
+    }
+
+    public function isTag()
+    {
+        return preg_match('#^refs/tags/#', $this->getFeed()->getReference());
+    }
+
+    public function getTag()
+    {
+        if (!$this->isTag()) {
+            throw new \LogicException(sprintf('Feed "%s" is not a tag', $this->getFeed()->getReference()));
+        }
+
+        return substr($this->getFeed()->getReference(), 10); // refs/tags/
+    }
+
+    public function getShortReferenceName()
+    {
+        if ($this->isTag()) {
+            return $this->getTag();
+        } elseif ($this->isBranch()) {
+            return $this->getBranch();
+        }
+
+        throw new RuntimeException('Unable to find short reference name from '.$this->getFeed()->getReference());
     }
 }
