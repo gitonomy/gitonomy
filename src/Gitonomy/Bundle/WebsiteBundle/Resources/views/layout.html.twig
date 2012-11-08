@@ -28,12 +28,14 @@
                         </a>
                     </li>
                 {% endif %}
-                <li>
-                    <a href="{{ path('administration_users') }}"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
-                        <div class="icon"><i class="symbol">setting</i></div>
-                        <div class="text">{{ 'menu.administration'|trans }}</div>
-                    </a>
-                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('administration_users') }}"{% if global_navigation|default(null) == "administration" %} class="active"{% endif %}>
+                            <div class="icon"><i class="symbol">setting</i></div>
+                            <div class="text">{{ 'menu.administration'|trans }}</div>
+                        </a>
+                    </li>
+                {% endif %}
                 <li>
                     <a href="{{ path('profile_informations') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
                         <div class="icon"><i class="symbol">you</i></div>
