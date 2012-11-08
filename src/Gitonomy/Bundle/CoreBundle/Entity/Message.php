@@ -31,8 +31,9 @@ class Message
 
     public static function createFromEvent(PushReferenceEvent $event, Feed $feed)
     {
-        $user      = $event->getUser();
-        $reference = $event->getReference();
+        $user          = $event->getUser();
+        $reference     = $event->getReference();
+        $defaultBranch = $event->getProject()->getDefaultBranch();
 
         if ($reference->isDelete()) {
             return new CloseMessage($feed, $user);
@@ -41,7 +42,11 @@ class Message
         $message = new CommitMessage($feed, $user);
         $message->setForce($reference->isForce());
 
-        $log     = $event->getReference()->getLog();
+        if ($event->getReference()->getReference() === 'refs/heads/'.$defaultBranch) {
+            $log = $event->getReference()->getLog();
+        } else {
+            $log = $event->getReference()->getLog(array($defaultBranch));
+        }
         $log->setLimit(5);
         $commits = array();
         foreach ($log as $commit) {
