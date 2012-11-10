@@ -5,9 +5,9 @@
 {% block sentence %}
     {% set count = message.commitCount %}
     {% if message.isForce %}
-        {{ 'message.commit_forced'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
+        {{ 'message.commit_forced'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%ref%': message.shortReferenceName, '%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
     {% else %}
-        {{ 'message.commit_pushed'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
+        {{ 'message.commit_pushed'|trans({'%commits%': 'inline.commits'|transchoice(count)})|replace({'%ref%': message.shortReferenceName, '%before_verb%': '<span class="message-blue">', '%after_verb%': '</span>'})|raw }}
     {% endif %}
 {% endblock %}
 

@@ -8,7 +8,6 @@
         {% endspaceless %}
         {% block sentence '' %}
     </div>
-    <div class="ref">@{{ message.feed.reference }}</div>
     <div class="message">{% block message '' %}</div>
     <div class="time">
         <span data-time="{{ message.publishedAt | date('U') }}">{{ message.publishedAt.format('r') }}</span>

@@ -2,4 +2,10 @@
 
 {% trans_default_domain 'newsfeed' %}
 
-{% block sentence 'message.thread_created'|trans|replace({'%before_verb%': '<span class="message-green">', '%after_verb%': '</span>'})|raw %}
+{% block sentence %}
+    {% if message.isBranch %}
+        {{ 'message.branch_created'|trans|replace({'%branch%': message.branch, '%before_verb%': '<span class="message-green">', '%after_verb%': '</span>'})|raw }}
+    {% elseif message.isTag %}
+        {{ 'message.tag_created'|trans|replace({'%tag%': message.tag, '%before_verb%': '<span class="message-green">', '%after_verb%': '</span>'})|raw }}
+    {% endif %}
+{% endblock %}
