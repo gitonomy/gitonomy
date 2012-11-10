@@ -115,7 +115,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('small:contains("And 100 others...")'));
+        $this->assertEquals('And 97 others...', $crawler->filter('small')->text());
     }
 
     public function testTree()
