@@ -109,7 +109,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("Add a test script")'));
+        $this->assertCount(1, $crawler->filter('a:contains("0265379")'));
 
         $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
         $response = $this->client->getResponse();
