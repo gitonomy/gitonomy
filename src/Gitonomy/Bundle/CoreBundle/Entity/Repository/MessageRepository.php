@@ -15,7 +15,7 @@ class MessageRepository extends EntityRepository
             ->leftJoin('m.feed', 'f')
             ->where('f.project = :project')
             ->setParameter('project', $project)
-            ->orderBy('m.publishedAt', 'DESC')
+            ->orderBy('m.id', 'DESC')
             ->setMaxResults($limit)
         ;
 

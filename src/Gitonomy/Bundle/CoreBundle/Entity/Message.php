@@ -48,11 +48,12 @@ class Message
             $log = $event->getReference()->getLog(array($defaultBranch));
         }
 
-        $log->setLimit(5);
+        $log->setLimit(3);
         $commits = array();
         foreach ($log as $commit) {
             array_push($commits, array(
                 'hash'         => $commit->getHash(),
+                'shortHash'    => $commit->getShortHash(),
                 'message'      => $commit->getMessage(),
                 'shortMessage' => $commit->getShortMessage(),
                 'authorName'   => $commit->getAuthorName(),

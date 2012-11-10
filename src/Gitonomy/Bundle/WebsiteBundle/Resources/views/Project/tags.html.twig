@@ -21,7 +21,7 @@
                 {% for tag in tags %}
                     <tr>
                         <td>{{ tag.name }}</td>
-                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: tag.commit.hash}) }}">{{ tag.commit.shortMessage }}</a></td>
+                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: tag.commit.hash}) }}">{{ tag.commit.shortHash }}</a> {{ tag.commit.shortMessage }}</td>
 
                         <td class="author">
                             <img class="avatar" src="{{ gravatar(tag.commit.authorEmail, 16) }}" alt="{{ tag.commit.authorName }}" title="{{ tag.commit.authorName }}" />
