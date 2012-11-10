@@ -18,7 +18,7 @@
                 <th width="20">&nbsp;</td>
                 <th>{{ 'table.filename'|trans }}</th>
                 <th>{{ 'table.date'|trans }}</th>
-                <th>{{ 'table.message'|trans }}</th>
+                <th>{{ 'table.last_commit'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -46,13 +46,13 @@
                     <td>
                         <a href="{{ path('project_tree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
                             {{ name }}
-                        </a>/
+                        </a>
                     </td>
                     <td>{{ lastModificationCommit.getCommitterDate.format('Y-m-d H:i:s') }}</td>
                     <td>
                         <a href="{{ path('project_commit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
-                            {{ lastModificationCommit.shortMessage }}
-                        </a>
+                            {{ lastModificationCommit.shortHash }}
+                        </a>{{ lastModificationCommit.shortMessage }}
                     </td>
                 </tr>
             {% endfor %}

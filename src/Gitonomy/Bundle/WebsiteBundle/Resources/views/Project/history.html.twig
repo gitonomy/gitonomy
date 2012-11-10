@@ -47,8 +47,8 @@
                                 <span class="label">{{ branch }}</span>
                             {% endfor %}
                             <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                                {{ commit.shortMessage }}
-                            </a>
+                                {{ commit.shortHash }}
+                            </a> {{ commit.shortMessage }}
                         </td>
                         <td class="author">
                             <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />

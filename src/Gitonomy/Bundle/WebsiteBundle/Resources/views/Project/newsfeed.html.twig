@@ -18,20 +18,3 @@
         {% endfor %}
     </div>
 {% endblock %}
-
-{% block javascript_content %}
-    <script type="text/javascript">
-        $(function(){
-            var newsfeed   = $(".newsfeed");
-            var width     = newsfeed.width();
-            var key       = newsfeed.find(".news").eq(0);
-            var cardWidth = key.outerWidth(true);
-            var newWidth  = Math.floor(width / cardWidth) * cardWidth;
-
-          $('.newsfeed').masonry({
-            itemSelector : '.news',
-            columnWidth : cardWidth
-          });
-        });
-    </script>
-{% endblock %}
