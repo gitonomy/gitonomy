@@ -15,3 +15,15 @@ Flexible architecture
 
 Software is open-source so you can easily come up and hack software. You can
 watch some events and make actions on your repositories.
+
+Limitations
+-----------
+
+Gitonomy does not backup automatically your repositories. As default,
+repositories are located in ``app/cache/repositories``. When setting up your
+Gitonomy platform, we recommend you to choose a path on your system, like
+``/var/git``.
+
+File permissions are also responsability of administrator: you need to make
+sure Apache can read repositories and that CLI access has full write-access
+to application cache.
