@@ -6,7 +6,6 @@
 {% set local_navigation = 'empty' %}
 
 {% block project_content %}
-    <h1>{{ project.name }}</h1>
     <div id="content">
         <h2>How to make your first commit:</h2>
         <pre>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}

@@ -126,7 +126,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("Change the README filename")'));
+        $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
     }
 
     public function testTreeHistory()
@@ -137,7 +137,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("Change the README filename")'));
+        $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
     }
 
     public function testTree_WithFile_DisplayContent()
