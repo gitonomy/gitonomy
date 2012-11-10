@@ -3,8 +3,9 @@
 {% block title project.name ~ ' - Project is empty' %}
 
 {% set global_navigation = 'projects' %}
+{% set local_navigation = 'empty' %}
 
-{% block content %}
+{% block project_content %}
     <h1>{{ project.name }}</h1>
     <div id="content">
         <h2>How to make your first commit:</h2>

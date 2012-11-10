@@ -93,6 +93,7 @@ class ProjectController extends Controller
         if (!$references->hasBranches()) {
             return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
                 'project'    => $project,
+                'repository' => $repository,
             ));
         }
 
@@ -290,7 +291,8 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions')
+            'token'         => $this->createToken('project_permissions'),
+            'repository'    => $this->getGitRepository($project),
         ));
     }
 
@@ -312,7 +314,8 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions')
+            'token'         => $this->createToken('project_permissions'),
+            'repository'    => $this->getGitRepository($project),
         ));
     }
 
@@ -357,7 +360,8 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions')
+            'token'         => $this->createToken('project_permissions'),
+            'repository'    => $this->getGitRepository($project),
         ));
     }
 
@@ -399,7 +403,8 @@ class ProjectController extends Controller
 
         return $this->render('GitonomyWebsiteBundle:Project:admin.html.twig', array(
             'form'    => $form->createView(),
-            'project' => $project
+            'project' => $project,
+            'repository'    => $this->getGitRepository($project),
         ));
     }
 
