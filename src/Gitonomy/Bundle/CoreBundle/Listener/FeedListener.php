@@ -50,8 +50,10 @@ class FeedListener
 
         $message = $this->getMessageFromEvent($event, $feed);
 
-        $em->persist($message);
-        $em->flush();
+        if ($message) {
+            $em->persist($message);
+            $em->flush();
+        }
     }
 
     protected function getMessageFromEvent(PushReferenceEvent $event, Feed $feed)

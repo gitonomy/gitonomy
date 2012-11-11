@@ -279,6 +279,19 @@ class ProjectController extends Controller
         ));
     }
 
+    public function compareAction($slug, $revision)
+    {
+        $project = $this->getProject($slug);
+        $log     = $this->getGitRepository($project)->getLog($revision);
+
+        return $this->render('GitonomyWebsiteBundle:Project:compare.html.twig', array(
+            'project'   => $project,
+            'revision' => $revision,
+            'log'       => $log,
+            'diff'      => $log->getDiff()
+        ));
+    }
+
     public function permissionsAction($slug)
     {
         $this->assertGranted('ROLE_PROJECT_EDIT');

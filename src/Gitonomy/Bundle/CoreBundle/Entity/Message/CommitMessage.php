@@ -14,15 +14,40 @@ namespace Gitonomy\Bundle\CoreBundle\Entity\Message;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Message;
 
+use Gitonomy\Git\Log;
+
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
 class CommitMessage extends Message
 {
+    const DEFAULT_LIMIT = 3;
+
     protected $commitList;
     protected $commits;
     protected $commitCount;
+    protected $revision;
     protected $isForce = false;
+
+    public function fromLog(Log $log)
+    {
+        $log->setLimit(self::DEFAULT_LIMIT);
+        $commits = array();
+        foreach ($log as $commit) {
+            array_push($commits, array(
+                'hash'         => $commit->getHash(),
+                'shortHash'    => $commit->getShortHash(),
+                'message'      => $commit->getMessage(),
+                'shortMessage' => $commit->getShortMessage(),
+                'authorName'   => $commit->getAuthorName(),
+                'authorEmail'  => $commit->getAuthorEmail(),
+            ));
+        }
+
+        $this->setCommits($commits);
+        $this->setCommitCount(count($log));
+
+    }
 
     public function getCommits()
     {
@@ -40,6 +65,16 @@ class CommitMessage extends Message
         $this->commitList = json_encode($commits);
 
         return $this;
+    }
+
+    public function getRevision()
+    {
+        return $this->revision;
+    }
+
+    public function setRevision($revision)
+    {
+        $this->revision = $revision;
     }
 
     public function getCommitCount()

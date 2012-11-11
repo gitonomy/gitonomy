@@ -1,0 +1,20 @@
+{% trans_default_domain 'project_history' %}
+
+<table class="commit-list">
+    <tbody>
+        {% for commit in log %}
+            <tr>
+                <td class="span1 message">
+                    <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': slug, 'hash': commit.hash }) }}">
+                        {{ commit.shortHash }}
+                    </a>
+                </td>
+                <td class="span10">{{ commit.shortMessage }}</td>
+                <td class="span3 author">
+                    <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                    {{ commit.authorName }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

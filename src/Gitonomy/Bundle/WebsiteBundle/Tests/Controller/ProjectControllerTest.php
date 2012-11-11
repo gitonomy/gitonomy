@@ -115,7 +115,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('And 97 others...', $crawler->filter('small')->text());
+        $this->assertEquals('view diff of 100 commits', $crawler->filter('small')->text());
     }
 
     public function testTree()
