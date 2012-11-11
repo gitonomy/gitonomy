@@ -19,6 +19,7 @@
         %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
+        {% block before_head_end '' %}
     </head>
     <body class="{% block body_class '' %}">
         {% block body '' %}
