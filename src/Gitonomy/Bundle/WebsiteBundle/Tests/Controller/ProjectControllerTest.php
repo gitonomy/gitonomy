@@ -140,6 +140,20 @@ class ProjectControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
     }
 
+    public function testCompare()
+    {
+        $this->client->connect('alice');
+
+        $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
+        $crawler = $this->client->click($crawler->filter('a:contains("view diff of 100 commits")')->link());
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(100, $crawler->filter('table.commit-list tr')->count());
+        $this->assertEquals(100, $crawler->filter('table.commit-summary tr')->count());
+        $this->assertEquals(100, $crawler->filter('.changeset > .file')->count());
+    }
+
     public function testTree_WithFile_DisplayContent()
     {
         $this->client->connect('alice');
