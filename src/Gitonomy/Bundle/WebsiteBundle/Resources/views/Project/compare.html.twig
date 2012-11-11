@@ -1,0 +1,28 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% trans_default_domain 'project_history' %}
+
+{% block title 'page.compare.title'|trans({'%revision%': revision}) %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'history' %}
+
+{% block project_content %}
+    <div class="actionbar">
+        <ul class="pathcrumb">
+            <li>{{ revision }}</li>
+        </ul>
+    </div>
+
+    <legend>{{ 'title.diff.commits'|trans }}</legend>
+    {% include "GitonomyWebsiteBundle:Project:_commitList.html.twig" with {log: log, slug: project.slug} only %}
+
+
+    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: diff} only %}
+{% endblock %}
+
+{% block javascript_content %}
+    {% javascripts "bundles/gitonomywebsite/js/commit.js" %}
+        <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+    {% endjavascripts %}
+{% endblock %}

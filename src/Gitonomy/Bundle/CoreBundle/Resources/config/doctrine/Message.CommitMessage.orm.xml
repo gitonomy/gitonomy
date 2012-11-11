@@ -7,6 +7,7 @@
         <field name="commitList" column="commit_list" type="blob" nullable="true" />
         <field name="isForce" type="boolean" column="is_force" />
         <field name="commitCount" type="integer" column="commit_count" />
+        <field name="revision" type="text" column="revision" />
     </entity>
 
 </doctrine-mapping>

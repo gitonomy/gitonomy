@@ -29,86 +29,8 @@
         </div>
     </div>
 
-    <legend>{{ 'title.commit.summary'|trans }}</legend>
+    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: commit.diff, reference: commit.hash, slug: project.slug} only %}
 
-    <table class="commit-summary">
-        {% for i,file in diff.files %}
-            <tr>
-                <td class="actions">
-                    <div class="btn-group">
-                        <a rel="tooltip" title="{{ 'label.button.file_diff'|trans }}" class="btn btn-small" href="#diff-file-{{ i }}"><i class="icon-list"></i></a>
-                    </div>
-                </td>
-                <td class="count">
-                    {% if file.additions %}
-                        <span class="plus">+{{ file.additions }}</span>
-                    {% endif %}
-                    {% if file.deletions %}
-                        <span class="minus">-{{ file.deletions }}</span>
-                    {% endif %}
-                <td>
-                    {{ file.newName }}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <legend>{{ 'title.commit.changes'|trans }}</legend>
-
-    <div class="changeset">
-        {% for i, file in diff.files %}
-            <div class="file" id="diff-file-{{ i }}">
-                <header>
-                    {% if file.oldName == file.newName and file.oldMode == file.newMode %}
-                        <span class="file">{{ file.oldName }}</span>
-                    {% elseif file.oldName == null %}
-                        <span class="file">{{ file.newName }} ({{ file.newMode }})</span>
-                    {% elseif file.newName == null %}
-                        <span class="file deleted">{{ file.oldName }} ({{ file.oldMode }})</span>
-                    {% elseif file.oldMode != file.newMode %}
-                        <span class="changemod">{{ 'diff.label.file_mode_changed'|trans({'%old%': file.oldMode, '%new%': file.newMode}) }}</span>
-                    {% else %}
-                        <ul>
-                            <li><strong>{{ 'text.old'|trans }}</strong>: {{ file.oldName }} ({{ file.oldMode }})</li>
-                            <li><strong>{{ 'text.new'|trans }}</strong>: {{ file.newName }} ({{ file.newMode }})</li>
-                        </ul>
-                    {% endif %}
-                    <div class="btn-group pull-right">
-                        <a rel="tooltip" title="{{ 'label.button.old'|trans }}" class="btn btn-small show-old"><i class="icon-chevron-left"></i></a>
-                        <a rel="tooltip" title="{{ 'label.button.diff'|trans }}" disabled="disabled" class="btn btn-small show-diff"><i class="icon-eye-close"></i></a>
-                        <a rel="tooltip" title="{{ 'label.button.new'|trans }}" class="btn btn-small show-new"><i class="icon-chevron-right"></i></a>
-                        <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: commit.hash, path: file.newName}) }}"><i class="icon-file"></i></a>
-                    </div>
-                </header>
-                <div class="file-changes">
-                    <table class="commit-diff">
-                        {% for change in file.changes %}
-                            {% if not loop.first %}
-                                <tr><td class="skip" colspan="3">&nbsp;</td></tr>
-                            {% endif %}
-                            {% set old = change.rangeOldStart %}
-                            {% set new = change.rangeNewStart %}
-                            {%- for x, line in change.lines -%}
-                                <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
-                                    <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
-                                    <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
-                                    <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' : '' }} source"><pre>{{ line[1] }}</pre></td>
-                                </tr>
-                                {%- if line[0] == 1 -%}
-                                    {%- set new = new + 1 -%}
-                                {%- elseif line[0] == -1 -%}
-                                    {%- set old = old + 1 -%}
-                                {%- else -%}
-                                    {%- set new = new + 1 -%}
-                                    {%- set old = old + 1 -%}
-                                {%- endif -%}
-                            {%- endfor -%}
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}
 
 {% block javascript_content %}
