@@ -11,14 +11,13 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/common/archive/bb0aebbf234db52df476a2b473d434745b34221c.zip",
+                "url": "https://github.com/doctrine/common/zipball/bb0aebbf234db52df476a2b473d434745b34221c",
                 "reference": "bb0aebbf234db52df476a2b473d434745b34221c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "1348120518",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -42,8 +41,7 @@
                 },
                 {
                     "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
+                    "email": "guilhermeblanco@gmail.com"
                 },
                 {
                     "name": "Roman Borschel",
@@ -68,7 +66,8 @@
                 "eventmanager",
                 "annotations",
                 "persistence"
-            ]
+            ],
+            "time": "1348120518"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -254,7 +253,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/DoctrineFixturesBundle/archive/9edc67af16e736a31605e7fa9c9e3edbd9db6427.zip",
+                "url": "https://github.com/doctrine/DoctrineFixturesBundle/zipball/9edc67af16e736a31605e7fa9c9e3edbd9db6427",
                 "reference": "9edc67af16e736a31605e7fa9c9e3edbd9db6427",
                 "shasum": ""
             },
@@ -372,19 +371,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "24c4dcd399f3ec65267d920840b28e6cb58b218e"
+                "reference": "5474dd72f36a900e4801a80545e77f65b7ca0d8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/archive/24c4dcd399f3ec65267d920840b28e6cb58b218e.zip",
-                "reference": "24c4dcd399f3ec65267d920840b28e6cb58b218e",
+                "url": "https://github.com/gitonomy/gitlib/archive/5474dd72f36a900e4801a80545e77f65b7ca0d8e.zip",
+                "reference": "5474dd72f36a900e4801a80545e77f65b7ca0d8e",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "1352414747",
+            "time": "1352632732",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -412,53 +411,6 @@
             ],
             "description": "Library for accessing git",
             "homepage": "http://gitonomy.com"
-        },
-        {
-            "name": "jdorn/sql-formatter",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "v1.0.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/zipball/v1.0.1",
-                "reference": "v1.0.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "time": "2012-10-04 22:10:16",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "classmap": [
-                    "lib"
-                ]
-            },
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Jeremy Dorn",
-                    "email": "jeremy@jeremydorn.com",
-                    "homepage": "http://jeremydorn.com/"
-                }
-            ],
-            "description": "a PHP SQL highlighting library",
-            "homepage": "https://github.com/jdorn/sql-formatter/",
-            "keywords": [
-                "sql",
-                "highlight"
-            ]
         },
         {
             "name": "kriswallsmith/assetic",
@@ -593,7 +545,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sensio/SensioDistributionBundle/archive/4e86595e02c6e3d76971f790d7c06ec434e1b513.zip",
+                "url": "https://github.com/sensio/SensioDistributionBundle/zipball/4e86595e02c6e3d76971f790d7c06ec434e1b513",
                 "reference": "4e86595e02c6e3d76971f790d7c06ec434e1b513",
                 "shasum": ""
             },
@@ -652,7 +604,7 @@
                     "dev-master": "4.2-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "lib/swift_required.php"
@@ -751,7 +703,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/MonologBundle/archive/51517152a608926ee6b40ed8cfbba1a708f0a14f.zip",
+                "url": "https://github.com/symfony/MonologBundle/zipball/51517152a608926ee6b40ed8cfbba1a708f0a14f",
                 "reference": "51517152a608926ee6b40ed8cfbba1a708f0a14f",
                 "shasum": ""
             },
@@ -766,7 +718,6 @@
                 "symfony/yaml": ">=2.1.0,<2.3-dev",
                 "symfony/config": ">=2.1.0,<2.3-dev"
             },
-            "time": "1348137624",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -793,7 +744,8 @@
                 }
             ],
             "description": "Symfony MonologBundle",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "1348137624"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -806,7 +758,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/SwiftmailerBundle/archive/2393ba6d4f1b544349123e24a16bbc749bef9e55.zip",
+                "url": "https://github.com/symfony/SwiftmailerBundle/zipball/2393ba6d4f1b544349123e24a16bbc749bef9e55",
                 "reference": "2393ba6d4f1b544349123e24a16bbc749bef9e55",
                 "shasum": ""
             },
@@ -856,12 +808,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "f387b13ac8f790b03a9dfd0c1bfcc84fa303a8bf"
+                "reference": "b337655febaa7689bd9c735219cc2b5454b6762b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/f387b13ac8f790b03a9dfd0c1bfcc84fa303a8bf.zip",
-                "reference": "f387b13ac8f790b03a9dfd0c1bfcc84fa303a8bf",
+                "url": "https://github.com/symfony/symfony/archive/b337655febaa7689bd9c735219cc2b5454b6762b.zip",
+                "reference": "b337655febaa7689bd9c735219cc2b5454b6762b",
                 "shasum": ""
             },
             "require": {
@@ -914,7 +866,7 @@
             "suggest": {
                 "doctrine/data-fixtures": "1.0.*"
             },
-            "time": "1352574936",
+            "time": "1352629122",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -960,7 +912,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/archive/dcdff02fbac1282e6b8f4d0558cc7e9580105688.zip",
+                "url": "https://github.com/fabpot/Twig-extensions/zipball/dcdff02fbac1282e6b8f4d0558cc7e9580105688",
                 "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688",
                 "shasum": ""
             },
