@@ -13,31 +13,12 @@
 
 {% block message %}
     {% set count = message.commitCount %}
-    {% if count %}
-        <table class="commit-list">
-            <tbody>
-                {% for commit in message.commits %}
-                    <tr>
-                        <td class="span1 message">
-                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': message.feed.project.slug, 'hash': commit.hash }) }}">
-                                {{ commit.shortHash }}
-                            </a>
-                        </td>
-                        <td class="span10">{{ commit.shortMessage }}</td>
-                        <td class="span3 author">
-                            <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
-                            {{ commit.authorName }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                {% if count > 3 %}
-                    <tr>
-                        <td colspan="2">
-                            <small>{{ 'message.other_commits'|transchoice(count - 3) }}</small>
-                        </td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
+    {% include "GitonomyWebsiteBundle:Project:_commitList.html.twig" with {log: message.commits, slug: message.feed.project.slug} only %}
+    {% if count > 1 %}
+        <p>
+            <a href="{{ path('project_compare', {slug: message.feed.project.slug, revision: message.revision}) }}">
+                <small>{{ 'message.view_diff'|transchoice(count) }}</small>
+            </a>
+        </p>
     {% endif %}
 {% endblock message %}

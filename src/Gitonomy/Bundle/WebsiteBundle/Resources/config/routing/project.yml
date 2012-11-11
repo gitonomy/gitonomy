@@ -40,6 +40,10 @@ project_tree_history:
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
     requirements: { path: ".*" }
 
+project_compare:
+    pattern: /projects/{slug}/compare/{revision}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:compare" }
+
 project_permissions:
     pattern: /projects/{slug}/permissions
     defaults: { _controller: "GitonomyWebsiteBundle:Project:permissions" }

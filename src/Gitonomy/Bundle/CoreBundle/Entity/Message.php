@@ -42,28 +42,24 @@ class Message
         $message = new CommitMessage($feed, $user);
         $message->setForce($reference->isForce());
 
-        if ($event->getReference()->getReference() === 'refs/heads/'.$defaultBranch) {
-            $log = $event->getReference()->getLog();
+        if ($reference->isCreate() && $event->getReference()->getReference() === 'refs/heads/'.$defaultBranch) {
+            $revision = $reference->getRevision();
+            $log      = $reference->getLog();
+        } elseif ($reference->isCreate() && $reference->getRepository()->getReferences()->hasBranch($defaultBranch)) {
+            $mergeBase = trim($reference->getRepository()->run('merge-base', array($defaultBranch, $reference->getAfter())));
+            $revision  = $mergeBase.'..'.$reference->getAfter();
+            $log       = $reference->getRepository()->getLog($revision);
         } else {
-            $log = $event->getReference()->getLog(array($defaultBranch));
+            $revision = $reference->getRevision();
+            $log      = $reference->getLog();
         }
 
-        $log->setLimit(3);
-        $commits = array();
-        foreach ($log as $commit) {
-            array_push($commits, array(
-                'hash'         => $commit->getHash(),
-                'shortHash'    => $commit->getShortHash(),
-                'message'      => $commit->getMessage(),
-                'shortMessage' => $commit->getShortMessage(),
-                'authorName'   => $commit->getAuthorName(),
-                'authorEmail'  => $commit->getAuthorEmail(),
-            ));
+        if (count($log) == 0) {
+            return;
         }
 
-        $message->setCommits($commits);
-
-        $message->setCommitCount(count($log));
+        $message->setRevision($revision);
+        $message->fromLog($log);
 
         return $message;
     }
