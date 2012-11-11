@@ -7,6 +7,7 @@ This is the documentation of Gitonomy, a git management project.
 
     mission
     architecture
+    installation
 
 Features
 --------
