@@ -9,9 +9,7 @@
 {% set mode = codemirror_mode(path) %}
 
 {% block project_content %}
-    {% set diff = commit.diff %}
-
-    <h1>{{ 'title.source.title'|trans({':path': path}) }}</h1>
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show', project: project, reference: reference|default(project.defaultBranch), path: path} %}
 
     <form id="code-wrapper" class="cm-s-lesser-elegant">
         <textarea id="code" name="code">{{ blob.content }}</textarea>
