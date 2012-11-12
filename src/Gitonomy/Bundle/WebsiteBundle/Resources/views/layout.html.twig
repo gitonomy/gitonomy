@@ -67,16 +67,5 @@
 {% endblock %}
 
 {% block before_body_end %}
-    <script type="text/javascript">
-        var resize_margin = 2 * $("h1").height();
-        function resize()
-        {
-            var height = document.height - resize_margin;
-            height = Math.max(300, height)
-            $("#content").height(height);
-        }
-        $(window).resize(resize);
-        resize();
-    </script>
     {% block javascript_content '' %}
 {% endblock %}
