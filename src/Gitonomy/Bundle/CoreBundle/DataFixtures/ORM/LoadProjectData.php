@@ -36,6 +36,7 @@ class LoadProjectData extends AbstractFixture implements ContainerAwareInterface
     {
         $foobar = new Project('Foobar', 'foobar');
         $foobar->setRepositorySize(256);
+        $foobar->setDefaultBranch('new-feature');
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
 

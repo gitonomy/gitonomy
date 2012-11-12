@@ -113,17 +113,14 @@ class ProjectController extends Controller
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
         $request    = $this->getRequest();
-        $reference  = $request->query->get('reference');
+        $reference  = $request->query->get('reference', $project->getDefaultBranch());
         $log        = $repository->getLog($reference);
 
         $pager = new Pager(new GitLogAdapter($log));
         $pager->setPerPage(50);
         $pager->setPage($page = $request->query->get('page', 1));
 
-        $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
-
-        $references = $repository->getReferences();
+        $references    = $repository->getReferences();
         $referenceName = function (Reference $reference) {
             return $reference->getName();
         };
@@ -404,8 +401,9 @@ class ProjectController extends Controller
 
     public function adminAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
-        $form    = $this->createForm('project', $project, array('action' => 'edit'));
+        $project     = $this->getProject($slug);
+        $viewProject = clone $project;
+        $form        = $this->createForm('project', $project, array('action' => 'edit'));
 
         if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
             $this->flush();
@@ -415,9 +413,9 @@ class ProjectController extends Controller
         }
 
         return $this->render('GitonomyWebsiteBundle:Project:admin.html.twig', array(
-            'form'    => $form->createView(),
-            'project' => $project,
-            'repository'    => $this->getGitRepository($project),
+            'form'       => $form->createView(),
+            'project'    => $viewProject,
+            'repository' => $this->getGitRepository($project),
         ));
     }
 

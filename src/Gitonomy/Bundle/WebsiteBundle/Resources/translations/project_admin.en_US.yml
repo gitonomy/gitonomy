@@ -1,6 +1,7 @@
 page.title: "%project% - Administration"
-title.informations: "Informations"
+form.legend: "Informations"
 form.informations.name: "Name of project"
 form.informations.slug: "Slug of project"
+form.informations.defaultBranch: "Default branch"
 form.informations.submit: "Save informations"
 notice.informations_saved: "Project informations saved"

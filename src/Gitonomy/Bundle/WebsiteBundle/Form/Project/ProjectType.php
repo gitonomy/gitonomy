@@ -24,6 +24,7 @@ class ProjectType extends AbstractType
         if ('create' === $options['action']) {
             $builder->add('slug', 'text', array('label' => 'form.informations.slug'));
         }
+        $builder->add('defaultBranch', 'text', array('label' => 'form.informations.defaultBranch'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

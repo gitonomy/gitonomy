@@ -25,6 +25,7 @@ class Project
     protected $userRoles;
     protected $gitAccesses;
     protected $feeds;
+    protected $defaultBranch = 'master';
 
     public function __construct($name = null, $slug = null)
     {
@@ -109,7 +110,12 @@ class Project
 
     public function getDefaultBranch()
     {
-        return 'master';
+        return $this->defaultBranch;
+    }
+
+    public function setDefaultBranch($defaultBranch)
+    {
+        $this->defaultBranch = $defaultBranch;
     }
 
     public function getFeeds()

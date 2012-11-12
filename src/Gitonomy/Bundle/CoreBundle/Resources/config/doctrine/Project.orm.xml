@@ -10,6 +10,7 @@
 
         <field name="name" type="string" column="name" length="32" unique="true" />
         <field name="slug" type="string" column="slug" length="32" unique="true" />
+        <field name="defaultBranch" type="string" column="default_branch" length="32" />
         <field name="repositorySize" type="integer" column="repository_size" nullable="true" />
 
         <one-to-many field="userRoles" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject" mapped-by="project">

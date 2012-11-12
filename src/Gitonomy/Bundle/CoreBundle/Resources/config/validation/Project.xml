@@ -24,5 +24,8 @@
         <property name="slug">
             <constraint name="Assert:NotBlank" />
         </property>
+        <property name="defaultBranch">
+            <constraint name="Assert:NotBlank" />
+        </property>
     </class>
 </constraint-mapping>

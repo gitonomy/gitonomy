@@ -9,8 +9,8 @@
 
 {% block project_content %}
     <div id="content">
-        <h2>{{ 'title.informations'|trans }}</h2>
-        <form method="POST" action="{{ path('project_admin', {slug: project.slug}) }}" class="form-horizontal">
+        <form novalidate=novalidate method="POST" action="{{ path('project_admin', {slug: project.slug}) }}" class="form-horizontal">
+            <legend>{{ 'form.legend'|trans }}</legend>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
