@@ -1,25 +1,12 @@
 {% extends "GitonomyDistributionBundle:Configuration:step.html.twig" %}
 
 {% block step_content %}
-    <h2>Configure Doctrine</h2>
+    <h2>Database</h2>
     <form id="config-doctrine" action="{{ path('gitonomydistribution_configuration_saveStep', {slug: step.slug}) }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <p><input type="submit" value="Save" class="btn" /><input class="btn" type="button" id="test-doctrine" value="Test" /></p>
-{% endblock %}
-
-{% block content_javascript %}
-    <script type="text/javascript">
-        $(function () {
-            $("#test-doctrine").click(function (){
-                $.ajax({
-                    type: "POST",
-                    url:  "{{ path('gitonomydistribution_stepdoctrine_test') }}",
-                    data: $("#config-doctrine").serialize(),
-                    success: function (response) {
-                        alert(response.status+": "+response.message);
-                    }
-                })
-            });
-        });
-    </script>
+        <p>To start using Gitonomy, you need to configure database here and initialize database (see <a href="http://gitonomy.com/doc/gitonomy/master/installation">documentation</a>).</p>
+        <p>
+            <input type="submit" value="Save" class="btn" />
+        </p>
+    </form>
 {% endblock %}
