@@ -1,11 +1,10 @@
-{% extends "::base.html.twig" %}
+{% extends "GitonomyWebsiteBundle::base.html.twig" %}
 
-{% block stylesheets %}
+{% block before_head_end %}
     <link rel="stylesheet" href="{{ asset('bundles/gitonomydistribution/css/main.css') }}" />
 {% endblock %}
 
-{% block javascripts %}
-    <script type="text/javascript"src="{{ asset('bundles/gitonomyfrontend/js/jquery-1.7.1.min.js') }}"></script>
+{% block before_body_end %}
     {% block content_javascript '' %}
 {% endblock %}
 
