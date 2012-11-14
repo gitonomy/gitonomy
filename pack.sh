@@ -31,4 +31,4 @@ ln -s . gitonomy
 tar -cvzf pack.tar.gz --exclude=.git gitonomy/README.md gitonomy/LICENSE gitonomy/app gitonomy/src gitonomy/web gitonomy/vendor
 
 echo ">> Clean"
-rm gitonomy schema.sql
+rm gitonomy
