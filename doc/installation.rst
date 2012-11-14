@@ -1,50 +1,21 @@
 Installation
 ============
 
-Install last release
---------------------
+Gitonomy is still under development, and no distributed version is available by now.
 
-To install project, download latest release and make your web server serve the
-``web/`` folder.
+Manual installation
+-------------------
 
-**Step 1: download and uncompress**
+**Add CRON job**
 
-To download Gitonomy, go to `download page <http://gitonomy.com/download>`_.
-Select the last release, uncompress the archive in a folder accessible by your
-web-server.
+Edit your crontab and add::
 
-**Step 2: configure your webserver**
-
-Configure your Nginx or Apache to serve web/ folder:
-
-.. code-block:: text
-
-    DocumentRoot /path/to/gitonomy/web
-
-**Step 3: go to web-installation**
-
-Open your browser and go to ``http://localhost/install.php``.
-
-This page will guide you through the install process of Gitonomy.
-
-**Step 4: setup database**
-
-By now, database needs to be setup automatically. To create schema, use command:
-
-.. code-block:: bash
-
-    php app/console doctrine:schema:create
-
-We recommend you to load default fixtures to get a usable stage of application:
-
-    php app/console doctrine:fixtures:load
-
-You can now login using ``admin:admin``.
+    * * * * * php /path/to/gitonomy/app/console gitonomy:authorized-keys -i > ~/.ssh/authorized_keys
 
 Install development version
 ---------------------------
 
-The code is hosted on github. To install it locally in one line, use:
+The code is hosted on github. To clone it locally:
 
 .. code-block:: bash
 
@@ -54,4 +25,9 @@ The code is hosted on github. To install it locally in one line, use:
 
 This will setup the development version of the project, with demo accounts. It
 will add demo repositories, too. You can connect using one of various
-available accounts (see code).
+available accounts:
+
+* admin:admin
+* user:user
+* alice:alice
+* visitor:visitor
