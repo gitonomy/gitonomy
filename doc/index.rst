@@ -10,3 +10,4 @@ This is the documentation of Gitonomy, a git management project.
    architecture
    installation
    command
+   extension
