@@ -49,17 +49,20 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function load(ObjectManager $manager)
     {
-        $adminRole = $this->getReference('role-admin');
+        $adminRole          = $this->getReference('role-admin');
+        $projectCreatorRole = $this->getReference('role-project-creator');
 
         $users = array();
 
         $admin = new User('admin', 'Admin', 'Europe/Paris');
         $admin->createEmail('admin@example.org', true);
         $admin->addGlobalRole($adminRole);
+        $admin->addGlobalRole($projectCreatorRole);
         $this->setPassword($admin, 'admin');
         $users[] = $admin;
 
         $lead = new User('lead', 'Lead', 'Europe/Paris');
+        $lead->addGlobalRole($projectCreatorRole);
         $lead->createEmail('lead@example.org', true);
         $this->setPassword($lead, 'lead');
         $users[] = $lead;

@@ -21,7 +21,7 @@ class AdministrationController extends Controller
 {
     public function usersAction()
     {
-        $this->assertGranted('ROLE_USER_LIST');
+        $this->assertGranted('ROLE_ADMIN');
 
         $users = $this->getRepository('GitonomyCoreBundle:User')->findAll();
 
@@ -32,7 +32,7 @@ class AdministrationController extends Controller
 
     public function createUserAction(Request $request)
     {
-        $this->assertGranted('ROLE_USER_CREATE');
+        $this->assertGranted('ROLE_ADMIN');
 
         $user = new User();
         $form = $this->createForm('administration_user', $user, array('validation_groups' => 'admin'));
@@ -56,7 +56,7 @@ class AdministrationController extends Controller
 
     public function editUserAction(Request $request, $id)
     {
-        $this->assertGranted('ROLE_USER_EDIT');
+        $this->assertGranted('ROLE_ADMIN');
 
         $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
         $form = $this->createForm('administration_user', $user, array('validation_groups' => 'admin'));
@@ -81,7 +81,7 @@ class AdministrationController extends Controller
 
     public function deleteUserAction(Request $request, $id)
     {
-        $this->assertGranted('ROLE_USER_DELETE');
+        $this->assertGranted('ROLE_ADMIN');
 
         $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
 
@@ -93,7 +93,7 @@ class AdministrationController extends Controller
 
     public function rolesAction()
     {
-        $this->assertGranted('ROLE_ROLE_LIST');
+        $this->assertGranted('ROLE_ADMIN');
 
         $roles = $this->getRepository('GitonomyCoreBundle:Role')->findAll();
 
@@ -104,7 +104,7 @@ class AdministrationController extends Controller
 
     public function createRoleAction(Request $request)
     {
-        $this->assertGranted('ROLE_ROLE_CREATE');
+        $this->assertGranted('ROLE_ADMIN');
 
         $role = new Role();
         $form = $this->createForm('administration_role', $role, array('validation_groups' => 'admin'));
@@ -128,7 +128,7 @@ class AdministrationController extends Controller
 
     public function editRoleAction(Request $request, $id)
     {
-        $this->assertGranted('ROLE_ROLE_EDIT');
+        $this->assertGranted('ROLE_ADMIN');
 
         $role = $this->getRepository('GitonomyCoreBundle:Role')->find($id);
         $form = $this->createForm('administration_role', $role, array('validation_groups' => 'admin'));
@@ -153,7 +153,7 @@ class AdministrationController extends Controller
 
     public function deleteRoleAction($id)
     {
-        $this->assertGranted('ROLE_USER_DELETE');
+        $this->assertGranted('ROLE_ADMIN');
 
         $role = $this->getRepository('GitonomyCoreBundle:Role')->find($id);
 

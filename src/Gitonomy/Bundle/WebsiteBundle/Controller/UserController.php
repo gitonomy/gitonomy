@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $user = $this->findByUsername($username);
 
-        if ($this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL')) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
         } else {
             $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUsers(array($user, $this->getUser()));

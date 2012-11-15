@@ -14,8 +14,8 @@ namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 class ProjectGitAccess
 {
-    const WRITE_PERMISSION = 2;
-    const ADMIN_PERMISSION = 3;
+    const WRITE_PERMISSION = 1;
+    const ADMIN_PERMISSION = 2;
 
     protected $id;
 
