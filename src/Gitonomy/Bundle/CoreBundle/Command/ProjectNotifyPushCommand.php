@@ -61,9 +61,11 @@ EOF
 
             return 0;
         } catch (\Exception $e) {
+            // XXX error should be logged
             return 1;
         }
     }
+
     /**
      * @inheritdoc
      */
