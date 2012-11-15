@@ -27,7 +27,7 @@ security:
                 check_path:          splash_loginCheck
                 default_target_path: splash_login
             remember_me:
-                key:      Fj_p1rmÉ!
+                key:      %remember_secret%
                 lifetime: 31536000
                 path:     /
                 domain:   ~

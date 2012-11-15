@@ -17,6 +17,8 @@ parameters:
 
   # Security
   secret:            ThisTokenIsNotSoSecretChangeIt
+  remember_secret:   ThisTokenIsNotSoSecretChangeIt
+
 
   # Localisation
   locale:            en_US

@@ -11,6 +11,7 @@ class InstallationSecretStepType extends AbstractType
     {
         $builder
             ->add('secret', 'text')
+            ->add('remember_secret', 'text')
         ;
     }
 
