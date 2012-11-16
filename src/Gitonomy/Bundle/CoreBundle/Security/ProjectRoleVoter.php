@@ -42,12 +42,19 @@ class ProjectRoleVoter implements VoterInterface
     {
         $user = $token->getUser();
 
+        if (!$user instanceof User) {
+            return self::ACCESS_DENIED;
+        }
+
         if (!$object instanceof Project) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
         $roles = array();
-        foreach ($token->getRoles() as $role) {
+        foreach ($user->getRoles() as $role) {
+            if ($role->getRole() === 'ROLE_ADMIN') {
+                return self::ACCESS_GRANTED;
+            }
             if ($role instanceof ProjectRole && $role->isProject($object)) {
                 $roles[] = $role->getProjectRole();
             }

@@ -48,9 +48,14 @@ class Controller extends BaseController
 
     protected function assertGranted($attributes, $object = null)
     {
-        if (!$this->get('security.context')->isGranted($attributes, $object)) {
+        if (!$this->isGranted($attributes, $object)) {
             throw $this->createAccessDeniedException();
         }
+    }
+
+    protected function isGranted($attributes, $object = null)
+    {
+        return $this->get('security.context')->isGranted($attributes, $object);
     }
 
     protected function getRepository($name)

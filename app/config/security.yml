@@ -5,16 +5,6 @@ security:
             encode-as-base64: true
             iterations:       5
 
-    role_hierarchy:
-        # Global permissions
-        ROLE_ADMIN:            [ ROLE_GIT_ACCESS_ALL, ROLE_PROJECT_ALL, ROLE_USER_PROJECT_ALL, ROLE_ROLE_ALL, ROLE_USER_ALL, ROLE_USER_EMAIL_ALL, ROLE_PROJECT_READ_ALL ]
-        ROLE_PROJECT_ALL:      [ ROLE_PROJECT_DELETE, ROLE_PROJECT_EDIT, ROLE_PROJECT_CREATE ]
-        ROLE_GIT_ACCESS_ALL:   [ ROLE_GIT_ACCESS_LIST, ROLE_GIT_ACCESS_DELETE, ROLE_GIT_ACCESS_CREATE ]
-        ROLE_USER_PROJECT_ALL: [ ROLE_USER_PROJECT_LIST, ROLE_USER_PROJECT_DELETE, ROLE_USER_PROJECT_CREATE ]
-        ROLE_ROLE_ALL:         [ ROLE_ROLE_LIST, ROLE_ROLE_DELETE, ROLE_ROLE_EDIT, ROLE_ROLE_CREATE ]
-        ROLE_USER_ALL:         [ ROLE_USER_LIST, ROLE_USER_CREATE, ROLE_USER_EDIT, ROLE_USER_DELETE, ROLE_USER_ACTIVATE ]
-        ROLE_USER_EMAIL_ALL:   [ ROLE_USER_EMAIL_LIST, ROLE_USER_EMAIL_CREATE, ROLE_USER_EMAIL_EDIT, ROLE_USER_EMAIL_DELETE, ROLE_USER_EMAIL_SET_DEFAULT ]
-
     providers:
         entity:
             entity: { class: Gitonomy\Bundle\CoreBundle\Entity\User, property: "username" }
@@ -27,7 +17,7 @@ security:
                 check_path:          splash_loginCheck
                 default_target_path: splash_login
             remember_me:
-                key:      Fj_p1rmÉ!
+                key:      %remember_secret%
                 lifetime: 31536000
                 path:     /
                 domain:   ~

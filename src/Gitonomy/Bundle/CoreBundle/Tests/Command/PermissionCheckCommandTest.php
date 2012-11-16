@@ -32,8 +32,8 @@ class PermissionCheckCommandTest extends CommandTestCase
     public function provideSimpleCase()
     {
         return array(
-            array('foobar', 'alice', 'PROJECT_CONTRIBUTE', true  ),
-            array('barbaz', 'bob',   'PROJECT_CONTRIBUTE', false ),
+            array('foobar', 'alice', 'PROJECT_READ',       true  ),
+            array('barbaz', 'bob',   'PROJECT_READ',       false ),
             array(null,     'admin', 'ROLE_ADMIN',         true ),
             array(null,     'alice', 'ROLE_ADMIN',         false ),
         );

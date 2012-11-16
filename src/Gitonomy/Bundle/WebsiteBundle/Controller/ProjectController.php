@@ -33,7 +33,7 @@ class ProjectController extends Controller
 
         $pool = $this->get('gitonomy_core.git.repository_pool');
 
-        if ($this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $entities = $this->getRepository('GitonomyCoreBundle:Project')->findAll();
         } else {
             $entities = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
@@ -53,9 +53,13 @@ class ProjectController extends Controller
     {
         $this->assertGranted('ROLE_PROJECT_CREATE');
 
+        $user    = $this->getUser();
         $project = new Project();
+        $role    = $this->getRepository('GitonomyCoreBundle:Role')->findOneByName('Lead developer');
         $form    = $this->createForm('project', $project);
         $request = $this->getRequest();
+
+        $project->getUserRoles()->add(new UserRoleProject($user, $project, $role));
 
         if ('GET' === $request->getMethod()) {
             return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
@@ -70,7 +74,7 @@ class ProjectController extends Controller
 
             $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
 
-            $this->setFlash('success', $this->trans('notice.success', array(), 'project_create'));
+            $this->setFlash('success', $this->trans('notice.project_created', array(), 'project'));
 
             return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));
         }
@@ -291,9 +295,8 @@ class ProjectController extends Controller
 
     public function permissionsAction($slug)
     {
-        $this->assertGranted('ROLE_PROJECT_EDIT');
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
 
-        $project       = $this->getProject($slug);
         $roleForm      = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
         $gitAccessForm = $this->createForm('project_git_access');
 
@@ -308,9 +311,10 @@ class ProjectController extends Controller
 
     public function postPermissionsCreateRoleAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
-        $role    = new UserRoleProject(null, $project);
-        $roleForm = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
+        $role          = new UserRoleProject(null, $project);
+        $roleForm      = $this->createForm('project_role', $role, array('usedUsers' => $project->getUsers()));
         $gitAccessForm = $this->createForm('project_git_access');
 
         if ($roleForm->bind($request)->isValid()) {
@@ -331,8 +335,9 @@ class ProjectController extends Controller
 
     public function postPermissionsDeleteRoleAction(Request $request, $slug, $id)
     {
-        $project = $this->getProject($slug);
-        $role    = $this->getRepository('GitonomyCoreBundle:UserRoleProject')->find($id);
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
+        $role = $this->getRepository('GitonomyCoreBundle:UserRoleProject')->find($id);
 
         if ($role->getProject()->getSlug() !== $project->getSlug()) {
             throw $this->createAccessDeniedException();
@@ -354,7 +359,8 @@ class ProjectController extends Controller
 
     public function postPermissionsCreateGitAccessAction(Request $request, $slug)
     {
-        $project       = $this->getProject($slug);
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
         $gitAccess     = new ProjectGitAccess($project);
         $roleForm      = $this->createForm('project_role', null, array('usedUsers' => $project->getUsers()));
         $gitAccessForm = $this->createForm('project_git_access', $gitAccess);
@@ -377,7 +383,8 @@ class ProjectController extends Controller
 
     public function postPermissionsDeleteGitAccessAction(Request $request, $slug, $id)
     {
-        $project = $this->getProject($slug);
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
         $role    = $this->getRepository('GitonomyCoreBundle:ProjectGitAccess')->find($id);
 
         if ($role->getProject()->getSlug() !== $project->getSlug()) {
@@ -401,7 +408,8 @@ class ProjectController extends Controller
 
     public function adminAction(Request $request, $slug)
     {
-        $project     = $this->getProject($slug);
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
         $viewProject = clone $project;
         $form        = $this->createForm('project', $project, array('action' => 'edit'));
 
@@ -466,10 +474,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException(sprintf('Project with slug "%s" not found', $slug));
         }
 
-        if (
-            !$this->get('security.context')->isGranted('PROJECT_CONTRIBUTE', $project)
-            && !$this->get('security.context')->isGranted('ROLE_PROJECT_READ_ALL', $project)
-        ) {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('PROJECT_READ', $project)) {
             throw $this->createAccessDeniedException('You are not contributor of the project');
         }
 

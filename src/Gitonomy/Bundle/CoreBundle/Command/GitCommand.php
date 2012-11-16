@@ -103,7 +103,7 @@ EOF
         switch ($action) {
             case 'git-receive-pack':
             case 'git-upload-pack':
-                if (!$securityContext->isGranted('PROJECT_CONTRIBUTE', $project)) {
+                if (!$securityContext->isGranted('PROJECT_READ', $project)) {
                     throw new \RuntimeException('You are not allowed to read on this repository');
                 }
                 break;

@@ -6,6 +6,7 @@ cd `php -r "echo dirname(realpath('$0'));"`
 
 echo ">>> Creating user in Gitonomy"
 ./app/console gitonomy:user-create user user 'user@example.org' "User"
+./app/console gitonomy:user-role-create user  "Project creator"
 
 if [ -f ~/.ssh/id_rsa.pub ]; then
     echo ">>> Adding your SSH key in Gitonomy"

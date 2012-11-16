@@ -44,7 +44,7 @@ You can specify a project with <info>--project</info> option.
 
 <comment>Sample usages</comment>
 
-  > php app/console gitonomy:permission-check --project=foo alice PROJECT_CONTRIBUTE
+  > php app/console gitonomy:permission-check --project=foo alice PROJECT_READ
 
     Tests if alice is contributor of project foo
 

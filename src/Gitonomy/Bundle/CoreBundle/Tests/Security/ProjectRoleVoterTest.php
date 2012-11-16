@@ -71,11 +71,11 @@ class ProjectRoleVoterTest extends \PHPUnit_Framework_TestCase
             $roles[$i] = new ProjectRole($project, $role);
         }
 
+        $user = $this->getMock('Gitonomy\Bundle\CoreBundle\Entity\User');
+        $user->expects($this->any())->method('getRoles')->will($this->returnValue($roles));
+
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $token->expects($this->once())
-              ->method('getRoles')
-              ->will($this->returnValue($roles));
-        ;
+        $token->expects($this->any())->method('getUser')->will($this->returnValue($user));
 
         return $token;
     }
