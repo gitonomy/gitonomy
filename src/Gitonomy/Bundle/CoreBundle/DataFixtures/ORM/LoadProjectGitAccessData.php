@@ -36,10 +36,10 @@ class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixture
         $visitor   = $manager->merge($this->getReference('role-visitor'));
 
         $accesses = array(
-            new ProjectGitAccess($foobar, $lead,      '*', true, true, true),
-            new ProjectGitAccess($foobar, $developer, '*', true, true, false),
-            new ProjectGitAccess($foobar, $visitor,   '*', true, false, false),
-            new ProjectGitAccess($barbaz, $lead,      '*', true, true, true)
+            new ProjectGitAccess($foobar, $lead,      '*', true, true),
+            new ProjectGitAccess($foobar, $developer, '*', true, false),
+            new ProjectGitAccess($foobar, $visitor,   '*', false, false),
+            new ProjectGitAccess($barbaz, $lead,      '*', true, true)
         );
 
         foreach ($accesses as $access) {

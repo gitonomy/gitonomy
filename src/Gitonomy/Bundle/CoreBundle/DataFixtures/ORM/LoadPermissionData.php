@@ -28,7 +28,9 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
     {
         $permissions = array(
             new Permission('ROLE_ADMIN', true),
-            new Permission('PROJECT_CONTRIBUTE', false)
+            new Permission('ROLE_PROJECT_CREATE', true),
+            new Permission('PROJECT_READ', false),
+            new Permission('PROJECT_ADMIN', false)
         );
 
         foreach ($permissions as $permission) {

@@ -1,13 +1,6 @@
-page:
-    title:
-        create:  "Create a new project"
-
-title:
-    create: "New project"
-
-form:
-    legend: Create a new project
-
-button:
-    create: Create
-    cancel: Cancel
+page.title.create:  "Create a new project"
+title.create: "New project"
+form.legend: "Create a new project"
+button.create: "Create"
+button.cancel: "Cancel"
+notice.project_created: "Project created"

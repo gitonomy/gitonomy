@@ -8,8 +8,10 @@ class SecretStep implements StepInterface
 {
     public function getStatus(array $parameters)
     {
-        if ($parameters['secret'] == 'ThisTokenIsNotSoSecretChangeIt') {
-            return self::STATUS_ERROR;
+        foreach (array('secret', 'remember_secret') as $key) {
+            if ($parameters[$key] == 'ThisTokenIsNotSoSecretChangeIt') {
+                return self::STATUS_ERROR;
+            }
         }
 
         return self::STATUS_OK;

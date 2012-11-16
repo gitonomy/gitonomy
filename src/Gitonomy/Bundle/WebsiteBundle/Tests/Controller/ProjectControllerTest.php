@@ -177,7 +177,15 @@ class ProjectControllerTest extends WebTestCase
         $this->client->connect('alice');
         $crawler  = $this->client->request('GET', '/create-project');
         $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testCreateProjectAsUser()
+    {
+        $this->client->connect('user');
+        $crawler  = $this->client->request('GET', '/create-project');
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isRedirect('http://localhost/login'));
     }
 
     public function testCreateProject()

@@ -9,6 +9,8 @@ use Behat\Gherkin\Node\TableNode;
 use Gitonomy\QA\KernelFactory;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 
 class ApiContext extends BehatContext
 {
@@ -64,6 +66,25 @@ class ApiContext extends BehatContext
 
             $em->remove($user);
             $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^project "([^"]*)" does not exist$/
+     */
+    public function projectDoesNotExist($slug)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($slug) {
+            $em      = $kernel->getContainer()->get('doctrine')->getEntityManager();
+            $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
+
+            if (!$project) {
+                return;
+            }
+
+            $em->remove($project);
+            $em->flush();
+            $kernel->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($project));
         });
     }
 
