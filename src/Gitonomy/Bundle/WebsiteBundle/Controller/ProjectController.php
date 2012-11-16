@@ -74,7 +74,7 @@ class ProjectController extends Controller
 
             $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
 
-            $this->setFlash('success', $this->trans('notice.success', array(), 'project_create'));
+            $this->setFlash('success', $this->trans('notice.project_created', array(), 'project'));
 
             return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));
         }

@@ -73,6 +73,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $users[] = $charlie;
 
         $alice = new User('alice', 'Alice', 'Europe/Paris');
+        $alice->addGlobalRole($projectCreatorRole);
         $alice->createEmail('alice@example.org', true);
         $alice->createEmail('derpina@example.org')->createActivationToken();
         $this->setPassword($alice, 'alice');
