@@ -38,13 +38,12 @@ Database initialization
 To start using the application, you need to load fixtures in it. First,
 configure your application as explained above.
 
-When it's done, execute this on a freshly setupped application::
+Create your MySQL database and when it's done, go to project and type::
 
-    php app/console doctrine:database:create # creates database
-    php app/console doctrine:schema:create   # creates tables
-    php app/console doctrine:fixtures:load   # load default application data
+    ./install.sh
 
-Then, you can connect in the application and delete users, projects to fit needs.
+This script will create database and load default data. On first time, connect with user **admin** (password: admin).
+Go to your profile and change your password to something more obscure.
 
 Manual installation
 -------------------
