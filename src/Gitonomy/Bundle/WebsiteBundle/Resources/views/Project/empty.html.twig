@@ -7,12 +7,12 @@
 
 {% block project_content %}
     <div id="content">
-        <h2>How to make your first commit:</h2>
+        <p>How to make your first commit:</p>
         <pre>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}
 cd {{ project.slug }}
 echo "Hello world" > README
 git add -A
 git commit -m "Hello world"
-git push origin master
+git push origin {{ project.defaultBranch }}
     </div>
 {% endblock %}
