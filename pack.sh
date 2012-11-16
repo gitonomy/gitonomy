@@ -28,7 +28,15 @@ if [ -f pack.tar.gz ]; then
 fi
 
 ln -s . gitonomy
-tar -cvzf pack.tar.gz --exclude=.git gitonomy/README.md gitonomy/LICENSE gitonomy/app gitonomy/src gitonomy/web gitonomy/vendor
+tar -cvzf pack.tar.gz --exclude=.git \
+    gitonomy/app \
+    gitonomy/src/Bundle \
+    gitonomy/src/Component \
+    gitonomy/web \
+    gitonomy/vendor \
+    gitonomy/install.sh \
+    gitonomy/LICENSE \
+    gitonomy/README.md
 
 echo ">> Clean"
 rm gitonomy

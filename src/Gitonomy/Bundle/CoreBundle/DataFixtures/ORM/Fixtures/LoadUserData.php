@@ -10,15 +10,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixtures;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\UserFixture;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 /**
@@ -27,23 +23,8 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadUserData extends UserFixture
 {
-    /**
-     * Service container of the application
-     *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @inheritdoc
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
     /**
      * @inheritdoc
      */
@@ -53,13 +34,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $projectCreatorRole = $this->getReference('role-project-creator');
 
         $users = array();
-
-        $admin = new User('admin', 'Admin', 'Europe/Paris');
-        $admin->createEmail('admin@example.org', true);
-        $admin->addGlobalRole($adminRole);
-        $admin->addGlobalRole($projectCreatorRole);
-        $this->setPassword($admin, 'admin');
-        $users[] = $admin;
 
         $lead = new User('lead', 'Lead', 'Europe/Paris');
         $lead->addGlobalRole($projectCreatorRole);
@@ -103,11 +77,5 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     public function getOrder()
     {
         return 3;
-    }
-
-    protected function setPassword(User $user, $password)
-    {
-        $factory = $this->container->get('security.encoder_factory');
-        $user->setPassword($password, $factory->getEncoder($user));
     }
 }
