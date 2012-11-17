@@ -8,4 +8,4 @@ notice.informations_saved: "Les informations du projet ont bien été sauvegard�
 error.token_invalid: "Le jeton n'est pas valide. Merci de réessayer."
 form.delete.legend: "Supprimer"
 button.delete: "Oui, je veux supprimer %project%"
-notice.deleted: "Project supprimé"
+notice.deleted: "Projet supprimé"
