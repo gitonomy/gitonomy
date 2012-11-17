@@ -221,17 +221,14 @@ class ProjectController extends Controller
 
     public function branchesAction($slug)
     {
-        $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
-        $branches   = $repository->getReferences()->getBranches();
-
-        usort($branches, function($left, $right) {
-            return $left->getCommit()->getAuthorDate() < $right->getCommit()->getAuthorDate();
-        });
+        $project       = $this->getProject($slug);
+        $rows          = $this->getBranchesWithActivity($project);
+        $defaultBranch = $this->getGitRepository($project)->getReferences()->getBranch($project->getDefaultBranch());
 
         return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
-            'project'  => $project,
-            'branches' => $branches,
+            'project'       => $project,
+            'rows'          => $rows,
+            'defaultBranch' => $defaultBranch,
         ));
     }
 
@@ -446,28 +443,8 @@ class ProjectController extends Controller
 
     public function _branchActivityAction($project, $route, $reference = null, $path = null, $withAll = false)
     {
-        $project    = $this->getProject($project);
-        $repository = $this->getGitRepository($project);
-        $rows       = array();
-        $references = $repository->getReferences();
-
-        $against = $references->getBranch(null === $reference ? $project->getDefaultBranch() : $reference);
-
-        foreach ($references->getBranches() as $branch) {
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
-            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
-
-            $rows[] = array(
-                'branch'           => $branch,
-                'above'            => count($logAbove->getCommits()),
-                'behind'           => count($logBehind->getCommits()),
-                'lastModification' => $branch->getLastModification(),
-            );
-        }
-
-        usort($rows, function ($left, $right) {
-            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
-        });
+        $project = $this->getProject($project);
+        $rows    = $this->getBranchesWithActivity($project, $reference);
 
         return $this->render('GitonomyWebsiteBundle:Project:_branchActivity.html.twig', array(
             'project'   => $project,
@@ -496,5 +473,35 @@ class ProjectController extends Controller
         }
 
         return $project;
+    }
+
+    protected function getBranchesWithActivity(Project $project, $reference = null)
+    {
+        $repository = $this->getGitRepository($project);
+        $references = $repository->getReferences();
+
+        if (null === $reference) {
+            $reference = $project->getDefaultBranch();
+        }
+
+        $against = $references->getBranch(null === $reference ? $project->getDefaultBranch() : $reference);
+
+        foreach ($references->getBranches() as $branch) {
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
+            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
+
+            $rows[] = array(
+                'branch'           => $branch,
+                'above'            => count($logAbove->getCommits()),
+                'behind'           => count($logBehind->getCommits()),
+                'lastModification' => $branch->getLastModification(),
+            );
+        }
+
+        usort($rows, function ($left, $right) {
+            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
+        });
+
+        return $rows;
     }
 }

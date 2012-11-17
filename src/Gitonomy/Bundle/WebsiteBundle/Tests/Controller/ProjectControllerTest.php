@@ -140,6 +140,27 @@ class ProjectControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
     }
 
+    public function testBranches()
+    {
+        $this->client->connect('alice');
+
+        $crawler = $this->client->request('GET', '/projects/foobar/branches');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertCount(1, $crawler->filter('a:contains("10b5d71")'));
+    }
+
+    public function testTags()
+    {
+        $this->client->connect('alice');
+
+        $crawler = $this->client->request('GET', '/projects/foobar/tags');
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     public function testCompare()
     {
         $this->client->connect('alice');

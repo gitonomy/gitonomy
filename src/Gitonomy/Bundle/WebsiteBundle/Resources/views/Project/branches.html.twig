@@ -15,10 +15,12 @@
                     <th>{{ 'table.column.last_commit'|trans }}</th>
                     <th>{{ 'table.column.author'|trans }}</th>
                     <th>{{ 'table.column.date'|trans }}</th>
+                    <th>{{ 'table.column.diff'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
-                {% for branch in branches %}
+                {% for row in rows %}
+                    {% set branch = row.branch %}
                     <tr>
                         <td>{{ branch.name }}</td>
                         <td><a href="{{ path('project_commit', {slug: project.slug, hash: branch.commit.hash}) }}">{{ branch.commit.shortHash }}</a> {{ branch.commit.shortMessage }}</td>
@@ -27,6 +29,16 @@
                             {{ branch.commit.authorName }}
                         </td>
                         <td>{{ branch.commit.authorDate.format('Y-m-d H:i:s') }}</td>
+                        <td>
+                            {% if row.behind and row.above %}
+                                <div class="pull-right">
+                                    <a href="{{ path('project_compare', {slug: project.slug, revision: defaultBranch.commitHash~'..'~branch.commitHash}) }}">
+                                        <span class="behind">-{{ row.behind }}</span>
+                                        <span class="above">+{{ row.above }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
