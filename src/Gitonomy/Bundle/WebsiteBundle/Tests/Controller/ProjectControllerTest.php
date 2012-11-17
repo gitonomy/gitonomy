@@ -245,10 +245,9 @@ class ProjectControllerTest extends WebTestCase
 
     public function testDeleteFoobar()
     {
-        $this->markTestSkipped();
-
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
+        $repository = $this->client->getContainer()->get('gitonomy_core.git.repository_pool')->getGitRepository($project);
 
         $this->repositoryPool = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\RepositoryPool')
             ->disableOriginalConstructor()
@@ -264,19 +263,23 @@ class ProjectControllerTest extends WebTestCase
             ->expects($this->once())
             ->method('onProjectDelete')
         ;
+        $this->repositoryPool
+            ->expects($this->once())
+            ->method('getGitRepository')
+            ->will($this->returnValue($repository))
+        ;
 
         $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/adminproject/'.$project->getId().'/delete');
+        $crawler  = $this->client->request('GET', '/projects/'.$project->getSlug().'/admin');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete project "Barbaz" ?', $crawler->filter('h1')->text());
+        $this->assertEquals('Delete', $crawler->filter('#content > legend')->text());
 
-        $form = $crawler->filter('input[type=submit][value=Delete]')->form();
+        $link = $crawler->filter('a#delete')->link();
+        $this->client->click($link);
 
-        $this->client->submit($form);
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('/adminproject/list'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/'));
 
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
         $this->assertNull($project);

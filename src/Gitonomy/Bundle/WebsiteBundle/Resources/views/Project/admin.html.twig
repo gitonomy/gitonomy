@@ -9,8 +9,8 @@
 
 {% block project_content %}
     <div id="content">
-        <form novalidate=novalidate method="POST" action="{{ path('project_admin', {slug: project.slug}) }}" class="form-horizontal">
-            <legend>{{ 'form.legend'|trans }}</legend>
+        <form method="POST" action="{{ path('project_admin', {slug: project.slug}) }}" class="form-horizontal">
+            <legend>{{ 'form.informations.legend'|trans }}</legend>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
@@ -18,5 +18,13 @@
                 </div>
             </div>
         </form>
+
+        <legend>{{ 'form.delete.legend'|trans }}</legend>
+        <div class="control-group">
+            <div class="controls">
+                <a id="delete" class="btn btn-danger"  data-method="POST" href="{{ path('project_delete', {slug: project.slug, _token: csrf_token('project_delete')}) }}"><i class="icon-fire icon-white"></i> {{ 'button.delete'|trans({'%project%': project.slug}) }}</a>
+            </div>
+        </div>
+
     </div>
 {% endblock %}

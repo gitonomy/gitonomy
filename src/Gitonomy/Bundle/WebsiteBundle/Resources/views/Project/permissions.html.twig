@@ -27,7 +27,7 @@
                             <td>{{ userRole.role.name }}</td>
                             <td>
                                 <div class="btn-group pull-right">
-                                    <a rel="tooltip" title="{{ 'tooltip.role.delete'|trans }}" class="btn btn-small btn-danger" data-method="POST" href="{{ path('project_postPermissionsDeleteRole', {slug: project.slug, id: userRole.id, _token: token}) }}"><i class="icon-fire icon-white"></i></a>
+                                    <a rel="tooltip" title="{{ 'tooltip.role.delete'|trans }}" class="btn btn-small btn-danger" data-method="POST" href="{{ path('project_postPermissionsDeleteRole', {slug: project.slug, id: userRole.id, _token: csrf_token('project_permissions') }) }}"><i class="icon-fire icon-white"></i></a>
                                 </div>
                             </td>
                         </tr>

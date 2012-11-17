@@ -68,10 +68,9 @@ class Controller extends BaseController
      */
     protected function getGitRepository(Project $project)
     {
-        $lalala = $this
-            ->get('gitonomy_core.git.repository_pool');
-
-            return $lalala->getGitRepository($project)
+        return $this
+            ->get('gitonomy_core.git.repository_pool')
+            ->getGitRepository($project)
         ;
     }
 

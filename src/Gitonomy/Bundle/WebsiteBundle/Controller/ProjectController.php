@@ -376,7 +376,6 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions'),
             'repository'    => $this->getGitRepository($project),
         ));
     }
@@ -425,6 +424,24 @@ class ProjectController extends Controller
             'project'    => $viewProject,
             'repository' => $this->getGitRepository($project),
         ));
+    }
+
+    public function deleteAction(Request $request, $slug)
+    {
+        $this->assertGranted('PROJECT_ADMIN', $project = $this->getProject($slug));
+
+        if (!$this->isTokenValid('project_delete', $request->query->get('_token'))) {
+            $this->setFlash('error', $this->trans('error.token_invalid', array(), 'project_permissions'));
+
+            return $this->redirect($this->generateUrl('project_admin', array('slug' => $slug)));
+        }
+
+        $this->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($project));
+        $this->removeEntity($project);
+
+        $this->setFlash('success', $this->trans('notice.deleted', array(), 'project_admin'));
+
+        return $this->redirect($this->generateUrl('project_list'));
     }
 
     public function _branchActivityAction($project, $route, $reference = null, $path = null, $withAll = false)

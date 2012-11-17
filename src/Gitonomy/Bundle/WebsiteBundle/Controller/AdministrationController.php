@@ -79,7 +79,7 @@ class AdministrationController extends Controller
         ));
     }
 
-    public function deleteUserAction(Request $request, $id)
+    public function deleteUserAction($id)
     {
         $this->assertGranted('ROLE_ADMIN');
 
