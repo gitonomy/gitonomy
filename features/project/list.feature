@@ -1,8 +1,5 @@
 Feature: Project list
 
-    As a user with given access level
-    I can only see a subset of projects
-
     Scenario: Alice has limited access to project
         Given I am connected as "alice"
           And I am on "/"

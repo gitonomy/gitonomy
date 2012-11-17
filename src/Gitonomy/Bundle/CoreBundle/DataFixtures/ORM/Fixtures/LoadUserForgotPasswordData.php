@@ -10,15 +10,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixtures;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixture;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword;
 
@@ -27,23 +23,8 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserForgotPassword;
  *
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadUserForgotPasswordData extends Fixture
 {
-    /**
-     * Service container of the application
-     *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @inheritdoc
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
     /**
      * @inheritdoc
      */
@@ -65,5 +46,4 @@ class LoadUserForgotPasswordData extends AbstractFixture implements OrderedFixtu
     {
         return 4;
     }
-
 }

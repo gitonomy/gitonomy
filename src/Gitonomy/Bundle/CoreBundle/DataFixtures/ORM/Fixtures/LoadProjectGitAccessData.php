@@ -10,18 +10,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixture;
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class LoadProjectGitAccessData extends AbstractFixture implements OrderedFixtureInterface
+class LoadProjectGitAccessData extends Fixture
 {
     /**
      * @inheritdoc

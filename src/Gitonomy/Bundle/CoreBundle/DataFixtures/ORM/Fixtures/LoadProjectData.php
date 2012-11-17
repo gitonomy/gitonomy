@@ -10,14 +10,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixture;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
@@ -25,7 +22,7 @@ use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 /**
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class LoadProjectData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
+class LoadProjectData extends Fixture
 {
     protected $container;
 
@@ -68,14 +65,6 @@ class LoadProjectData extends AbstractFixture implements ContainerAwareInterface
     public function getOrder()
     {
         return 1;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     protected function dispatch(Project $project)

@@ -10,18 +10,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Load;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixture;
 
 /**
  * @author Julien DIDIER <julien@jdidier.net>
  */
-class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
+class LoadRoleData extends Fixture
 {
     /**
      * @inheritdoc

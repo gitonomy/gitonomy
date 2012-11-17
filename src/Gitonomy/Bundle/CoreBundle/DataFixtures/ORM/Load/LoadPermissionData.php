@@ -10,19 +10,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM;
+namespace Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Load;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Permission;
+use Gitonomy\Bundle\CoreBundle\DataFixtures\ORM\Fixture;
 
 /**
  * @author Julien DIDIER <julien@jdidier.net>
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterface
+class LoadPermissionData extends Fixture
 {
     public function load(ObjectManager $manager)
     {
