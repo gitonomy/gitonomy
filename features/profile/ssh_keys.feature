@@ -1,7 +1,7 @@
 Feature: Manage SSH keys
     As a user
-    In order to customize my experience on Gitonomy
-    I should be able to configure things in my profile
+    I should be able to manage my SSH keys
+    To be able to push to repositories
 
     Background:
         Given user "foobar" exists
