@@ -28,10 +28,10 @@ if [ -f pack.tar.gz ]; then
 fi
 
 ln -s . gitonomy
-tar -cvzf pack.tar.gz --exclude=.git \
+tar -czf pack.tar.gz --exclude=.git \
     gitonomy/app \
-    gitonomy/src/Bundle \
-    gitonomy/src/Component \
+    gitonomy/src/Gitonomy/Bundle \
+    gitonomy/src/Gitonomy/Component \
     gitonomy/web \
     gitonomy/vendor \
     gitonomy/install.sh \
