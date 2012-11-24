@@ -101,11 +101,9 @@ class ProjectController extends Controller
             ));
         }
 
-        $branches   = $references->getBranches();
-
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
             'project'    => $project,
-            'branches'   => $branches,
+            'branches'   => $references->getBranches(),
             'messages'   => $messages,
             'repository' => $repository,
             'reference'  => $reference,
@@ -221,14 +219,12 @@ class ProjectController extends Controller
 
     public function branchesAction($slug)
     {
-        $project       = $this->getProject($slug);
-        $rows          = $this->getBranchesWithActivity($project);
-        $defaultBranch = $this->getGitRepository($project)->getReferences()->getBranch($project->getDefaultBranch());
+        $project = $this->getProject($slug);
+        $rows    = $this->getBranchesWithActivity($project);
 
         return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
-            'project'       => $project,
-            'rows'          => $rows,
-            'defaultBranch' => $defaultBranch,
+            'project' => $project,
+            'rows'    => $rows,
         ));
     }
 
