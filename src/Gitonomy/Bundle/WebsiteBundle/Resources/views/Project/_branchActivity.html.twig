@@ -9,10 +9,10 @@
         {% for row in branches %}
             <li>
                 <a href="{{ path(route, { slug: project.slug, reference: row.branch.name, path: path }) }}">
-                    {% if row.behind and row.above %}
+                    {% if row.behind or row.above %}
                         <div class="label pull-right">
-                            <span class="behind">-{{ row.behind }}</span>
-                            <span class="above">+{{ row.above }}</span>
+                            {% if row.behind %}<span class="behind">-{{ row.behind }}</span>{% endif %}
+                            {% if row.above %}<span class="above">+{{ row.above }}</span>{% endif %}
                         </div>
                     {% endif %}
                     {{ row.branch.name }}

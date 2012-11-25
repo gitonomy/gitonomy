@@ -16,13 +16,16 @@
                     <th>{{ 'table.column.author'|trans }}</th>
                     <th>{{ 'table.column.date'|trans }}</th>
                     <th>{{ 'table.column.diff'|trans }}</th>
+                    <th>{{ 'table.column.actions'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in rows %}
                     {% set branch = row.branch %}
                     <tr>
-                        <td>{{ branch.name }}</td>
+                        <td>
+                            {{ branch.name }}
+                        </td>
                         <td><a href="{{ path('project_commit', {slug: project.slug, hash: branch.commit.hash}) }}">{{ branch.commit.shortHash }}</a> {{ branch.commit.shortMessage }}</td>
                         <td class="author">
                             <img class="avatar" src="{{ gravatar(branch.commit.authorEmail, 16) }}" alt="{{ branch.commit.authorName }}" title="{{ branch.commit.authorName }}" />
@@ -30,14 +33,23 @@
                         </td>
                         <td>{{ branch.commit.authorDate.format('Y-m-d H:i:s') }}</td>
                         <td>
-                            {% if row.behind and row.above %}
-                                <div class="pull-right">
-                                    <a href="{{ path('project_compare', {slug: project.slug, revision: project.defaultBranch~'..'~branch.name}) }}">
-                                        <span class="behind">-{{ row.behind }}</span>
-                                        <span class="above">+{{ row.above }}</span>
-                                    </a>
-                                </div>
+                            {% if row.behind or row.above %}
+                                {% if row.behind %}<span class="behind">-{{ row.behind }}</span>{% endif %}
+                                {% if row.above %}<span class="above">+{{ row.above }}</span>{% endif %}
                             {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                {% if reference != branch.name %}
+                                    <a rel="tooltip" class="btn btn-small" href="{{ path('project_branches', {slug: project.slug, reference: branch.name}) }}" data-original-title="{{ 'button.compare'|trans }}"><i class="icon-star"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if row.behind or row.above %}
+                                    <a rel="tooltip" class="btn btn-small" href="{{ path('project_compare', {slug: project.slug, revision: branch.name~'...'~reference}) }}" data-original-title="{{ 'button.diff'|trans }}"><i class="icon-eye-close"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                 {% else %}

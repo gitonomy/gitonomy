@@ -115,7 +115,6 @@ class ProjectController extends Controller
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
         $request    = $this->getRequest();
-        $reference  = $request->query->get('reference', $project->getDefaultBranch());
         $log        = $repository->getLog($reference);
 
         $pager = new Pager(new GitLogAdapter($log));
@@ -173,10 +172,10 @@ class ProjectController extends Controller
     {
         $project    = $this->getProject($slug);
         $repository = $this->getGitRepository($project);
-        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
+        $branches   = $repository->getReferences()->getBranches();
+        $revision   = $repository->getRevision($reference);
+        $commit     = $revision->getResolved();
 
-        $revision = $repository->getRevision($reference);
-        $commit = $revision->getResolved();
         if ($repository->getReferences()->hasBranch($reference)) {
             $branch = $reference;
         } else {
@@ -217,14 +216,16 @@ class ProjectController extends Controller
         return $this->render($tpl, $parameters);
     }
 
-    public function branchesAction($slug)
+    public function branchesAction(Request $request, $slug)
     {
-        $project = $this->getProject($slug);
-        $rows    = $this->getBranchesWithActivity($project);
+        $project   = $this->getProject($slug);
+        $reference = $request->query->get('reference', $project->getDefaultBranch());
+        $rows      = $this->getBranchesWithActivity($project, $reference);
 
         return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
-            'project' => $project,
-            'rows'    => $rows,
+            'project'   => $project,
+            'rows'      => $rows,
+            'reference' => $reference,
         ));
     }
 
