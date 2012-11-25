@@ -21,7 +21,7 @@ parameters:
 
 
   # Localisation
-  locale:            fr_FR
+  locale:            en_US
 
   # System
   repository_path:   %kernel.root_dir%/cache/repositories
