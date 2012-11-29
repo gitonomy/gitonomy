@@ -13,17 +13,34 @@
 namespace Gitonomy\Bundle\CoreBundle\Config;
 
 /**
+ * Stores configuration to a PHP file.
+ *
+ * If file does not exists, it returns an empty configuration.
+ *
+ * File is expected to return an array of values.
+ *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class PhpFileConfig extends AbstractConfig
 {
+    /**
+     * Fullpath to PHP file
+     *
+     * @var string
+     */
     private $path;
 
+    /**
+     * @param string $path Path to the file
+     */
     public function __construct($path)
     {
         $this->path = $path;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function readAll()
     {
         if (!file_exists($this->path)) {
@@ -42,6 +59,9 @@ class PhpFileConfig extends AbstractConfig
         return $raw;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function save(array $values)
     {
         file_put_contents($this->path, '<?php return '.var_export($values, true).';');
