@@ -1,0 +1,5 @@
+page.title.main: "Configuration - %app%"
+title.project: "Configuration du projet"
+title.mailer: "Configuration des envois de mail"
+form.submit: "Sauvegarder"
+notice.config_updated: "Configuration mise à jour"

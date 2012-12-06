@@ -38,3 +38,7 @@ administration_deleteRole:
     requirements:
         method: POST
 
+administration_config:
+    pattern: /admin/config
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:config" }
+

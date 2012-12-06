@@ -10,13 +10,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Config;
+namespace Gitonomy\Component\Config;
 
 /**
- * This abstracted configuration works on "all values" mode:
+ * Maps single value operations to massive operations.
  *
- * Inheriting from this class, you only need to define two methods: readAll
- * and saveValues.
+ * Works with optimistic mode (see self::$values).
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
@@ -47,7 +46,22 @@ abstract class AbstractConfig implements ConfigInterface
      */
     public function set($key, $value)
     {
-        return $this->save(array_merge($this->all(), array($key => $value)));
+        $this->setAll(array_merge($this->all(), array($key => $value)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function remove($key)
+    {
+        $all = $this->all();
+        if (!isset($all[$key])) {
+            return;
+        }
+
+        unset($all[$key]);
+
+        $this->setAll($all);
     }
 
     /**
@@ -60,7 +74,7 @@ abstract class AbstractConfig implements ConfigInterface
             return $this->values;
         }
 
-        $this->values = $this->readAll();
+        $this->values = $this->doGetAll();
 
         return $this->values;
     }
@@ -68,9 +82,18 @@ abstract class AbstractConfig implements ConfigInterface
     /**
      * {@inheritDoc}
      */
+    public function setAll(array $values)
+    {
+        $this->values = $values;
+        $this->doSetAll($values);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function merge(array $values)
     {
-        return $this->save(array_merge($this->all(), $values));
+        $this->setAll(array_merge($this->all(), $values));
     }
 
     /**
@@ -78,12 +101,12 @@ abstract class AbstractConfig implements ConfigInterface
      *
      * @return array All values
      */
-    abstract protected function readAll();
+    abstract protected function doGetAll();
 
     /**
      * Save all values to configuration.
      *
      * @param array $values All values to save
      */
-    abstract protected function save(array $values);
+    abstract protected function doSetAll(array $values);
 }

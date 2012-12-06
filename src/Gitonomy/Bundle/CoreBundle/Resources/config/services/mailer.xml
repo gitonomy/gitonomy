@@ -12,7 +12,6 @@
             <argument type="service" id="mailer" />
             <argument type="service" id="templating" />
             <argument type="collection">
-                <argument key="%mailer_from_email%">%mailer_from_name%</argument>
             </argument>
         </service>
     </services>

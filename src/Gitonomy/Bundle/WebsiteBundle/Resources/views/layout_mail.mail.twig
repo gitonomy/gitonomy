@@ -1,13 +1,13 @@
-{% block subject gitonomy.name ~ ' - ' | raw %}
+{% block subject config.get('name') ~ ' - ' | raw %}
 
 {% block body_html %}
-    <h1>{{ gitonomy.name }}</h1>
+    <h1>{{ config.get('name') }}</h1>
     <hr />
     {% block content_html '' %}
 {% endblock %}
 
 {% block body_text %}
-{{ gitonomy.name }}
+{{ config.get('name') }}
 -----------------------------
 
 {% block content_text '' %}

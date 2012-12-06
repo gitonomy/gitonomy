@@ -10,9 +10,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Tests\Config;
+namespace Gitonomy\Component\Config\Tests;
 
-use Gitonomy\Bundle\CoreBundle\Config\PhpFileConfig;
+use Gitonomy\Component\Config\PhpFileConfig;
 
 /**
  * @author Alexandre Salomé <alexandre.salome@gmail.com>

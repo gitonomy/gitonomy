@@ -41,6 +41,10 @@ class Configuration implements ConfigurationInterface
                         ->thenInvalid('async_storage availables: direct, mysql')
                     ->end()
                 ->end()
+                ->arrayNode('config_defaults')
+                    ->prototype('scalar')
+                    ->end()
+                ->end()
             ->end()
         ;
 

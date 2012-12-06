@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="gitonomy_core.config.chain.class">Gitonomy\Component\Config\ChainConfig</parameter>
+        <parameter key="gitonomy_core.config.mysql.class">Gitonomy\Component\Config\MysqlConfig</parameter>
+        <parameter key="gitonomy_core.config.php_file.class">Gitonomy\Component\Config\PhpFileConfig</parameter>
+        <parameter key="gitonomy_core.config.array.class">Gitonomy\Component\Config\ArrayConfig</parameter>
+    </parameters>
+
+    <services>
+        <service id="gitonomy_core.config" class="%gitonomy_core.config.chain.class%">
+            <argument type="collection">
+                <argument type="service" id="gitonomy_core.config.mysql" />
+                <argument type="service" id="gitonomy_core.config.php_file" />
+                <argument type="service" id="gitonomy_core.config.array" />
+            </argument>
+        </service>
+
+        <service id="gitonomy_core.config.mysql" class="%gitonomy_core.config.mysql.class%" public="false">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+        </service>
+
+        <service id="gitonomy_core.config.php_file" class="%gitonomy_core.config.php_file.class%" public="false">
+            <argument>%kernel.cache_dir%/gitonomy_config.php</argument>
+        </service>
+
+        <service id="gitonomy_core.config.array" class="%gitonomy_core.config.array.class%" public="false">
+            <argument>%gitonomy_core.config.default_config%</argument>
+        </service>
+    </services>
+</container>

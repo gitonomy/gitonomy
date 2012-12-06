@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <!-- override -->
         <parameter key="gitonomy_core.event_dispatcher.class">Gitonomy\Component\EventDispatcher\EventDispatcher</parameter>
         <parameter key="gitonomy_core.event_dispatcher.storage_mysql.class">Gitonomy\Component\EventDispatcher\EventStorage\MySQLStorage</parameter>
         <parameter key="gitonomy_core.event_dispatcher.storage_direct.class">Gitonomy\Component\EventDispatcher\EventStorage\DirectStorage</parameter>

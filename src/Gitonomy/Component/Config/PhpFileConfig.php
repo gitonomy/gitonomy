@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Config;
+namespace Gitonomy\Component\Config;
 
 /**
  * Stores configuration to a PHP file.
@@ -41,7 +41,7 @@ class PhpFileConfig extends AbstractConfig
     /**
      * {@inheritDoc}
      */
-    public function readAll()
+    public function doGetAll()
     {
         if (!file_exists($this->path)) {
             return array();
@@ -62,7 +62,7 @@ class PhpFileConfig extends AbstractConfig
     /**
      * {@inheritDoc}
      */
-    protected function save(array $values)
+    protected function doSetAll(array $values)
     {
         file_put_contents($this->path, '<?php return '.var_export($values, true).';');
         $this->values = $values;

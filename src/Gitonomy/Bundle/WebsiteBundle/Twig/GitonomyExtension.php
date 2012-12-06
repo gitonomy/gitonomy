@@ -43,6 +43,13 @@ class GitonomyExtension extends \Twig_Extension
         );
     }
 
+    public function getGlobals()
+    {
+        return array(
+            'config' => $this->container->get('gitonomy_core.config')
+        );
+    }
+
     public function getName()
     {
         return 'gitonomy';

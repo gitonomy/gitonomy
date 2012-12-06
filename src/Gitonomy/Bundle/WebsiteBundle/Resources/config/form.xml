@@ -23,6 +23,7 @@
         <parameter key="gitonomy_website.form.type.user_password.class">Gitonomy\Bundle\WebsiteBundle\Form\User\UserPasswordType</parameter>
 
         <!-- Administration -->
+        <parameter key="gitonomy_website.form.type.administration_config.class">Gitonomy\Bundle\WebsiteBundle\Form\Administration\ConfigType</parameter>
         <parameter key="gitonomy_website.form.type.administration_user.class">Gitonomy\Bundle\WebsiteBundle\Form\Administration\UserType</parameter>
         <parameter key="gitonomy_website.form.type.administration_role.class">Gitonomy\Bundle\WebsiteBundle\Form\Administration\RoleType</parameter>
     </parameters>
@@ -77,6 +78,9 @@
         </service>
 
         <!-- Administration -->
+        <service id="gitonomy_website.form.type.administration_config" class="%gitonomy_website.form.type.administration_config.class%">
+            <tag name="form.type" alias="administration_config" />
+        </service>
         <service id="gitonomy_website.form.type.administration_user" class="%gitonomy_website.form.type.administration_user.class%">
             <tag name="form.type" alias="administration_user" />
         </service>

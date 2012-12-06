@@ -10,7 +10,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\Config;
+namespace Gitonomy\Component\Config;
 
 /**
  * Interface for dynamic configuration of Gitonomy.
@@ -40,6 +40,13 @@ interface ConfigInterface
     public function set($key, $value);
 
     /**
+     * Removes a given value from config.
+     *
+     * @param string $value The key of value to remove.
+     */
+    public function remove($key);
+
+    /**
      * Returns all values.
      *
      * @return array All values
@@ -47,9 +54,12 @@ interface ConfigInterface
     public function all();
 
     /**
-     * Merge current configuration with a given array.
-     *
-     * @param array $values Values to merge in current configuration
+     * Replaces all values with given one.
+     */
+    public function setAll(array $values);
+
+    /**
+     * Merge values in current config
      */
     public function merge(array $values);
 }
