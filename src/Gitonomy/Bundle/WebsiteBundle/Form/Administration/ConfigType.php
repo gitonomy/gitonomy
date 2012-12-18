@@ -22,6 +22,12 @@ class ConfigType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = array(
+            'smtp'  => 'SMTP',
+            'gmail' => 'Gmail',
+            'mail'  => 'PHP mail() function'
+        );
+
         $project = $builder->create('project', 'form', array('virtual' => true))
             ->add('locale', 'text')
             ->add('ssh_access', 'text')
@@ -31,9 +37,10 @@ class ConfigType extends AbstractType
         ;
 
         $mailer = $builder->create('mailer', 'form', array('virtual' => true))
-            ->add('mailer_transport', 'text', array('required' => false))
+            ->add('mailer_transport', 'choice', array('required' => true, 'choices' => $choices))
             ->add('mailer_host', 'text', array('required' => false))
-            ->add('mailer_user', 'text', array('required' => false))
+            ->add('mailer_port', 'number', array('required' => false))
+            ->add('mailer_username', 'text', array('required' => false))
             ->add('mailer_password', 'text', array('required' => false))
             ->add('mailer_auth_mode', 'text', array('required' => false))
             ->add('mailer_encryption', 'text', array('required' => false))

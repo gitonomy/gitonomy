@@ -165,6 +165,8 @@ class AdministrationController extends Controller
 
     public function configAction(Request $request)
     {
+        $this->assertGranted('ROLE_ADMIN');
+
         $config = $this->get('gitonomy_core.config');
         $form = $this->createForm('administration_config', $config->all());
 

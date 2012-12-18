@@ -1,4 +1,4 @@
-{% set flashes = app.session.flashes %}
+{% set flashes = app.session.flashbag.all %}
 
 {% if  flashes | length > 0 %}
     <div class="flash-messages">
@@ -14,4 +14,3 @@
     {% endfor %}
     </div>
 {% endif %}
-

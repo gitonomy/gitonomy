@@ -9,7 +9,7 @@
         <import resource="services/events.xml" />
         <import resource="services/doctrine.xml" />
         <import resource="services/git.xml" />
-        <!-- <import resource="services/mailer.xml" /> -->
+        <import resource="services/mailer.xml" />
         <import resource="services/serializer.xml" />
         <import resource="services/security.xml" />
         <import resource="services/templating.xml" />

@@ -9,7 +9,7 @@
     </parameters>
     <services>
         <service id="gitonomy.mailer" class="%gitonomy.mailer.class%">
-            <argument type="service" id="mailer" />
+            <argument type="service" id="gitonomy_core.config" />
             <argument type="service" id="templating" />
             <argument type="collection">
             </argument>

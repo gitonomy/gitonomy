@@ -1,7 +1,3 @@
-administration_dashboard:
-    pattern: /admin
-    defaults: { _controller: "GitonomyWebsiteBundle:Administration:dashboard" }
-
 administration_users:
     pattern: /admin/users
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:users" }

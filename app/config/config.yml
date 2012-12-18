@@ -24,9 +24,19 @@ gitonomy_core:
     repository_path:   %repository_path%
     async_storage:     direct
     config_defaults:
-        name:       Gitonomy
-        baseline:   git repositories inside your infrastructure
-        ssh_access: john@nowhere
+        name:              Gitonomy
+        baseline:          git repositories inside your infrastructure
+        ssh_access:        john@nowhere
+        locale:            en_US
+        open_registration: true
+        mailer_transport:  smtp
+        mailer_host:       localhost
+        mailer_user:       username
+        mailer_password:   password
+        mailer_auth_mode:  basic
+        mailer_encryption: ssl
+        mailer_from_name:  Gitonomy
+        mailer_from_email: gitonomy@nowhere
 
 # Twig Configuration
 twig:
