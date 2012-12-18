@@ -32,9 +32,3 @@
     {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: commit.diff, reference: commit.hash, slug: project.slug} only %}
 
 {% endblock %}
-
-{% block javascript_content %}
-    {% javascripts "bundles/gitonomywebsite/js/commit.js" %}
-        <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
-    {% endjavascripts %}
-{% endblock %}

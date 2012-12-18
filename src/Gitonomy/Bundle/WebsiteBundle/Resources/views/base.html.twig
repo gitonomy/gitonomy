@@ -2,7 +2,7 @@
 <html>
     <title>{% block title '' %}</title>
     <head>
-        {% stylesheets filter="cssrewrite" combine=true
+        {% stylesheets filter="cssrewrite" combine=true output="css/all.css"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap.css"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap-responsive.css"
             "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.css"
@@ -17,14 +17,14 @@
             "bundles/gitonomywebsite/css/project/source.sass"
             "bundles/gitonomywebsite/css/project/commit.sass"
         %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset(asset_url) }}" />
         {% endstylesheets %}
         {% block before_head_end '' %}
     </head>
     <body class="{% block body_class '' %}">
         {% block body '' %}
 
-        {% javascripts combine=true
+        {% javascripts combine=true output="js/all.js"
             "bundles/gitonomywebsite/vendor/jquery-1.7.1.min.js"
             "bundles/gitonomywebsite/js/d3.v2.js"
             "bundles/gitonomywebsite/vendor/jquery.masonry.min.js"
@@ -34,8 +34,9 @@
             "bundles/gitonomywebsite/js/post-link.js"
             "bundles/gitonomywebsite/js/button-groups.js"
             "bundles/gitonomywebsite/js/history.js"
+            "bundles/gitonomywebsite/js/commit.js"
         %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
         {% endjavascripts %}
         {% block before_body_end '' %}
     </body>
