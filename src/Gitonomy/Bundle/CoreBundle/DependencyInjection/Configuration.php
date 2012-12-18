@@ -42,6 +42,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('config_defaults')
+                    ->normalizeKeys(false)
+                    ->useAttributeAsKey('key')
                     ->prototype('scalar')
                     ->end()
                 ->end()

@@ -23,6 +23,7 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
+            'null'  => 'Disabled',
             'smtp'  => 'SMTP',
             'gmail' => 'Gmail',
             'mail'  => 'PHP mail() function'

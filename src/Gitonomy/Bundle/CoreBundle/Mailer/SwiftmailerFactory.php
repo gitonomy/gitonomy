@@ -35,8 +35,7 @@ class SwiftMailerFactory
             $authMode   = 'login';
             $encryption = 'ssl';
             $port       = 465;
-        } elseif ($transport == 'smtp') {
-        } else {
+        } elseif ($transport != 'smtp' && $transport != 'null') {
             throw new \RuntimeException(sprintf('Unable to handle transport "%s"', $transport));
         }
 
@@ -48,7 +47,9 @@ class SwiftMailerFactory
                 ->setPassword($password)
             ;
         } elseif ($transport == 'mail') {
-            $transport = Swift_MailTransport::newInstance();
+            $transport = \Swift_MailTransport::newInstance();
+        } elseif ($transport == 'null') {
+            $transport = \Swift_NullTransport::newInstance();
         } else {
             throw new \RuntimeException(sprintf('Unable to construct a transport of type "%s"', $transport));
         }

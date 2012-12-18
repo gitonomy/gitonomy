@@ -12,11 +12,10 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Mailer;
 
-use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Component\Config\ConfigInterface;
 
 /**
  * Service to send emails
@@ -26,17 +25,19 @@ use Gitonomy\Component\Config\ConfigInterface;
  */
 class Mailer
 {
-    protected $config;
-    protected $templateEngine;
+    protected $container;
 
-    public function __construct(ConfigInterface $config, EngineInterface $templateEngine)
+    public function __construct(ContainerInterface $container)
     {
-        $this->config         = $config;
-        $this->templateEngine = $templateEngine;
+        $this->container = $container;
     }
 
     public function mail($to, $template, $context = array())
     {
+        $config     = $this->container->get('gitonomy_core.config');
+        $templating = $this->container->get('templating');
+
+        // Transform $to in an array(email => name)
         if ($to instanceof User) {
             if (!$to->hasDefaultEmail()) {
                 throw new \RuntimeException('Can\'t send a mail to user '.$to->getUsername().': no mail');
@@ -49,14 +50,12 @@ class Mailer
             throw new \RuntimeException('Unexpected type of recipient: '.gettype($to));
         }
 
-        $template = $this->templateEngine->loadTemplate($template);
-
-        $subject  = $this->renderTwigBlock($template, 'subject',   $context);
-        $bodyText = $this->renderTwigBlock($template, 'body_text', $context);
-        $bodyHtml = $this->renderTwigBlock($template, 'body_html', $context);
-
-        $fromEmail = $this->config->get('mailer_from_email');
-        $fromName  = $this->config->get('mailer_from_name');
+        $template  = $templating->loadTemplate($template);
+        $subject   = $this->renderTwigBlock($template, 'subject',   $context);
+        $bodyText  = $this->renderTwigBlock($template, 'body_text', $context);
+        $bodyHtml  = $this->renderTwigBlock($template, 'body_html', $context);
+        $fromEmail = $config->get('mailer_from_email');
+        $fromName  = $config->get('mailer_from_name');
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
@@ -66,7 +65,7 @@ class Mailer
             ->setTo($to)
         ;
 
-        $swiftmailer = SwiftmailerFactory::createFromConfig($this->config);
+        $swiftmailer = SwiftmailerFactory::createFromConfig($config);
 
         $swiftmailer->send($message);
     }
