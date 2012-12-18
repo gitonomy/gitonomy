@@ -74,3 +74,4 @@ git init --bare  app/cache/repositories/secret.git -q
 echo ">>> Installing assets"
 rm -Rf web/bundles
 php app/console assets:install --symlink web --env=$env
+php app/console assetic:dump --env=prod --no-debug web
