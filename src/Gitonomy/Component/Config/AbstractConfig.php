@@ -69,8 +69,7 @@ abstract class AbstractConfig implements ConfigInterface
      */
     public function all()
     {
-        if (null !== $this->values)
-        {
+        if (null !== $this->values) {
             return $this->values;
         }
 
