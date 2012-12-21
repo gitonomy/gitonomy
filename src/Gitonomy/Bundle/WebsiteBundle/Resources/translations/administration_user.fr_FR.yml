@@ -19,6 +19,7 @@ form:
     username: Surnom
     fullname: Nom complet
     timezone: Fuseau horaire
+    locale: Langue
     global_roles: Rôles globaux
 
     legend:

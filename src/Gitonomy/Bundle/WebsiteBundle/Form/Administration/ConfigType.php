@@ -22,7 +22,7 @@ class ConfigType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices = array(
+        $mailerTransportChoices = array(
             'null'  => 'Disabled',
             'smtp'  => 'SMTP',
             'gmail' => 'Gmail',
@@ -30,23 +30,23 @@ class ConfigType extends AbstractType
         );
 
         $project = $builder->create('project', 'form', array('virtual' => true))
-            ->add('locale', 'text')
-            ->add('ssh_access', 'text')
-            ->add('name', 'text')
-            ->add('baseline', 'text')
-            ->add('open_registration', 'checkbox', array('required' => false))
+            ->add('locale', 'gitonomy_locale', array('label' => 'form.project.locale'))
+            ->add('ssh_access', 'text', array('label' => 'form.project.ssh_access'))
+            ->add('name', 'text', array('label' => 'form.project.name'))
+            ->add('baseline', 'text', array('label' => 'form.project.baseline'))
+            ->add('open_registration', 'checkbox', array('required' => false, 'label' => 'form.project.open_registration'))
         ;
 
         $mailer = $builder->create('mailer', 'form', array('virtual' => true))
-            ->add('mailer_transport', 'choice', array('required' => true, 'choices' => $choices))
-            ->add('mailer_host', 'text', array('required' => false))
-            ->add('mailer_port', 'number', array('required' => false))
-            ->add('mailer_username', 'text', array('required' => false))
-            ->add('mailer_password', 'text', array('required' => false))
-            ->add('mailer_auth_mode', 'text', array('required' => false))
-            ->add('mailer_encryption', 'text', array('required' => false))
-            ->add('mailer_from_name', 'text', array('required' => false))
-            ->add('mailer_from_email', 'email', array('required' => false))
+            ->add('mailer_transport', 'choice', array('required' => true, 'choices' => $mailerTransportChoices, 'label' => 'form.mailer.transport'))
+            ->add('mailer_host', 'text', array('required' => false, 'label' => 'form.mailer.host'))
+            ->add('mailer_port', 'number', array('required' => false, 'label' => 'form.mailer.port'))
+            ->add('mailer_username', 'text', array('required' => false, 'label' => 'form.mailer.username'))
+            ->add('mailer_password', 'text', array('required' => false, 'label' => 'form.mailer.password'))
+            ->add('mailer_auth_mode', 'text', array('required' => false, 'label' => 'form.mailer.auth_mode'))
+            ->add('mailer_encryption', 'text', array('required' => false, 'label' => 'form.mailer.encryption'))
+            ->add('mailer_from_name', 'text', array('required' => false, 'label' => 'form.mailer.from_name'))
+            ->add('mailer_from_email', 'email', array('required' => false, 'label' => 'form.mailer.from_email'))
         ;
 
         $builder

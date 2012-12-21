@@ -5,6 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- General -->
+        <parameter key="gitonomy_website.form.type.gitonomy_locale.class">Gitonomy\Bundle\WebsiteBundle\Form\LocaleType</parameter>
+
         <!-- Splash -->
         <parameter key="gitonomy_website.form.type.splash_register.class">Gitonomy\Bundle\WebsiteBundle\Form\Splash\RegisterType</parameter>
         <parameter key="gitonomy_website.form.type.splash_login.class">Gitonomy\Bundle\WebsiteBundle\Form\Splash\LoginType</parameter>
@@ -29,6 +32,12 @@
     </parameters>
 
     <services>
+
+        <!-- General -->
+        <service id="gitonomy_website.form.type.gitonomy_locale" class="%gitonomy_website.form.type.gitonomy_locale.class%">
+            <tag name="form.type" alias="gitonomy_locale" />
+        </service>
+
         <!-- Splash -->
         <service id="gitonomy_website.form.type.splash_register" class="%gitonomy_website.form.type.splash_register.class%">
             <argument type="service" id="security.encoder_factory" />
