@@ -1,8 +1,5 @@
 Feature: Manage language of the application
 
-    Background:
-        Given locale is "en_US"
-
     Scenario: As an administrator, I can configure default application locale
         Given I am on "/"
          Then I should see "Remember me"
@@ -17,6 +14,9 @@ Feature: Manage language of the application
 
          Then I should see "Se souvenir de moi"
 
+        # Restore
+        Given locale is "en_US"
+
     Scenario: As a user, I can change my personal language
         Given user "alice" has locale "en_US"
         Given I am connected as "alice"
@@ -26,3 +26,7 @@ Feature: Manage language of the application
             | Language | French |
          And I click on "Save informations"
         Then I should see "Profil utilisateur"
+        When I fill:
+            | Langue | English |
+         And I click on "Sauver ces informations"
+        Then I should see "User profile"

@@ -1,8 +1,5 @@
 Feature: Project list
 
-    Background:
-        Given locale is "en_US"
-
     Scenario: Alice has limited access to project
         Given I am connected as "alice"
           And I am on "/"

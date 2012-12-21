@@ -3,9 +3,6 @@ Feature: Edit profile informations
     I can configure things in my profile
     In order to customize my experience on Gitonomy
 
-    Background:
-        Given locale is "en_US"
-
     Scenario: I can change my preferences
         Given I am connected as "alice"
           And I am on "/profile"

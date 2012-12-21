@@ -3,9 +3,6 @@ Feature: A user can create a new project
     I can create a new project on my own
     So I don't borrow administrator when I want to push some code
 
-    Background:
-        Given locale is "en_US"
-
     Scenario: A user can create a new project
 
         Given project "test" does not exist
