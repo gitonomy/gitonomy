@@ -16,6 +16,7 @@
         <field name="password" column="password" type="string" length="128" nullable="true" />
         <field name="salt" column="salt" type="string" length="32" nullable="true" />
         <field name="timezone" column="timezone" type="string" length="64" />
+        <field name="locale" column="locale" type="string" length="12" nullable="true" />
         <field name="activationToken" column="activation_token" type="string" length="32" nullable="true" />
 
         <one-to-many field="sshKeys" target-entity="Gitonomy\Bundle\CoreBundle\Entity\UserSshKey" mapped-by="user">
