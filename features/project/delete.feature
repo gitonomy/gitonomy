@@ -3,6 +3,9 @@ Feature: A user can delete a project
     I have possibility to delete repositories
     So I can remove old or obsolete projects
 
+    Background:
+        Given locale is "en_US"
+
     Scenario:
         Given project "test-delete" exists
           And user "alice" is "Lead developer" on "test-delete"

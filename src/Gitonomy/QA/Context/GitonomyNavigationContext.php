@@ -28,4 +28,12 @@ class GitonomyNavigationContext extends BaseBrowserContext
         $ctx->iFillWith('Password', $username);
         $ctx->iClickOn('Login');
     }
+
+    /**
+     * @Given /^I logout$/
+     */
+    public function iLogout()
+    {
+        $this->getMainContext()->getSubcontext('browser')->iAmOn('/logout');
+    }
 }

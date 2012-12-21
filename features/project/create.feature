@@ -4,11 +4,12 @@ Feature: A user can create a new project
     So I don't borrow administrator when I want to push some code
 
     Background:
-        Given project "test" does not exist
+        Given locale is "en_US"
 
     Scenario: A user can create a new project
 
-        Given I am connected as "alice"
+        Given project "test" does not exist
+          And I am connected as "alice"
           And I am on "/"
 
          When I click on "Create a new project"
