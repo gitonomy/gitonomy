@@ -30,8 +30,9 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'gravatar'        => new \Twig_Function_Method($this, 'getGravatar'),
-            'codemirror_mode' => new \Twig_Function_Method($this, 'getCodemirrorMode'),
+            'gravatar'          => new \Twig_Function_Method($this, 'getGravatar'),
+            'codemirror_mode'   => new \Twig_Function_Method($this, 'getCodemirrorMode'),
+            'branches_activity' => new \Twig_Function_Method($this, 'getBranchesActivity'),
         );
     }
 
@@ -45,6 +46,36 @@ class GitonomyExtension extends \Twig_Extension
     public function getName()
     {
         return 'gitonomy';
+    }
+
+    public function getBranchesActivity(Project $project, $reference = null)
+    {
+        $repository = $project->getRepository();
+        $references = $repository->getReferences();
+
+        if (null === $reference) {
+            $reference = $project->getDefaultBranch();
+        }
+
+        $against = $references->getBranch(null === $reference ? $project->getDefaultBranch() : $reference);
+
+        foreach ($references->getBranches() as $branch) {
+            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
+            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
+
+            $rows[] = array(
+                'branch'           => $branch,
+                'above'            => count($logAbove->getCommits()),
+                'behind'           => count($logBehind->getCommits()),
+                'lastModification' => $branch->getLastModification(),
+            );
+        }
+
+        usort($rows, function ($left, $right) {
+            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
+        });
+
+        return $rows;
     }
 
     public function getGravatar($email, $size = 50)

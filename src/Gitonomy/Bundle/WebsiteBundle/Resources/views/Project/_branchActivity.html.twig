@@ -6,9 +6,9 @@
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu pull-right">
-        {% for row in branches %}
+        {% for row in branches_activity(project, reference|default(null)) %}
             <li>
-                <a href="{{ path(route, { slug: project.slug, reference: row.branch.name, path: path }) }}">
+                <a href="{{ path(route, { slug: project.slug, reference: row.branch.name, path: path|default(null) }) }}">
                     {% if row.behind or row.above %}
                         <div class="label pull-right">
                             {% if row.behind %}<span class="behind">-{{ row.behind }}</span>{% endif %}
@@ -19,7 +19,7 @@
                 </a>
             </li>
         {% endfor %}
-        {% if withAll %}
+        {% if withAll|default(false) %}
             <li class="divider"></li>
             <li><a href="{{ path(route, { slug: project.slug }) }}">{{ 'contextual.all_branches'|trans }}</a></li>
         {% endif %}

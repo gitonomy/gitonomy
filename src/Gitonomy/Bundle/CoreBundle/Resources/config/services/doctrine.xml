@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="gitonomy_website.doctrine.project_subscriber.class">Gitonomy\Bundle\CoreBundle\Doctrine\ProjectSubscriber</parameter>
+    </parameters>
+    <services>
+        <service id="gitonomy_website.doctrine.project_subscriber" class="%gitonomy_website.doctrine.project_subscriber.class%" public="false">
+            <tag name="doctrine.event_subscriber" connection="default" />
+            <argument type="service" id="repository_pool" />
+        </service>
+    </services>
+
+</container>

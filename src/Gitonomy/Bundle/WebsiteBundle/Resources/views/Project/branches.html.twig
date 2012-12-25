@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in rows %}
+                {% for row in branches_activity(project) %}
                     {% set branch = row.branch %}
                     <tr>
                         <td>

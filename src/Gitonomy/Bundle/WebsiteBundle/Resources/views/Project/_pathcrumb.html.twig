@@ -3,7 +3,7 @@
 {% if path != "" %}
     {% set path_record = "" %}
     <div class="actionbar">
-        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference, path: path} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
 
         <div class="pull-right">
             {% if active != 'show' %}
@@ -38,6 +38,6 @@
     </div>
 {% else %}
     <div class="actionbar">
-        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_tree', reference: reference, path: path} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
     </div>
 {% endif %}

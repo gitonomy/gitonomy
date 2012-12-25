@@ -13,6 +13,7 @@
 namespace Gitonomy\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Gitonomy\Git\Repository;
 
 class Project
 {
@@ -26,6 +27,7 @@ class Project
     protected $gitAccesses;
     protected $feeds;
     protected $defaultBranch = 'master';
+    protected $repository;
 
     public function __construct($name = null, $slug = null)
     {
@@ -126,8 +128,25 @@ class Project
     public function setFeeds($feeds)
     {
         $this->feeds = $feeds;
+    }
 
-        return $this;
+    public function getRepository()
+    {
+        if (!$this->hasRepository()) {
+            throw new \LogicException("No repository injected in project");
+        }
+
+        return $this->repository;
+    }
+
+    public function setRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function hasRepository()
+    {
+        return null !== $this->repository;
     }
 }
 

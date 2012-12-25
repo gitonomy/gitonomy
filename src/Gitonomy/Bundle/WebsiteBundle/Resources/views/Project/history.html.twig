@@ -31,7 +31,7 @@
     {% set results = pager.results %}
 
     <div class="actionbar">
-        {% render "GitonomyWebsiteBundle:Project:_branchActivity" with {project: project.slug, route: 'project_history', reference: reference, withAll: true} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_history', withAll: true} %}
     </div>
 
     {{ _self.pager(pager, reference) }}

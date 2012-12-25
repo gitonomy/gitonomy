@@ -12,6 +12,8 @@
     </parameters>
 
     <services>
+        <service id="repository_pool" alias="gitonomy_core.git.repository_pool" />
+
         <service id="gitonomy_core.git.repository_pool" class="%gitonomy_core.git.repository_pool.class%">
             <tag name="gitonomy.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
             <tag name="gitonomy.event_listener" event="gitonomy.project_delete" method="onProjectDelete" />
