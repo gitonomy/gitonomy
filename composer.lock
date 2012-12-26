@@ -1,5 +1,5 @@
 {
-    "hash": "ac3c8ce98cc1e807c6b3f72034fee8ee",
+    "hash": "19960db668009550b19d963a0f29494e",
     "packages": [
         {
             "name": "doctrine/common",
@@ -649,6 +649,56 @@
             ]
         },
         {
+            "name": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/swiftmailer/swiftmailer.git",
+                "reference": "b23725eb3711d05e8708bd6f63e59c7268bee9ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/swiftmailer/swiftmailer/archive/b23725eb3711d05e8708bd6f63e59c7268bee9ce.zip",
+                "reference": "b23725eb3711d05e8708bd6f63e59c7268bee9ce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "time": "2012-11-27 08:48:40",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Chris Corbyn"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ]
+        },
+        {
             "name": "symfony/assetic-bundle",
             "version": "dev-master",
             "target-dir": "Symfony/Bundle/AsseticBundle",
@@ -975,6 +1025,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "symfony/symfony": 20,
+        "swiftmailer/swiftmailer": 20,
         "doctrine/doctrine-bundle": 20,
         "twig/extensions": 20,
         "symfony/assetic-bundle": 20,
