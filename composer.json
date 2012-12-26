@@ -22,7 +22,7 @@
         "php": ">=5.3.3",
 
         "symfony/symfony":                   "dev-master",
-        "doctrine/orm":                      "dev-master",
+        "doctrine/orm":                      ">=2.2.3,<2.4-dev",
 
         "doctrine/doctrine-bundle":          "dev-master",
         "twig/extensions":                   "dev-master",
