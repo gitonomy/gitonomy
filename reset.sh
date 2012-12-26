@@ -10,6 +10,9 @@ fi
 echo "Environment: " $env
 echo ""
 
+echo ">>> Cleanup cache"
+rm -rf app/cache/{dev,prod}
+
 echo ">>> Cleanup repositories"
 if [ -d app/cache/repositories ]; then
     rm -rf app/cache/repositories

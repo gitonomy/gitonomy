@@ -34,14 +34,9 @@ class ProjectController extends Controller
         $pool = $this->get('gitonomy_core.git.repository_pool');
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $entities = $this->getRepository('GitonomyCoreBundle:Project')->findAll();
+            $projects = $this->getRepository('GitonomyCoreBundle:Project')->findAll();
         } else {
-            $entities = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
-        }
-
-        $projects = array();
-        foreach ($entities as $entity) {
-            $projects[] = array($entity, $pool->getGitRepository($entity));
+            $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($this->getUser());
         }
 
         return $this->render('GitonomyWebsiteBundle:Project:list.html.twig', array(
@@ -86,35 +81,30 @@ class ProjectController extends Controller
         ));
     }
 
-    public function newsfeedAction($slug)
+    public function newsfeedAction(Request $request, $slug)
     {
-        $reference  = $this->getRequest()->query->get('reference');
+        $reference  = $request->query->get('reference');
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
         $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
-        $references = $repository->getReferences();
 
-        if (!$references->hasBranches()) {
+        if ($project->isEmpty()) {
             return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
-                'project'    => $project,
-                'repository' => $repository,
+                'project'    => $project
             ));
         }
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
             'project'    => $project,
-            'branches'   => $references->getBranches(),
             'messages'   => $messages,
-            'repository' => $repository,
             'reference'  => $reference,
         ));
     }
 
-    public function historyAction(Request $request, $slug, $path = null)
+    public function historyAction(Request $request, $slug)
     {
         $reference  = $request->query->get('reference', null);
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
+        $repository = $project->getRepository();
         $log        = $repository->getLog($reference);
 
         $pager = new Pager(new GitLogAdapter($log));
@@ -139,12 +129,8 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
             'project'       => $project,
             'reference'     => $reference,
-            'repository'    => $repository,
             'pager'         => $pager,
-            'data'          => array_map($convert, (array) $pager->getResults()),
-            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
-            'path'          => $path,
-            'path_exploded' => explode('/', $path),
+            'data'          => array_map($convert, (array) $pager->getResults())
         ));
     }
 
@@ -154,12 +140,10 @@ class ProjectController extends Controller
     public function commitAction($slug, $hash)
     {
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
-        $commit     = $repository->getCommit($hash);
+        $commit     = $project->getRepository()->getCommit($hash);
 
         return $this->render('GitonomyWebsiteBundle:Project:commit.html.twig', array(
             'project'    => $project,
-            'repository' => $repository,
             'reference'  => $project->getDefaultBranch(),
             'commit'     => $commit
         ));
@@ -171,7 +155,7 @@ class ProjectController extends Controller
     public function treeAction($slug, $reference, $path)
     {
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
+        $repository = $project->getRepository();
         $branches   = $repository->getReferences()->getBranches();
         $revision   = $repository->getRevision($reference);
         $commit     = $revision->getResolved();
@@ -195,15 +179,14 @@ class ProjectController extends Controller
 
         $parameters = array(
             'reference'     => $reference,
-            'branch'        => $branch,
             'commit'        => $commit,
             'project'       => $project,
-            'repository'    => $repository,
             'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
             'path_exploded' => explode('/', $path),
             'branches'      => $branches,
         );
+
 
         if ($element instanceof Blob) {
             $parameters['blob'] = $element;
@@ -230,8 +213,7 @@ class ProjectController extends Controller
     public function tagsAction($slug)
     {
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
-        $tags       = $repository->getReferences()->getTags();
+        $tags       = $project->getRepository()->getReferences()->getTags();
 
         usort($tags, function($left, $right) {
             return $left->getCommit()->getAuthorDate() < $right->getCommit()->getAuthorDate();
@@ -249,10 +231,10 @@ class ProjectController extends Controller
     public function treeHistoryAction(Request $request, $slug, $reference, $path)
     {
         $project    = $this->getProject($slug);
-        $repository = $this->getGitRepository($project);
+        $repository = $project->getRepository();
         $branch     = $repository->getReferences()->getBranch($reference);
         $log        = $repository->getLog($branch->getCommitHash(), $path);
-        $branches   = $this->getGitRepository($project)->getReferences()->getBranches();
+        $branches   = $repository->getReferences()->getBranches();
 
         $pager = new Pager(new GitLogAdapter($log));
         $pager->setPerPage(50);
@@ -262,8 +244,6 @@ class ProjectController extends Controller
             'reference'     => $reference,
             'log'           => $log,
             'project'       => $project,
-            'repository'    => $repository,
-            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
             'path_exploded' => explode('/', $path),
             'page'          => $page,
@@ -275,7 +255,7 @@ class ProjectController extends Controller
     public function compareAction($slug, $revision)
     {
         $project = $this->getProject($slug);
-        $log     = $this->getGitRepository($project)->getLog($revision);
+        $log     = $project->getRepository()->getLog($revision);
 
         return $this->render('GitonomyWebsiteBundle:Project:compare.html.twig', array(
             'project'   => $project,
@@ -296,8 +276,7 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions'),
-            'repository'    => $this->getGitRepository($project),
+            'token'         => $this->createToken('project_permissions')
         ));
     }
 
@@ -320,8 +299,7 @@ class ProjectController extends Controller
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
             'gitAccessForm' => $gitAccessForm->createView(),
-            'token'         => $this->createToken('project_permissions'),
-            'repository'    => $this->getGitRepository($project),
+            'token'         => $this->createToken('project_permissions')
         ));
     }
 
@@ -367,8 +345,7 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:permissions.html.twig', array(
             'project'       => $project,
             'roleForm'      => $roleForm->createView(),
-            'gitAccessForm' => $gitAccessForm->createView(),
-            'repository'    => $this->getGitRepository($project),
+            'gitAccessForm' => $gitAccessForm->createView()
         ));
     }
 
@@ -413,8 +390,7 @@ class ProjectController extends Controller
 
         return $this->render('GitonomyWebsiteBundle:Project:admin.html.twig', array(
             'form'       => $form->createView(),
-            'project'    => $viewProject,
-            'repository' => $this->getGitRepository($project),
+            'project'    => $viewProject
         ));
     }
 

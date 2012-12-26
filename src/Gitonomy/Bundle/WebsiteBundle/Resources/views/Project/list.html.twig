@@ -33,11 +33,11 @@
             <tbody>
                 {% for project in projects %}
                     <tr>
-                        <td><a href="{{ path('project_newsfeed', {slug: project[0].slug}) }}">{{ project[0].name }}</a></td>
-                        <td><code>git clone {{ gitonomy.ssh_access~':'~project[0].slug~'.git' }}</code></td>
-                        <td>{{ '%.2f'|format(project[0].repositorySize/1024) }} Mo</td>
-                        <td>{{ project[1].references.branches|length }}</td>
-                        <td>{{ project[1].references.tags|length }}</td>
+                        <td><a href="{{ path('project_newsfeed', {slug: project.slug}) }}">{{ project.name }}</a></td>
+                        <td><code>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}</code></td>
+                        <td>{{ '%.2f'|format(project.repositorySize/1024) }} Mo</td>
+                        <td>{{ project.repository.references.branches|length }}</td>
+                        <td>{{ project.repository.references.tags|length }}</td>
                     </tr>
                 {% else %}
                     <tr>

@@ -47,6 +47,7 @@ class AuthorizedKeysCommandTest extends CommandTestCase
             'content' => 'bob-key-not-installed'
         ));
 
+        $this->assertNotNull($notInstalled);
         $this->assertFalse($notInstalled->isInstalled());
     }
 

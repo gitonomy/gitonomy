@@ -1,43 +1,41 @@
 {% trans_default_domain 'project_source' %}
 
-{% if path != "" %}
-    {% set path_record = "" %}
-    <div class="actionbar">
-        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
+{% set route = active == 'show' ? 'project_tree' : 'project_tree_history' %}
 
-        <div class="pull-right">
-            {% if active != 'show' %}
-                <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
-                    {{ 'contextual.show'|trans }}
-                </a>
-            {% endif %}
-            {% if active != 'history' %}
-                <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
-                    {{ 'contextual.history'|trans }}
-                </a>
-            {% endif %}
-        </div>
+<div class="actionbar">
+    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
 
-        <ul class="pathcrumb">
-            <li>
-                <a href="{{ path('project_tree', {slug: project.slug, reference:reference}) }}">..</a>
-                <span class="divider">/</span>
-            </li>
-            {% for segment in path_exploded %}
-                {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
-                <li{% if loop.last %} class="active"{% endif %}>
-                    {% if not loop.last %}
-                        <a href="{{ path('project_tree', {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
-                        <span class="divider">/</span>
-                    {% else %}
-                        {{ segment }}
-                    {% endif %}
+    <div class="pull-right">
+        {% if active != 'show' %}
+            <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
+                {{ 'contextual.show'|trans }}
+            </a>
+        {% endif %}
+        {% if active != 'history' %}
+            <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
+                {{ 'contextual.history'|trans }}
+            </a>
+        {% endif %}
+    </div>
+
+    {% if path != "" %}
+        {% set path_record = "" %}
+            <ul class="pathcrumb">
+                <li>
+                    <a href="{{ path(route, {slug: project.slug, reference:reference}) }}">..</a>
+                    <span class="divider">/</span>
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% else %}
-    <div class="actionbar">
-        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
-    </div>
-{% endif %}
+                {% for segment in path_exploded %}
+                    {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
+                    <li{% if loop.last %} class="active"{% endif %}>
+                        {% if not loop.last %}
+                            <a href="{{ path(route, {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
+                            <span class="divider">/</span>
+                        {% else %}
+                            {{ segment }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+</div>

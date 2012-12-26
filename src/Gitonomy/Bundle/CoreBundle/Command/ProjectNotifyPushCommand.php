@@ -77,9 +77,8 @@ EOF
         $reference  = $input->getArgument('reference');
         $before     = $input->getArgument('before');
         $after      = $input->getArgument('after');
-        $repository = $this->getContainer()->get('gitonomy_core.git.repository_pool')->getGitRepository($project);
 
-        $pushReference = new PushReference($repository, $reference, $before, $after);
+        $pushReference = new PushReference($project->getRepository(), $reference, $before, $after);
         $event         = new PushReferenceEvent($project, $user, $pushReference);
 
         $this->dispatch($event);

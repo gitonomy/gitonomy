@@ -63,17 +63,6 @@ class Controller extends BaseController
         return $this->get('doctrine')->getEntityManager()->getRepository($name);
     }
 
-    /**
-     * @return Repository
-     */
-    protected function getGitRepository(Project $project)
-    {
-        return $this
-            ->get('gitonomy_core.git.repository_pool')
-            ->getGitRepository($project)
-        ;
-    }
-
     protected function persistEntity($entity)
     {
         $em = $this->get('doctrine')->getEntityManager();

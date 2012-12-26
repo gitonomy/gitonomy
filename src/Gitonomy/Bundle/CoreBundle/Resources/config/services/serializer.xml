@@ -31,9 +31,7 @@
             <argument type="service" id="doctrine" />
         </service>
 
-        <service id="gitonomy_core.push_event_normalizer" class="%gitonomy_core.push_event_normalizer.class%" public="false">
-            <argument type="service" id="gitonomy_core.git.repository_pool" />
-        </service>
+        <service id="gitonomy_core.push_event_normalizer" class="%gitonomy_core.push_event_normalizer.class%" public="false" />
 
         <service id="gitonomy_core.project_event_normalizer" class="%gitonomy_core.project_event_normalizer.class%" public="false" />
 

@@ -263,46 +263,4 @@ class ProjectControllerTest extends WebTestCase
 
         $this->assertEquals(1, $crawler->filter('#project_name_field span:contains("This value is already used")')->count());
     }
-
-    public function testDeleteFoobar()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
-        $repository = $this->client->getContainer()->get('gitonomy_core.git.repository_pool')->getGitRepository($project);
-
-        $this->repositoryPool = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\RepositoryPool')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $this->hookInjector = $this->getMockBuilder('Gitonomy\Bundle\CoreBundle\Git\HookInjector')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $this->client->setRepositoryPool($this->repositoryPool);
-        $this->client->setHookInjector($this->hookInjector);
-        $this->repositoryPool
-            ->expects($this->once())
-            ->method('onProjectDelete')
-        ;
-        $this->repositoryPool
-            ->expects($this->once())
-            ->method('getGitRepository')
-            ->will($this->returnValue($repository))
-        ;
-
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/projects/'.$project->getSlug().'/admin');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Delete', $crawler->filter('#content > legend')->text());
-
-        $link = $crawler->filter('a#delete')->link();
-        $this->client->click($link);
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('/'));
-
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('barbaz');
-        $this->assertNull($project);
-    }
 }

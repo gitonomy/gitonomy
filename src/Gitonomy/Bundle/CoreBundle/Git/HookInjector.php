@@ -19,21 +19,14 @@ class HookInjector
 {
     protected $hooks;
 
-    /**
-     * @var Gitonomy\Bundle\CoreBundle\Git\RepositoryPool
-     */
-    protected $repositoryPool;
-
-    public function __construct(RepositoryPool $repositoryPool, array $hooks)
+    public function __construct(array $hooks)
     {
         $this->hooks = $hooks;
-        $this->repositoryPool = $repositoryPool;
     }
 
     public function onProjectCreate(ProjectEvent $event)
     {
-        $repository = $this->repositoryPool->getGitRepository($event->getProject());
-        $hooks = $repository->getHooks();
+        $hooks = $event->getProject()->getRepository()->getHooks();
 
         foreach ($this->hooks as $name => $file) {
             $hooks->setSymlink($name, $file);

@@ -12,7 +12,7 @@
     <div id="wrapper">
         <ul id="local-menu">
             {% set slug = project.slug %}
-            {% if repository is defined and not repository.references.hasBranches %}
+            {% if project.empty %}
                 <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'empty' %} class="active"{% endif %}>{{ 'menu.empty'|trans }}</a></li>
             {% else %}
                 <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>{{ 'menu.newsfeed'|trans }}</a></li>

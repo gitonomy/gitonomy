@@ -79,7 +79,7 @@
         </property>
 
         <property name="timezone">
-            <constraint name="Assert:Choice">
+            <constraint name="Assert:OneOf">
                 <option name="callback">
                     <value>DateTimeZone</value>
                     <value>listIdentifiers</value>

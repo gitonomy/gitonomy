@@ -21,13 +21,10 @@
             <argument>%gitonomy_core.git.repository_path%</argument>
         </service>
 
-        <service id="gitonomy_core.git.shell_handler" class="%gitonomy_core.git.shell_handler.class%">
-            <argument type="service" id="gitonomy_core.git.repository_pool" />
-        </service>
+        <service id="gitonomy_core.git.shell_handler" class="%gitonomy_core.git.shell_handler.class%" />
 
         <service id="gitonomy_core.git.hook_injector" class="%gitonomy_core.git.hook_injector.class%">
             <tag name="gitonomy.event_listener" event="gitonomy.project_create" method="onProjectCreate" />
-            <argument type="service" id="gitonomy_core.git.repository_pool" />
             <argument type="collection">
                 <argument key="pre-receive">%kernel.root_dir%/Resources/hooks/pre-receive</argument>
                 <argument key="post-receive">%kernel.root_dir%/Resources/hooks/post-receive</argument>

@@ -23,21 +23,6 @@ use Gitonomy\Bundle\CoreBundle\Entity\Project;
 class ShellHandler
 {
     /**
-     * Current repository pool
-     *
-     * @var Gitonomy\Bundle\CoreBundle\Git\RepositoryPool
-     */
-    protected $repositoryPool;
-
-    /**
-     * Constructor.
-     */
-    public function __construct(RepositoryPool $repositoryPool)
-    {
-        $this->repositoryPool = $repositoryPool;
-    }
-
-    /**
      * Returns the original Git command.
      */
     public function getOriginalCommand()
@@ -50,6 +35,6 @@ class ShellHandler
      */
     public function handle(Project $project, $command, array $env = array())
     {
-        $this->repositoryPool->getGitRepository($project)->shell($command, $env);
+        $project->getRepository()->shell($command, $env);
     }
 }

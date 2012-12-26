@@ -148,5 +148,14 @@ class Project
     {
         return null !== $this->repository;
     }
+
+    public function isEmpty()
+    {
+        try {
+            return !$this->getRepository()->getReferences()->hasBranches();
+        } catch (\LogicException $e) {
+            throw new \RuntimeException('Unable to determine if repository is empty', null, $e);
+        }
+    }
 }
 

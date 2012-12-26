@@ -27,13 +27,6 @@ use Gitonomy\Git\PushReference;
  */
 class PushReferenceEventNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    protected $repositoryPool;
-
-    public function __construct(RepositoryPool $repositoryPool)
-    {
-        $this->repositoryPool = $repositoryPool;
-    }
-
     public function normalize($object, $format = null)
     {
         $pushReference = $object->getReference();
@@ -59,8 +52,7 @@ class PushReferenceEventNormalizer extends SerializerAwareNormalizer implements 
             $user = null;
         }
 
-        $repository = $this->repositoryPool->getGitRepository($project);
-        $pushReference = new PushReference($repository, $data['push'][0], $data['push'][1], $data['push'][2]);
+        $pushReference = new PushReference($project->getRepository(), $data['push'][0], $data['push'][1], $data['push'][2]);
 
         return new PushReferenceEvent($project, $user, $pushReference);
     }
