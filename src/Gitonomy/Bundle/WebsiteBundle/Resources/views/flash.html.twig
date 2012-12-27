@@ -1,17 +1,18 @@
-{% set flashes = app.session.flashes %}
+{% set flashes = app.session.flashbag.all %}
 
 {% if  flashes | length > 0 %}
     <div class="flash-messages">
-    {% for flash, message in flashes %}
-        <p class="{{ flash }}">
-            {% if flash == "success" %}
-                <i class="symbol">check</i>
-            {% elseif flash == "error" %}
-                <i class="symbol">surprise</i>
-            {% endif %}
-            {{ message | raw }}
-        </p>
+    {% for type, messages in flashes %}
+        {% for message in messages %}
+            <p class="{{ type }}">
+                {% if type == "success" %}
+                    <i class="symbol">check</i>
+                {% elseif type == "error" %}
+                    <i class="symbol">surprise</i>
+                {% endif %}
+                {{ message | raw }}
+            </p>
+        {% endfor %}
     {% endfor %}
     </div>
 {% endif %}
-

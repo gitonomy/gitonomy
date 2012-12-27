@@ -1,7 +1,3 @@
-administration_dashboard:
-    pattern: /admin
-    defaults: { _controller: "GitonomyWebsiteBundle:Administration:dashboard" }
-
 administration_users:
     pattern: /admin/users
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:users" }
@@ -37,4 +33,8 @@ administration_deleteRole:
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:deleteRole" }
     requirements:
         method: POST
+
+administration_config:
+    pattern: /admin/config
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:config" }
 

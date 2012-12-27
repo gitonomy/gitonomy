@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'login' %}
 
-{% block title 'page.title'|trans({'%app%': gitonomy.name}) %}
+{% block title 'page.title'|trans({'%app%': config.get('name')}) %}
 
 {% block content %}
     <form method="POST" action="{{ path('splash_loginCheck') }}" class="form-horizontal">

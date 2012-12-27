@@ -51,8 +51,8 @@
             {% else %}
                 <li>
                     <a href="#" onClick="$('#global-menu').toggleClass('active'); return false;">
-                        <div class="icon"><img src="{{ gravatar(gitonomy.email, 50) }}" /></div>
-                        <div class="text">{{ gitonomy.name }}</div>
+                        <div class="icon"><img src="{{ gravatar('contact@gitonomy.com', 50) }}" /></div>
+                        <div class="text">{{ config.get('name') }}</div>
                     </a>
                 </li>
                 <li>

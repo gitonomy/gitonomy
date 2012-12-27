@@ -1,5 +1,5 @@
 {
-    "hash": "70f10d6f5a5e983c7d0052a83d26e9f5",
+    "hash": "19960db668009550b19d963a0f29494e",
     "packages": [
         {
             "name": "doctrine/common",
@@ -650,29 +650,29 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v4.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v4.2.2"
+                "reference": "b23725eb3711d05e8708bd6f63e59c7268bee9ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.2.2",
-                "reference": "v4.2.2",
+                "url": "https://github.com/swiftmailer/swiftmailer/archive/b23725eb3711d05e8708bd6f63e59c7268bee9ce.zip",
+                "reference": "b23725eb3711d05e8708bd6f63e59c7268bee9ce",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-10-25 01:30:40",
+            "time": "2012-11-27 08:48:40",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "lib/swift_required.php"
@@ -816,62 +816,6 @@
                 }
             ],
             "description": "Symfony MonologBundle",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/swiftmailer-bundle",
-            "version": "dev-master",
-            "target-dir": "Symfony/Bundle/SwiftmailerBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/SwiftmailerBundle",
-                "reference": "v2.1.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/symfony/SwiftmailerBundle/archive/v2.1.5.zip",
-                "reference": "v2.1.5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "swiftmailer/swiftmailer": ">=4.2.0,<4.3-dev",
-                "symfony/swiftmailer-bridge": ">=2.1.0,<2.3-dev"
-            },
-            "require-dev": {
-                "symfony/dependency-injection": ">=2.1.0,<2.3-dev",
-                "symfony/http-kernel": ">=2.1.0,<2.3-dev",
-                "symfony/config": ">=2.1.0,<2.3-dev",
-                "symfony/yaml": ">=2.1.0,<2.3-dev"
-            },
-            "time": "2012-10-17 04:18:11",
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Bundle\\SwiftmailerBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com"
         },
         {
@@ -1081,10 +1025,10 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "symfony/symfony": 20,
+        "swiftmailer/swiftmailer": 20,
         "doctrine/doctrine-bundle": 20,
         "twig/extensions": 20,
         "symfony/assetic-bundle": 20,
-        "symfony/swiftmailer-bundle": 20,
         "symfony/monolog-bundle": 20,
         "sensio/distribution-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,

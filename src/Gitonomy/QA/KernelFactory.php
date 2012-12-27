@@ -34,29 +34,4 @@ class KernelFactory
 
         return $result;
     }
-
-    public function getParameters()
-    {
-        $file = $this->appDir.'/config/parameters.yml';
-        $content = Yaml::parse($file);
-
-        if (!isset($content['parameters'])) {
-            return array();
-        }
-
-        return $content['parameters'];
-    }
-
-    public function changeParameters($newValue)
-    {
-        $file = $this->appDir.'/config/parameters.yml';
-        file_put_contents($file, Yaml::dump(array('parameters' => $newValue)));
-
-        $this->clearCache();
-    }
-
-    protected function clearCache()
-    {
-        exec($this->appDir.'/console cache:clear');
-    }
 }

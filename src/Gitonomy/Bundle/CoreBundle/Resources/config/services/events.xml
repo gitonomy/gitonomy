@@ -5,11 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <!-- override -->
         <parameter key="gitonomy_core.event_dispatcher.class">Gitonomy\Component\EventDispatcher\EventDispatcher</parameter>
         <parameter key="gitonomy_core.event_dispatcher.storage_mysql.class">Gitonomy\Component\EventDispatcher\EventStorage\MySQLStorage</parameter>
         <parameter key="gitonomy_core.event_dispatcher.storage_direct.class">Gitonomy\Component\EventDispatcher\EventStorage\DirectStorage</parameter>
         <parameter key="gitonomy_core.listener.feed.class">Gitonomy\Bundle\CoreBundle\Listener\FeedListener</parameter>
+        <parameter key="gitonomy_core.listener.config.class">Gitonomy\Bundle\CoreBundle\Listener\ConfigListener</parameter>
     </parameters>
     <services>
 
@@ -32,6 +32,11 @@
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
             <tag name="gitonomy.event_listener" event="gitonomy.project_push" method="onPush" />
+        </service>
+
+        <service id="gitonomy_core.listener.config" class="%gitonomy_core.listener.config.class%">
+            <argument type="service" id="service_container" />
+            <tag name="kernel.event_subscriber" />
         </service>
     </services>
 </container>

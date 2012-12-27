@@ -25,6 +25,7 @@ class UserType extends AbstractType
             ->add('username', 'text', array('label' => 'form.username'))
             ->add('fullname', 'text', array('label' => 'form.fullname'))
             ->add('timezone', 'timezone', array('label' => 'form.timezone'))
+            ->add('locale', 'gitonomy_locale', array('label' => 'form.locale'))
             ->add('globalRoles', 'entity', array(
                 'label'   => 'form.global_roles',
                 'class'   => 'Gitonomy\Bundle\CoreBundle\Entity\Role',

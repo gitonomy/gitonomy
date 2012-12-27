@@ -8,7 +8,7 @@
 {% block project_content %}
     <div id="content">
         <p>How to make your first commit:</p>
-        <pre>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}
+        <pre>git clone {{ config.get('ssh_access')~':'~project.slug~'.git' }}
 cd {{ project.slug }}
 echo "Hello world" > README
 git add -A

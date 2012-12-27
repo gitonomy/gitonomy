@@ -1,0 +1,23 @@
+{% extends "GitonomyWebsiteBundle::layout_administration.html.twig" %}
+
+{% trans_default_domain 'administration_config' %}
+
+{% block title 'page.title.main'|trans({'%app%': config.get('name')}) %}
+
+{% set local_navigation = 'config' %}
+
+{% block administration_content %}
+    <div id="content">
+        <form method="POST" action="{{ path('administration_config') }}" class="form-horizontal">
+            {{ form_errors(form) }}
+            <legend>{{ 'title.project'|trans }}</legend>
+            {{ form_errors(form.project) }}
+            {{ form_widget(form.project) }}
+            <legend>{{ 'title.mailer'|trans }}</legend>
+            {{ form_errors(form.mailer) }}
+            {{ form_widget(form.mailer) }}
+            <p><input type="submit" value="{{ 'form.submit'|trans }}" class="btn btn-success" /></p>
+            {{ form_rest(form) }}
+        </form>
+    </div>
+{% endblock %}

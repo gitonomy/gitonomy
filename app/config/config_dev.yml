@@ -25,9 +25,6 @@ monolog:
             type:  firephp
             level: info
 
-swiftmailer:
-    delivery_address: %mailer_user%
-
 services:
     twig.extension.debug:
         class:  Twig_Extensions_Extension_Debug

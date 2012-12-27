@@ -39,7 +39,7 @@ class BrowserContext extends BaseBrowserContext
      */
     public function iClickOn($text)
     {
-        $this->getBrowser()->element(By::xpath('//a[contains(text(), "'.$text.'")]|//button[contains(text(), "'.$text.'")]'))->click();
+        $this->getBrowser()->element(By::xpath('//a[contains(text(),"'.$text.'")]|//input[@type="submit" and contains(@value, "'.$text.'")]|//button[contains(text(),"'.$text.'")]|//button[contains(@value, "'.$text.'")]'))->click();
     }
 
     /**
@@ -74,6 +74,12 @@ class BrowserContext extends BaseBrowserContext
         $label = $this->getBrowser()->element(By::xpath('//label[contains(text(), "'.$field.'")]'));
         $for = $label->attribute('for');
         $input = $this->getBrowser()->element(By::id($for));
-        $input->value($value);
+
+        if ($input->name() == 'select') {
+            $input->element(By::xpath('//option[contains(text(), "'.$value.'")]'))->click();
+        } else {
+            $input->clear();
+            $input->value($value);
+        }
     }
 }

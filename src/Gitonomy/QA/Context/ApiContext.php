@@ -33,24 +33,19 @@ class ApiContext extends BehatContext
     }
 
     /**
-     * @Given /^administration has reinitialized parameters$/
-     */
-    public function administrationHasReinitializedParameters()
-    {
-        $this->getKernelFactory()->changeParameters(array());
-    }
-
-    /**
      * @Given /^administrator has enabled registration$/
      */
     public function administratorHasEnabledRegistration()
     {
-        $params = $this->getKernelFactory()->getParameters();
+        $this->setConfig('open_registation', true);
+    }
 
-        if (isset($params['open_registration']) && !$params['open_registration']) {
-            $params['open_registration'] = true;
-            $this->getKernelFactory()->changeParameters($params);
-        }
+    /**
+     * @Given /^locale is "(.*)"$/
+     */
+    public function localeIs($value)
+    {
+        $this->setConfig('locale', $value);
     }
 
     /**
@@ -67,6 +62,22 @@ class ApiContext extends BehatContext
             }
 
             $em->remove($user);
+            $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^user "([^"]*)" has locale "([^"]*)"$/
+     */
+    public function userHasLocale($username, $locale)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $locale) {
+            $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+            if (!$user) {
+                throw new \RuntimeException("User is missing : ".$username);
+            }
+            $user->setLocale($locale);
             $em->flush();
         });
     }
@@ -186,6 +197,13 @@ class ApiContext extends BehatContext
             $userRole = new UserRoleProject($user, $project, $role);
             $em->persist($userRole);
             $em->flush();
+        });
+    }
+
+    protected function setConfig($key, $value)
+    {
+        $this->kernelFactory->run(function ($kernel) use($key, $value) {
+            $kernel->getContainer()->get('gitonomy_core.config')->set($key, $value);
         });
     }
 }

@@ -73,7 +73,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler   = $this->client->submit($form);
         $response  = $this->client->getResponse();
         $profile   = $this->client->getProfile();
-        $collector = $profile->getCollector('swiftmailer');
+        $collector = $profile->getCollector('mailer');
 
         $this->assertTrue($response->isRedirect('/profile'));
 
@@ -98,7 +98,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler = $this->client->request('POST', $link);
 
         $profile   = $this->client->getProfile();
-        $collector = $profile->getCollector('swiftmailer');
+        $collector = $profile->getCollector('mailer');
         $this->assertEquals(1, $collector->getMessageCount());
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/profile'));
