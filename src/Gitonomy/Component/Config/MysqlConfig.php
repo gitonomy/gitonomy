@@ -53,11 +53,9 @@ class MysqlConfig extends AbstractConfig
 
         $rows = array();
         foreach ($values as $key => $value) {
-            $rows[] = '('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).')';
+            $query = 'INSERT INTO '.self::TABLE_NAME.' (`key`, `value`) VALUES ('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).');';
+            $this->runSQL($query);
         }
-        $query = 'INSERT INTO '.self::TABLE_NAME.' (`key`, `value`) VALUES '.implode(', ', $rows).';';
-
-        $this->runSQL($query);
     }
 
     /**
