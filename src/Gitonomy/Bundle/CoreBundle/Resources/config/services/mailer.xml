@@ -5,15 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="gitonomy.mailer.class">Gitonomy\Bundle\CoreBundle\Mailer\Mailer</parameter>
+        <parameter key="gitonomy_core.mailer.class">Gitonomy\Bundle\CoreBundle\Mailer\Mailer</parameter>
     </parameters>
     <services>
-        <service id="gitonomy.mailer" class="%gitonomy.mailer.class%">
-            <argument type="service" id="mailer" />
-            <argument type="service" id="templating" />
-            <argument type="collection">
-                <argument key="%mailer_from_email%">%mailer_from_name%</argument>
-            </argument>
+        <service id="gitonomy.mailer" alias="gitonomy_core.mailer" />
+
+        <service id="gitonomy_core.mailer" class="%gitonomy_core.mailer.class%">
+            <argument type="service" id="service_container" />
         </service>
     </services>
 </container>

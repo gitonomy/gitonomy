@@ -7,13 +7,20 @@
     <parameters>
         <!-- override -->
         <parameter key="gitonomy_core.git.repository_pool.class">Gitonomy\Bundle\CoreBundle\Debug\DebugRepositoryPool</parameter>
+        <parameter key="gitonomy_core.mailer.class">Gitonomy\Bundle\CoreBundle\Mailer\DebugMailer</parameter>
 
         <parameter key="gitonomy_core.git.data_collector.class">Gitonomy\Bundle\CoreBundle\Debug\GitDataCollector</parameter>
+        <parameter key="gitonomy_core.mailer.data_collector.class">Gitonomy\Bundle\CoreBundle\Debug\MailerDataCollector</parameter>
     </parameters>
 
     <services>
         <service id="gitonomy_core.git.data_collector" class="%gitonomy_core.git.data_collector.class%">
             <tag name="data_collector" id="git" template="GitonomyCoreBundle:Profiler:git.html.twig" />
+        </service>
+
+        <service id="gitonomy_core.mailer.data_collector" class="%gitonomy_core.mailer.data_collector.class%">
+            <argument type="service" id="gitonomy.mailer" />
+            <tag name="data_collector" id="mailer" />
         </service>
     </services>
 </container>

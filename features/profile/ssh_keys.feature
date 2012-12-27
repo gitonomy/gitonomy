@@ -4,6 +4,7 @@ Feature: Manage SSH keys
     To be able to push to repositories
 
     Background:
+        Given locale is "en_US"
         Given user "foobar" exists
           And user "foobar" has SSH key named "key A", content "foobar"
           And user "foobar" has SSH key named "key B", content "barbaz"

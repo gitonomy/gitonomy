@@ -3,6 +3,8 @@ imports:
 
 gitonomy_core:
     async_storage: direct
+    config_defaults:
+        mailer_transport:  "null"
 
 framework:
     test: ~
@@ -15,9 +17,6 @@ twig:
 web_profiler:
     toolbar: false
     intercept_redirects: false
-
-swiftmailer:
-    disable_delivery: true
 
 doctrine:
     dbal:

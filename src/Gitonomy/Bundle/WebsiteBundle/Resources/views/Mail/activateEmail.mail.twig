@@ -6,7 +6,7 @@
     {% set user = email.user %}
     Hey {{ user.fullname }},
 
-    You registered a new email on {{ gitonomy.name }}.
+    You registered a new email on {{ config.get('name') }}.
     To fully use it, you have to activate it.
 
     <a href="{{ url('splash_activateEmail', {token: email.activationToken}) }}">Activate email {{ email.email }}</a>
@@ -16,7 +16,7 @@
 {% set user = email.user %}
 Hey {{ user.fullname }},
 
-You registered a new email on {{ gitonomy.name }}.
+You registered a new email on {{ config.get('name') }}.
 To fully use it, you have to activate it.
 
 Follow this link :

@@ -154,16 +154,8 @@ class SecurityControllerTest extends WebTestCase
         $this->assertTrue($response->isRedirect('/login'));
 
         $profile = $this->client->getProfile();
-        $collector = $profile->getCollector('swiftmailer');
+        $collector = $profile->getCollector('mailer');
         $this->assertEquals(1, $collector->getMessageCount());
-
-        $messages = $collector->getMessages();
-        $message = $messages[0];
-
-        $to = $message->getTo();
-        $this->assertTrue(isset($to['alice@example.org']));
-        $this->assertEquals('Alice', $to['alice@example.org']);
-        $this->assertContains('Retrieve your password', $message->getSubject());
 
         $crawler = $this->client->followRedirect();
 

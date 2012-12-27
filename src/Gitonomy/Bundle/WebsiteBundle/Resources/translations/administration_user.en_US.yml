@@ -19,6 +19,7 @@ form:
     username: Username
     fullname: Fullname
     timezone: Timezone
+    locale: Language
     global_roles: Global roles
 
     legend:

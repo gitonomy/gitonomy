@@ -23,11 +23,11 @@
 
         "symfony/symfony":                   "dev-master",
         "doctrine/orm":                      ">=2.2.3,<2.4-dev",
+        "swiftmailer/swiftmailer":           "dev-master",
 
         "doctrine/doctrine-bundle":          "dev-master",
         "twig/extensions":                   "dev-master",
         "symfony/assetic-bundle":            "dev-master",
-        "symfony/swiftmailer-bundle":        "dev-master",
         "symfony/monolog-bundle":            "dev-master",
         "sensio/distribution-bundle":        "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",

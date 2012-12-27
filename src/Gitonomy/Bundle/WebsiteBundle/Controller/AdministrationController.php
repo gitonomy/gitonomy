@@ -162,4 +162,24 @@ class AdministrationController extends Controller
 
         return $this->redirect($this->generateUrl('administration_roles'));
     }
+
+    public function configAction(Request $request)
+    {
+        $this->assertGranted('ROLE_ADMIN');
+
+        $config = $this->get('gitonomy_core.config');
+        $form = $this->createForm('administration_config', $config->all());
+
+        if ($request->getMethod() === 'POST' && $form->bind($request)->isValid()) {
+            $config->merge($form->getData());
+
+            $this->setFlash('success', $this->trans('notice.config_updated', array(), 'administration_config'));
+
+            return $this->redirect($this->generateUrl('administration_config'));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Administration:config.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
 }

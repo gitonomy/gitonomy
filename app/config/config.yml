@@ -2,7 +2,6 @@ imports:
     - { resource: parameters_dist.yml }
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: gitonomy.yml }
 
 parameters:
     assetic.filter.compass.images_dir: %kernel.root_dir%/../web/images
@@ -10,20 +9,42 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallback: %locale% }
+    translator:      { fallback: en_US }
     secret:          %secret%
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
     csrf_protection: true
     validation:      ~
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    default_locale:  %locale%
+    default_locale:  en_US
     session:         ~
+
+# Gitonomy core
+gitonomy_core:
+    repository_path:   %repository_path%
+    async_storage:     direct
+    config_defaults:
+        name:              Gitonomy
+        baseline:          git repositories inside your infrastructure
+        ssh_access:        john@nowhere
+        locale:            en_US
+        open_registration: true
+        mailer_transport:  smtp
+        mailer_host:       localhost
+        mailer_user:       username
+        mailer_password:   password
+        mailer_auth_mode:  basic
+        mailer_encryption: ssl
+        mailer_from_name:  Gitonomy
+        mailer_from_email: gitonomy@nowhere
 
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources: [ "GitonomyWebsiteBundle::form.html.twig" ]
+
 
 # Assetic Configuration
 assetic:
@@ -54,13 +75,3 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-
-# Swiftmailer Configuration
-swiftmailer:
-    transport:  %mailer_transport%
-    encryption: %mailer_encryption%
-    auth_mode:  %mailer_auth_mode%
-    host:       %mailer_host%
-    port:       %mailer_port%
-    username:   %mailer_user%
-    password:   %mailer_password%

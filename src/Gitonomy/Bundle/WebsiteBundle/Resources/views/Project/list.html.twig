@@ -34,7 +34,7 @@
                 {% for project in projects %}
                     <tr>
                         <td><a href="{{ path('project_newsfeed', {slug: project.slug}) }}">{{ project.name }}</a></td>
-                        <td><code>git clone {{ gitonomy.ssh_access~':'~project.slug~'.git' }}</code></td>
+                        <td><code>git clone {{ config.get('ssh_access')~':'~project.slug~'.git' }}</code></td>
                         <td>{{ '%.2f'|format(project.repositorySize/1024) }} Mo</td>
                         <td>{{ project.repository.references.branches|length }}</td>
                         <td>{{ project.repository.references.tags|length }}</td>

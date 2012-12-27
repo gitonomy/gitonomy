@@ -1,4 +1,4 @@
 title: Administration
-menu:
-    users: Utilisateurs
-    roles: Rôles
+menu.config: Configuration
+menu.users: Utilisateurs
+menu.roles: Rôles

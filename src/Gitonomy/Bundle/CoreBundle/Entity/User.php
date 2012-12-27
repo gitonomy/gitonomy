@@ -31,6 +31,7 @@ class User implements UserInterface
     protected $salt;
     protected $fullname;
     protected $timezone;
+    protected $locale;
     protected $activationToken;
 
     /**
@@ -309,6 +310,16 @@ class User implements UserInterface
     public function getEmails()
     {
         return $this->emails;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     public function eraseCredentials()

@@ -24,6 +24,7 @@ class InformationsType extends AbstractType
             ->add('username', 'text', array('label' => 'form.informations.username'))
             ->add('fullname', 'text', array('label' => 'form.informations.fullname'))
             ->add('timezone', 'timezone', array('label' => 'form.informations.timezone'))
+            ->add('locale', 'gitonomy_locale', array('label' => 'form.informations.locale'))
         ;
     }
 

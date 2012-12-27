@@ -19,7 +19,7 @@ Feature: Register
             | Username | tomoto |
             | Fullname | Tomoto Pomo |
             | Email | tomoto@pomo.com |
-            | Timezone | Europe/Paris |
+            | Timezone | Paris |
             | Password | haricoo |
             | Confirm password | haricoo |
           And I click on "Register"
@@ -36,7 +36,7 @@ Feature: Register
             | Username | tomoto |
             | Fullname | Tomoto Pomo |
             | Email | existing@example.org |
-            | Timezone | Europe/Paris |
+            | Timezone | Paris |
             | Password | haricoo |
             | Confirm password | haricoo |
           And I click on "Register"

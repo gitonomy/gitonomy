@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>
-        {{ 'title.main'|trans({':name': gitonomy.name}) }}
+        {{ 'title.main'|trans({':name': config.get('name')}) }}
     </h1>
 
     <div id="wrapper">
