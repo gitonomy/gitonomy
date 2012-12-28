@@ -387,21 +387,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "552daf1459bd55cefd6efaaffd8cc7aa9f85f544"
+                "reference": "5453ac51efc2baa58ed87c3fbadec76b118169a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/archive/552daf1459bd55cefd6efaaffd8cc7aa9f85f544.zip",
-                "reference": "552daf1459bd55cefd6efaaffd8cc7aa9f85f544",
+                "url": "https://github.com/gitonomy/gitlib/archive/5453ac51efc2baa58ed87c3fbadec76b118169a6.zip",
+                "reference": "5453ac51efc2baa58ed87c3fbadec76b118169a6",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "2012-12-21 10:49:09",
+            "time": "2012-12-28 15:39:28",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Gitonomy\\Git": [
@@ -435,25 +435,25 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "bccfd5ad5c490bb5ff3c8930015f352188b193f6"
+                "reference": "9aac5ea51a1c13af3e67a7d7ba7e528f94c52485"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/archive/bccfd5ad5c490bb5ff3c8930015f352188b193f6.zip",
-                "reference": "bccfd5ad5c490bb5ff3c8930015f352188b193f6",
+                "url": "https://github.com/jdorn/sql-formatter/archive/9aac5ea51a1c13af3e67a7d7ba7e528f94c52485.zip",
+                "reference": "9aac5ea51a1c13af3e67a7d7ba7e528f94c52485",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-26 06:46:31",
+            "time": "2012-12-27 16:16:30",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.3.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "lib"
@@ -672,7 +672,7 @@
                     "dev-master": "4.3-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "lib/swift_required.php"
@@ -824,12 +824,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "761429e5519dd09a3bb6b9500e557defb0001f12"
+                "reference": "48920722f734aae7c4b04b1338ed30ab469d0db9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/761429e5519dd09a3bb6b9500e557defb0001f12.zip",
-                "reference": "761429e5519dd09a3bb6b9500e557defb0001f12",
+                "url": "https://github.com/symfony/symfony/archive/48920722f734aae7c4b04b1338ed30ab469d0db9.zip",
+                "reference": "48920722f734aae7c4b04b1338ed30ab469d0db9",
                 "shasum": ""
             },
             "require": {
@@ -882,14 +882,14 @@
             "suggest": {
                 "doctrine/data-fixtures": "1.0.*"
             },
-            "time": "2012-12-26 08:59:46",
+            "time": "2012-12-28 13:21:48",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Symfony\\": "src/"
@@ -973,25 +973,25 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "a65e7e4e2e5726a42a29e609fad008f8a9600594"
+                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/a65e7e4e2e5726a42a29e609fad008f8a9600594.zip",
-                "reference": "a65e7e4e2e5726a42a29e609fad008f8a9600594",
+                "url": "https://github.com/fabpot/Twig/archive/1b1a6e7de018d300e6eb67727f3717c24f4540ba.zip",
+                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-25 10:06:30",
+            "time": "2012-12-27 16:33:50",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.12-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
