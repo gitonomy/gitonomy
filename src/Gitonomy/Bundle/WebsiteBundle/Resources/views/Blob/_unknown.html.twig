@@ -1,0 +1,5 @@
+<p>{{ 'error.unknown_type'|trans({'%mimetype%': blob.mimetype}, 'project_source')}}</p>
+<hr />
+<form id="code-wrapper" class="cm-s-lesser-elegant">
+    <textarea class="code-mirror" data-mode-url="{{ asset('bundles/gitonomywebsite/vendor/codemirror/mode/%N/%N.js') }}" data-mode="text">{{ blob.content }}</textarea>
+</form>

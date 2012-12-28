@@ -175,17 +175,6 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(101, $crawler->filter('.changeset > .file')->count());
     }
 
-    public function testTree_WithFile_DisplayContent()
-    {
-        $this->client->connect('alice');
-
-        $crawler = $this->client->request('GET', '/projects/foobar/tree/master/run.php');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('textarea:contains("Foo Bar")'));
-    }
-
     public function testCreateProjectAsAnonymous()
     {
         $crawler  = $this->client->request('GET', '/create-project');
