@@ -1,3 +1,1 @@
-{% block content %}
-    <img class="blob-image" src="data:{{ blob.mimetype }};base64,{{ blob.content|base64_encode }}" />
-{% endblock %}
+<img class="blob-image" src="data:{{ blob.mimetype }};base64,{{ blob.content|base64_encode }}" />

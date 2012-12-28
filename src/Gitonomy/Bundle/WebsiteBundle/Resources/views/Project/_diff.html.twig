@@ -56,11 +56,11 @@
                 {% if file.binary %}
                     {% if not file.creation %}
                         <legend>Old</legend>
-                        {{ render_blob(file.oldBlob, 'content') }}
+                        {{ render_blob(file.oldBlob) }}
                     {% endif %}
                     {% if not file.deletion %}
                         <legend>New</legend>
-                        {{ render_blob(file.newBlob, 'content') }}
+                        {{ render_blob(file.newBlob) }}
                     {% endif %}
                 {% else %}
                     <table class="commit-diff">

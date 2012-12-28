@@ -12,10 +12,6 @@
 {% block project_content %}
     {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show', reference: reference|default(project.defaultBranch)} %}
 
-    {{ render_blob(blob, 'content', path) }}
+    {{ render_blob(blob, path) }}
 
-{% endblock %}
-
-{% block javascript_content %}
-    {{ render_blob(blob, 'javascript', path) }}
 {% endblock %}

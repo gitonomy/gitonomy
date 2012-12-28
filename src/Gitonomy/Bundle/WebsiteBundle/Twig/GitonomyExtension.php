@@ -103,7 +103,7 @@ class GitonomyExtension extends \Twig_Extension
         return $tree instanceof Tree;
     }
 
-    public function renderBlob(Blob $blob, $block, $path = null)
+    public function renderBlob(Blob $blob, $path = null)
     {
         $mime = $blob->getMimetype();
 
@@ -117,7 +117,7 @@ class GitonomyExtension extends \Twig_Extension
             $tpl = 'GitonomyWebsiteBundle:Blob:_unknown.html.twig';
         }
 
-        return $this->container->get('twig')->loadTemplate($tpl)->renderBlock($block, $ctx);
+        return $this->container->get('twig')->render($tpl, $ctx);
     }
 
     protected function getCodeMirrorMode($path)
