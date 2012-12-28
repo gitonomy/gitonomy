@@ -35,6 +35,26 @@ class BrowserContext extends BaseBrowserContext
     }
 
     /**
+     * @Then /^I should see (\d+) (xpath|tag|css|class|id|name) elements? "(.*)"$/
+     */
+    public function iShouldSeeElements($count, $type, $value)
+    {
+        if ($type == 'tag') {
+            $type = 'tag name';
+        } elseif ($type == 'css') {
+            $type = 'css selector';
+        } elseif ($type == 'class') {
+            $type = 'class name';
+        }
+
+        $elements = $this->getBrowser()->elements(new By($type, $value));
+
+        if (count($elements) != $count) {
+            throw new \InvalidArgumentException(sprintf("Expected %s elements, got %s", $count, count($elements)));
+        }
+    }
+
+    /**
      * @Given /^I click on "(.*)"$/
      */
     public function iClickOn($text)
