@@ -252,6 +252,20 @@ class ProjectController extends Controller
         ));
     }
 
+    public function blameAction(Request $request, $slug, $reference, $path)
+    {
+        $project = $this->getProject($slug);
+        $blame = $project->getRepository()->getBlame($reference, $path);
+
+        return $this->render('GitonomyWebsiteBundle:Project:blame.html.twig', array(
+            'project'       => $project,
+            'blame'         => $blame,
+            'reference'     => $reference,
+            'path'          => $path,
+            'path_exploded' => explode('/', $path)
+        ));
+    }
+
     public function compareAction($slug, $revision)
     {
         $project = $this->getProject($slug);

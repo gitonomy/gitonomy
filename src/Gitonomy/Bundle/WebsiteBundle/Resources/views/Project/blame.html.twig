@@ -1,0 +1,25 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% trans_default_domain 'project_source' %}
+
+{% block title 'page.blame.title'|trans({'%project%': project.name, '%path%': path}) %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'source' %}
+
+{% block project_content %}
+
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: "blame"} %}
+    <table class="table">
+        <tbody>
+            {% for i, line in blame.lines %}
+                <tr>
+                    <td>{{ line.commit.authorName }}</td>
+                    <td>{{ line.commit.authorDate.format('Y-m-d H:i:s') }}</td>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ line.content }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

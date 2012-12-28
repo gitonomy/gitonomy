@@ -5,7 +5,7 @@
 <div class="actionbar">
     {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
 
-    <div class="pull-right">
+    <div class="pull-right sub-actions">
         {% if active != 'show' %}
             <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
                 {{ 'contextual.show'|trans }}
@@ -14,6 +14,11 @@
         {% if active != 'history' %}
             <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
                 {{ 'contextual.history'|trans }}
+            </a>
+        {% endif %}
+        {% if active != 'blame' %}
+            <a class="menu" href="{{ path('project_blame', {slug: project.slug, reference: reference, path: path}) }}">
+                {{ 'contextual.blame'|trans }}
             </a>
         {% endif %}
     </div>
