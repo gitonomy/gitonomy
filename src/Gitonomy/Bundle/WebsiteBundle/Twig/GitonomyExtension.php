@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Git\Tree;
+use Gitonomy\Git\Blob;
 
 class GitonomyExtension extends \Twig_Extension
 {
@@ -31,8 +32,15 @@ class GitonomyExtension extends \Twig_Extension
     {
         return array(
             'gravatar'          => new \Twig_Function_Method($this, 'getGravatar'),
-            'codemirror_mode'   => new \Twig_Function_Method($this, 'getCodemirrorMode'),
+            'render_blob'       => new \Twig_Function_Method($this, 'renderBlob', array('is_safe' => array('html'))),
             'branches_activity' => new \Twig_Function_Method($this, 'getBranchesActivity'),
+        );
+    }
+
+    public function getFilters()
+    {
+        return array(
+            'base64_encode' => new \Twig_Filter_Function('base64_encode')
         );
     }
 
@@ -95,7 +103,24 @@ class GitonomyExtension extends \Twig_Extension
         return $tree instanceof Tree;
     }
 
-    public function getCodemirrorMode($path)
+    public function renderBlob(Blob $blob, $block, $path = null)
+    {
+        $mime = $blob->getMimetype();
+
+        $ctx = array('blob' => $blob);
+        if (preg_match('#^text/|^application/xml#', $mime)) {
+            $tpl = 'GitonomyWebsiteBundle:Blob:codemirror.html.twig';
+            $ctx['codemirror_mode'] = $this->getCodeMirrorMode($path);
+        } elseif (preg_match("#^image/(png|jpe?g|gif)#", $mime)) {
+            $tpl = 'GitonomyWebsiteBundle:Blob:image.html.twig';
+        } else {
+            $tpl = 'GitonomyWebsiteBundle:Blob:_unknown.html.twig';
+        }
+
+        return $this->container->get('twig')->loadTemplate($tpl)->renderBlock($block, $ctx);
+    }
+
+    protected function getCodeMirrorMode($path)
     {
         switch (true) {
             case preg_match('#\.sh$#', $path):
@@ -104,7 +129,9 @@ class GitonomyExtension extends \Twig_Extension
                 return 'javascript';
             case preg_match('#\.md$#', $path):
                 return 'markdown';
-            case preg_match('#\.xml$#', $path):
+            case preg_match('#\.css$#', $path):
+                return 'css';
+            case preg_match('#\.(xml|xl(if)?f)$#', $path):
                 return 'xml';
             case preg_match('#\.(yml|yaml)$#', $path):
                 return 'yaml';

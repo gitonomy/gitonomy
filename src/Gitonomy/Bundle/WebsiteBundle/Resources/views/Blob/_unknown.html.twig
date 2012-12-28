@@ -1,0 +1,5 @@
+{% block content %}
+    <p>{{ 'error.unknown_type'|trans({'%mimetype%': blob.mimetype}, 'project_source')}}</p>
+    <hr />
+    <pre>{{ blob.content }}</pre>
+{% endblock %}

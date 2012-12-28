@@ -1,0 +1,3 @@
+{% block content %}
+    <img src="data:{{ blob.mimetype }};base64,{{ blob.content|base64_encode }}" />
+{% endblock %}

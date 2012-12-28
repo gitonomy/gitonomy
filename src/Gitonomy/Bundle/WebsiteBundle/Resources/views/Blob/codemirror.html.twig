@@ -1,0 +1,20 @@
+{% block content %}
+    <form id="code-wrapper" class="cm-s-lesser-elegant">
+        <textarea id="code" name="code">{{ blob.content }}</textarea>
+    </form>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        CodeMirror.modeURL = "{{ asset('bundles/gitonomywebsite/vendor/codemirror/mode/%N/%N.js') }}";
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            readOnly: true,
+            lineNumberFormatter: function(ln) {
+                return '<a name="L'+ ln +'"></a><a href="#L'+ ln +'">'+ ln +'</a>';
+            }
+        });
+        editor.setOption("mode", '{{ codemirror_mode }}');
+        CodeMirror.autoLoadMode(editor, '{{ codemirror_mode }}');
+    </script>
+{% endblock %}
