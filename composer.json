@@ -32,7 +32,7 @@
         "sensio/distribution-bundle":        "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
 
-        "gitonomy/gitlib":                   "dev-master"
+        "gitonomy/gitlib":                   "dev-blame as master"
     },
     "require-dev": {
         "behat/behat":   "dev-custom",
