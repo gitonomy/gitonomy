@@ -245,9 +245,9 @@ class ProfileControllerTest extends WebTestCase
 
     public function testChangeWrongUsername()
     {
-        $this->client->connect('bob');
-
         $this->markTestSkipped();
+
+        $this->client->connect('bob');
 
         $crawler  = $this->client->request('GET', '/profile/change-username');
         $response = $this->client->getResponse();

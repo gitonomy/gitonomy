@@ -29,30 +29,6 @@ class AdministrationRolesControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testListAsAnonymous()
-    {
-        $crawler  = $this->client->request('GET', '/admin/roles');
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testListAsAlice()
-    {
-        $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/admin/roles');
-        $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    public function testListAsAdmin()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/admin/roles');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode(), "Page responses correctly");
-    }
-
     public function testCreateAsAnonymous()
     {
         $crawler  = $this->client->request('GET', '/admin/roles/create');
@@ -156,40 +132,15 @@ class AdministrationRolesControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 
-    public function testDeleteAsAnonymous()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-
-        $this->markTestSkipped();
-
-        $crawler  = $this->client->request('GET', '/admin/roles/'.$role->getId().'/delete');
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testDeleteAsAlice()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-
-        $this->client->connect('alice');
-
-        $this->markTestSkipped();
-
-        $crawler  = $this->client->request('GET', '/admin/'.$role->getId().'/delete');
-        $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
-    }
-
     public function testDelete()
     {
+        $this->markTestSkipped();
+
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Visitor');
 
         $this->client->connect('admin');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$role->getId().'/delete');
         $response = $this->client->getResponse();

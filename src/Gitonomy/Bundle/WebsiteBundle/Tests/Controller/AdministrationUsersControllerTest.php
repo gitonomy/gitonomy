@@ -130,12 +130,12 @@ class AdministrationUserControllerTest extends WebTestCase
 
     public function testAdminCreateEmailExists()
     {
+        $this->markTestSkipped();
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
 
         $this->client->connect('admin');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/emails');
         $response = $this->client->getResponse();
@@ -152,12 +152,12 @@ class AdministrationUserControllerTest extends WebTestCase
 
     public function testAdminCreateEmail()
     {
+        $this->markTestSkipped();
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
 
         $this->client->connect('admin');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/emails');
         $response = $this->client->getResponse();
@@ -189,10 +189,10 @@ class AdministrationUserControllerTest extends WebTestCase
 
     public function testDeleteAsAnonymous()
     {
+        $this->markTestSkipped();
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
@@ -201,12 +201,12 @@ class AdministrationUserControllerTest extends WebTestCase
 
     public function testDeleteAsAlice()
     {
+        $this->markTestSkipped();
         $this->client->connect('alice');
 
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();
@@ -215,12 +215,12 @@ class AdministrationUserControllerTest extends WebTestCase
 
     public function testDeleteBob()
     {
+        $this->markTestSkipped();
         $this->client->connect('admin');
 
         $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
 
-        $this->markTestSkipped();
 
         $crawler  = $this->client->request('GET', '/admin/'.$user->getId().'/delete');
         $response = $this->client->getResponse();

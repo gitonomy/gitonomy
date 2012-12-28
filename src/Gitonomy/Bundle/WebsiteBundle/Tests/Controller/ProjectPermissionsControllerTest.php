@@ -96,6 +96,8 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testUserRoleDelete()
     {
+        $this->markTestSkipped();
+
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('alice');
@@ -108,7 +110,6 @@ class ProjectPermissionsControllerTest extends WebTestCase
         $crawler  = $this->client->request('GET', '/projects/'.$project->getSlug().'/permissions');
         $response = $this->client->getResponse();
 
-        $this->markTestSkipped();
 
         $this->client->submit($form);
 
@@ -147,6 +148,8 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testGitAccessDelete()
     {
+        $this->markTestSkipped();
+
         $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
@@ -157,30 +160,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
         ));
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
 
-        $this->markTestSkipped();
 
         $this->assertTrue($this->client->getResponse()->isRedirect('/adminproject/'.$project->getId().'/git-accesses'));
-    }
-
-    public function testDeleteAsAnonymous()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
-
-        $this->markTestSkipped();
-
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testDeleteAsAlice()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
-
-        $this->markTestSkipped();
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
     }
 }
