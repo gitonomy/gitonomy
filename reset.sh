@@ -43,7 +43,7 @@ php app/console doctrine:schema:create --env=$env
 echo ">>> Loading fixtures in project"
 php app/console doctrine:fixtures:load --append --env=$env
 
-if [ ! -d "sample" ]; then
+if [ -d "sample" ]; then
     echo ">>> Removing sample folder"
     rm sample -rf
 fi
