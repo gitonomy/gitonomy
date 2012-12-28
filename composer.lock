@@ -387,19 +387,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "5453ac51efc2baa58ed87c3fbadec76b118169a6"
+                "reference": "2c5b26776c5bf2435dfb17beff859a00473c9334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/archive/5453ac51efc2baa58ed87c3fbadec76b118169a6.zip",
-                "reference": "5453ac51efc2baa58ed87c3fbadec76b118169a6",
+                "url": "https://github.com/gitonomy/gitlib/archive/2c5b26776c5bf2435dfb17beff859a00473c9334.zip",
+                "reference": "2c5b26776c5bf2435dfb17beff859a00473c9334",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "2012-12-28 15:39:28",
+            "time": "2012-12-28 18:06:40",
             "type": "library",
             "installation-source": "source",
             "autoload": {

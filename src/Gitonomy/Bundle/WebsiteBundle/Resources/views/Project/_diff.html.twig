@@ -53,30 +53,41 @@
                 </div>
             </header>
             <div class="file-changes">
-                <table class="commit-diff">
-                    {% for change in file.changes %}
-                        {% if not loop.first %}
-                            <tr><td class="skip" colspan="3">&nbsp;</td></tr>
-                        {% endif %}
-                        {% set old = change.rangeOldStart %}
-                        {% set new = change.rangeNewStart %}
-                        {%- for x, line in change.lines -%}
-                            <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
-                                <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
-                                <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
-                                <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' : '' }} source"><pre>{{ line[1] }}</pre></td>
-                            </tr>
-                            {%- if line[0] == 1 -%}
-                                {%- set new = new + 1 -%}
-                            {%- elseif line[0] == -1 -%}
-                                {%- set old = old + 1 -%}
-                            {%- else -%}
-                                {%- set new = new + 1 -%}
-                                {%- set old = old + 1 -%}
-                            {%- endif -%}
-                        {%- endfor -%}
-                    {% endfor %}
-                </table>
+                {% if file.binary %}
+                    {% if not file.creation %}
+                        <legend>Old</legend>
+                        {{ render_blob(file.oldBlob, 'content') }}
+                    {% endif %}
+                    {% if not file.deletion %}
+                        <legend>New</legend>
+                        {{ render_blob(file.newBlob, 'content') }}
+                    {% endif %}
+                {% else %}
+                    <table class="commit-diff">
+                        {% for change in file.changes %}
+                            {% if not loop.first %}
+                                <tr><td class="skip" colspan="3">&nbsp;</td></tr>
+                            {% endif %}
+                            {% set old = change.rangeOldStart %}
+                            {% set new = change.rangeNewStart %}
+                            {%- for x, line in change.lines -%}
+                                <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' : '' }}">
+                                    <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
+                                    <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
+                                    <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' : '' }} source"><pre>{{ line[1] }}</pre></td>
+                                </tr>
+                                {%- if line[0] == 1 -%}
+                                    {%- set new = new + 1 -%}
+                                {%- elseif line[0] == -1 -%}
+                                    {%- set old = old + 1 -%}
+                                {%- else -%}
+                                    {%- set new = new + 1 -%}
+                                    {%- set old = old + 1 -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+                        {% endfor %}
+                    </table>
+                {% endif %}
             </div>
         </div>
     {% endfor %}
