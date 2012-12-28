@@ -43,25 +43,31 @@
                         <li><strong>{{ 'text.new'|trans }}</strong>: {{ file.newName }} ({{ file.newMode }})</li>
                     </ul>
                 {% endif %}
-                <div class="btn-group pull-right">
-                    <a rel="tooltip" title="{{ 'label.button.old'|trans }}" class="btn btn-small show-old"><i class="icon-chevron-left"></i></a>
-                    <a rel="tooltip" title="{{ 'label.button.diff'|trans }}" disabled="disabled" class="btn btn-small show-diff"><i class="icon-eye-close"></i></a>
-                    <a rel="tooltip" title="{{ 'label.button.new'|trans }}" class="btn btn-small show-new"><i class="icon-chevron-right"></i></a>
-                    {% if reference|default(null) and slug|default(null) %}
-                        <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: slug, reference: reference, path: file.name}) }}"><i class="icon-file"></i></a>
-                    {% endif %}
-                </div>
+                {% if not file.binary %}
+                    <div class="btn-group pull-right">
+                        <a rel="tooltip" title="{{ 'label.button.old'|trans }}" class="btn btn-small show-old"><i class="icon-chevron-left"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.diff'|trans }}" disabled="disabled" class="btn btn-small show-diff"><i class="icon-eye-close"></i></a>
+                        <a rel="tooltip" title="{{ 'label.button.new'|trans }}" class="btn btn-small show-new"><i class="icon-chevron-right"></i></a>
+                        {% if reference|default(null) and slug|default(null) %}
+                            <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: slug, reference: reference, path: file.name}) }}"><i class="icon-file"></i></a>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </header>
             <div class="file-changes">
                 {% if file.binary %}
-                    {% if not file.creation %}
-                        <legend>Old</legend>
-                        {{ render_blob(file.oldBlob) }}
-                    {% endif %}
-                    {% if not file.deletion %}
-                        <legend>New</legend>
-                        {{ render_blob(file.newBlob) }}
-                    {% endif %}
+                    <div class="binary-compare">
+                        {% if not file.creation %}
+                            <span class="old">
+                                {{ render_blob(file.oldBlob) }}
+                            </span>
+                        {% endif %}
+                        {% if not file.deletion %}
+                            <span class="new">
+                                {{ render_blob(file.newBlob) }}
+                            </span>
+                        {% endif %}
+                    </div>
                 {% else %}
                     <table class="commit-diff">
                         {% for change in file.changes %}
