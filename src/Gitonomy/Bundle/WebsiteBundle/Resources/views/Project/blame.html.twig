@@ -12,12 +12,22 @@
     {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: "blame"} %}
     <table class="table">
         <tbody>
-            {% for i, line in blame.lines %}
+            {% for x in blame.groupedLines %}
+                {% set commit, lines = x[0], x[1] %}
                 <tr>
-                    <td>{{ line.commit.authorName }}</td>
-                    <td>{{ line.commit.authorDate.format('Y-m-d H:i:s') }}</td>
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ line.content }}</td>
+                    <td rowspan="{{ lines|length }}">
+                        <strong>{{ commit.authorName }}</strong> - {{ commit.authorDate.format('Y-m-d H:i:s') }}
+                        <br />
+                        <a href="{{ path('project_commit', {slug: project.slug, hash: commit.hash}) }}">{{ commit.shortMessage }}</a>
+                    </td>
+                    {% for lineNumber, line in lines %}
+                        {% if not loop.first %}
+                            <tr>
+                        {% endif %}
+                                <td>{{ lineNumber }}</td>
+                                <td>{{ line.content }}</td>
+                            </tr>
+                    {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
