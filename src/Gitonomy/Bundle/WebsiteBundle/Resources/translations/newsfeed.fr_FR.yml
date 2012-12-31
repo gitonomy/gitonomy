@@ -1,7 +1,7 @@
 page.title: ":branch - Actualités"
 message.branch_created: "<strong>a créé</strong> la branche <strong>%branch%</strong>"
 message.tag_created: "<strong>a créé</strong> le tag <strong>%tag%</strong>"
-message.thread_closed: "<strong>a supprimé</strong> cette branche"
+message.thread_closed: "<strong>a supprimé</strong> la branche <strong>%branch%</strong>"
 message.commit_forced: "<strong>a forcé</strong> %commits% sur <strong>%ref%</strong>"
 message.commit_pushed: "<strong>a poussé</strong> %commits% sur <strong>%ref%</strong>"
 message.merged: "a fusionné la branche"

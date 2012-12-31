@@ -58,8 +58,12 @@ export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
 git remote add origin ../../app/cache/repositories/foobar.git
 git push origin master:master -q
+git push origin master:master -q
 git push origin new-feature:new-feature -q
 git push origin pagination:pagination -q
+git push origin master:to-delete -q
+export GITONOMY_USER="lead"
+git push origin :to-delete -q
 cd ../..
 
 echo ">>> Recreating repository barbaz"

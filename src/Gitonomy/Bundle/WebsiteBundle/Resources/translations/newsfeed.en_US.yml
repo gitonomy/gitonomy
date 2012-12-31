@@ -1,7 +1,7 @@
 page.title: ":branch - Newsfeed"
 message.branch_created: "<strong>created</strong> branch <strong>%branch%</strong>"
 message.tag_created: "<strong>created</strong> tag <strong>%tag%</strong>"
-message.thread_closed: "<strong>deleted</strong> this branch"
+message.thread_closed: "<strong>deleted</strong> branch <strong>%branch%</strong>"
 message.commit_forced: "<strong>forced</strong> %commits% to <strong>%ref%</strong>"
 message.commit_pushed: "<strong>pushed</strong> %commits% to <strong>%ref%</strong>"
 message.merged: "merged branch"
