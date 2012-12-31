@@ -16,7 +16,7 @@ $(document).ready(function () {
         CodeMirror.autoLoadMode(editor, mode);
     }
 
-    $("textarea.code-mirror").each(function (i, e) {
+    $("textarea.CodeMirror").each(function (i, e) {
         loadCodeMirror(e);
     })
 });
