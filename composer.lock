@@ -1,5 +1,5 @@
 {
-    "hash": "a329176f5926a71e73ce887f13307bc0",
+    "hash": "19960db668009550b19d963a0f29494e",
     "packages": [
         {
             "name": "doctrine/common",
@@ -383,23 +383,23 @@
         },
         {
             "name": "gitonomy/gitlib",
-            "version": "dev-blame",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "8c16d9f3aec63c08763aa58d6df2f45fbbe8c3a8"
+                "reference": "13321a47e4fafc3372770acdbafdf9c66ae898ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/archive/8c16d9f3aec63c08763aa58d6df2f45fbbe8c3a8.zip",
-                "reference": "8c16d9f3aec63c08763aa58d6df2f45fbbe8c3a8",
+                "url": "https://github.com/gitonomy/gitlib/archive/13321a47e4fafc3372770acdbafdf9c66ae898ff.zip",
+                "reference": "13321a47e4fafc3372770acdbafdf9c66ae898ff",
                 "shasum": ""
             },
             "require": {
                 "symfony/process": ">=2.1",
                 "symfony/event-dispatcher": ">=2.1"
             },
-            "time": "2012-12-29 18:17:14",
+            "time": "2012-12-31 16:47:55",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -435,18 +435,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "9aac5ea51a1c13af3e67a7d7ba7e528f94c52485"
+                "reference": "7cc05be93fc352be9c551bf5a45c7b930f5d9e2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/archive/9aac5ea51a1c13af3e67a7d7ba7e528f94c52485.zip",
-                "reference": "9aac5ea51a1c13af3e67a7d7ba7e528f94c52485",
+                "url": "https://github.com/jdorn/sql-formatter/archive/7cc05be93fc352be9c551bf5a45c7b930f5d9e2a.zip",
+                "reference": "7cc05be93fc352be9c551bf5a45c7b930f5d9e2a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-27 16:16:30",
+            "time": "2012-12-29 19:41:32",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -705,12 +705,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle",
-                "reference": "bd91880b53f86689f6638c9a28b8cc17792896e2"
+                "reference": "ee63ac8a700c75ca5daac908512cad8db4a08f1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/AsseticBundle/archive/bd91880b53f86689f6638c9a28b8cc17792896e2.zip",
-                "reference": "bd91880b53f86689f6638c9a28b8cc17792896e2",
+                "url": "https://github.com/symfony/AsseticBundle/archive/ee63ac8a700c75ca5daac908512cad8db4a08f1a.zip",
+                "reference": "ee63ac8a700c75ca5daac908512cad8db4a08f1a",
                 "shasum": ""
             },
             "require": {
@@ -730,14 +730,14 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
-            "time": "2012-12-14 18:38:42",
+            "time": "2012-12-31 12:59:19",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.1.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Symfony\\Bundle\\AsseticBundle": ""
@@ -824,12 +824,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "48920722f734aae7c4b04b1338ed30ab469d0db9"
+                "reference": "ef0497441ef4be319d3562978069926a9c6c3021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/48920722f734aae7c4b04b1338ed30ab469d0db9.zip",
-                "reference": "48920722f734aae7c4b04b1338ed30ab469d0db9",
+                "url": "https://github.com/symfony/symfony/archive/ef0497441ef4be319d3562978069926a9c6c3021.zip",
+                "reference": "ef0497441ef4be319d3562978069926a9c6c3021",
                 "shasum": ""
             },
             "require": {
@@ -882,7 +882,7 @@
             "suggest": {
                 "doctrine/data-fixtures": "1.0.*"
             },
-            "time": "2012-12-28 13:21:48",
+            "time": "2012-12-29 20:09:24",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -973,18 +973,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba"
+                "reference": "25f7b0c7eb456f5c39f1e8163da538de5d0d717b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/1b1a6e7de018d300e6eb67727f3717c24f4540ba.zip",
-                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba",
+                "url": "https://github.com/fabpot/Twig/archive/25f7b0c7eb456f5c39f1e8163da538de5d0d717b.zip",
+                "reference": "25f7b0c7eb456f5c39f1e8163da538de5d0d717b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-27 16:33:50",
+            "time": "2012-12-30 20:07:31",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1018,138 +1018,9 @@
             ]
         }
     ],
-    "packages-dev": [
-        {
-            "name": "alexandresalome/php-webdriver",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alexandresalome/php-webdriver",
-                "reference": "652360eb952057c960fb1c2fe4c9d200ceeab623"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/alexandresalome/php-webdriver/archive/652360eb952057c960fb1c2fe4c9d200ceeab623.zip",
-                "reference": "652360eb952057c960fb1c2fe4c9d200ceeab623",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "kriswallsmith/buzz": "dev-master"
-            },
-            "time": "2012-12-28 15:58:25",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "WebDriver": [
-                        "src/",
-                        "tests/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexandre Salomé",
-                    "email": "alexandre.salome@gmail.com",
-                    "homepage": "http://alexandre-salome.fr"
-                }
-            ],
-            "description": "WebDriver client for PHP"
-        },
-        {
-            "name": "behat/behat",
-            "version": "dev-custom",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Behat.git",
-                "reference": "develop"
-            },
-            "bin": [
-                "bin/behat"
-            ],
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Behat": "src/"
-                }
-            }
-        },
-        {
-            "name": "behat/gherkin",
-            "version": "dev-custom",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Gherkin.git",
-                "reference": "develop"
-            },
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Gherkin": "src/"
-                }
-            }
-        },
-        {
-            "name": "kriswallsmith/buzz",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "http://github.com/kriswallsmith/Buzz.git",
-                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/kriswallsmith/Buzz/archive/988bf14201ffbed940f23b42f87302e6adec4c21.zip",
-                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "ext-curl": "*"
-            },
-            "time": "2012-08-17 12:23:33",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Buzz": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
-            "keywords": [
-                "curl",
-                "http client"
-            ]
-        }
-    ],
+    "packages-dev": null,
     "aliases": [
-        {
-            "alias": "master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-blame",
-            "package": "gitonomy/gitlib"
-        }
+
     ],
     "minimum-stability": "dev",
     "stability-flags": {
