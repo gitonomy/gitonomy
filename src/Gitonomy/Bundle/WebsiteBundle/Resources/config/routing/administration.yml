@@ -38,3 +38,6 @@ administration_config:
     pattern: /admin/config
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:config" }
 
+administration_version:
+    pattern: /admin/version
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:version" }

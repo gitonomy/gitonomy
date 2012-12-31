@@ -182,4 +182,9 @@ class AdministrationController extends Controller
             'form' => $form->createView()
         ));
     }
+
+    public function versionAction(Request $request)
+    {
+        die(var_dump($this->container->getParameter('gitonomy.version')));
+    }
 }

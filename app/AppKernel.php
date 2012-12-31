@@ -15,6 +15,8 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    const VERSION = '0.3-DEV';
+
     public function registerBundles()
     {
         $bundles = array(
@@ -49,7 +51,8 @@ class AppKernel extends Kernel
     {
         return array_merge(
             parent::getKernelParameters(), array(
-                'gitonomy.shell_command' => $this->getShellCommand()
+                'gitonomy.shell_command' => $this->getShellCommand(),
+                'gitonomy.version' => self::VERSION,
             )
         );
     }
