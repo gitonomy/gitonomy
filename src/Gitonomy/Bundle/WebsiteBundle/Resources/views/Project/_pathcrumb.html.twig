@@ -16,7 +16,7 @@
                 {{ 'contextual.history'|trans }}
             </a>
         {% endif %}
-        {% if active == 'blob' %}
+        {% if active != 'blame' and blob|default(null) and blob.isText %}
             <a class="menu" href="{{ path('project_blame', {slug: project.slug, reference: reference, path: path}) }}">
                 {{ 'contextual.blame'|trans }}
             </a>

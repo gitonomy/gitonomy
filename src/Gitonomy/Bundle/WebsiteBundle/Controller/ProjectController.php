@@ -255,7 +255,16 @@ class ProjectController extends Controller
     public function blameAction(Request $request, $slug, $reference, $path)
     {
         $project = $this->getProject($slug);
-        $blame = $project->getRepository()->getBlame($reference, $path);
+
+        $repository = $project->getRepository();
+
+        $resolved = $repository->getRevision($reference)->getResolved()->getTree()->resolvePath($path);
+
+        if (!$resolved instanceof Blob || $resolved->isBinary()) {
+            throw $this->createNotFoundException('Canno blame a tree or binary');
+        }
+
+        $blame = $repository->getBlame($reference, $path);
 
         return $this->render('GitonomyWebsiteBundle:Project:blame.html.twig', array(
             'project'       => $project,
