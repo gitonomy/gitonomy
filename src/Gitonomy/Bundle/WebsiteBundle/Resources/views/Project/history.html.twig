@@ -38,7 +38,14 @@
     {% set data = history_graph_data(project, results) %}
     <table data-history-graph="{{ data|json_encode }}" class="table table-condensed commit-list">
         <tbody>
+            {% set date = null %}
             {% for i, commit in results %}
+                {% if date == null or date != commit.committerDate.format('Y-m-d') %}
+                {% set date = commit.committerDate.format('Y-m-d') %}
+                <tr>
+                    <th colspan="2">{{ date }}</th>
+                </tr>
+                {% endif %}
                 <tr>
                     <td class="message">
                         {% for branch in data[i].branches %}

@@ -24,7 +24,26 @@ gitonomyHistory = {
 
         var familyColor = d3.scale.category20();
         var xAxis       = d3.scale.linear().domain([0, cell_width]).range([cell_size/2, width - cell_size/2]);
-        var yAxis       = d3.scale.linear().domain([0, data.length]).range([cell_size/2, height + cell_size/2]);
+
+        var yComputed     = [];
+        var tablePosition = null;
+        var tds           = $table.find("td.message");
+        var yAxis         = function (i) {
+        var pos, $td;
+            if (yComputed[i] !== undefined) {
+                return yComputed[i];
+            }
+
+            if (i >= tds.length) {
+                return yAxis(i-1) + 100;
+            }
+
+            $td = $(tds[i]);
+            pos = $td.position();
+            yComputed[i] = pos.top + $td.outerHeight()/2;
+
+            return yComputed[i];
+        };
 
         $table.wrap('<div class="history-graph-wrapper" />');
 
@@ -33,6 +52,13 @@ gitonomyHistory = {
         for (i in graph.heights) {
             $($table.find("td.message").eq(i)).css('text-indent', graph.heights[i] * cell_size);
         }
+
+        $table.find("th").each(function (i, e) {
+            var $cell = $(e);
+            var b = $cell.parent().prev().find("td.message").css('textIndent');
+            var a = $cell.parent().next().find("td.message").css('textIndent');
+            $cell.css('text-indent', Math.max(parseInt(a), parseInt(b)));
+        });
 
         var commits = history
             .selectAll('circle')
