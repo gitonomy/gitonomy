@@ -151,12 +151,13 @@ class ProjectController extends Controller
 
     /**
      * Displays tree
+     *
+     * @var string $reference Can be a branch name or a commit hash
      */
     public function treeAction($slug, $reference, $path)
     {
         $project    = $this->getProject($slug);
         $repository = $project->getRepository();
-        $branches   = $repository->getReferences()->getBranches();
         $revision   = $repository->getRevision($reference);
         $commit     = $revision->getResolved();
 
@@ -184,7 +185,6 @@ class ProjectController extends Controller
             'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
             'path'          => $path,
             'path_exploded' => explode('/', $path),
-            'branches'      => $branches,
         );
 
 
