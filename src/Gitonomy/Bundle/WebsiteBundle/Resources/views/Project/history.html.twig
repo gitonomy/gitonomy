@@ -28,122 +28,39 @@
 {% endmacro %}
 
 {% block project_content %}
-    {% set results = pager.results %}
-
     <div class="actionbar">
         {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_history', withAll: true} %}
     </div>
 
     {{ _self.pager(pager, reference) }}
 
-    <div id="history"></div>
-    <div id="history-commits-container">
-        <table id="history-commits" class="table table-condensed commit-list">
-            <tbody>
-                {% for i, commit in results %}
-                    <tr>
-                        <td class="message">
-                            {% for branch in data[i].branches %}
-                                <span class="label">{{ branch }}</span>
-                            {% endfor %}
-                            <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                                {{ commit.shortHash }}
-                            </a> {{ commit.shortMessage }}
-                        </td>
-                        <td class="author">
-                            <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
-                            {{ commit.authorName }}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td>No commit to see here</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    {% set results = pager.results %}
+    {% set data = history_graph_data(project, results) %}
+    <table data-history-graph="{{ data|json_encode }}" class="table table-condensed commit-list">
+        <tbody>
+            {% for i, commit in results %}
+                <tr>
+                    <td class="message">
+                        {% for branch in data[i].branches %}
+                            <span class="label">{{ branch }}</span>
+                        {% endfor %}
+                        <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
+                            {{ commit.shortHash }}
+                        </a> {{ commit.shortMessage }}
+                    </td>
+                    <td class="author">
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        {{ commit.authorName }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No commit to see here</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     {{ _self.pager(pager, reference) }}
-{% endblock %}
 
-{% block javascript_content %}
-    <script>
-        var data = {{ data|json_encode|raw }};
-
-        var height = $("#history-commits").height(),
-            cell_size = height / (data.length - 1),
-            width  = height/2,
-            cell_width = Math.floor(width/cell_size)
-        ;
-
-        var familyColor = d3.scale.category20();
-
-        var xAxis = d3.scale.linear()
-            .domain([0, cell_width])
-            .range([width - cell_size/2, cell_size/2])
-        ;
-
-        var yAxis = d3.scale.linear()
-            .domain([0, data.length])
-            .range([cell_size/2, height + cell_size/2])
-        ;
-
-        var history = d3.select("#history")
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-        ;
-
-        place_graph($("#history"), $("#history-commits"), $("#content"));
-
-        var graph = history_graph(data);
-
-        var commits = history
-            .selectAll('circle')
-            .data(graph.nodes)
-        ;
-
-        var links = history
-            .selectAll('path')
-            .data(graph.links)
-        ;
-
-        var commit_line = d3.svg.line()
-            .x(function (d) {
-                return xAxis(d.x);
-            })
-            .y(function (d) {
-                return yAxis(d.y);
-            })
-        ;
-
-
-        links.enter()
-            .append('path')
-            .attr('d', commit_line)
-            .style('stroke-linecap', 'round')
-            .style('stroke', function (path) {
-                return familyColor(path[0].family);
-            })
-            .style('stroke-width', '6')
-            .attr('radius', 0.1)
-            .style('fill', 'none')
-        ;
-
-        var g = commits.enter().append('g');
-
-        g.append('circle')
-            .attr('cx', function (node) {
-                return xAxis(node.x);
-            })
-            .attr('cy', function (node) {
-                return yAxis(node.y);
-            })
-            .attr('r', 4)
-            .attr('fill', 'white')
-            .style('stroke', 'black')
-            .style('stroke-width', '2')
-        ;
-
-    </script>
 {% endblock %}

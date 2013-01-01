@@ -116,21 +116,10 @@ class ProjectController extends Controller
             return $reference->getName();
         };
 
-        $convert = function ($commit) use ($project, $reference, $references, $referenceName) {
-            return array(
-                'hash'            => $commit->getHash(),
-                'short_message'   => $commit->getShortMessage(),
-                'parents'         => $commit->getParentHashes(),
-                'tags'            => array_map($referenceName, $references->resolveTags($commit)),
-                'branches'        => array_map($referenceName, $references->resolveBranches($commit)),
-            );
-        };
-
         return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
             'project'       => $project,
             'reference'     => $reference,
-            'pager'         => $pager,
-            'data'          => array_map($convert, (array) $pager->getResults())
+            'pager'         => $pager
         ));
     }
 

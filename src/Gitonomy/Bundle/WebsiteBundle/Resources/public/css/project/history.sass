@@ -1,14 +1,15 @@
-#history
-    position: absolute
+.history-graph-wrapper
+    position: relative
     overflow: hidden
-    left: 0
+
+    > table
+        position: relative
+        z-index: 200
 
     > svg
-        float: right
-
-#history-commits
-    float: right
-    width: 800px
-
-#history-commits-container
-    overflow: hidden
+        position: absolute
+        left: 0
+        right: 0
+        top: 0
+        bottom: 0
+        z-index: 100
