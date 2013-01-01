@@ -101,7 +101,7 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testFeedBranch()
+    public function testNewsfeed()
     {
         $this->client->connect('alice');
 
@@ -109,7 +109,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("543dc7c")'));
+        $this->assertGreaterThan(1, $crawler->filter('td:contains("add an image")')->count());
 
         $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
         $response = $this->client->getResponse();
@@ -126,18 +126,18 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
+        $this->assertCount(1, $crawler->filter('td:contains("modify image")'));
     }
 
     public function testTreeHistory()
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', '/projects/foobar/tree-history/master/README');
+        $crawler = $this->client->request('GET', '/projects/foobar/tree-history/master/image.jpg');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("d8930cd")'));
+        $this->assertCount(1, $crawler->filter('td:contains("add an image")'));
     }
 
     public function testBranches()
@@ -148,7 +148,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('a:contains("10b5d71")'));
+        $this->assertCount(1, $crawler->filter('td:contains("Add element_100")'));
     }
 
     public function testTags()

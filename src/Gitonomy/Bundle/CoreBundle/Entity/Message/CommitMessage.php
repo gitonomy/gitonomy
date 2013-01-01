@@ -35,12 +35,12 @@ class CommitMessage extends Message
         $commits = array();
         foreach ($log as $commit) {
             array_push($commits, array(
-                'hash'         => $commit->getHash(),
-                'shortHash'    => $commit->getShortHash(),
-                'message'      => $commit->getMessage(),
-                'shortMessage' => $commit->getShortMessage(),
-                'authorName'   => $commit->getAuthorName(),
-                'authorEmail'  => $commit->getAuthorEmail(),
+                'hash'           => $commit->getHash(),
+                'fixedShortHash' => $commit->getFixedShortHash(),
+                'message'        => $commit->getMessage(),
+                'shortMessage'   => $commit->getShortMessage(),
+                'authorName'     => $commit->getAuthorName(),
+                'authorEmail'    => $commit->getAuthorEmail(),
             ));
         }
 
