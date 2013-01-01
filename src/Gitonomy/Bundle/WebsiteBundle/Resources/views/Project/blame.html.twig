@@ -16,7 +16,7 @@
                 {% set commit, lines = x[0], x[1] %}
                 <tr>
                     <td class="informations" rowspan="{{ lines|length }}" valign="top">
-                        <span class="author">{{ commit.authorName }}</span> <span class="date">{{ commit.authorDate.format('Y-m-d H:i:s') }}</span>
+                        <span class="author">{{ commit.authorName }}</span>
                         <br />
                         <a href="{{ path('project_commit', {slug: project.slug, hash: commit.hash}) }}" title="{{ commit.message }}">{{ commit.shortMessage }}</a>
                     </td>
