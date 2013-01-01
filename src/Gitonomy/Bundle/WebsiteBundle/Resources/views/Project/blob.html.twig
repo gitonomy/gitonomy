@@ -5,7 +5,7 @@
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
 
-{% block title 'page.title'|trans({'%project%': project.name}) %}
+{% block title 'page.blob.title'|trans({'%project%': project.name, '%path%': path}) %}
 
 {% import "GitonomyWebsiteBundle:Blob:codemirror.html.twig" as tpl %}
 

@@ -102,6 +102,40 @@ h1
             &.active
                 background-color: white
 
+.actionbar
+    margin: 8px 0 2px
+    height: 30px
+
+    a.menu
+        font-family: tellural
+        padding-right: 1em
+
+    > .btn-group
+        font-size: 1em
+        cursor: pointer
+
+        a
+            color: black
+            padding: 10px
+            line-height: 1em
+
+            // small white label in branch activity list
+            > .pull-right
+                background-color: white
+                line-height: 1em
+
+        .caret
+            margin-top: 7px
+
+        span.behind , span.above
+            font-size: 0.7em
+
+    .btn-group.open
+        .dropdown-toggle
+            box-shadow: none
+            -webkit-box-shadow: none
+
+
 #content
     padding: 1px $cell/2
     background-color: white
