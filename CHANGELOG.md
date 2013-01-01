@@ -1,9 +1,9 @@
 * v0.3
 
-  * new blame feature
   * security framework issue http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released
   * new new panel in administration to configure mails and branding
   * new binary files handling in source and diff
+  * new blame feature
 
 * v0.2 (2012-09-01)
 
