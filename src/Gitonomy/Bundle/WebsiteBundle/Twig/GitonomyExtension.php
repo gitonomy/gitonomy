@@ -108,7 +108,7 @@ class GitonomyExtension extends \Twig_Extension
         $mime = $blob->getMimetype();
 
         $ctx = array('blob' => $blob);
-        if (preg_match('#^text/|^application/xml#', $mime)) {
+        if ($blob->isText()) {
             $tpl = 'GitonomyWebsiteBundle:Blob:codemirror.html.twig';
             $ctx['codemirror_mode'] = $this->getCodeMirrorMode($path);
         } elseif (preg_match("#^image/(png|jpe?g|gif)#", $mime)) {

@@ -4,12 +4,12 @@
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
 
-{% block title 'page.title'|trans({'%project%': project.name}) %}
+{% block title 'page.tree.title'|trans({'%project%': project.name, '%path%': path}) %}
 
 {% block project_content %}
     {% set diff = commit.diff %}
 
-    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'show', project: project, reference: reference|default(project.defaultBranch), path: path} %}
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'tree', reference: reference|default(project.defaultBranch)} %}
 
     <table class="table table-striped">
         <thead>

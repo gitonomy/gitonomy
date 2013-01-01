@@ -1,12 +1,12 @@
 {% trans_default_domain 'project_source' %}
 
-{% set route = active == 'show' ? 'project_tree' : 'project_tree_history' %}
+{% set route = (active == 'tree' or active == 'blob') ? 'project_tree' : 'project_tree_history' %}
 
 <div class="actionbar">
-    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_tree'} %}
+    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" %}
 
-    <div class="pull-right">
-        {% if active != 'show' %}
+    <div class="pull-right sub-actions">
+        {% if active != 'tree' and active != 'blob' %}
             <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
                 {{ 'contextual.show'|trans }}
             </a>
@@ -14,6 +14,11 @@
         {% if active != 'history' %}
             <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
                 {{ 'contextual.history'|trans }}
+            </a>
+        {% endif %}
+        {% if active != 'blame' and blob|default(null) and blob.isText %}
+            <a class="menu" href="{{ path('project_blame', {slug: project.slug, reference: reference, path: path}) }}">
+                {{ 'contextual.blame'|trans }}
             </a>
         {% endif %}
     </div>

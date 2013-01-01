@@ -35,6 +35,11 @@ project_tree:
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
     requirements: { path: ".*" }
 
+project_blame:
+    pattern: /projects/{slug}/blame/{reference}/{path}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:blame", path: "" }
+    requirements: { path: ".*" }
+
 project_tree_history:
     pattern: /projects/{slug}/tree-history/{reference}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }

@@ -1,0 +1,35 @@
+{% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
+
+{% trans_default_domain 'project_source' %}
+
+{% block title 'page.blame.title'|trans({'%project%': project.name, '%path%': path}) %}
+
+{% set global_navigation = 'projects' %}
+{% set local_navigation = 'source' %}
+
+{% block project_content %}
+
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: "blame"} %}
+    <table class="blame">
+        <tbody>
+            {% for x in blame.groupedLines %}
+                {% set commit, lines = x[0], x[1] %}
+                <tr>
+                    <td class="informations" rowspan="{{ lines|length }}" valign="top">
+                        <span class="author">{{ commit.authorName }}</span>
+                        <br />
+                        <a href="{{ path('project_commit', {slug: project.slug, hash: commit.hash}) }}" title="{{ commit.message }}">{{ commit.shortMessage }}</a>
+                    </td>
+                    {% for lineNumber, line in lines %}
+                        {% if not loop.first %}
+                            <tr>
+                        {% endif %}
+                                <td class="line-number{% if loop.first %} informations-border{% endif %}">{{ lineNumber }}</td>
+                                <td class="line-content{% if loop.first %} informations-border{% endif %}"><pre>{{ line.content }}</pre></td>
+                            </tr>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

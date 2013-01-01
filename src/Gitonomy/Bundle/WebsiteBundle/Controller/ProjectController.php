@@ -252,6 +252,29 @@ class ProjectController extends Controller
         ));
     }
 
+    public function blameAction(Request $request, $slug, $reference, $path)
+    {
+        $project = $this->getProject($slug);
+
+        $repository = $project->getRepository();
+
+        $resolved = $repository->getRevision($reference)->getResolved()->getTree()->resolvePath($path);
+
+        if (!$resolved instanceof Blob || $resolved->isBinary()) {
+            throw $this->createNotFoundException('Cannot blame a tree or binary');
+        }
+
+        $blame = $repository->getBlame($reference, $path);
+
+        return $this->render('GitonomyWebsiteBundle:Project:blame.html.twig', array(
+            'project'       => $project,
+            'blame'         => $blame,
+            'reference'     => $reference,
+            'path'          => $path,
+            'path_exploded' => explode('/', $path)
+        ));
+    }
+
     public function compareAction($slug, $revision)
     {
         $project = $this->getProject($slug);
