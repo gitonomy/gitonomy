@@ -4,7 +4,7 @@
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
 
-{% block title 'page.title'|trans({'%project%': project.name}) %}
+{% block title 'page.tree.title'|trans({'%project%': project.name, '%path%': path}) %}
 
 {% block project_content %}
     {% set diff = commit.diff %}
