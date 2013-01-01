@@ -261,7 +261,7 @@ class ProjectController extends Controller
         $resolved = $repository->getRevision($reference)->getResolved()->getTree()->resolvePath($path);
 
         if (!$resolved instanceof Blob || $resolved->isBinary()) {
-            throw $this->createNotFoundException('Canno blame a tree or binary');
+            throw $this->createNotFoundException('Cannot blame a tree or binary');
         }
 
         $blame = $repository->getBlame($reference, $path);
