@@ -1,5 +1,5 @@
 {
-    "hash": "19960db668009550b19d963a0f29494e",
+    "hash": "b8b6bf630958573a87368414775d71b6",
     "packages": [
         {
             "name": "doctrine/common",
@@ -481,6 +481,51 @@
                 "sql",
                 "highlight"
             ]
+        },
+        {
+            "name": "juliendidier/buzz-bundle",
+            "version": "dev-master",
+            "target-dir": "Buzz/Bundle/BuzzBundle",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/juliendidier/BuzzBundle.git",
+                "reference": "194af0169681115f60ecd2efa1f94a2da58ccad9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/juliendidier/BuzzBundle/archive/194af0169681115f60ecd2efa1f94a2da58ccad9.zip",
+                "reference": "194af0169681115f60ecd2efa1f94a2da58ccad9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "kriswallsmith/buzz": "dev-master"
+            },
+            "require-dev": {
+                "symfony/http-kernel": ">=2.0",
+                "symfony/dependency-injection": ">=2.0",
+                "symfony/config": ">=2.0"
+            },
+            "time": "2013-01-06 15:56:01",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Buzz\\Bundle\\BuzzBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien DIDIER",
+                    "email": "julien@jdidier.net",
+                    "homepage": "http://jdidier.net"
+                }
+            ],
+            "description": "A Symfony2 Bundle for Buzz library integration"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1207,6 +1252,7 @@
         "symfony/monolog-bundle": 20,
         "sensio/distribution-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
+        "juliendidier/buzz-bundle": 20,
         "gitonomy/gitlib": 20,
         "behat/behat": 20,
         "behat/gherkin": 20,

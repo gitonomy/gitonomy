@@ -28,6 +28,7 @@ class AppKernel extends Kernel
 
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Buzz\Bundle\BuzzBundle\BuzzBundle(),
 
             new Gitonomy\Bundle\CoreBundle\GitonomyCoreBundle(),
             new Gitonomy\Bundle\WebsiteBundle\GitonomyWebsiteBundle(),
