@@ -46,7 +46,7 @@
                                 {% endif %}
 
                                 {% if row.behind or row.above %}
-                                    <a rel="tooltip" class="btn btn-small" href="{{ path('project_compare', {slug: project.slug, revision: branch.name~'...'~reference}) }}" data-original-title="{{ 'button.diff'|trans }}"><i class="icon-eye-close"></i>
+                                    <a rel="tooltip" class="btn btn-small" href="{{ path('project_compare', {slug: project.slug, revision: reference~'...'~branch.name}) }}" data-original-title="{{ 'button.diff'|trans }}"><i class="icon-eye-close"></i>
                                     </a>
                                 {% endif %}
                             </div>
