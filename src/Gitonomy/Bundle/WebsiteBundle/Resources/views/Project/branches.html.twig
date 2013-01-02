@@ -26,7 +26,7 @@
                         <td>
                             {{ branch.name }}
                         </td>
-                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: branch.commit.hash}) }}">{{ branch.commit.shortHash }}</a> {{ branch.commit.shortMessage }}</td>
+                        <td><a href="{{ path('project_commit', {slug: project.slug, hash: branch.commit.hash}) }}">{{ branch.commit.fixedShortHash }}</a> {{ branch.commit.shortMessage }}</td>
                         <td class="author">
                             <img class="avatar" src="{{ gravatar(branch.commit.authorEmail, 16) }}" alt="{{ branch.commit.authorName }}" title="{{ branch.commit.authorName }}" />
                             {{ branch.commit.authorName }}

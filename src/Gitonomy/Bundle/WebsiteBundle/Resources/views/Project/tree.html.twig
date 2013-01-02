@@ -51,7 +51,7 @@
                     <td>{{ lastModificationCommit.getCommitterDate.format('Y-m-d H:i:s') }}</td>
                     <td>
                         <a href="{{ path('project_commit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
-                            {{ lastModificationCommit.shortHash }}
+                            {{ lastModificationCommit.fixedShortHash }}
                         </a>{{ lastModificationCommit.shortMessage }}
                     </td>
                 </tr>
@@ -69,7 +69,7 @@
                     <td>{{ lastModificationCommit.getCommitterDate.format('Y-m-d H:i:s') }}</td>
                     <td>
                         <a href="{{ path('project_commit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
-                            {{ lastModificationCommit.shortHash }}
+                            {{ lastModificationCommit.fixedShortHash }}
                         </a> {{ lastModificationCommit.shortMessage }}
                     </td>
                 </tr>
