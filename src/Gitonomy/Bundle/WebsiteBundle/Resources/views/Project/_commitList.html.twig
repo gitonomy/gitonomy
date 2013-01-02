@@ -6,7 +6,7 @@
             <tr>
                 <td class="span1 message">
                     <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': slug, 'hash': commit.hash }) }}">
-                        {{ commit.shortHash }}
+                        {{ commit.fixedShortHash }}
                     </a>
                 </td>
                 <td class="span10">{{ commit.shortMessage }}</td>

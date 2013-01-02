@@ -16,8 +16,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
-use Gitonomy\Git\Tree;
 use Gitonomy\Git\Blob;
+use Gitonomy\Git\Reference;
+use Gitonomy\Git\Tree;
 
 class GitonomyExtension extends \Twig_Extension
 {
@@ -31,9 +32,10 @@ class GitonomyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'gravatar'          => new \Twig_Function_Method($this, 'getGravatar'),
-            'render_blob'       => new \Twig_Function_Method($this, 'renderBlob', array('is_safe' => array('html'))),
-            'branches_activity' => new \Twig_Function_Method($this, 'getBranchesActivity'),
+            'gravatar'           => new \Twig_Function_Method($this, 'getGravatar'),
+            'render_blob'        => new \Twig_Function_Method($this, 'renderBlob', array('is_safe' => array('html'))),
+            'history_graph_data' => new \Twig_Function_Method($this, 'getHistoryGraphData'),
+            'branches_activity'  => new \Twig_Function_Method($this, 'getBranchesActivity'),
         );
     }
 
@@ -91,6 +93,26 @@ class GitonomyExtension extends \Twig_Extension
         });
 
         return $rows;
+    }
+
+    public function getHistoryGraphData(Project $project, $commits)
+    {
+        $referenceName = function (Reference $reference) {
+            return $reference->getName();
+        };
+
+        $references = $project->getRepository()->getReferences();
+        $convert = function ($commit) use ($project, $references, $referenceName) {
+            return array(
+                'hash'            => $commit->getHash(),
+                'short_message'   => $commit->getShortMessage(),
+                'parents'         => $commit->getParentHashes(),
+                'tags'            => array_map($referenceName, $references->resolveTags($commit)),
+                'branches'        => array_map($referenceName, $references->resolveBranches($commit)),
+            );
+        };
+
+        return array_map($convert, $commits->getArrayCopy());
     }
 
     public function getGravatar($email, $size = 50)

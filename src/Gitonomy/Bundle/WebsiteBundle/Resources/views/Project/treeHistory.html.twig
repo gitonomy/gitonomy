@@ -40,7 +40,7 @@
                 <tr>
                     <td class="message">
                         <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                            {{ commit.shortHash }}
+                            {{ commit.fixedShortHash }}
                         </a> {{ commit.shortMessage }}
                     </td>
                     <td class="author">
