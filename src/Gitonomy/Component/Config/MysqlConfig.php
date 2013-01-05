@@ -35,6 +35,10 @@ class MysqlConfig extends AbstractConfig
     {
         $stmt   = $this->runSql(sprintf('SELECT * FROM %s', self::TABLE_NAME));
 
+        if (null === $stmt) {
+            return array();
+        }
+
         $result = array();
 
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -53,8 +57,13 @@ class MysqlConfig extends AbstractConfig
 
         $rows = array();
         foreach ($values as $key => $value) {
-            $query = 'INSERT INTO '.self::TABLE_NAME.' (`key`, `value`) VALUES ('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).');';
-            $this->runSQL($query);
+            try {
+                $query = 'INSERT INTO '.self::TABLE_NAME.' (`key`, `value`) VALUES ('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).');';
+                $this->runSQL($query);
+            } catch (\Exception $e) {
+                return;
+            }
+
         }
     }
 
@@ -78,10 +87,12 @@ class MysqlConfig extends AbstractConfig
     {
         try {
             return $this->connection->executeQuery($query, $parameters);
-        } catch (\Exception $e) {
-            $this->checkTable();
-        }
+        } catch (\Exception $e) {}
 
-        return $this->connection->executeQuery($query, $parameters);
+        $this->checkTable();
+
+        try {
+            return $this->connection->executeQuery($query, $parameters);
+        } catch (\Exception $e) {}
     }
 }
