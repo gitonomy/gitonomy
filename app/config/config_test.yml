@@ -2,7 +2,6 @@ imports:
     - { resource: config_dev.yml }
 
 gitonomy_core:
-    async_storage: direct
     config_defaults:
         mailer_transport:  "null"
 

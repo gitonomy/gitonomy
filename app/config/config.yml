@@ -22,7 +22,6 @@ framework:
 # Gitonomy core
 gitonomy_core:
     repository_path:   %repository_path%
-    async_storage:     direct
     config_defaults:
         name:              Gitonomy
         baseline:          git repositories inside your infrastructure

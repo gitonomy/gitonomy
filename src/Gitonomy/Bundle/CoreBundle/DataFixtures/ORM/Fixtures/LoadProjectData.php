@@ -36,16 +36,19 @@ class LoadProjectData extends Fixture
         $foobar->setDefaultBranch('new-feature');
         $manager->persist($foobar);
         $this->setReference('project-foobar', $foobar);
+        $this->dispatch($foobar);
 
         $empty = new Project('Empty', 'empty');
         $empty->setRepositorySize(256);
         $manager->persist($empty);
         $this->setReference('project-empty', $empty);
+        $this->dispatch($empty);
 
         $barbaz = new Project('Barbaz', 'barbaz');
         $barbaz->setRepositorySize(352);
         $manager->persist($barbaz);
         $this->setReference('project-barbaz', $barbaz);
+        $this->dispatch($barbaz);
 
         $secret = new Project('Secret', 'secret');
         $secret->setRepositorySize(564);
@@ -53,10 +56,6 @@ class LoadProjectData extends Fixture
         $this->setReference('project-secret', $secret);
 
         $manager->flush();
-
-        $this->dispatch($foobar);
-        $this->dispatch($barbaz);
-        $this->dispatch($empty);
     }
 
     /**

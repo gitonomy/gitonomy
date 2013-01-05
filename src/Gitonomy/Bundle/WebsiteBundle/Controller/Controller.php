@@ -100,6 +100,6 @@ class Controller extends BaseController
 
     protected function dispatch($eventName, Event $event)
     {
-        $this->get('gitonomy_core.event_dispatcher')->dispatchAsync($eventName, $event);
+        $this->get('gitonomy_core.event_dispatcher')->dispatch($eventName, $event);
     }
 }

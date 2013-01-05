@@ -12,5 +12,3 @@ git push __tmp__ master -q
 git push __tmp__ --tags -q
 git remote rm __tmp__
 cd ../../..
-
-php app/console gitonomy:events:process
