@@ -1,6 +1,6 @@
 imports:
     - { resource: parameters_dist.yml }
-    - { resource: parameters.yml }
+    - { resource: parameters.yml, ignore_errors: true }
     - { resource: security.yml }
 
 parameters:
