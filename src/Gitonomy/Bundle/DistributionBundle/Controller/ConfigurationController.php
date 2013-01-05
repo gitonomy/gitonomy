@@ -127,7 +127,7 @@ class ConfigurationController extends Controller
             $dist  = $dist['parameters'];
         }
 
-        return array($dist, $local);
+        return array($dist, $local === null ? array() : $local);
     }
 
     protected function getDistributedFile()
