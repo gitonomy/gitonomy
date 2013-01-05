@@ -78,6 +78,9 @@ cd ../..
 git init --bare  app/cache/repositories/empty.git -q
 git init --bare  app/cache/repositories/secret.git -q
 
+echo ">>> Processing events"
+php app/console gitonomy:events:process --env=$env
+
 echo ">>> Installing assets"
 rm -Rf web/bundles
 php app/console assets:install --symlink web --env=$env
