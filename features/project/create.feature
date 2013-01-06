@@ -1,9 +1,9 @@
-Feature: A user can create a new project
+Feature: Project creation
     As a user
-    I can create a new project on my own
-    So I don't borrow administrator when I want to push some code
+    I can create new projects
+    So I easily push my code
 
-    Scenario: A user can create a new project
+    Scenario: A user creates a new project
 
         Given project "test" does not exist
           And I am connected as "alice"
@@ -19,3 +19,10 @@ Feature: A user can create a new project
 
          When I am on "/projects/test"
          Then I should see "How to make your first commit"
+          And user "alice" is "Lead developer" on "test"
+
+         When I click on "Permissions"
+         Then I should see "Git accesses"
+          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Lead developer')]"
+          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Developer')]"
+          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Visitor')]"
