@@ -69,6 +69,6 @@ class LoadUserRoleProjectData extends Fixture
      */
     public function getOrder()
     {
-        return 4;
+        return 4; // user, role, project
     }
 }
