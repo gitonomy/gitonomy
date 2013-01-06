@@ -29,7 +29,15 @@
             <tbody>
                 {% for feature in version.features %}
                     <tr>
-                        <td>{{ feature.level }}</td>
+                        <td>
+                            {% if feature.level is sameas ('security') %}
+                                <i class="icon-bullhorn"></i>
+                            {% elseif feature.level is sameas ('new') %}
+                                <i class="icon-gift"></i>
+                            {% elseif feature.level is sameas ('fix') %}
+                                <i class="icon-ban-circle"></i>
+                            {% endif %}
+                        </td>
                         <td>{{ feature.feature }}</td>
                     </tr>
                 {% endfor %}
