@@ -4,6 +4,7 @@
   * new new panel in administration to configure mails and branding
   * new binary files handling in source and diff
   * new blame feature
+  * new default permissions on project creation
   * fix design: history graph embedded in table
 
 * v0.2 (2012-09-01)
