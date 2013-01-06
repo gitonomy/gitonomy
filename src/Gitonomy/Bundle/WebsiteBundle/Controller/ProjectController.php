@@ -65,10 +65,8 @@ class ProjectController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->persistEntity($project);
-
             $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
-
+            $this->persistEntity($project);
             $this->setFlash('success', $this->trans('notice.project_created', array(), 'project'));
 
             return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));

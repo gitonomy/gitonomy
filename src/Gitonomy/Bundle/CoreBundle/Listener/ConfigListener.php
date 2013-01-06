@@ -32,6 +32,13 @@ class ConfigListener implements EventSubscriberInterface
         $this->container = $container;
     }
 
+    public static function getSubscribedEvents()
+    {
+        return array(
+            KernelEvents::REQUEST => array(array('onKernelRequest', -256)),
+        );
+    }
+
     public function onKernelRequest(GetResponseEvent $event)
     {
         // locale
@@ -47,12 +54,5 @@ class ConfigListener implements EventSubscriberInterface
         }
 
         $this->container->get('translator')->setLocale($locale);
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return array(
-            KernelEvents::REQUEST => array(array('onKernelRequest', -256)),
-        );
     }
 }

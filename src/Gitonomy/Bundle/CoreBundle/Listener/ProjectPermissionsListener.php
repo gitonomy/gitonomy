@@ -44,6 +44,13 @@ class ProjectPermissionsListener implements EventSubscriberInterface
         $this->registry = $registry;
     }
 
+    public static function getSubscribedEvents()
+    {
+        return array(
+            GitonomyEvents::PROJECT_CREATE => array(array('onProjectCreate', 256)),
+        );
+    }
+
     public function onProjectCreate(ProjectEvent $event)
     {
         $project = $event->getProject();
@@ -72,12 +79,5 @@ class ProjectPermissionsListener implements EventSubscriberInterface
             $project->getGitAccesses()->add($permission);
             $em->persist($permission);
         }
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return array(
-            GitonomyEvents::PROJECT_CREATE => array(array('onProjectCreate', 256)),
-        );
     }
 }

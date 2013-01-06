@@ -19,7 +19,7 @@
         <service id="gitonomy_core.listener.feed" class="%gitonomy_core.listener.feed.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
-            <tag name="gitonomy.event_listener" event="gitonomy.project_push" method="onPush" />
+            <tag name="gitonomy.event_subscriber" />
         </service>
 
         <service id="gitonomy_core.listener.config" class="%gitonomy_core.listener.config.class%">
