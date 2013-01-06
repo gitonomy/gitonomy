@@ -56,7 +56,7 @@
         <form method="POST" action="{{ path('project_postPermissionsCreateGitAccess', {slug: project.slug}) }}" id="git-access">
             <legend>{{ 'title.git_accesses'|trans }}</legend>
             {{ form_errors(gitAccessForm) }}
-            <table class="bordered-table table table-striped">
+            <table class="bordered-table table table-striped git-accesses">
                 <thead>
                     <tr>
                         <th>{{ 'table.git_accesses.column.role'|trans }}</th>

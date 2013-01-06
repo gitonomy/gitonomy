@@ -16,13 +16,17 @@ class BrowserAwareInitializer implements InitializerInterface, EventSubscriberIn
 {
     private $client;
     private $capabilities;
+    private $baseUrl;
+    private $timeout;
+
     private $browser;
 
-    public function __construct(WebDriverClient $client, Capabilities $capabilities, $baseUrl)
+    public function __construct(WebDriverClient $client, Capabilities $capabilities, $baseUrl, $timeout)
     {
-        $this->client = $client;
+        $this->client       = $client;
         $this->capabilities = $capabilities;
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl      = $baseUrl;
+        $this->timeout      = $timeout;
     }
 
     public function supports(ContextInterface $context)
@@ -39,6 +43,7 @@ class BrowserAwareInitializer implements InitializerInterface, EventSubscriberIn
     {
         if (null === $this->browser) {
             $this->browser = $this->client->createBrowser($this->capabilities);
+            $this->browser->setImplicitTimeout($this->timeout);
         }
 
         $context->setBrowser($this->browser, $this->baseUrl);

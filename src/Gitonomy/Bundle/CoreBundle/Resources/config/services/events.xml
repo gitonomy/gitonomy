@@ -8,6 +8,7 @@
         <parameter key="gitonomy_core.event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
         <parameter key="gitonomy_core.listener.feed.class">Gitonomy\Bundle\CoreBundle\Listener\FeedListener</parameter>
         <parameter key="gitonomy_core.listener.config.class">Gitonomy\Bundle\CoreBundle\Listener\ConfigListener</parameter>
+        <parameter key="gitonomy_core.listener.project_permissions.class">Gitonomy\Bundle\CoreBundle\Listener\ProjectPermissionsListener</parameter>
     </parameters>
     <services>
 
@@ -18,12 +19,17 @@
         <service id="gitonomy_core.listener.feed" class="%gitonomy_core.listener.feed.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="gitonomy_core.git.repository_pool" />
-            <tag name="gitonomy.event_listener" event="gitonomy.project_push" method="onPush" />
+            <tag name="gitonomy.event_subscriber" />
         </service>
 
         <service id="gitonomy_core.listener.config" class="%gitonomy_core.listener.config.class%">
             <argument type="service" id="service_container" />
             <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="gitonomy_core.listener.project_permissions" class="%gitonomy_core.listener.project_permissions.class%">
+            <argument type="service" id="doctrine" />
+            <tag name="gitonomy.event_subscriber" />
         </service>
     </services>
 </container>
