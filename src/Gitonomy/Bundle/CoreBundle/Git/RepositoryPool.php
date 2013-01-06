@@ -12,9 +12,12 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Git;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 use Gitonomy\Git;
 
 /**
@@ -23,7 +26,7 @@ use Gitonomy\Git;
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
-class RepositoryPool
+class RepositoryPool implements EventSubscriberInterface
 {
     /**
      * Root directory of every repositories.
@@ -40,6 +43,15 @@ class RepositoryPool
     public function __construct($repositoryPath)
     {
         $this->repositoryPath = $repositoryPath;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return array(
+            GitonomyEvents::PROJECT_CREATE => array(array('onProjectCreate', 255)),
+            GitonomyEvents::PROJECT_DELETE => array(array('onProjectDelete', -255)),
+            GitonomyEvents::PROJECT_PUSH   => array(array('onProjectPush', -255))
+        );
     }
 
     /**

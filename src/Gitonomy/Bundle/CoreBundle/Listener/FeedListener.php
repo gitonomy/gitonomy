@@ -12,10 +12,11 @@
 
 namespace Gitonomy\Bundle\CoreBundle\Listener;
 
-use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 use Gitonomy\Bundle\CoreBundle\Entity\Feed;
 use Gitonomy\Bundle\CoreBundle\Entity\Message;
@@ -24,7 +25,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\Message\OpenMessage;
 /**
  * @author Julien DIDIER <genzo.wm@gmail.com>
  */
-class FeedListener
+class FeedListener implements EventSubscriberInterface
 {
     protected $registry;
     protected $repositoryPool;
@@ -35,7 +36,14 @@ class FeedListener
         $this->repositoryPool = $repositoryPool;
     }
 
-    public function onPush(PushReferenceEvent $event)
+    public static function getSubscribedEvents()
+    {
+        return array(
+            GitonomyEvents::PROJECT_PUSH => array(array('onProjectPush', -256)),
+        );
+    }
+
+    public function onProjectPush(PushReferenceEvent $event)
     {
         $em        = $this->registry->getEntityManager();
         $feed      = $this->getFeed($event);

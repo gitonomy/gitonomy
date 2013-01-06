@@ -68,6 +68,6 @@ class LoadRoleData extends Fixture
      */
     public function getOrder()
     {
-        return 2;
+        return 2; // permission
     }
 }

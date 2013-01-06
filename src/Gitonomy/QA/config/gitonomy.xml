@@ -26,6 +26,7 @@
                 </service>
             </argument>
             <argument>%gitonomy.browser.base_url%</argument>
+            <argument>%gitonomy.browser.timeout%</argument>
             <tag name="behat.context.initializer" />
             <tag name="behat.event_subscriber" />
         </service>

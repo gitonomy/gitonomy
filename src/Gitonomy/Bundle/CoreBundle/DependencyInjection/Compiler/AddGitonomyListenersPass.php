@@ -15,6 +15,10 @@ class AddGitonomyListenersPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('gitonomy_core.event_dispatcher');
 
+        foreach ($container->findTaggedServiceIds('gitonomy.event_subscriber') as $id => $tags) {
+            $definition->addMethodCall('addSubscriberService', array($id, $container->getDefinition($id)->getClass()));
+        }
+
         foreach ($container->findTaggedServiceIds('gitonomy.event_listener') as $id => $tags) {
             foreach ($tags as $event) {
                 $priority = isset($event['priority']) ? $event['priority'] : 0;

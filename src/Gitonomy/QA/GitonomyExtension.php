@@ -17,6 +17,7 @@ class GitonomyExtension implements ExtensionInterface
         $container->setParameter('gitonomy.browser.base_url', $config['base_url']);
         $container->setParameter('gitonomy.kernel_factory.app_dir', $config['app_dir']);
         $container->setParameter('gitonomy.browser.browser', $config['browser']);
+        $container->setParameter('gitonomy.browser.timeout', $config['timeout']);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/config'));
         $loader->load('gitonomy.xml');
@@ -29,6 +30,7 @@ class GitonomyExtension implements ExtensionInterface
                 ->scalarNode('server_url')->isRequired()->end()
                 ->scalarNode('base_url')->isRequired()->end()
                 ->scalarNode('app_dir')->isRequired()->end()
+                ->scalarNode('timeout')->defaultValue(5000)->end()
                 ->scalarNode('browser')->defaultValue('firefox')->end()
             ->end()
         ;

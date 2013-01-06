@@ -47,6 +47,6 @@ class LoadUserData extends UserFixture
      */
     public function getOrder()
     {
-        return 3;
+        return 3; // role
     }
 }

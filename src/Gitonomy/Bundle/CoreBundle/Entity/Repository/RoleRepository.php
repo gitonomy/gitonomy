@@ -17,4 +17,16 @@ use Gitonomy\Bundle\CoreBundle\Entity;
 
 class RoleRepository extends EntityRepository
 {
+    public function getIndexedByName($names)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $res = $qb->where($qb->expr()->in('r.name', $names))->getQuery()->execute();
+
+        $return = array();
+        foreach ($res as $role) {
+            $return[$role->getName()] = $role;
+        }
+
+        return $return;
+    }
 }

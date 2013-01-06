@@ -54,6 +54,7 @@ class LoadProjectData extends Fixture
         $secret->setRepositorySize(564);
         $manager->persist($secret);
         $this->setReference('project-secret', $secret);
+        $this->dispatch($secret);
 
         $manager->flush();
     }
@@ -63,7 +64,7 @@ class LoadProjectData extends Fixture
      */
     public function getOrder()
     {
-        return 1;
+        return 3; // role
     }
 
     protected function dispatch(Project $project)
