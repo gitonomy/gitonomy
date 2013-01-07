@@ -14,18 +14,26 @@ namespace Gitonomy\Component\Config;
 
 use Doctrine\DBAL\Connection;
 
+use Gitonomy\Component\Config\Exception\RuntimeException;
+
 /**
+ * Bulk MySQL version of Config: deletes and reinsert rows.
+ *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
 class MysqlConfig extends AbstractConfig
 {
-    const TABLE_NAME = '`_config`';
-
+    /**
+     * @var Connection
+     */
     protected $connection;
+    protected $tableName;
+    protected $tableExists;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, $tableName = '_config')
     {
         $this->connection = $connection;
+        $this->tableName  = $tableName;
     }
 
     /**
@@ -33,14 +41,9 @@ class MysqlConfig extends AbstractConfig
      */
     public function doGetAll()
     {
-        $stmt   = $this->runSql(sprintf('SELECT * FROM %s', self::TABLE_NAME));
-
-        if (null === $stmt) {
-            return array();
-        }
+        $stmt = $this->runSql('SELECT `key`, `value` FROM `'. $this->tableName.'`');
 
         $result = array();
-
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $result[$row['key']] = json_decode($row['value']);
         }
@@ -53,28 +56,12 @@ class MysqlConfig extends AbstractConfig
      */
     protected function doSetAll(array $values)
     {
-        $this->runSQL(sprintf('DELETE FROM %s', self::TABLE_NAME));
+        $this->runSQL('DELETE FROM `'.$this->tableName.'`');
 
         $rows = array();
         foreach ($values as $key => $value) {
-            try {
-                $query = 'INSERT INTO '.self::TABLE_NAME.' (`key`, `value`) VALUES ('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).');';
-                $this->runSQL($query);
-            } catch (\Exception $e) {
-                return;
-            }
-
+            $this->runSQL('INSERT INTO '.$this->tableName.' (`key`, `value`) VALUES ('.$this->connection->quote($key).','.$this->connection->quote(json_encode($value)).');');
         }
-    }
-
-    /**
-     * Creates table if does not exists.
-     */
-    protected function checkTable()
-    {
-        try {
-            return $this->connection->executeQuery(sprintf('CREATE TABLE %s (`key` VARCHAR(40), `value` TEXT);', self::TABLE_NAME));
-        } catch (\Exception $e) {}
     }
 
     /**
@@ -87,12 +74,10 @@ class MysqlConfig extends AbstractConfig
     {
         try {
             return $this->connection->executeQuery($query, $parameters);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            $this->connection->executeQuery(sprintf('CREATE TABLE %s (`key` VARCHAR(40), `value` TEXT);', $this->tableName));
+        }
 
-        $this->checkTable();
-
-        try {
-            return $this->connection->executeQuery($query, $parameters);
-        } catch (\Exception $e) {}
+        return $this->connection->executeQuery($query, $parameters);
     }
 }

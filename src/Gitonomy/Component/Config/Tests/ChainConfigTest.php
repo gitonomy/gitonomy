@@ -80,6 +80,32 @@ class ChainConfigTest extends \PHPUnit_Framework_TestCase
         $chain->set('foo', 'bar');
     }
 
+    public function testGetWithFailing()
+    {
+        $first  = $this->createConfigMock();
+        $second = $this->createConfigMock();
+
+        $first->expects($this->once())->method('get')->with('foo')->will($this->throwException(new \Exception('bar')));
+        $second->expects($this->once())->method('get')->with('foo')->will($this->returnValue('baz'));
+
+        $chain = new ChainConfig(array($first, $second));
+
+        $this->assertEquals('baz', $chain->get('foo'));
+    }
+
+    public function testAllWithFailing()
+    {
+        $first  = $this->createConfigMock();
+        $second = $this->createConfigMock();
+
+        $first->expects($this->once())->method('all')->will($this->throwException(new \Exception('bar')));
+        $second->expects($this->once())->method('all')->will($this->returnValue(array('foo' => 'baz')));
+
+        $chain = new ChainConfig(array($first, $second));
+
+        $this->assertEquals(array('foo' => 'baz'), $chain->all());
+    }
+
     protected function createConfig($values = array())
     {
         return new ArrayConfig($values);

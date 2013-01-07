@@ -17,7 +17,9 @@ namespace Gitonomy\Component\Config;
  *
  * This order is useful because of the reading operation: it stops when a value is found.
  *
- * For writing purpose, it propagates to all sub-configs.
+ * If a config fails on a reading operation, exception will be caught and ignored by chain-config.
+ *
+ * Writing operations are propagated to all sub-configs.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
@@ -54,7 +56,13 @@ class ChainConfig implements ConfigInterface
 
         $max = count($this->configs);
         for ($i = 0; $i < $max; $i++) {
-            $current = $this->configs[$i]->get($key, $default);
+
+            // If error occurs on reading, ignore and pass to next
+            try {
+                $current = $this->configs[$i]->get($key, $default);
+            } catch (\Exception $e) {
+                continue;
+            }
 
             if ($i === 0 && $current !== $default) {
                 return $current;
@@ -97,7 +105,13 @@ class ChainConfig implements ConfigInterface
     {
         $max = count($this->configs);
         for ($i = 0; $i < $max; $i++) {
-            $current = $this->configs[$i]->all();
+
+            // If error occurs on reading, ignore and pass to next
+            try {
+                $current = $this->configs[$i]->all();
+            } catch (\Exception $e) {
+                continue;
+            }
 
             if ($i === 0 && count($current)) {
                 return $current;
