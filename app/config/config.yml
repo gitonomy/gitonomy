@@ -74,3 +74,13 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+
+# Buzz Configuration
+buzz:
+    browsers:
+        gitonomy:
+            client:
+                name: curl
+                timeout: 5
+            host: http://gitonomy.com
+            message_factory: Gitonomy\Component\Buzz\Message\Factory\JsonMessageFactory

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- Browsers -->
+        <parameter key="gitonomy_website.buzz.browser.gitonomy.class">Gitonomy\Component\Buzz\Browser\GitonomyBrowser</parameter>
+    </parameters>
+
+    <services>
+        <!-- Browsers -->
+        <service id="gitonomy_website.buzz.browser.gitonomy" class="%gitonomy_website.buzz.browser.gitonomy.class%">
+            <argument /> <!-- ClientInterface -->
+            <argument /> <!-- FactoryInterface -->
+            <call method="setCurrentVersion">
+                <argument>%gitonomy.version%</argument>
+            </call>
+            <tag name="buzz.browser" alias="gitonomy" />
+        </service>
+    </services>
+</container>
