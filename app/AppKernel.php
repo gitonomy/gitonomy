@@ -53,7 +53,7 @@ class AppKernel extends Kernel
         return array_merge(
             parent::getKernelParameters(), array(
                 'gitonomy.shell_command' => $this->getShellCommand(),
-                'gitonomy.version' => self::VERSION,
+                'gitonomy.version'       => self::VERSION,
             )
         );
     }

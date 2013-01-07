@@ -1,16 +1,31 @@
 <?php
 
+/**
+ * This file is part of Gitonomy.
+ *
+ * (c) Alexandre Salomé <alexandre.salome@gmail.com>
+ * (c) Julien DIDIER <genzo.wm@gmail.com>
+ *
+ * This source file is subject to the GPL license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Gitonomy\Component\Buzz\Browser;
 
 use Buzz\Message\Request;
 use Buzz\Browser;
 
+/**
+ * Buzz browser configured for Gitonomy APIs.
+ *
+ * @author Julien DIDIER <genzo.wm@gmail.com>
+ */
 class GitonomyBrowser extends Browser
 {
     const VERSION_PATTERN = '/^([0-9\.]+)(?:\-(\w+))?/';
 
-    private $currentVersion;
-    private $stable;
+    protected $currentVersion;
+    protected $stable;
 
     public function getChangeLog()
     {

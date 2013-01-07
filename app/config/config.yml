@@ -81,6 +81,6 @@ buzz:
         gitonomy:
             client:
                 name: curl
-                timeout: 2
+                timeout: 5
             host: http://gitonomy.com
             message_factory: Gitonomy\Component\Buzz\Message\Factory\JsonMessageFactory
