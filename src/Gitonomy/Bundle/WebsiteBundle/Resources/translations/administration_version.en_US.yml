@@ -1,0 +1,6 @@
+page.title.main: "{0}Your version is up-to-date|]0,Inf] Your version needs to be upgraded"
+title.version_with_date: ChangeLog for v%version% (%date%)
+title.version_without_date: ChangeLog for v%version%
+text.current_version: "Current version: <strong>%version%</strong>"
+table.list.column.level: Level
+table.list.column.feature: Details

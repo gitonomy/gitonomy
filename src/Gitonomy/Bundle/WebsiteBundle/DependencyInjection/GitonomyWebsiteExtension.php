@@ -30,7 +30,7 @@ class GitonomyWebsiteExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('form.xml');
-        $loader->load('twig.xml');
+
+        $loader->load('services.xml');
     }
 }

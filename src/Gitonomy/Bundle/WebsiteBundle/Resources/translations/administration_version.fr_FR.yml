@@ -1,0 +1,6 @@
+page.title.main: "{0}Version à jour|]0,Inf] Une nouvelle version est disponible"
+title.version_with_date: Apports de la v%version% (%date%)
+title.version_without_date: Apports de la v%version%
+text.current_version: "Version actuelle : <strong>%version%</strong>"
+table.list.column.level: Niveau
+table.list.column.feature: Details

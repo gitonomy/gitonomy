@@ -1,0 +1,47 @@
+{% extends "GitonomyWebsiteBundle::layout_administration.html.twig" %}
+
+{% trans_default_domain 'administration_version' %}
+
+{% block title 'page.title.main'|transchoice(changeLog|length) %}
+
+{% set local_navigation = 'version' %}
+
+{% block administration_content %}
+    <div class="content">
+        <p>{{ 'text.current_version'|trans({'%version%': version})|raw }}</p>
+    </div>
+
+    {% for version in changeLog %}
+        <legend>
+            {% if version.date %}
+                {{ 'title.version_with_date'|trans({'%version%':version.version, '%date%': version.date}) }}
+            {% else %}
+                {{ 'title.version_without_date'|trans({'%version%':version.version}) }}
+            {% endif %}
+        </legend>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ 'table.list.column.level'|trans }}</th>
+                    <th>{{ 'table.list.column.feature'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feature in version.features %}
+                    <tr>
+                        <td>
+                            {% if feature.level is sameas ('security') %}
+                                <i class="icon-bullhorn"></i>
+                            {% elseif feature.level is sameas ('new') %}
+                                <i class="icon-gift"></i>
+                            {% elseif feature.level is sameas ('fix') %}
+                                <i class="icon-ban-circle"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ feature.feature }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}

@@ -2,7 +2,6 @@
 
 namespace Gitonomy\QA\Context;
 
-use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 

@@ -31,6 +31,7 @@
         "symfony/monolog-bundle":            "dev-master",
         "sensio/distribution-bundle":        "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "juliendidier/buzz-bundle":          "dev-master",
 
         "gitonomy/gitlib":                   "dev-master"
     },
@@ -38,7 +39,7 @@
         "behat/behat":   "dev-custom",
         "behat/gherkin": "dev-custom",
         "alexandresalome/php-webdriver": "dev-master"
-        },
+    },
     "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",

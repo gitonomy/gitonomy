@@ -12,6 +12,7 @@
     <div id="wrapper">
         <ul id="local-menu">
             <li><a href="{{ path('administration_config') }}"{% if local_navigation == 'config' %} class="active"{% endif %}>{{ 'menu.config'|trans }}</a></li>
+            <li><a href="{{ path('administration_version') }}"{% if local_navigation == 'version' %} class="active"{% endif %}>{{ 'menu.version'|trans }}</a></li>
             <li><a href="{{ path('administration_users') }}"{% if local_navigation == 'users' %} class="active"{% endif %}>{{ 'menu.users'|trans }}</a></li>
             <li><a href="{{ path('administration_roles') }}"{% if local_navigation == 'roles' %} class="active"{% endif %}>{{ 'menu.roles'|trans }}</a></li>
         </ul>

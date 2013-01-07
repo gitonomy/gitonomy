@@ -182,4 +182,18 @@ class AdministrationController extends Controller
             'form' => $form->createView()
         ));
     }
+
+    public function versionAction()
+    {
+        $this->assertGranted('ROLE_ADMIN');
+
+        $browser   = $this->container->get('buzz')->getBrowser('gitonomy');
+        $changeLog = $browser->getChangeLog();
+        $version   = $this->container->getParameter('gitonomy.version');
+
+        return $this->render('GitonomyWebsiteBundle:Administration:version.html.twig', array(
+            'changeLog' => $changeLog,
+            'version'   => $version,
+        ));
+    }
 }
