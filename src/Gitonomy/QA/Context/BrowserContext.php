@@ -30,7 +30,7 @@ class BrowserContext extends BaseBrowserContext
     {
         $title = $this->getBrowser()->getTitle();
         if ($text !== $title) {
-            throw new \RuntimeException(sprintf('Expected title to be "%s", got "%s"', $text, $tile));
+            throw new \RuntimeException(sprintf('Expected title to be "%s", got "%s"', $text, $title));
         }
     }
 
