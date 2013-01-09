@@ -9,4 +9,5 @@
 /web/bundles/
 /web/css/
 /web/js/
+behat.yml
 composer.phar
