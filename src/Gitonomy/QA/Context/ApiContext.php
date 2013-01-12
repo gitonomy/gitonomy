@@ -200,6 +200,37 @@ class ApiContext extends BehatContext
         });
     }
 
+    /**
+     * @Given /^role "([^"]*)" does not exist$/
+     */
+    public function roleDoesNotExist($role)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($role) {
+            $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
+            $existing = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName($role);
+            if ($existing) {
+                $em->remove($existing);
+            }
+            $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^role "([^"]*)" exists$/
+     */
+    public function roleExists($role)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($role) {
+            $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
+            $existing = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName($role);
+            if (!$existing) {
+                $existing = new Role($role, $role, $role);
+                $em->persist($existing);
+                $em->flush();
+            }
+        });
+    }
+
     protected function setConfig($key, $value)
     {
         $this->kernelFactory->run(function ($kernel) use($key, $value) {
