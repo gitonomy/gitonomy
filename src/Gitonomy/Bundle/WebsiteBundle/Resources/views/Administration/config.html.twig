@@ -21,3 +21,34 @@
         </form>
     </div>
 {% endblock %}
+
+{% block javascript_content %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var fields = ['host', 'port', 'username', 'password', 'auth_mode', 'encryption', 'from_name', 'from_email'];
+            var displayedFields = {
+                'null': [],
+                'smtp': ['host', 'port', 'username', 'password', 'auth_mode', 'encryption', 'from_name', 'from_email'],
+                'gmail': ['username', 'password', 'from_name', 'from_email'],
+                'mail': ['from_name', 'from_email']
+            };
+
+            $("#administration_config_mailer_mailer_transport").change(function() {
+                var $this = $(this), val = $this.val(), i;
+
+                // hide all
+                for (i = 0; i < fields.length; i++) {
+                    $("#administration_config_mailer_mailer_" + fields[i] + "_field").hide();
+                }
+
+                if (displayedFields[val] !== undefined) {
+                    // hide all
+                    for (i = 0; i < displayedFields[val].length; i++) {
+                        $("#administration_config_mailer_mailer_" + displayedFields[val][i] + "_field").show();
+                    }
+                }
+            });
+            $("#administration_config_mailer_mailer_transport").change();
+        });
+    </script>
+{% endblock %}

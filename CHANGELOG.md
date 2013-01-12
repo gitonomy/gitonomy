@@ -7,6 +7,7 @@
   * new version page
   * new default permissions on project creation
   * fix design: history graph embedded in table
+  * new ease configuration of mailer
 
 * v0.2 (2012-09-01)
 
