@@ -1,45 +1,34 @@
-page:
-    title:
-        main: Administration des utilisateurs
-        create: Créer un nouvel utilisateur
-        edit: Editer l'utilisateur %username%
+page.title.main: Administration des utilisateurs
+page.title.create: Créer un nouvel utilisateur
+page.title.edit: "Editer l'utilisateur %username%"
 
-action:
-    create: "Nouvel utilisateur"
+action.create: Nouvel utilisateur
 
-title:
-    create: "Créer un nouvel utilisateur"
+title.create: Créer un nouvel utilisateur
 
-button:
-    create: Enregister
-    edit: Enregister
-    cancel: Annuler
+button.create: Enregister
+button.edit: Enregister
+button.cancel: Annuler
+button.confirm.delete: Oui, je veux supprimer %fullname%
 
-form:
-    username: Surnom
-    fullname: Nom complet
-    timezone: Fuseau horaire
-    locale: Langue
-    global_roles: Rôles globaux
+form.username: Surnom
+form.fullname: Nom complet
+form.timezone: Fuseau horaire
+form.locale: Langue
+form.global_roles: Rôles globaux
 
-    legend:
-        create: Créer un nouvel utilisateur
-        edit: "Edition de l'utilisateur %username%"
+form.legend.create: Créer un nouvel utilisateur
+form.legend.edit: "Edition de l'utilisateur %username%"
 
-table:
-    list:
-        column:
-            fullname: Nom
-            username: Surnom
-            timezone: Fuseau horaire
-            email: Courriel
-            culture: Culture
+table.list.column.fullname: Nom
+table.list.column.username: Surnom
+table.list.column.timezone: Fuseau horaire
+table.list.column.email: Courriel
+table.list.column.culture: Culture
 
-tooltip:
-    edit: Editer cet utilisateur
-    delete: Supprimer cet utilisateur
+tooltip.edit: Editer
+tooltip.delete: Supprimer
 
-notice:
-    created: Utilisé prêt à travailler
-    updated: Utilisateur édité
-    deleted: Utilisateur viré
+notic.created: Utilisé prêt à travailler
+notic.updated: Utilisateur édité
+notic.deleted: Utilisateur viré
