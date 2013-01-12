@@ -29,49 +29,6 @@ class AdministrationRolesControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testEditAsAnonymous()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-
-        $crawler  = $this->client->request('GET', '/admin/roles/'.$role->getId().'/edit');
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testEditAsAlice()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');
-
-        $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/admin/roles/'.$role->getId().'/edit');
-        $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    public function testEdit()
-    {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
-        $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
-
-        $this->client->connect('admin');
-
-        $crawler  = $this->client->request('GET', '/admin/roles/'.$role->getId().'/edit');
-        $response = $this->client->getResponse();
-
-        $this->assertTrue($response->isSuccessful());
-
-        $this->client->submit($crawler->filter('form button[type=submit]')->form(), array(
-            'administration_role[name]'        => $role->getName(),
-            'administration_role[description]' => $role->getDescription(),
-        ));
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('/admin/roles'));
-        $this->client->followRedirect();
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
-    }
-
     public function testDelete()
     {
         $this->markTestSkipped();

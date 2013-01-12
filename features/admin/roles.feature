@@ -29,17 +29,57 @@ Feature: Administrate roles globally
          Then I should not see "Role created"
          Then I should see "This value is already used"
 
+    Scenario: Administrator edits a role
+        Given I am connected as "admin"
+          And I am on "/admin/roles/1/edit"
+          And I fill:
+            | Slug        | foobar |
+          And I click on "Save"
+         Then I should see "Role updated"
+
+        # Revert
+        Given I am on "/admin/roles/1/edit"
+          And I fill:
+            | Slug        | admin |
+          And I click on "Save"
+         Then I should see "Role updated"
+
+    Scenario: Administrator deletes a role
+        Given I am connected as "admin"
+          And I am on "/admin/roles"
+          And I fill:
+            | Slug        | foobar |
+          And I click on "Save"
+         Then I should see "Role updated"
+
+        # Revert
+        Given I am on "/admin/roles/1/edit"
+          And I fill:
+            | Slug        | admin |
+          And I click on "Save"
+         Then I should see "Role updated"
+
     Scenario: User cannot administrate roles
         Given I am connected as "alice"
           And I am on "/admin/roles"
         Then I should not see "Master of the application"
 
-    Scenario: User cannot create a new role
+    Scenario: User cannot create a role
         Given I am connected as "alice"
           And I am on "/admin/roles/create"
         Then I should not see "Master of the application"
 
     Scenario: User cannot edit a role
         Given I am connected as "alice"
+          And I am on "/admin/roles/1/edit"
+        Then I should not see "Master of the application"
+
+    Scenario: Anonymous cannot create a role
+        Given I am connected as "alice"
+          And I am on "/admin/roles/create"
+        Then I should not see "Master of the application"
+
+    Scenario: Anonymous cannot edit a role
+        Given I logout
           And I am on "/admin/roles/1/edit"
         Then I should not see "Master of the application"
