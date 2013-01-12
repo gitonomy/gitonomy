@@ -36,14 +36,17 @@
 {% endspaceless %}
 {% endblock field_errors %}
 
-{% block checkbox_row %}
-    <div class="control-group checkbox" id="{{ id }}_field">
-        <div class="controls">
-            <label for="{{ id }}">
-                {{ form_widget(form) }}
-                {{ label|default(name|humanize)|trans({}, translation_domain) }}
-            </label>
-            {{ form_errors(form) }}
-        </div>
+{% block choice_widget_expanded %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+        {% for child in form %}
+            <div>
+                <label for="{{ child.get('id') }}">
+                    {{ form_widget(child) }}
+                    {{ child.get('label')|default(name|humanize)|trans({}, translation_domain) }}
+                </label>
+            </div>
+        {% endfor %}
     </div>
-{% endblock %}
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
