@@ -26,7 +26,7 @@
         </discriminator-map>
 
         <many-to-one field="user" target-entity="Gitonomy\Bundle\CoreBundle\Entity\User">
-            <join-column name="user_id" referenced-column-name="id" nullable="false" />
+            <join-column name="user_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
 
         <many-to-one field="feed" target-entity="Gitonomy\Bundle\CoreBundle\Entity\Feed" inversed-by="messages">

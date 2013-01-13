@@ -27,7 +27,7 @@
                     <td>
                         <div class="btn-group pull-right">
                             <a rel="tooltip" data-placement="left" title="{{ 'tooltip.edit'|trans({'%name%': role.name}) }}" class="btn btn-small" href="{{ path('administration_editRole', {id: role.id}) }}"><i class="icon-edit"></i></a>
-                            <a rel="tooltip" data-placement="left" title="{{ 'tooltip.delete'|trans({'%name%': role.name}) }}" class="btn btn-small btn-danger"  data-method="POST" href="{{ path('administration_deleteRole', {id: role.id}) }}"><i class="icon-fire icon-white"></i></a>
+                            <a rel="tooltip" data-placement="left" title="{{ 'tooltip.delete'|trans({'%name%': role.name}) }}" class="btn btn-small btn-danger" data-method="POST" data-confirm="{{ 'button.confirm.delete'|trans({'%name%': role.name}) }}" href="{{ path('administration_deleteRole', {id: role.id}) }}"><i class="icon-fire icon-white"></i></a>
                         </div>
                     </td>
                 </tr>

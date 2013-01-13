@@ -161,15 +161,15 @@ class ApiContext extends BehatContext
             $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
             $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
             if ($project) {
+                $kernel->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($project));
                 $em->remove($project);
                 $em->flush();
-                $kernel->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_DELETE, new ProjectEvent($project));
             }
 
-            $project = new Project($slug, $slug);
+            $project = new Project(ucfirst($slug), $slug);
+            $kernel->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
             $em->persist($project);
             $em->flush();
-            $kernel->getContainer()->get('gitonomy_core.event_dispatcher')->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
         });
     }
 
@@ -219,16 +219,19 @@ class ApiContext extends BehatContext
     /**
      * @Given /^role "([^"]*)" exists$/
      */
-    public function roleExists($role)
+    public function roleExists($slug)
     {
-        $this->kernelFactory->run(function ($kernel) use ($role) {
+        $this->kernelFactory->run(function ($kernel) use ($slug) {
             $em = $kernel->getContainer()->get('doctrine')->getEntityManager();
-            $existing = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName($role);
-            if (!$existing) {
-                $existing = new Role($role, $role, $role);
-                $em->persist($existing);
+            $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneBySlug($slug);
+            if ($role) {
+                $em->remove($role);
                 $em->flush();
             }
+
+            $role = new Role(ucfirst($slug), $slug, $slug);
+            $em->persist($role);
+            $em->flush();
         });
     }
 

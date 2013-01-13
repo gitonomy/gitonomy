@@ -92,7 +92,16 @@ class Message
 
     public function getUser()
     {
+        if (!$this->hasUser()) {
+            throw new \LogicException('No user set in Message');
+        }
+
         return $this->user;
+    }
+
+    public function hasUser()
+    {
+        return null !== $this->user;
     }
 
     public function setUser($user)

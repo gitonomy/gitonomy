@@ -85,6 +85,10 @@ class AdministrationController extends Controller
 
         $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
 
+        if ($user === $this->getUser()) {
+            throw $this->createAccessDeniedException('Cannot delete self account');
+        }
+
         $this->removeEntity($user);
         $this->setFlash('success', $this->trans('notice.deleted', array(), 'administration_user'));
 

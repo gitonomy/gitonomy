@@ -1,41 +1,30 @@
-page:
-    title:
-        main: Administration of roles
-        create: Create new role
-        edit: Edit role %name%
+page.title.main: Administration of roles
+page.title.create: Create new role
+page.title.edit: Edit role %name%
 
-action:
-    create: New role
+action.create: New role
 
-title:
-    create: Create new role
+title.create: Create new role
 
-button:
-    create: Save
-    edit: Save
-    cancel: Cancel
+button.create: Save
+button.edit: Save
+button.cancel: Cancel
+button.confirm.delete: Yes, I want to delete %name%
 
-form:
-    name: Name
-    slug: Slug
-    description: Description
-    permissions: Permissions
+form.name: Name
+form.slug: Slug
+form.description: Description
+form.permissions: Permissions
 
-    legend:
-        create: Create a new role
-        edit: Edit role %name%
+form.legend.create: Create a new role
+form.legend.edit: Edit role %name%
 
-table:
-    list:
-        column:
-            name: Name
-            description: Description
+table.list.column.name: Name
+table.list.column.description: Description
 
-tooltip:
-    edit: Edit role %name%
-    delete: Delete role %name%
+tooltip.edit: Edit role %name%
+tooltip.delete: Delete role %name%
 
-notice:
-    created: Role created
-    updated: Role updated
-    deleted: Role deleted
+notice.created: Role created
+notice.updated: Role updated
+notice.deleted: Role deleted

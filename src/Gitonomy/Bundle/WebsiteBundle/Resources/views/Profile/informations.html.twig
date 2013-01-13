@@ -37,14 +37,14 @@
                             <td>{{ (email.isDefault == 1 ? 'table.emails.value.yes' : 'table.emails.value.no')|trans }}</td>
                             <td>{{ (email.isActive == 1 ? 'table.emails.value.yes' : 'table.emails.value.no')|trans }}</td>
                             <td>
-                                <div class="btn-group">
+                                <div class="btn-group pull-right">
                                     {% if not email.isDefault %}
                                         {% if email.isActive %}
                                             <a rel="tooltip" title="{{ 'button.default_email'|trans }}" data-method="POST" href="{{ path('profile_defaultEmail', {id: email.id, token: token }) }}" class="btn btn-small email-default"><i class="icon-star"></i></a>
                                         {% else %}
                                             <a rel="tooltip" title="{{ 'button.activate_email'|trans }}" data-method="POST" href="{{ path('profile_activateEmail', {'id': email.id, token: token }) }}" class="btn btn-small send-activation"><i class="icon-envelope"></i></a>
                                         {% endif %}
-                                        <a rel="tooltip" title="{{ 'button.delete_email'|trans }}" data-method="POST" href="{{ path('profile_deleteEmail', {'id': email.id, token: token }) }}" class="btn btn-danger btn-small email-delete"><i class="icon-fire icon-white"></i></a>
+                                        <a rel="tooltip" title="{{ 'button.delete_email'|trans }}" data-method="POST" data-confirm="{{ 'button.confirm.delete_email'|trans({'%email%': email.email}) }}" href="{{ path('profile_deleteEmail', {'id': email.id, token: token }) }}" class="btn btn-danger btn-small email-delete"><i class="icon-fire icon-white"></i></a>
                                     {% endif %}
                                 </div>
                             </td>
@@ -57,7 +57,11 @@
                             {{ form_widget(form_email.email) }}
                             {{ form_errors(form_email.email) }}
                         </td>
-                        <td><button type="submit" class="btn btn-success"> <i class="symbol">plus </i>{{ 'form.new_mail.submit'|trans }}</button></td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <button type="submit" class="btn btn-success"> <i class="symbol">plus </i>{{ 'form.new_mail.submit'|trans }}</button>
+                            </div>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

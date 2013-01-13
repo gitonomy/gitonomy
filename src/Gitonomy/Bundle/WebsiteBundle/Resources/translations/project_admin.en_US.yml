@@ -7,5 +7,6 @@ form.informations.submit: "Save informations"
 notice.informations_saved: "Project informations saved"
 error.token_invalid: "Your token was invalid. Try again, please"
 form.delete.legend: "Delete"
-button.delete: "Yes, I want to delete %project%"
+button.delete: "Delete %project%"
+button.confirm.delete: Yes, I want to delete %project%
 notice.deleted: "Project removed"
