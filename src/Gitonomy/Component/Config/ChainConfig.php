@@ -135,7 +135,7 @@ class ChainConfig implements ConfigInterface
         while ($i > 0 && count($current)) {
             $i--;
             try {
-                $current = $this->configs[$i]->setAll($current);
+                $this->configs[$i]->setAll($current);
             } catch (\Exception $e) {
                 continue;
             }
