@@ -1,45 +1,34 @@
-page:
-    title:
-        main: Administration of users
-        create: Create a new user
-        edit: Edit %username% user
+page.title.main: Administration of users
+page.title.create: Create a new user
+page.title.edit: Edit %username% user
 
-action:
-    create: "New user"
+action.create: New user
 
-title:
-    create: Create new user
+title.create: Create new user
 
-button:
-    create: Save
-    edit: Save
-    cancel: Cancel
+button.create: Save
+button.edit: Save
+button.cancel: Cancel
+button.confirm.delete: Yes, I want to delete %fullname%
 
-form:
-    username: Username
-    fullname: Fullname
-    timezone: Timezone
-    locale: Language
-    global_roles: Global roles
+form.username: Username
+form.fullname: Fullname
+form.timezone: Timezone
+form.locale: Language
+form.global_roles: Global roles
 
-    legend:
-        create: Create new user
-        edit: Edit user %username%
+form.legend.create: Create new user
+form.legend.edit: Edit user %username%
 
-table:
-    list:
-        column:
-            fullname: Fullname
-            username: Username
-            timezone: Timezone
-            email: Email
-            culture: Culture
+table.list.column.fullname: Fullname
+table.list.column.username: Username
+table.list.column.timezone: Timezone
+table.list.column.email: Email
+table.list.column.culture: Culture
 
-tooltip:
-    edit: Edit this user
-    delete: Delete this user
+tooltip.edit: Edit
+tooltip.delete: Delete
 
-notice:
-    created: User created
-    updated: User updated
-    deleted: User deleted
+notice.created: User created
+notice.updated: User updated
+notice.deleted: User deleted

@@ -1,13 +1,19 @@
+{% trans_default_domain 'newsfeed' %}
+
 <div class="news">
     <div class="time">
         <span data-time="{{ message.publishedAt | date('U') }}">{{ message.publishedAt.format('r') }}</span>
     </div>
-    <img class="avatar" src="{{ gravatar(message.user.defaultEmail.email, 32) }}" alt="{{ message.user.fullname }}" title="{{ message.user.fullname }}" />
+    {% if message.hasUser %}
+        <img class="avatar" src="{{ gravatar(message.user.defaultEmail.email, 32) }}" alt="{{ message.user.fullname }}" title="{{ message.user.fullname }}" />
+    {% endif %}
     <div class="account-group">
         {% spaceless %}
-            <a href="{{ path('user_show', {'username': message.user.username}) }}">
-                <b>{{ message.user.fullname }}</b>
-            </a>
+            {% if message.hasUser %}
+                <a href="{{ path('user_show', {'username': message.user.username}) }}">
+                    <b>{{ message.user.fullname }}</b>
+                </a>
+            {% else %}{{ 'user.somebody'|trans }}{% endif %}
         {% endspaceless %}
         {% block sentence '' %}
     </div>

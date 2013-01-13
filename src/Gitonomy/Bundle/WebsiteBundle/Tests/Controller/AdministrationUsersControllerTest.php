@@ -29,31 +29,6 @@ class AdministrationUserControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testListAsAnonymous()
-    {
-        $crawler  = $this->client->request('GET', '/admin/users');
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testListAsAlice()
-    {
-        $this->client->connect('alice');
-        $crawler  = $this->client->request('GET', '/admin/users');
-        $response = $this->client->getResponse();
-        $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    public function testListAsAdmin()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/admin/users');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('Administration', $crawler->filter('h1')->text());
-    }
-
     public function testCreateAsAnonymous()
     {
         $crawler  = $this->client->request('GET', '/admin/users/create');

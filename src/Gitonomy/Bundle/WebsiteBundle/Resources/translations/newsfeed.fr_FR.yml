@@ -1,4 +1,5 @@
 page.title: ":branch - Actualités"
+user.somebody: "Quelqu'un"
 message.branch_created: "<strong>a créé</strong> la branche <strong>%branch%</strong>"
 message.tag_created: "<strong>a créé</strong> le tag <strong>%tag%</strong>"
 message.thread_closed: "<strong>a supprimé</strong> la branche <strong>%branch%</strong>"

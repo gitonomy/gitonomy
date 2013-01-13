@@ -1,4 +1,5 @@
 page.title: ":branch - Newsfeed"
+user.somebody: "Somebody"
 message.branch_created: "<strong>created</strong> branch <strong>%branch%</strong>"
 message.tag_created: "<strong>created</strong> tag <strong>%tag%</strong>"
 message.thread_closed: "<strong>deleted</strong> branch <strong>%branch%</strong>"

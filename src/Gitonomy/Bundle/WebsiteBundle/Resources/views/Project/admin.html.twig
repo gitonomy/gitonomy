@@ -22,7 +22,7 @@
         <legend>{{ 'form.delete.legend'|trans }}</legend>
         <div class="control-group">
             <div class="controls">
-                <a id="delete" class="btn btn-danger"  data-method="POST" href="{{ path('project_delete', {slug: project.slug, _token: csrf_token('project_delete')}) }}"><i class="icon-fire icon-white"></i> {{ 'button.delete'|trans({'%project%': project.slug}) }}</a>
+                <a id="delete" class="btn btn-danger" data-method="POST" data-confirm="{{ 'button.confirm.delete'|trans({'%project%': project.name}) }}" href="{{ path('project_delete', {slug: project.slug, _token: csrf_token('project_delete')}) }}"><i class="icon-fire icon-white"></i> {{ 'button.delete'|trans({'%project%': project.name}) }}</a>
             </div>
         </div>
 
