@@ -32,8 +32,8 @@ table:
             description: Description
 
 tooltip:
-    edit: Edit this role
-    delete: Delete this role
+    edit: Edit role %name%
+    delete: Delete role %name%
 
 notice:
     created: Role created

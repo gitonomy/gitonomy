@@ -46,18 +46,12 @@ Feature: Administrate roles globally
 
     Scenario: Administrator deletes a role
         Given I am connected as "admin"
-          And I am on "/admin/roles"
-          And I fill:
-            | Slug        | foobar |
-          And I click on "Save"
-         Then I should see "Role updated"
-
-        # Revert
-        Given I am on "/admin/roles/1/edit"
-          And I fill:
-            | Slug        | admin |
-          And I click on "Save"
-         Then I should see "Role updated"
+          And role "to delete" exists
+         When I am on "/admin/roles"
+          And I should see "to delete"
+          And I click on xpath "//a[contains(@title, "Delete role to delete") or contains(@data-original-title, "Delete role to delete")]"
+         Then I should see "Role deleted"
+          And I should not see "to delete"
 
     Scenario: User cannot administrate roles
         Given I am connected as "alice"

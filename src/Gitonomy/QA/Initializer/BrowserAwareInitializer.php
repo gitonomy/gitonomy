@@ -44,22 +44,14 @@ class BrowserAwareInitializer implements InitializerInterface, EventSubscriberIn
         if (null === $this->browser) {
             $this->browser = $this->client->createBrowser($this->capabilities);
             $this->browser->setImplicitTimeout($this->timeout);
+            $this->browser->closeOnDestruct();
         }
 
         $context->setBrowser($this->browser, $this->baseUrl);
     }
 
-    public function close()
-    {
-        if ($this->browser) {
-            $this->browser->close();
-        }
-    }
-
     public static function getSubscribedEvents()
     {
-        return array(
-            'afterSuite' => 'close'
-        );
+        return array();
     }
 }

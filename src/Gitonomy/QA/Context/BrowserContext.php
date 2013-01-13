@@ -54,11 +54,29 @@ class BrowserContext extends BaseBrowserContext
     }
 
     /**
-     * @Given /^I click on "(.*)"$/
+     * @When /^I click on (xpath|css|id|text) "(.*)"$/
+     */
+    public function iClickOnType($type, $text)
+    {
+        if ($type == '' || $type == 'text') {
+            $selector = By::xpath('//a[contains(text(),"'.$text.'")]|//input[@type="submit" and contains(@value, "'.$text.'")]|//button[contains(text(),"'.$text.'")]|//button[contains(@value, "'.$text.'")]');
+        } elseif ($type == 'css') {
+            $selector = By::css($text);
+        } elseif ($type == 'id') {
+            $selector = By::id($text);
+        } elseif ($type == 'xpath') {
+            $selector = By::xpath($text);
+        }
+
+        $this->getBrowser()->element($selector)->click();
+    }
+
+    /**
+     * @Given /^I click on "([^"]*)"$/
      */
     public function iClickOn($text)
     {
-        $this->getBrowser()->element(By::xpath('//a[contains(text(),"'.$text.'")]|//input[@type="submit" and contains(@value, "'.$text.'")]|//button[contains(text(),"'.$text.'")]|//button[contains(@value, "'.$text.'")]'))->click();
+        return $this->iClickOnType('text', $text);
     }
 
     /**

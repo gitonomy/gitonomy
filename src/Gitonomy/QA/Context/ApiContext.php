@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\TableNode;
 use Gitonomy\QA\KernelFactory;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
