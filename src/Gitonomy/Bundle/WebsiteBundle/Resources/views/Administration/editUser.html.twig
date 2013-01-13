@@ -8,8 +8,8 @@
 
 {% block administration_content %}
     <div id="content">
-        <form method="POST" action"{{ path('administration_editUser', {id: user.id}) }}" class="form-horizontal" novalidate>
-            <legend>{{ 'form.legend.edit'|trans({'%username%': user.username}) }}</legend>
+        <legend>{{ 'form.legend.edit'|trans({'%username%': user.username}) }}</legend>
+        <form method="POST" action"{{ path('administration_editUser', {username: user.username}) }}" class="form-horizontal" novalidate>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
@@ -17,6 +17,55 @@
                     <a class="btn" href="{{ path('administration_users') }}">{{ 'button.cancel'|trans }}</a>
                 </div>
             </div>
+            <legend>{{ 'form.legend.emails'|trans }}</legend>
+        </form>
+        <form action="{{ path('administration_emailCreate', {username: user.username}) }}" method="POST">
+            <table class="bordered-table table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ 'table.emails.column.email'|trans }}</th>
+                        <th>{{ 'table.emails.column.is_default'|trans }}</th>
+                        <th>{{ 'table.emails.column.is_active'|trans }}</th>
+                        <th class="pull-right">{{ 'table.emails.column.actions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for email in user.emails %}
+                        <tr id="email_{{ email.id }}">
+                            <td>{{ email.email }}</td>
+                            <td>{{ (email.default ? '<i class="icon-ok"></i>' : '&nbsp;')|raw }}</td>
+                            <td>{{ (email.active ? '<i class="icon-ok"></i>' : '&nbsp;')|raw }}</td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    {% if email.active %}
+                                        <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_disactivate'|trans({'%email%': email.email}) }} " class="btn btn-small" href="{{ path('administration_emailAction', {action: 'disactivate', id: email.id}) }}"><i class="icon-ban-circle"></i></a>
+                                    {% else %}
+                                        <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_activate'|trans({'%email%': email.email}) }} " class="btn btn-small" href="{{ path('administration_emailAction', {action: 'activate', id: email.id}) }}"><i class="icon-thumbs-up"></i></a>
+                                    {% endif %}
+                                    {% if not email.default %}
+                                        <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_as_default'|trans({'%email%': email.email}) }} " class="btn btn-small" href="{{ path('administration_emailAction', {action: 'as_default', id: email.id}) }}"><i class="icon-ok"></i></a>
+                                    {% endif %}
+                                    <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_delete'|trans({'%email%': email.email}) }} " class="btn btn-small btn-danger"  data-method="POST" href="{{ path('administration_deleteUser', {username: user.username}) }}"><i class="icon-fire icon-white"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            {{ form_widget(mail_form.email) }}
+                            <input class="btn btn-success" type="submit" value="{{ 'form.mail_form.submit'|trans }}" />
+                            {{ form_errors(mail_form.email) }}
+                            {{ form_errors(mail_form) }}
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
+            {{ form_rest(mail_form) }}
         </form>
     </div>
 {% endblock %}

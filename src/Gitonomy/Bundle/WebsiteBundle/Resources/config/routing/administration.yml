@@ -7,11 +7,19 @@ administration_createUser:
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:createUser" }
 
 administration_editUser:
-    pattern: /admin/users/{id}/edit
+    pattern: /admin/users/{username}/edit
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:editUser" }
 
+administration_emailCreate:
+    pattern: /admin/users/{username}/new-email
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:emailCreate" }
+
+administration_emailAction:
+    pattern: /admin/users/email/{id}/{action}
+    defaults: { _controller: "GitonomyWebsiteBundle:Administration:emailAction" }
+
 administration_deleteUser:
-    pattern: /admin/users/{id}/delete
+    pattern: /admin/users/{username}/delete
     defaults: { _controller: "GitonomyWebsiteBundle:Administration:deleteUser" }
     requirements:
         method: POST

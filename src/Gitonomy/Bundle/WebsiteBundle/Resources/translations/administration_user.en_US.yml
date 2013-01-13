@@ -19,6 +19,8 @@ form.global_roles: Global roles
 
 form.legend.create: Create new user
 form.legend.edit: Edit user %username%
+form.legend.emails: "User emails"
+form.mail_form.submit: "Create email"
 
 table.list.column.fullname: Fullname
 table.list.column.username: Username
@@ -26,9 +28,25 @@ table.list.column.timezone: Timezone
 table.list.column.email: Email
 table.list.column.culture: Culture
 
-tooltip.edit: Edit
-tooltip.delete: Delete
+table.emails.column.email: Email
+table.emails.column.is_default: Is default
+table.emails.column.is_active: Is active
+table.emails.column.actions: Actions
+table.emails.value.yes: Yes
+table.emails.value.no: No
+
+tooltip.edit: Edit this user
+tooltip.delete: Delete user %fullname%
+tooltip.email_activate: Activate email %email%
+tooltip.email_disactivate: Disactivate email %email%
+tooltip.email_as_default: Set %email% as default email
+tooltip.email_delete: Delete email %email%
 
 notice.created: User created
 notice.updated: User updated
 notice.deleted: User deleted
+notice.email_created: "Email %email% created"
+notice.email_activated: "Email %email% activated"
+notice.email_disactivated: "Email %email% disactivated"
+notice.email_as_default: "Email %email% set as default"
+notice.email_deleted: "Email %email% deleted"

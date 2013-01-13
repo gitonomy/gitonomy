@@ -19,6 +19,8 @@ form.global_roles: Rôles globaux
 
 form.legend.create: Créer un nouvel utilisateur
 form.legend.edit: "Edition de l'utilisateur %username%"
+form.legend.emails: "E-mails de l'utilisateur"
+form.mail_form.submit: "Créer l'e-mail"
 
 table.list.column.fullname: Nom
 table.list.column.username: Surnom
@@ -26,9 +28,25 @@ table.list.column.timezone: Fuseau horaire
 table.list.column.email: Courriel
 table.list.column.culture: Culture
 
-tooltip.edit: Editer
-tooltip.delete: Supprimer
+table.emails.column.email: "E-mail"
+table.emails.column.is_default: Par défaut
+table.emails.column.is_active: Activé
+table.emails.column.actions: Actions
+table.emails.value.yes: Oui
+table.emails.value.no: Non
 
-notic.created: Utilisé prêt à travailler
-notic.updated: Utilisateur édité
-notic.deleted: Utilisateur viré
+tooltip.edit: "Editer cet utilisateur"
+tooltip.delete: "Supprimer l'utilisateur %fullname%"
+tooltip.email_activate: "Activer l'e-mail %email%"
+tooltip.email_disactivate: "Désactiver l'e-mail %email%"
+tooltip.email_as_default: "Mettre %email% comme e-mail par défaut"
+tooltip.email_delete: "Supprimer l'e-mail %email%"
+
+notice.created: Utilisé prêt à travailler
+notice.updated: Utilisateur édité
+notice.deleted: Utilisateur viré
+notice.email_created: "E-mail %email% ajouté"
+notice.email_activated: "Email %email % activé"
+notice.email_disactivated: "E-mail %email% désactivé"
+notice.email_as_default: "E-mail %email% mis par défaut"
+notice.email_deleted: "E-mail %email% supprimé"
