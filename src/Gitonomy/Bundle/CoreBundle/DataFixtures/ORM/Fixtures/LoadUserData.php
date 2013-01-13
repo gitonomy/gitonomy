@@ -49,7 +49,7 @@ class LoadUserData extends UserFixture
         $alice = new User('alice', 'Alice', 'Europe/Paris');
         $alice->addGlobalRole($projectCreatorRole);
         $alice->createEmail('alice@example.org', true);
-        $alice->createEmail('derpina@example.org')->createActivationToken();
+        $alice->createEmail('derpina@example.org');
         $this->setPassword($alice, 'alice');
         $users[] = $alice;
 

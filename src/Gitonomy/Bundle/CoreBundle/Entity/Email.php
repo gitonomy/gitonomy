@@ -24,9 +24,13 @@ class Email
 
     public function __construct(User $user, $email = null, $isActive = false)
     {
-        $this->user  = $user;
-        $this->email = $email;
+        $this->user      = $user;
+        $this->email     = $email;
         $this->isDefault = false;
+
+        if (!$isActive) {
+            $this->createActivationToken();
+        }
     }
 
     public function getId()
@@ -86,6 +90,16 @@ class Email
     public function isActive()
     {
         return null === $this->activationToken;
+    }
+
+    public function activate()
+    {
+        $this->activationToken = null;
+    }
+
+    public function disactivate()
+    {
+        $this->createActivationToken();
     }
 
     public function getActivationToken()
