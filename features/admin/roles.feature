@@ -49,7 +49,7 @@ Feature: Administrate roles globally
           And role "to delete" exists
          When I am on "/admin/roles"
           And I should see "to delete"
-          And I click on xpath "//a[contains(@title, "Delete role to delete") or contains(@data-original-title, "Delete role to delete")]"
+          And I click on button with tooltip "Delete role to delete"
          Then I should see "Role deleted"
           And I should not see "to delete"
 

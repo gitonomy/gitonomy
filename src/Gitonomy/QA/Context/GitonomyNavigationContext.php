@@ -39,6 +39,15 @@ class GitonomyNavigationContext extends BaseBrowserContext
     }
 
     /**
+     * @Then /^I click on button with tooltip "(.*)"$/
+     */
+    public function iClickOnButtonWithTooltip($text)
+    {
+        $this->getBrowser()->element(By::xpath('//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]'))->click();
+    }
+
+
+    /**
      * @Then /^I should see an action "([^"]*)" in contextual navigation$/
      */
     public function iShouldSeeAnActionInContextualNavigation($action)
