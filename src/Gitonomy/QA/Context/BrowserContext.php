@@ -108,9 +108,13 @@ class BrowserContext extends BaseBrowserContext
      */
     public function iFillWith($field, $value)
     {
-        $label = $this->getBrowser()->element(By::xpath('//label[contains(text(), "'.$field.'")]'));
-        $for = $label->attribute('for');
-        $input = $this->getBrowser()->element(By::id($for));
+        if (preg_match('/^#/', $field)) {
+            $input = $this->getBrowser()->element(By::id(substr($field, 1)));
+        } else {
+            $label = $this->getBrowser()->element(By::xpath('//label[contains(text(), "'.$field.'")]'));
+            $for = $label->attribute('for');
+            $input = $this->getBrowser()->element(By::id($for));
+        }
 
         if ($input->name() == 'select') {
             $input->element(By::xpath('//option[contains(text(), "'.$value.'")]'))->click();

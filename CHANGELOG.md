@@ -9,6 +9,7 @@
   * fix design: history graph embedded in table
   * new ease configuration of mailer
   * new confirmation buttons
+  * new manage user emails
 
 * v0.2 (2012-09-01)
 

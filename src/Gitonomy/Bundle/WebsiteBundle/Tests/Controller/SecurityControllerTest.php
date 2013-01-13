@@ -29,51 +29,6 @@ class SecurityControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testRegister()
-    {
-        $crawler  = $this->client->request('GET', '/register');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $form = $crawler->filter('form button[type=submit]')->form(array(
-            'register[username]'         => 'test',
-            'register[fullname]'         => 'Test example',
-            'register[email]'            => 'test@example.org',
-            'register[password][first]'  => 'test',
-            'register[password][second]' => 'test',
-        ));
-
-        $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/login'));
-
-        $crawler = $this->client->followRedirect();
-        $node = $crawler->filter('div.alert-success');
-
-        $this->assertEquals(1, $node->count());
-        $this->assertEquals('Your account was created!', $node->text());
-    }
-
-    public function testLogin()
-    {
-        $crawler = $this->client->request('GET', '/login');
-
-        $form = $crawler->filter('form button[type=submit]')->form(array(
-            '_username' => 'foo',
-            '_password' => 'bar',
-        ));
-
-        $this->client->submit($form);
-
-        $this->assertTrue($this->client->getResponse()->isRedirect('http://localhost/login'));
-
-        $crawler = $this->client->followRedirect();
-
-        $this->assertEquals('Bad credentials', $crawler->filter('.alert-error')->text());
-    }
-
     public function testInactiveLogin()
     {
         $crawler = $this->client->request('GET', '/login');

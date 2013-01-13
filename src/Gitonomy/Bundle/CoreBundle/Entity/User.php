@@ -116,7 +116,7 @@ class User implements UserInterface
      */
     public function createEmail($email = null, $setDefault = false)
     {
-        $email = new Email($this, $email);
+        $email = new Email($this, $email, $setDefault);
         $this->emails->add($email);
 
         if ($setDefault) {
@@ -137,7 +137,7 @@ class User implements UserInterface
     public function setDefaultEmail($email)
     {
         if (is_string($email)) {
-            $email = new Email($email);
+            $email = new Email($this, $email);
         } elseif (!$email instanceof Email) {
             throw new \InvalidArgumentException(sprintf('Unable to convert a %s to a Email', gettype($email)));
         }

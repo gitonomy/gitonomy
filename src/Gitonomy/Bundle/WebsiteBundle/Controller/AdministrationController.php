@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 class AdministrationController extends Controller
 {
@@ -45,7 +46,7 @@ class AdministrationController extends Controller
 
                 $this->setFlash('success', $this->trans('notice.created', array(), 'administration_user'));
 
-                return $this->redirect($this->generateUrl('administration_editUser', array('id' => $user->getId())));
+                return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
             }
         }
 
@@ -54,36 +55,33 @@ class AdministrationController extends Controller
         ));
     }
 
-    public function editUserAction(Request $request, $id)
+    public function editUserAction(Request $request, $username)
     {
         $this->assertGranted('ROLE_ADMIN');
+        $user = $this->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
-        $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
         $form = $this->createForm('administration_user', $user, array('validation_groups' => 'admin'));
 
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->flush();
 
-            if ($form->isValid()) {
-                $this->flush();
+            $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_user'));
 
-                $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_user'));
-
-                return $this->redirect($this->generateUrl('administration_users'));
-            }
+            return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
         }
 
         return $this->render('GitonomyWebsiteBundle:Administration:editUser.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
+            'mail_form' => $this->createForm('profile_email')->createView()
         ));
     }
 
-    public function deleteUserAction($id)
+    public function deleteUserAction($username)
     {
         $this->assertGranted('ROLE_ADMIN');
 
-        $user = $this->getRepository('GitonomyCoreBundle:User')->find($id);
+        $user = $this->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
         if ($user === $this->getUser()) {
             throw $this->createAccessDeniedException('Cannot delete self account');
@@ -93,6 +91,57 @@ class AdministrationController extends Controller
         $this->setFlash('success', $this->trans('notice.deleted', array(), 'administration_user'));
 
         return $this->redirect($this->generateUrl('administration_users'));
+    }
+
+    public function emailCreateAction(Request $request, $username)
+    {
+        $this->assertGranted('ROLE_ADMIN');
+
+        $user  = $this->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+        if (!$user) {
+            throw $this->createNotFoundException(sprintf('No user with username "%s"', $username));
+        }
+        $email = new Email($user, null, true);
+        $form  = $this->createForm('profile_email', $email);
+
+        if ($form->bind($request)->isValid()) {
+            $this->persistEntity($email);
+            $this->setFlash('success', $this->trans('notice.email_created', array('%email%' => $email->getEmail()), 'administration_user'));
+
+            return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
+        }
+
+        return $this->render('GitonomyWebsiteBundle:Administration:editUser.html.twig', array(
+            'user'      => $user,
+            'form'      => $this->createForm('administration_user', $user, array('validation_groups' => 'admin'))->createView(),
+            'mail_form' => $form->createView()
+        ));
+    }
+
+    public function emailActionAction(Request $request, $id, $action)
+    {
+        $this->assertGranted('ROLE_ADMIN');
+
+        $email = $this->getRepository('GitonomyCoreBundle:Email')->find($id);
+        $user  = $email->getUser();
+
+        if ($action === 'activate') {
+            $email->activate();
+            $success = $this->trans('notice.email_activated', array('%email%' => $email->getEmail()), 'administration_user');
+        } elseif ($action === 'disactivate') {
+            $email->disactivate();
+            $success = $this->trans('notice.email_disactivated', array('%email%' => $email->getEmail()), 'administration_user');
+        } elseif ($action === 'as_default') {
+            $user->setDefaultEmail($email);
+            $success = $this->trans('notice.email_as_default', array('%email%' => $email->getEmail()), 'administration_user');
+        } else {
+            throw $this->createNotFoundException(sprintf('No action %s on a mail in administration controller', $action));
+        }
+
+        $this->flush();
+        $this->setFlash('success', $success);
+
+        return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
     }
 
     public function rolesAction()
