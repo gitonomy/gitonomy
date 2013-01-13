@@ -1,41 +1,30 @@
-page:
-    title:
-        main: Administration des rôles
-        create: Nouveau rôle
-        edit: Edition du rôle %name%
+page.title.main: Administration des rôles
+page.title.create: Nouveau rôle
+page.title.edit: Edition du rôle %name%
 
-action:
-    create: "Nouveau rôle"
+action.create: Nouveau rôle
 
-title:
-    create: "Créer un nouveau rôle"
+title.create: Créer un nouveau rôle
 
-button:
-    create: Enregister
-    edit: Enregister
-    cancel: Annuler
+button.create: Enregister
+button.edit: Enregister
+button.cancel: Annuler
+button.confirm.delete: Oui, je veux supprimer %name%
 
-form:
-    name: Nom
-    slug: Jeton
-    description: Description
-    permissions: Permissions
+form.name: Nom
+form.slug: Jeton
+form.description: Description
+form.permissions: Permissions
 
-    legend:
-        create: Créer un nouveau rôle
-        edit: "Edition du rôle %name%"
+form.legend.create: Créer un nouveau rôle
+form.legend.edit: Edition du rôle %name%
 
-table:
-    list:
-        column:
-            name: Nom
-            description: Description
+table.list.column.name: Nom
+table.list.column.description: Description
 
-tooltip:
-    edit: Editer le rôle %name%
-    delete: Supprimer le rôle %name%
+tooltip.edit: Editer le rôle %name%
+tooltip.delete: Supprimer le rôle %name%
 
-notice:
-    created: Rôle créé
-    updated: Rôle mis à jour
-    deleted: Rôle supprimé
+notice.created: Rôle créé
+notice.updated: Rôle mis à jour
+notice.deleted: Rôle supprimé

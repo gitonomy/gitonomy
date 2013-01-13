@@ -80,14 +80,6 @@ class BrowserContext extends BaseBrowserContext
     }
 
     /**
-     * @Given /^I click on xpath "(.*)"$/
-     */
-    public function iClickOnXpath($xpath)
-    {
-        $this->getBrowser()->element(By::xpath($xpath))->click();
-    }
-
-    /**
      * @Then /^I should (not )?see "(.*)"$/
      */
     public function iShouldSee($not, $text)

@@ -30,8 +30,10 @@
                     <td>{{ user.timezone }}</td>
                     <td>
                         <div class="btn-group pull-right">
-                            <a rel="tooltip" title="{{ 'tooltip.edit'|trans }} " class="btn btn-small" href="{{ path('administration_editUser', {id: user.id}) }}"><i class="icon-edit"></i></a>
-                            <a rel="tooltip" data-placement="left" title="{{ 'tooltip.delete'|trans }} " class="btn btn-small btn-danger" data-method="POST" data-confirm="{{ 'button.confirm.delete'|trans({'%fullname%': user.fullname}) }}" href="{{ path('administration_deleteUser', {id: user.id}) }}"><i class="icon-fire icon-white"></i></a>
+                            <a rel="tooltip" title="{{ 'tooltip.edit'|trans }}" class="btn btn-small" href="{{ path('administration_editUser', {id: user.id}) }}"><i class="icon-edit"></i></a>
+                            {% if not app.user is sameas(user) %}
+                                <a rel="tooltip" data-placement="left" title="{{ 'tooltip.delete'|trans }}" class="btn btn-small btn-danger" data-method="POST" data-confirm="{{ 'button.confirm.delete'|trans({'%fullname%': user.fullname}) }}" href="{{ path('administration_deleteUser', {id: user.id}) }}"><i class="icon-fire icon-white"></i></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>
