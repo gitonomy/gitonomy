@@ -17,7 +17,7 @@ namespace Gitonomy\Component\Config;
  *
  * This order is useful because of the reading operation: it stops when a value is found.
  *
- * If a config fails on a reading operation, exception will be caught and ignored by chain-config.
+ * If a config fails, exception will be caught and ignored by chain-config.
  *
  * Writing operations are propagated to all sub-configs.
  *
@@ -73,7 +73,11 @@ class ChainConfig implements ConfigInterface
 
         while ($i > 0) {
             $i--;
-            $this->configs[$i]->set($key, $current);
+            try {
+                $this->configs[$i]->set($key, $current);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
 
         return $current;
@@ -85,7 +89,11 @@ class ChainConfig implements ConfigInterface
     public function set($key, $value)
     {
         foreach ($this->configs as $config) {
-            $config->set($key, $value);
+            try {
+                $config->set($key, $value);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
     }
     /**
@@ -94,7 +102,11 @@ class ChainConfig implements ConfigInterface
     public function remove($key)
     {
         foreach ($this->configs as $config) {
-            $config->remove($key);
+            try {
+                $config->remove($key);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
     }
 
@@ -122,7 +134,11 @@ class ChainConfig implements ConfigInterface
 
         while ($i > 0 && count($current)) {
             $i--;
-            $this->configs[$i]->merge($current);
+            try {
+                $current = $this->configs[$i]->setAll($current);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
 
         return $current;
@@ -134,7 +150,11 @@ class ChainConfig implements ConfigInterface
     public function setAll(array $values)
     {
         foreach ($this->configs as $config) {
-            $config->setAll($values);
+             try {
+               $config->setAll($values);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
     }
 
@@ -144,7 +164,11 @@ class ChainConfig implements ConfigInterface
     public function merge(array $values)
     {
         foreach ($this->configs as $config) {
-            $config->merge($values);
+             try {
+                $config->merge($values);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
     }
 }
