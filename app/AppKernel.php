@@ -15,7 +15,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
-    const VERSION = '0.3-DEV';
+    const VERSION = '0.3';
 
     public function registerBundles()
     {
