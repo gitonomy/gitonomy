@@ -19,7 +19,7 @@
         <parameter key="gitonomy_website.form.type.project_git_access.class">Gitonomy\Bundle\WebsiteBundle\Form\Project\GitAccessType</parameter>
 
         <!-- Profile -->
-        <parameter key="gitonomy_website.form.type.profile_informations.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\InformationsType</parameter>
+        <parameter key="gitonomy_website.form.type.profile_information.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\InformationType</parameter>
         <parameter key="gitonomy_website.form.type.profile_email.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\EmailType</parameter>
         <parameter key="gitonomy_website.form.type.profile_ssh_key.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\SshKeyType</parameter>
         <parameter key="gitonomy_website.form.type.profile_password.class">Gitonomy\Bundle\WebsiteBundle\Form\Profile\ProfilePasswordType</parameter>
@@ -68,8 +68,8 @@
         </service>
 
         <!-- Profile -->
-        <service id="gitonomy_website.form.type.profile_informations" class="%gitonomy_website.form.type.profile_informations.class%">
-            <tag name="form.type" alias="profile_informations" />
+        <service id="gitonomy_website.form.type.profile_information" class="%gitonomy_website.form.type.profile_information.class%">
+            <tag name="form.type" alias="profile_information" />
         </service>
         <service id="gitonomy_website.form.type.profile_email" class="%gitonomy_website.form.type.profile_email.class%">
             <tag name="form.type" alias="profile_email" />

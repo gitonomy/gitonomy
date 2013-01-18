@@ -88,7 +88,7 @@ EOF
         $originalCommand = $shellHandler->getOriginalCommand();
 
         if (null === $originalCommand) {
-            $this->outputUserInformations($output, $user);
+            $this->outputUserInformation($output, $user);
 
             return;
         }
@@ -118,7 +118,7 @@ EOF
         ));
     }
 
-    protected function outputUserInformations(OutputInterface $output, User $user)
+    protected function outputUserInformation(OutputInterface $output, User $user)
     {
         $output->writeln("");
         $output->writeln("You are identified as ".$user->getUsername());

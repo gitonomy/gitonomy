@@ -38,7 +38,7 @@ class GitCommandTest extends CommandTestCase
         $this->client->stopIsolation();
     }
 
-    public function testShellInformations()
+    public function testShellInformation()
     {
         $this->shellHandler
             ->expects($this->once())

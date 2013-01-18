@@ -11,7 +11,7 @@
 
     <div id="wrapper">
         <ul id="local-menu">
-            <li><a href="{{ path('profile_informations') }}"{% if local_navigation == 'informations' %} class="active"{% endif %}>{{ 'menu.informations'|trans }}</a></li>
+            <li><a href="{{ path('profile_information') }}"{% if local_navigation == 'information' %} class="active"{% endif %}>{{ 'menu.information'|trans }}</a></li>
             <li><a href="{{ path('profile_sshKeys') }}"{% if local_navigation == 'sshKeys' %} class="active"{% endif %}>{{ 'menu.ssh_keys'|trans }}</a></li>
             <li><a href="{{ path('profile_password') }}"{% if local_navigation == 'password' %} class="active"{% endif %}>{{ 'menu.password'|trans }}</a></li>
         </ul>

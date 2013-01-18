@@ -16,28 +16,28 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class InformationsType extends AbstractType
+class InformationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', 'text', array('label' => 'form.informations.username'))
-            ->add('fullname', 'text', array('label' => 'form.informations.fullname'))
-            ->add('timezone', 'timezone', array('label' => 'form.informations.timezone'))
-            ->add('locale', 'gitonomy_locale', array('label' => 'form.informations.locale'))
+            ->add('username', 'text', array('label' => 'form.information.username'))
+            ->add('fullname', 'text', array('label' => 'form.information.fullname'))
+            ->add('timezone', 'timezone', array('label' => 'form.information.timezone'))
+            ->add('locale', 'gitonomy_locale', array('label' => 'form.information.locale'))
         ;
     }
 
     public function getName()
     {
-        return 'profile_informations';
+        return 'profile_information';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'validation_groups'  => array('profile'),
-            'translation_domain' => 'profile_informations'
+            'translation_domain' => 'profile_information'
         ));
     }
 }

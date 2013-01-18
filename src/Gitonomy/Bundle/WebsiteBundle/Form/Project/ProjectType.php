@@ -20,11 +20,11 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => 'form.informations.name'));
+        $builder->add('name', 'text', array('label' => 'form.information.name'));
         if ('create' === $options['action']) {
-            $builder->add('slug', 'text', array('label' => 'form.informations.slug'));
+            $builder->add('slug', 'text', array('label' => 'form.information.slug'));
         }
-        $builder->add('defaultBranch', 'text', array('label' => 'form.informations.defaultBranch'));
+        $builder->add('defaultBranch', 'text', array('label' => 'form.information.defaultBranch'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

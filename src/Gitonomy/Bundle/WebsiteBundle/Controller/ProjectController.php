@@ -393,7 +393,7 @@ class ProjectController extends Controller
 
         if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
             $this->flush();
-            $this->setFlash('success', $this->trans('notice.informations_saved', array(), 'project_admin'));
+            $this->setFlash('success', $this->trans('notice.information_saved', array(), 'project_admin'));
 
             return $this->redirect($this->generateUrl('project_admin', array('slug' => $slug)));
         }

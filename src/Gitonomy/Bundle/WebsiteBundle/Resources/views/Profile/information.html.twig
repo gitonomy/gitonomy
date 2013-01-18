@@ -1,19 +1,19 @@
 {% extends "GitonomyWebsiteBundle::layout_profile.html.twig" %}
 
-{% trans_default_domain 'profile_informations' %}
+{% trans_default_domain 'profile_information' %}
 
 {% block title 'page.title'|trans %}
 
-{% set local_navigation = 'informations' %}
+{% set local_navigation = 'information' %}
 
 {% block profile_content %}
     <div id="content">
-        <form class="form-horizontal" method="POST" action="{{ path('profile_saveInformations') }}">
-            <legend>{{ 'title.informations'|trans }}</legend>
+        <form class="form-horizontal" method="POST" action="{{ path('profile_saveInformation') }}">
+            <legend>{{ 'title.information'|trans }}</legend>
             {{ form_rest(form) }}
             <div class="control-group">
                 <div class="controls">
-                    <button class="btn btn-success" type="submit"><i class="symbol">save</i> {{ 'form.informations.submit'|trans }}</button>
+                    <button class="btn btn-success" type="submit"><i class="symbol">save</i> {{ 'form.information.submit'|trans }}</button>
                 </div>
             </div>
         </form>

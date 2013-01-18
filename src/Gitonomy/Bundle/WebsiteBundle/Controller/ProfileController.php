@@ -19,31 +19,31 @@ use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 class ProfileController extends Controller
 {
-    public function informationsAction()
+    public function informationAction()
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
 
-        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
+        return $this->render('GitonomyWebsiteBundle:Profile:information.html.twig', array(
             'user'       => $user,
-            'form'       => $this->createForm('profile_informations', $user)->createView(),
+            'form'       => $this->createForm('profile_information', $user)->createView(),
             'form_email' => $this->createForm('profile_email', new Email($user))->createView(),
             'token'      => $this->createToken('profile')
         ));
     }
 
-    public function saveInformationsAction(Request $request)
+    public function saveInformationAction(Request $request)
     {
-        $form = $this->createForm('profile_informations', $this->getUser());
+        $form = $this->createForm('profile_information', $this->getUser());
         if ($form->bind($request)->isValid()) {
             $this->flush();
-            $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('notice.profile_saved', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
-        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
+        return $this->render('GitonomyWebsiteBundle:Profile:information.html.twig', array(
             'user'       => $user,
             'form'       => $form->createView(),
             'form_email' => $this->createForm('profile_email', new Email($user))->createView(),
@@ -66,14 +66,14 @@ class ProfileController extends Controller
             $em->persist($email);
             $em->flush();
 
-            $this->setFlash('success', $this->trans('notice.email_created', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('notice.email_created', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
-        return $this->render('GitonomyWebsiteBundle:Profile:informations.html.twig', array(
+        return $this->render('GitonomyWebsiteBundle:Profile:information.html.twig', array(
             'user'       => $user,
-            'form'       => $this->createForm('profile_informations', $user)->createView(),
+            'form'       => $this->createForm('profile_information', $user)->createView(),
             'form_email' => $form->createView(),
         ));
     }
@@ -82,9 +82,9 @@ class ProfileController extends Controller
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
         $email = $this->findEmail($id);
@@ -92,18 +92,18 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($email);
         $em->flush();
-        $this->setFlash('success', $this->trans('notice.email_deleted', array(), 'profile_informations'));
+        $this->setFlash('success', $this->trans('notice.email_deleted', array(), 'profile_information'));
 
-        return $this->redirect($this->generateUrl('profile_informations'));
+        return $this->redirect($this->generateUrl('profile_information'));
     }
 
     public function defaultEmailAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
         $defaultEmail = $this->findEmail($id);
@@ -116,18 +116,18 @@ class ProfileController extends Controller
         $user->setDefaultEmail($defaultEmail);
         $this->persistEntity($defaultEmail);
 
-        $this->setFlash('success', $this->trans('notice.default_email_changed', array(), 'profile_informations'));
+        $this->setFlash('success', $this->trans('notice.default_email_changed', array(), 'profile_information'));
 
-        return $this->redirect($this->generateUrl('profile_informations'));
+        return $this->redirect($this->generateUrl('profile_information'));
     }
 
     public function activateEmailAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
         $email = $this->findEmail($id);
@@ -139,9 +139,9 @@ class ProfileController extends Controller
             'token' => $token
         ));
 
-        $this->setFlash('success', $this->trans('notice.activation_sent', array(), 'profile_informations'));
+        $this->setFlash('success', $this->trans('notice.activation_sent', array(), 'profile_information'));
 
-        return $this->redirect($this->generateUrl('profile_informations'));
+        return $this->redirect($this->generateUrl('profile_information'));
     }
 
     /**
@@ -185,9 +185,9 @@ class ProfileController extends Controller
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_informations'));
+            $this->setFlash('success', $this->trans('', array(), 'profile_information'));
 
-            return $this->redirect($this->generateUrl('profile_informations'));
+            return $this->redirect($this->generateUrl('profile_information'));
         }
 
         $userSshKey = $this->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);

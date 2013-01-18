@@ -1,7 +1,7 @@
 Feature: Project administration
     As a user
     I can administrate a project
-    So I easily manage informations of my project
+    So I easily manage information of my project
 
     Scenario: I need to have sufficient credentials to administrate project
         Given I am connected as "alice"

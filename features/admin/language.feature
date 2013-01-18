@@ -24,7 +24,7 @@ Feature: Manage language of the application
          Then I should see "User profile"
          When I fill:
             | Language | French |
-         And I click on "Save informations"
+         And I click on "Save information"
         Then I should see "Profil utilisateur"
         When I fill:
             | Langue | English |

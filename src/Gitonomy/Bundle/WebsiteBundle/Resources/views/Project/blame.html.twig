@@ -15,7 +15,7 @@
             {% for x in blame.groupedLines %}
                 {% set commit, lines = x[0], x[1] %}
                 <tr>
-                    <td class="informations" rowspan="{{ lines|length }}" valign="top">
+                    <td class="information" rowspan="{{ lines|length }}" valign="top">
                         <span class="author">{{ commit.authorName }}</span>
                         <br />
                         <a href="{{ path('project_commit', {slug: project.slug, hash: commit.hash}) }}" title="{{ commit.message }}">{{ commit.shortMessage }}</a>
@@ -24,8 +24,8 @@
                         {% if not loop.first %}
                             <tr>
                         {% endif %}
-                                <td class="line-number{% if loop.first %} informations-border{% endif %}">{{ lineNumber }}</td>
-                                <td class="line-content{% if loop.first %} informations-border{% endif %}"><pre>{{ line.content }}</pre></td>
+                                <td class="line-number{% if loop.first %} information-border{% endif %}">{{ lineNumber }}</td>
+                                <td class="line-content{% if loop.first %} information-border{% endif %}"><pre>{{ line.content }}</pre></td>
                             </tr>
                     {% endfor %}
                 </tr>

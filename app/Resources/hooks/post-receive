@@ -5,7 +5,7 @@ if [ ! -z "$GITONOMY_ENV" ]; then
     env="$GITONOMY_ENV"
 fi
 
-# Check the context informations
+# Check the context information
 if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
     echo >&2 "No environment variables GITONOMY_USER and/or GITONOMY_PROJECT"
     exit 1

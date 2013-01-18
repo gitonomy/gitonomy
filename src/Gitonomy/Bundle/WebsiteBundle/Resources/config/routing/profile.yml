@@ -1,11 +1,11 @@
-profile_informations:
+profile_information:
     pattern: /profile
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:informations" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:information" }
     requirements: { _method: GET }
 
-profile_saveInformations:
+profile_saveInformation:
     pattern: /profile
-    defaults: { _controller: "GitonomyWebsiteBundle:Profile:saveInformations" }
+    defaults: { _controller: "GitonomyWebsiteBundle:Profile:saveInformation" }
     requirements: { _method: POST }
 
 profile_createEmail:

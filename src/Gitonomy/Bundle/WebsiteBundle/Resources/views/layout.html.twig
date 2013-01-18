@@ -37,7 +37,7 @@
                     </li>
                 {% endif %}
                 <li>
-                    <a href="{{ path('profile_informations') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
+                    <a href="{{ path('profile_information') }}"{% if global_navigation|default(null) == "profile" %} class="active"{% endif %}>
                         <div class="icon"><i class="symbol">you</i></div>
                         <div class="text">{{ 'menu.profile'|trans }}</div>
                     </a>
