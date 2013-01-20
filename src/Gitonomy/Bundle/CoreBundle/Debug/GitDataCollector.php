@@ -42,11 +42,45 @@ class GitDataCollector extends DataCollector
         return $logger;
     }
 
-    public function getCount()
+    public function getCount($name = null)
     {
         $count = 0;
+
+        // How to count run commands
+        $callback = function ($entry) {
+            return preg_match('/^run command/', $entry['message']);
+        };
+
+        if ($name) {
+            return array_sum(array_map($callback, $this->data[$name]));
+        }
+
         foreach ($this->data as $channel) {
-            $count += array_sum(array_map(function ($entry) { return preg_match('/^run command/', $entry['message']); }, $channel));
+            $count += array_sum(array_map($callback, $channel));
+        }
+
+        return $count;
+    }
+
+    public function getDuration($name = null)
+    {
+        $count = 0;
+
+        // How to count duration
+        $callback = function ($entry) {
+            if (preg_match('/duration: ([\d.]+)ms$/', $entry['message'], $vars)) {
+                return (float) $vars[1];
+            }
+
+            return 0;
+        };
+
+        if ($name) {
+            return array_sum(array_map($callback, $this->data[$name]));
+        }
+
+        foreach ($this->data as $channel) {
+            $count += array_sum(array_map($callback, $channel));
         }
 
         return $count;
