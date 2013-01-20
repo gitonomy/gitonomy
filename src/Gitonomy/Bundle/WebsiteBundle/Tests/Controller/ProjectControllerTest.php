@@ -109,7 +109,7 @@ class ProjectControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertGreaterThan(1, $crawler->filter('td:contains("add an image")')->count());
+        $this->assertEquals(1, $crawler->filter('td:contains("Add element_100")')->count());
 
         $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
         $response = $this->client->getResponse();

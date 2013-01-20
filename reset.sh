@@ -48,31 +48,34 @@ if [ -d "sample" ]; then
     rm sample -rf
 fi
 
-echo ">>> Uncompress sample/ folder"
-tar -xzf sample.tar.gz sample
+echo ">>> Create sample/ folder"
+mkdir sample
+git clone git://github.com/gitonomy/foobar.git sample/foobar --bare -q
+git clone git://github.com/gitonomy/barbaz.git sample/barbaz --bare -q
 
 echo ">>> Recreating repository foobar"
 cd sample/foobar
 export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
-git remote add origin ../../app/cache/repositories/foobar.git
-git push origin master:master -q
-git push origin master:master -q
-git push origin new-feature:new-feature -q
-git push origin pagination:pagination -q
-git push origin master:to-delete -q
+git remote add __tmp__ ../../app/cache/repositories/foobar.git
+git push __tmp__ master:master -q
+git push __tmp__ master:master -q
+git push __tmp__ new-feature:new-feature -q
+git push __tmp__ pagination:pagination -q
+git push __tmp__ master:to-delete -q
 export GITONOMY_USER="lead"
-git push origin :to-delete -q
+git push __tmp__ :to-delete -q
+git remote rm __tmp__
 cd ../..
 
 echo ">>> Recreating repository barbaz"
 cd sample/barbaz
-git remote add origin ../../app/cache/repositories/barbaz.git
+git remote add __tmp__ ../../app/cache/repositories/barbaz.git
 export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="barbaz"
-git push origin master:master -q
+git push __tmp__ master:master -q
 cd ../..
 
 git init --bare  app/cache/repositories/empty.git -q
