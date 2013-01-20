@@ -393,17 +393,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "99eda1388960df0f4314277a3093c9d61233a61d"
+                "reference": "a1a58494c967bd479da9e583fd9403d0f071c746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gitonomy/gitlib/archive/99eda1388960df0f4314277a3093c9d61233a61d.zip",
-                "reference": "99eda1388960df0f4314277a3093c9d61233a61d",
+                "url": "https://github.com/gitonomy/gitlib/archive/a1a58494c967bd479da9e583fd9403d0f071c746.zip",
+                "reference": "a1a58494c967bd479da9e583fd9403d0f071c746",
                 "shasum": ""
             },
             "require": {
-                "symfony/process": "<3",
-                "symfony/event-dispatcher": "<3"
+                "symfony/process": "<3"
             },
             "require-dev": {
                 "psr/log": ">=1.0,<2.0"
@@ -411,7 +410,7 @@
             "suggest": {
                 "psr/log": "Add some log"
             },
-            "time": "2013-01-20 16:07:28",
+            "time": "2013-01-20 17:01:00",
             "type": "library",
             "installation-source": "source",
             "autoload": {
