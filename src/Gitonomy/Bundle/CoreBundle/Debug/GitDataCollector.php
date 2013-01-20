@@ -7,13 +7,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
-use Gitonomy\Git\Event\PreCommandEvent;
-use Gitonomy\Git\Event\PostCommandEvent;
+use Monolog\Handler\TestHandler;
+use Monolog\Logger;
+
+use Gitonomy\Git\Repository;
 
 class GitDataCollector extends DataCollector
 {
+    protected $handlers = array();
+
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $this->data = array();
+
+        foreach ($this->handlers as $name => $handler) {
+            $this->data[$name] = $handler->getRecords();
+        }
     }
 
     public function getName()
@@ -21,43 +30,26 @@ class GitDataCollector extends DataCollector
         return 'git';
     }
 
-    public function onPreCommand(PreCommandEvent $event)
+    public function createLogger(Repository $repository)
     {
-        $signature = $event->getSignature();
+        $name = $repository->getGitDir();
+        $logger = new Logger($name);
+        $handler = new TestHandler();
+        $logger->pushHandler($handler);
 
-        $this->data[] = array(
-            'command'  => $event->getCommand(),
-            'args'     => $event->getArgs(),
-            'duration' => null,
-            'success'  => null
-        );
-    }
+        $this->handlers[$name] = $handler;
 
-    public function onPostCommand(PostCommandEvent $event)
-    {
-        $i = count($this->data) - 1;
-        if ($i == -1) {
-            throw new LogicException('Need a pre before a post');
-        }
-        $this->data[$i]['duration'] = $event->getDuration();
-        $this->data[$i]['success']  = $event->isSuccessful();
+        return $logger;
     }
 
     public function getCount()
     {
-        return count($this->data);
-    }
-
-    public function getTime()
-    {
-        $t = 0;
-        if (null !== $this->data) {
-            foreach ($this->data as $row) {
-                $t += $row['duration'];
-            }
+        $count = 0;
+        foreach ($this->data as $channel) {
+            $count += array_sum(array_map(function ($entry) { return preg_match('/^run command/', $entry['message']); }, $channel));
         }
 
-        return $t;
+        return $count;
     }
 
     public function getData()

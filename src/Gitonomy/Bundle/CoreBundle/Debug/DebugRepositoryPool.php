@@ -5,7 +5,7 @@ namespace Gitonomy\Bundle\CoreBundle\Debug;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
 
-use Gitonomy\Git\Event\Events;
+use Gitonomy\Git\Repository;
 
 class DebugRepositoryPool extends RepositoryPool
 {
@@ -21,8 +21,7 @@ class DebugRepositoryPool extends RepositoryPool
         $repository = parent::getGitRepository($project);
 
         if ($this->collector) {
-            $repository->addListener(Events::PRE_COMMAND,  array($this->collector, 'onPreCommand'));
-            $repository->addListener(Events::POST_COMMAND, array($this->collector, 'onPostCommand'));
+            $repository->setLogger($this->collector->createLogger($repository));
         }
 
         return $repository;
