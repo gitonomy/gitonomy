@@ -35,7 +35,7 @@ class UserCreateCommandTest extends CommandTestCase
 
         $this->assertEquals("The user foo was successfully created!\n", $output);
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneBy(array(
             'username' => 'foo'

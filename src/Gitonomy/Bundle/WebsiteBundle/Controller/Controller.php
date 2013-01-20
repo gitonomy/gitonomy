@@ -60,25 +60,25 @@ class Controller extends BaseController
 
     protected function getRepository($name)
     {
-        return $this->get('doctrine')->getEntityManager()->getRepository($name);
+        return $this->get('doctrine')->getManager()->getRepository($name);
     }
 
     protected function persistEntity($entity)
     {
-        $em = $this->get('doctrine')->getEntityManager();
+        $em = $this->get('doctrine')->getManager();
         $em->persist($entity);
         $em->flush();
     }
 
     protected function flush()
     {
-        $em = $this->get('doctrine')->getEntityManager();
+        $em = $this->get('doctrine')->getManager();
         $em->flush();
     }
 
     protected function removeEntity($entity)
     {
-        $em = $this->get('doctrine')->getEntityManager();
+        $em = $this->get('doctrine')->getManager();
         $em->remove($entity);
         $em->flush();
     }

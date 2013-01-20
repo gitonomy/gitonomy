@@ -35,7 +35,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
         $this->assertEquals("Added successfully Bob as Developer to Barbaz\n", $output);
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
@@ -54,7 +54,7 @@ class UserRoleCreateCommandTest extends CommandTestCase
 
         $this->assertEquals("Added successfully Bob as Administrator\n", $output);
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('bob');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Administrator');

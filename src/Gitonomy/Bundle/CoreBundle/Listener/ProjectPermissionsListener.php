@@ -59,7 +59,7 @@ class ProjectPermissionsListener implements EventSubscriberInterface
             return;
         }
 
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->getManager();
 
         $roles = $em->getRepository('GitonomyCoreBundle:Role')->getIndexedByName(array('Lead developer', 'Developer', 'Visitor'));
 

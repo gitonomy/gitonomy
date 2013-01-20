@@ -58,7 +58,7 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em   = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em   = $this->getContainer()->get('doctrine')->getManager();
 
         $project = new Project();
         $project->setName($input->getArgument('name'));

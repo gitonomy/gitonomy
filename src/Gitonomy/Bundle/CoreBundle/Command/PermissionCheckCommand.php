@@ -59,7 +59,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $permission = $input->getArgument('permission');
-        $em         = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em         = $this->getContainer()->get('doctrine')->getManager();
 
         $project = null;
         if (null !== $input->getOption('project')) {

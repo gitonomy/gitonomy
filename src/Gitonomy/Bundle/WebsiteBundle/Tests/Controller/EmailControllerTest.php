@@ -33,7 +33,7 @@ class EmailControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em    = $this->client->getContainer()->get('doctrine')->getManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
         $crawler = $this->client->request('GET', '/activate-email/'.$email->getActivationToken());
@@ -58,7 +58,7 @@ class EmailControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em    = $this->client->getContainer()->get('doctrine')->getManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
         $crawler = $this->client->request('GET', '/email/'.$email->getUser()->getUsername().'/activate/azerty');

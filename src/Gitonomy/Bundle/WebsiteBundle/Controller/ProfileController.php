@@ -89,7 +89,7 @@ class ProfileController extends Controller
 
         $email = $this->findEmail($id);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($email);
         $em->flush();
         $this->setFlash('success', $this->trans('notice.email_deleted', array(), 'profile_information'));

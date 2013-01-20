@@ -329,7 +329,7 @@ class ProjectController extends Controller
             return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
         }
 
-        $em = $this->get('doctrine')->getEntityManager();
+        $em = $this->get('doctrine')->getManager();
         $em->remove($role);
         $em->flush();
         $this->setFlash('success', $this->trans('notice.role_deleted', array(), 'project_permissions'));
@@ -375,7 +375,7 @@ class ProjectController extends Controller
             return $this->redirect($this->generateUrl('project_permissions', array('slug' => $slug)));
         }
 
-        $em = $this->get('doctrine')->getEntityManager();
+        $em = $this->get('doctrine')->getManager();
         $em->remove($role);
         $em->flush();
 

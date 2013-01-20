@@ -70,7 +70,7 @@ EOF
         $project   = $this->getProject($input->getArgument('project'));
         $role      = $this->getRole($input->getArgument('role'));
         $reference = $input->getArgument('reference');
-        $em        = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em        = $this->getContainer()->get('doctrine')->getManager();
 
         if ('create' === $verb) {
             $isWrite = $input->getArgument('isWrite');

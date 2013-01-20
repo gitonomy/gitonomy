@@ -35,7 +35,7 @@ class UserSshKeyCreateCommandTest extends CommandTestCase
 
         $this->assertEquals("The key named foo was successfully added to user alice!\n", $output);
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $userSshKey = $em->getRepository('GitonomyCoreBundle:UserSshKey')->findOneBy(array(
             'title' => 'foo'

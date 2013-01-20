@@ -88,7 +88,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em    = $this->client->getContainer()->get('doctrine')->getManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
         $this->assertNotEmpty($email);
 
@@ -114,7 +114,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $em    = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em    = $this->client->getContainer()->get('doctrine')->getManager();
         $email = $em->getRepository('GitonomyCoreBundle:Email')->findOneByEmail('derpina@example.org');
 
         $crawler = $this->client->request('GET', '/profile');
@@ -267,7 +267,7 @@ class ProfileControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $em   = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em   = $this->client->getContainer()->get('doctrine')->getManager();
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('inactive');
 
         $crawler = $this->client->request('GET', '/profile/'.$user->getUsername().'/activate/'.$user->getActivationToken());

@@ -230,7 +230,7 @@ class ProjectControllerTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('test');
 
         $this->assertNotEmpty($project);

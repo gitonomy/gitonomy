@@ -34,7 +34,7 @@ class UserRepository extends EntityRepository
 
     public function findByProject(Entity\Project $project)
     {
-        $em    = $this->getEntityManager();
+        $em    = $this->getManager();
         $query = $em
             ->createQuery(<<<SQL
 SELECT U

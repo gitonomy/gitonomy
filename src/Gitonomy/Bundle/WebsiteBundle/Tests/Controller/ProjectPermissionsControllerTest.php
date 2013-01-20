@@ -34,7 +34,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testPermissionsAsAnonymous()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
 
         $crawler  = $this->client->request('GET', '/projects/'.$project->getSlug().'/permissions');
@@ -44,7 +44,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testPermissionsAsAlice()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
 
         $this->client->connect('alice');
@@ -55,7 +55,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testPermissions()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
 
         $this->client->connect('admin');
@@ -69,7 +69,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testUserRoles()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('admin');
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
@@ -98,7 +98,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
         $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername('alice');
         $userRole = $em->getRepository('GitonomyCoreBundle:UserRoleProject')->findOneBy(array(
@@ -118,7 +118,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
 
     public function testGitAccesses()
     {
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $role    = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
 
@@ -150,7 +150,7 @@ class ProjectPermissionsControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $em = $this->client->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getContainer()->get('doctrine')->getManager();
         $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName('Developer');
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug('foobar');
         $gitAccess = $em->getRepository('GitonomyCoreBundle:ProjectGitAccess')->findOneBy(array(

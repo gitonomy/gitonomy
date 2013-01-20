@@ -55,7 +55,7 @@ EOF
         $title    = $input->getArgument('title');
         $content  = $input->getArgument('content');
 
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
         $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 

@@ -41,7 +41,7 @@ class AuthorizedKeysCommandTest extends CommandTestCase
         $lines = explode("\n", $output);
         $this->assertEquals(4, count($lines));
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $notInstalled = $em->getRepository('GitonomyCoreBundle:UserSshKey')->findOneBy(array(
             'content' => 'bob-key-not-installed'
@@ -55,7 +55,7 @@ class AuthorizedKeysCommandTest extends CommandTestCase
     {
         list($statusCode ,$output) = $this->runCommand($this->client, "gitonomy:authorized-keys -i");
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $notInstalled = $em->getRepository('GitonomyCoreBundle:UserSshKey')->findOneBy(array(
             'content' => 'bob-key-not-installed'

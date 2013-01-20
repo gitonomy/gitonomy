@@ -45,7 +45,7 @@ class FeedListener implements EventSubscriberInterface
 
     public function onProjectPush(PushReferenceEvent $event)
     {
-        $em        = $this->registry->getEntityManager();
+        $em        = $this->registry->getManager();
         $feed      = $this->getFeed($event);
         $reference = $event->getReference();
 
@@ -71,7 +71,7 @@ class FeedListener implements EventSubscriberInterface
 
     protected function getFeed(PushReferenceEvent $event)
     {
-        $em   = $this->registry->getEntityManager();
+        $em   = $this->registry->getManager();
         $repo = $em->getRepository('GitonomyCoreBundle:Feed');
         $project = $event->getProject();
         $reference = $event->getReference()->getReference();

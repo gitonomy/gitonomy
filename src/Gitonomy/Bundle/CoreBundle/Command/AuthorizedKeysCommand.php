@@ -63,7 +63,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $markAsInstalled = $input->getOption('mark-as-installed');
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
         $keyList = $em->transactional(function ($em) use ($markAsInstalled) {
             $repository = $em->getRepository('GitonomyCoreBundle:UserSshKey');

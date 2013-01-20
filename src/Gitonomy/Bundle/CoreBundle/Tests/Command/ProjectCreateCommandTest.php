@@ -57,7 +57,7 @@ class ProjectCreateCommandTest extends CommandTestCase
 
         $this->assertEquals("Project Sample name was created!\n", $output);
 
-        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
 
         $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBy(array(
             'name' => 'Sample name',
