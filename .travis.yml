@@ -1,4 +1,4 @@
-before_script: echo "extension = <apc>.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+before_script: echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 before_install:
     - sudo apt-get update -qq
     - sudo apt-get install php5-sqlite sqlite3
