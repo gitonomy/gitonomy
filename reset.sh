@@ -17,10 +17,10 @@ echo ">>> Cleanup repositories"
 if [ -d app/cache/repositories ]; then
     rm -rf app/cache/repositories
 fi
-mkdir app/cache/repositories -p
+mkdir -p app/cache/repositories
 
 if [ ! -f "app/config/parameters.yml" ]; then
-    echo ">>> Touching app/config/parmeters.yml"
+    echo ">>> Touching app/config/parameters.yml"
     touch app/config/parameters.yml
 fi
 
@@ -45,7 +45,7 @@ php app/console doctrine:fixtures:load --append --env=$env
 
 if [ -d "sample" ]; then
     echo ">>> Removing sample folder"
-    rm sample -rf
+    rm -rf sample
 fi
 
 echo ">>> Create sample/ folder"
