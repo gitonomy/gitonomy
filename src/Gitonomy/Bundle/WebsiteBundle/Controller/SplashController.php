@@ -64,9 +64,7 @@ class SplashController extends Controller
         $user = new User();
         $form = $this->createForm('register', $user);
 
-        $form->bind($request);
-
-        if ($form->isValid()) {
+        if ($form->bind($request)->isValid()) {
             $this->persistEntity($user);
             $this->setFlash('success', $this->trans('notice.success', array(), 'register'));
 

@@ -27,16 +27,16 @@
                     <value>change_username</value>
                 </option>
             </constraint>
-            <constraint name="Assert:MinLength">
-                <option name="limit">3</option>
+            <constraint name="Assert:Length">
+                <option name="min">3</option>
                 <option name="groups">
                     <value>registration</value>
                     <value>admin</value>
                     <value>change_username</value>
                 </option>
             </constraint>
-            <constraint name="Assert:MaxLength">
-                <option name="limit">32</option>
+            <constraint name="Assert:Length">
+                <option name="max">32</option>
                 <option name="groups">
                     <value>registration</value>
                     <value>admin</value>
@@ -60,8 +60,8 @@
                     <value>registration</value>
                 </option>
             </constraint>
-            <constraint name="Assert:MinLength">
-                <option name="limit">4</option>
+            <constraint name="Assert:Length">
+                <option name="min">4</option>
                 <option name="groups">
                     <value>registration</value>
                 </option>

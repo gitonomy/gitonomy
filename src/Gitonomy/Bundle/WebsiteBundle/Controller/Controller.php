@@ -28,7 +28,7 @@ class Controller extends BaseController
 
     protected function setFlash($name, $value)
     {
-        $this->get('session')->setFlash($name, $value);
+        $this->get('session')->getFlashBag()->set($name, $value);
     }
 
     protected function trans($id, array $parameters = array(), $domain = null, $locale = null)

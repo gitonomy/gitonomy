@@ -36,7 +36,7 @@ class NewEmailValidator extends ConstraintValidator
 
         $email = $this->doctrineRegistry->getRepository('GitonomyCoreBundle:Email')->findOneByEmail($value);
         if ($email) {
-            $this->setMessage($constraint->message);
+            $this->context->addViolation($constraint->message);
         }
     }
 }

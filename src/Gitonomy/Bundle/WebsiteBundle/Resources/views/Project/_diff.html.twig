@@ -48,8 +48,8 @@
                         <a rel="tooltip" title="{{ 'label.button.old'|trans }}" class="btn btn-small show-old"><i class="icon-chevron-left"></i></a>
                         <a rel="tooltip" title="{{ 'label.button.diff'|trans }}" disabled="disabled" class="btn btn-small show-diff"><i class="icon-eye-close"></i></a>
                         <a rel="tooltip" title="{{ 'label.button.new'|trans }}" class="btn btn-small show-new"><i class="icon-chevron-right"></i></a>
-                        {% if reference|default(null) and slug|default(null) %}
-                            <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: slug, reference: reference, path: file.name}) }}"><i class="icon-file"></i></a>
+                        {% if reference|default(null) and project|default(null) %}
+                            <a rel="tooltip" data-placement="left" title="{{ 'label.button.full_file'|trans }}" class="btn btn-small" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: file.name}) }}"><i class="icon-file"></i></a>
                         {% endif %}
                     </div>
                 {% endif %}
@@ -59,12 +59,12 @@
                     <div class="binary-compare">
                         {% if not file.creation %}
                             <span class="old">
-                                {{ render_blob(file.oldBlob) }}
+                                {{ render_blob(project.repository.blob(file.oldIndex)) }}
                             </span>
                         {% endif %}
                         {% if not file.deletion %}
                             <span class="new">
-                                {{ render_blob(file.newBlob) }}
+                                {{ render_blob(project.repository.blob(file.newIndex)) }}
                             </span>
                         {% endif %}
                     </div>

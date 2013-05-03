@@ -29,22 +29,6 @@ class ProfileControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testIndexAsAnonymous()
-    {
-        $crawler  = $this->client->request('GET', '/profile');
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isRedirect('http://localhost/login'));
-    }
-
-    public function testIndexAsAdmin()
-    {
-        $this->client->connect('admin');
-        $crawler  = $this->client->request('GET', '/profile');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-
     public function testCreateEmailExists()
     {
         $this->client->connect('admin');

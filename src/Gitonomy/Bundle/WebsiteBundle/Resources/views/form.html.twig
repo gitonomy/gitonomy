@@ -1,4 +1,4 @@
-{% block field_row %}
+{% block form_row %}
 {% spaceless %}
     <div id="{{ id }}_field" class="control-group{% if errors|length %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
@@ -8,7 +8,7 @@
         </div>
     </div>
 {% endspaceless %}
-{% endblock field_row %}
+{% endblock form_row %}
 
 {% block form_label %}
 {% spaceless %}
@@ -26,7 +26,7 @@
 {% endspaceless %}
 {% endblock form_label %}
 
-{% block field_errors %}
+{% block form_errors %}
 {% spaceless %}
     {% if errors|length > 0 %}
         {% for error in errors %}
@@ -34,7 +34,7 @@
         {% endfor %}
     {% endif %}
 {% endspaceless %}
-{% endblock field_errors %}
+{% endblock form_errors %}
 
 {% block choice_widget_expanded %}
 {% spaceless %}

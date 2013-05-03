@@ -29,6 +29,6 @@
         </div>
     </div>
 
-    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: commit.diff, reference: commit.hash, slug: project.slug} only %}
+    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: commit.diff, reference: commit.hash, project: project} only %}
 
 {% endblock %}

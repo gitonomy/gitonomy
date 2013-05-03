@@ -84,7 +84,7 @@ class BrowserContext extends BaseBrowserContext
      */
     public function iShouldSee($not, $text)
     {
-        $all = $this->getBrowser()->element(By::tag('body'))->text();
+        $all = $this->getBrowser()->element(By::tag('html'))->getText();
         $pos = strpos($all, $text);
         if ($not === "" && false === $pos) {
             throw new \RuntimeException('Unable to find "'.$text.'" in visible text :'."\n".$all);
@@ -112,15 +112,15 @@ class BrowserContext extends BaseBrowserContext
             $input = $this->getBrowser()->element(By::id(substr($field, 1)));
         } else {
             $label = $this->getBrowser()->element(By::xpath('//label[contains(text(), "'.$field.'")]'));
-            $for = $label->attribute('for');
+            $for = $label->getAttribute('for');
             $input = $this->getBrowser()->element(By::id($for));
         }
 
-        if ($input->name() == 'select') {
+        if ($input->getTagName() == 'select') {
             $input->element(By::xpath('//option[contains(text(), "'.$value.'")]'))->click();
         } else {
             $input->clear();
-            $input->value($value);
+            $input->type($value);
         }
     }
 }

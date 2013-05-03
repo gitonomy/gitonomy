@@ -75,6 +75,7 @@ class ProfileController extends Controller
             'user'       => $user,
             'form'       => $this->createForm('profile_information', $user)->createView(),
             'form_email' => $form->createView(),
+            'token'      => $this->createToken('profile')
         ));
     }
 
@@ -221,16 +222,13 @@ class ProfileController extends Controller
         $form       = $this->createForm('profile_ssh_key', $userSshKey);
 
         $request = $this->getRequest();
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->persistEntity($userSshKey);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->persistEntity($userSshKey);
 
-                $message = $this->trans('notice.ssh_key_created', array('%title%' => $userSshKey->getTitle()), 'profile');
-                $this->get('session')->setFlash('success', $message);
+            $message = $this->trans('notice.ssh_key_created', array('%title%' => $userSshKey->getTitle()), 'profile');
+            $this->setFlash('success', $message);
 
-                return $this->redirect($this->generateUrl('profile_sshKeys'));
-            }
+            return $this->redirect($this->generateUrl('profile_sshKeys'));
         }
 
         return $this->render('GitonomyWebsiteBundle:Profile:sshKeys.html.twig', array(

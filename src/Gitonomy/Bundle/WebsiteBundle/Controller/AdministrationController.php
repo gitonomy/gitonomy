@@ -38,16 +38,12 @@ class AdministrationController extends Controller
         $user = new User();
         $form = $this->createForm('administration_user', $user, array('validation_groups' => 'admin'));
 
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->persistEntity($user);
 
-            if ($form->isValid()) {
-                $this->persistEntity($user);
+            $this->setFlash('success', $this->trans('notice.created', array(), 'administration_user'));
 
-                $this->setFlash('success', $this->trans('notice.created', array(), 'administration_user'));
-
-                return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
-            }
+            return $this->redirect($this->generateUrl('administration_editUser', array('username' => $user->getUsername())));
         }
 
         return $this->render('GitonomyWebsiteBundle:Administration:createUser.html.twig', array(
@@ -162,16 +158,12 @@ class AdministrationController extends Controller
         $role = new Role();
         $form = $this->createForm('administration_role', $role, array('validation_groups' => 'admin'));
 
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->persistEntity($role);
 
-            if ($form->isValid()) {
-                $this->persistEntity($role);
+            $this->setFlash('success', $this->trans('notice.created', array(), 'administration_role'));
 
-                $this->setFlash('success', $this->trans('notice.created', array(), 'administration_role'));
-
-                return $this->redirect($this->generateUrl('administration_roles'));
-            }
+            return $this->redirect($this->generateUrl('administration_roles'));
         }
 
         return $this->render('GitonomyWebsiteBundle:Administration:createRole.html.twig', array(
@@ -186,16 +178,12 @@ class AdministrationController extends Controller
         $role = $this->getRepository('GitonomyCoreBundle:Role')->find($id);
         $form = $this->createForm('administration_role', $role, array('validation_groups' => 'admin'));
 
-        if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+        if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
+            $this->flush();
 
-            if ($form->isValid()) {
-                $this->flush();
+            $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_role'));
 
-                $this->setFlash('success', $this->trans('notice.updated', array(), 'administration_role'));
-
-                return $this->redirect($this->generateUrl('administration_roles'));
-            }
+            return $this->redirect($this->generateUrl('administration_roles'));
         }
 
         return $this->render('GitonomyWebsiteBundle:Administration:editRole.html.twig', array(

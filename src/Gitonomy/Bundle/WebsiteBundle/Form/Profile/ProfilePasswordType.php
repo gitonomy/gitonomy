@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Validator\Constraint\UserPassword;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 use Gitonomy\Bundle\CoreBundle\Entity\User;
 
