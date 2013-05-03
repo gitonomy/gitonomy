@@ -10,14 +10,16 @@ fi
 echo "Environment: " $env
 echo ""
 
-echo ">>> Cleanup cache"
+echo ">>> Clean cache"
 rm -rf app/cache/{dev,prod}
 
-echo ">>> Cleanup repositories"
-if [ -d app/cache/repositories ]; then
-    rm -rf app/cache/repositories
+repository_path="`php app/console gitonomy:config:show repository_path`"
+
+echo ">>> Clean repositories"
+if [ -d "$repository_path" ]; then
+    rm -rf "$repository_path"
 fi
-mkdir -p app/cache/repositories
+mkdir -p "$repository_path"
 
 if [ ! -f "app/config/parameters.yml" ]; then
     echo ">>> Touching app/config/parameters.yml"
@@ -58,7 +60,7 @@ cd sample/foobar
 export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
-git remote add __tmp__ ../../app/cache/repositories/foobar.git
+git remote add __tmp__ "$repository_path/foobar.git"
 git push __tmp__ master:master -q
 git push __tmp__ master:master -q
 git push __tmp__ new-feature:new-feature -q
@@ -71,15 +73,15 @@ cd ../..
 
 echo ">>> Recreating repository barbaz"
 cd sample/barbaz
-git remote add __tmp__ ../../app/cache/repositories/barbaz.git
+git remote add __tmp__ "$repository_path/barbaz.git"
 export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="barbaz"
 git push __tmp__ master:master -q
 cd ../..
 
-git init --bare  app/cache/repositories/empty.git -q
-git init --bare  app/cache/repositories/secret.git -q
+git init --bare  "$repository_path/empty.git" -q
+git init --bare  "$repository_path/secret.git" -q
 
 echo ">>> Installing assets"
 rm -Rf web/bundles

@@ -12,7 +12,9 @@ if [ -z "$GITONOMY_USER" -o -z "$GITONOMY_PROJECT" ]; then
 fi
 
 # Gitonomy console
-command="php `php -r 'echo realpath(dirname(dirname(dirname(__DIR__))));'`/console"
+file="`readlink -f "$0"`"
+dir="`dirname "$file"`"
+command="$dir/../../console"
 
 project_notify()
 {
