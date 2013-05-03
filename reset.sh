@@ -10,6 +10,16 @@ fi
 echo "Environment: " $env
 echo ""
 
+if [ ! -f composer.phar ]; then
+    echo ">>> Downloading composer.phar"
+    curl -s http://getcomposer.org/installer | php
+fi
+
+if [ ! -d vendor ]; then
+    echo ">>> Installing dependencies"
+    php composer.phar install
+fi
+
 echo ">>> Clean cache"
 rm -rf app/cache/{dev,prod}
 
@@ -20,21 +30,6 @@ if [ -d "$repository_path" ]; then
     rm -rf "$repository_path"
 fi
 mkdir -p "$repository_path"
-
-if [ ! -f "app/config/parameters.yml" ]; then
-    echo ">>> Touching app/config/parameters.yml"
-    touch app/config/parameters.yml
-fi
-
-if [ ! -f composer.phar ]; then
-    echo ">>> Downloading composer.phar"
-    curl -s http://getcomposer.org/installer | php
-fi
-
-if [ ! -d vendor ]; then
-    echo ">>> Installing dependencies"
-    php composer.phar install
-fi
 
 echo ">>> Dropping database"
 php app/console doctrine:database:drop --force --env=$env || true
