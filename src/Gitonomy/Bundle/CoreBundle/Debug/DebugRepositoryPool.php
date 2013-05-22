@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\Debug;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
-
+use Gitonomy\Bundle\TwigBundle\DataCollector\GitDataCollector;
 use Gitonomy\Git\Repository;
 
 class DebugRepositoryPool extends RepositoryPool
@@ -21,7 +21,7 @@ class DebugRepositoryPool extends RepositoryPool
         $repository = parent::getGitRepository($project);
 
         if ($this->collector) {
-            $repository->setLogger($this->collector->createLogger($repository));
+            $this->collector->addRepository($repository);
         }
 
         return $repository;

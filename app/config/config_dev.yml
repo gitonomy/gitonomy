@@ -2,7 +2,10 @@ imports:
     - { resource: config.yml }
 
 gitonomy_core:
-    enable_profiler: true
+    debug: true
+
+gitonomy_twig:
+    profiler: true
 
 framework:
     router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }

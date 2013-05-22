@@ -1,0 +1,60 @@
+.git-diff .file {
+  margin-top: 10px;
+}
+
+.git-diff .file > header {
+  background-color: #efefef;
+  padding: 10px;
+}
+
+.git-diff .file > header span.file {
+  font-weight: bold;
+}
+
+
+.git-diff .file > header span.file.deleted {
+  font-weight: normal;
+  text-decoration: line-through;
+}
+
+
+.git-diff table.diff-lines {
+  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid #dfdfdf;
+  width: 100%;
+}
+
+.git-diff table.diff-lines td {
+  font-family: monospace;
+}
+
+.git-diff table.diff-lines td.old, .git-diff table.diff-lines td.new {
+  padding: 0 5px;
+  background-color: #efefef;
+  border-right: 1px solid #dfdfdf;
+}
+
+.git-diff table.diff-lines td.source {
+  width: 100%;
+}
+
+.git-diff table.diff-lines td.source pre {
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.git-diff table.diff-lines td.source.plus {
+  background-color: #ddffdd;
+}
+
+.git-diff table.diff-lines td.source.minus {
+  background-color: #ffdddd;
+}
+
+.git-diff table.diff-lines td.skip {
+  background-color: #efefef;
+}
+

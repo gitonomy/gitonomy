@@ -1,0 +1,337 @@
+{% block log %}
+{% spaceless %}
+    <table class="git-log" {% if query_url %} data-per-page="{{ per_page }}" data-query-url="{{ query_url }}" {% endif %}data-offset="{{ log.offset }}" data-limit="{{ log.limit }}" data-total="{{ log.count }}">
+        {% if log.offset > 0 and query_url %}
+            {{ git_render('log_before', {log: log}) }}
+        {% endif %}
+        <tbody>
+            {{ git_log_rows(log) }}
+        </tbody>
+        {% if log.offset + log.limit < log.count and query_url %}
+            {{ git_render('log_after', {log: log}) }}
+        {% endif %}
+    </table>
+{% endspaceless %}
+{% endblock %}
+
+{% block log_before %}
+{% spaceless %}
+    <thead>
+        <tr>
+            <th colspan="2">
+                <a class="load-previous">Load previous</a>
+            </th>
+        </tr>
+    </thead>
+{% endspaceless %}
+{% endblock %}
+
+{% block log_after %}
+{% spaceless %}
+    <tfoot>
+        <tr>
+            <th colspan="2">
+                <a class="load-next">Load next</a>
+            </th>
+        </tr>
+    </tfoot>
+{% endspaceless %}
+{% endblock %}
+
+{% block log_rows %}
+{% spaceless %}
+    {% set current_date = null %}
+    {% for commit in log %}
+        {% set date = commit.authorDate.format('Y-m-d') %}
+        {% if date != current_date %}
+            <tr>
+                <th colspan="2">
+                    {{ date }}
+                </th>
+            </tr>
+            {% set current_date = date %}
+        {% endif %}
+        <tr data-hash="{{ commit.hash }}" data-parents="{{ commit.parentHashes|join(' ') }}">
+            <td class="message">
+                {% for reference in commit.resolveReferences %}
+                    {{ git_render('reference_label', {reference: reference}) }}
+                {% endfor %}
+                <a href="{{ git_url(commit) }}">
+                    {{ commit.shortMessage }}
+                </a>
+            </td>
+            <td>{{ git_author(commit) }}</td>
+        </tr>
+    {% endfor %}
+{% endspaceless %}
+{% endblock %}
+
+{% block status %}
+{% spaceless %}
+    {% if diff_staged.files|length %}
+        <p>Staging area</p>
+        <ul>
+            {% for file in diff_staged.files %}
+                <li>{{ file.newName }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if diff_pending.files|length %}
+        <p>Pending modifications</p>
+        <ul>
+            {% for file in diff_pending.files %}
+                <li>{{ file.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block author %}
+{% spaceless %}
+    <span class="git-author">
+        {# Gravatar #}
+        <img alt="Avatar of {{ name }}" width="{{ size }}" height="{{ size }}" src="http://www.gravatar.com/avatar/{{ email_md5 }}?s={{ size }}" />
+        {{- name -}}
+    </span>
+{% endspaceless %}
+{% endblock %}
+
+{% block commit_header %}
+{% spaceless %}
+    <h2>
+        {{ commit.subjectMessage }}
+        <small>
+            {{ git_author(commit) }}
+        </small>
+    </h2>
+    {% if commit.bodyMessage %}
+        <pre>{{ commit.bodyMessage }}</pre>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block diff %}
+{% spaceless %}
+    <div class="git-diff">
+        {{ git_render('diff_summary', {diff: diff}) }}
+
+        {% for i, file in diff.files %}
+            <div class="file" id="diff-file-{{ i }}">
+                {{ git_render('diff_file', {file: file}) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+{% block branches %}
+{% spaceless %}
+    <ul>
+        {% for branch in branches %}
+            <li>
+                <a href="{{ git_url(branch) }}">
+                    <strong>{{ branch.name }}</strong>
+                </a>
+                <small>
+                    {{ git_author(branch.commit) }}
+                    {{ branch.commit.authorDate.format('d/m/Y') }}
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}
+{% endblock %}
+
+{% block tags %}
+{% spaceless %}
+    <ul>
+        {% for tag in tags %}
+            <li>
+                <a href="{{ git_url(tag) }}">
+                    <strong>{{ tag.name }}</strong>
+                </a>
+                <small>
+                    {{ git_author(tag.commit) }}
+                    {{ tag.commit.authorDate.format('d/m/Y') }}
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}
+{% endblock %}
+
+{% block diff_summary %}
+    <ul class="summary">
+        {% for i,file in diff.files %}
+            <li>
+                <a href="#file-{{ i }}">
+                    {{ file.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block diff_file %}
+{% spaceless %}
+    <header>
+        {% if file.oldName == file.newName and file.oldMode == file.newMode %}
+            <span class="file">{{ file.oldName }}</span>
+        {% elseif file.oldName == null %}
+            <span class="file">{{ file.newName }} ({{ file.newMode }})</span>
+        {% elseif file.newName == null %}
+            <span class="file deleted">{{ file.oldName }} ({{ file.oldMode }})</span>
+        {% elseif file.oldMode != file.newMode %}
+            <span class="changemod">{{ 'diff.label.file_mode_changed'|trans({'%old%': file.oldMode, '%new%': file.newMode}) }}</span>
+        {% else %}
+            <ul>
+                <li>{{ file.oldName }} ({{ file.oldMode }}) -&gt; {{ file.newName }} ({{ file.newMode }})</li>
+            </ul>
+        {% endif %}
+    </header>
+    <div class="file-changes">
+        <table class="diff-lines">
+            {% for change in file.changes %}
+                {% if not loop.first %}
+                    <tr><td class="skip" colspan="3">&nbsp;</td></tr>
+                {% endif %}
+                {% set old = change.rangeOldStart %}
+                {% set new = change.rangeNewStart %}
+                {%- for x, line in change.lines -%}
+                    <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' }}">
+                        <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
+                        <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
+                        <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' }} source"><pre>{{ line[1] }}</pre></td>
+                    </tr>
+                    {%- if line[0] == 1 -%}
+                        {%- set new = new + 1 -%}
+                    {%- elseif line[0] == -1 -%}
+                        {%- set old = old + 1 -%}
+                    {%- else -%}
+                        {%- set new = new + 1 -%}
+                        {%- set old = old + 1 -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            {% endfor %}
+        </table>
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+{% block reference_label %}
+{% spaceless %}
+    <a href="{{ git_url(reference) }}">
+        {% if reference is git_branch %}
+            <span class="ref branch{{ reference.isRemote ? ' remote' }}">
+        {% elseif reference is git_tag %}
+            <span class="ref tag">
+        {% elseif reference is git_stash %}
+            <span class="ref stash">
+        {% else %}
+            <span class="ref">
+        {% endif %}
+        {{ reference.name }}
+        </span>
+    </a>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_text %}
+{% spaceless %}
+    <pre><code>{{ blob.content }}</code></pre>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_image %}
+{% spaceless %}
+    <pre><code>IMAGE</code></pre>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_binary %}
+{% spaceless %}
+    <pre><code>BINARY</code></pre>
+{% endspaceless %}
+{% endblock %}
+
+{% block tree %}
+{% spaceless %}
+<table class="table table-striped">
+    {{ git_render('tree_header') }}
+    <tbody>
+        {% if parent_path is not sameas(false) %}
+            <tr>
+                <td><i class="icon-folder-open"></i></td>
+                <td>
+                    <a href="{{ path('tree', {revision: revision, path: parent_path}) }}">
+                        ..
+                    </a>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endif %}
+        {% for name, data in tree.entries if data[1] is git_tree %}
+            {{ git_render('tree_row', {
+                commit:   commit,
+                data:     data,
+                is_dir:   true,
+                name:     name,
+                path:     path,
+                revision: revision,
+            }) }}
+        {% endfor %}
+        {% for name, data in tree.entries if data[1] is not git_tree %}
+            {{ git_render('tree_row', {
+                commit:   commit,
+                data:     data,
+                is_dir:   false,
+                name:     name,
+                path:     path,
+                revision: revision,
+            }) }}
+        {% endfor %}
+    </tbody>
+</table>
+{% endspaceless %}
+{% endblock %}
+
+{% block tree_header %}
+{% spaceless %}
+<thead>
+    <tr>
+        <th width="20"></td>
+        <th>{{ 'table.filename'|trans }}</th>
+        <th>{{ 'table.date'|trans }}</th>
+        <th>{{ 'table.last_commit'|trans }}</th>
+    </tr>
+</thead>
+{% endspaceless %}
+{% endblock %}
+
+{% block tree_row %}
+{% spaceless %}
+{% set pathLastModification = commit.lastModification(path~'/'~name) %}
+<tr>
+    <td>{% if is_dir is defined and is_dir %}<i class="icon-folder-open"></i>{% endif %}</td>
+    <td>
+        <a href="{{ path('tree', {revision: revision, path: (path ~ (path ? '/') ~ name)}) }}">
+            {{ name }}
+        </a>
+    </td>
+    <td>
+        {{ pathLastModification.getCommitterDate.format('Y-m-d H:i:s') }}
+    </td>
+    <td>
+        <a href="{{ path('commit', { hash: pathLastModification.hash }) }}">
+            {{ pathLastModification.fixedShortHash }}
+        </a>
+        {{ pathLastModification.shortMessage }}
+        <small>
+            ({{ pathLastModification.authorName }})
+        </small>
+    </td>
+</tr>
+{% endspaceless %}
+{% endblock %}

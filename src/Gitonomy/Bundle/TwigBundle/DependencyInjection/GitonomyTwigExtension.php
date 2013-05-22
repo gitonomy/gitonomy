@@ -10,20 +10,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Gitonomy\Bundle\CoreBundle\DependencyInjection;
+namespace Gitonomy\Bundle\TwigBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Container extension for Gitonomy core bundle.
- *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class GitonomyCoreExtension extends Extension
+class GitonomyTwigExtension extends Extension
 {
     /**
      * @inheritdoc
@@ -31,23 +28,22 @@ class GitonomyCoreExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        //$loader->load('profiler.xml');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('gitonomy_core.git.repository_path', $config['repository_path']);
-        $container->setParameter('gitonomy_core.config.default_config', $config['config_defaults']);
+        if ($config['profiler']) {
+            $loader->load('profiler.xml');
+        }
 
-        if ($config['debug']) {
-            $loader->load('debug.xml');
+        if ($config['twig_extension']['enabled']) {
+            $loader->load('routing.xml');
+            $loader->load('twig.xml');
 
-            $container
-                ->getDefinition('gitonomy_core.git.repository_pool')
-                ->addMethodCall('setDataCollector', array(
-                    new Reference('gitonomy_twig.git.data_collector')
-                ))
-            ;
+            $container->setParameter('gitonomy_twig.themes', $config['twig_extension']['themes']);
+            $container->setParameter('gitonomy_twig.url_generator.routes_names', $config['twig_extension']['routes_names']);
+            $container->setParameter('gitonomy_twig.url_generator.repository_key', $config['twig_extension']['repository_key']);
         }
     }
 }

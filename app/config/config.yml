@@ -37,6 +37,10 @@ gitonomy_core:
         mailer_from_name:  Gitonomy
         mailer_from_email: gitonomy@nowhere
 
+# Gitonomy Twig
+gitonomy_twig:
+    twig_extension: true
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

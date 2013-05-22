@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new Buzz\Bundle\BuzzBundle\BuzzBundle(),
 
             new Gitonomy\Bundle\CoreBundle\GitonomyCoreBundle(),
+            new Gitonomy\Bundle\TwigBundle\GitonomyTwigBundle(),
             new Gitonomy\Bundle\WebsiteBundle\GitonomyWebsiteBundle(),
         );
 

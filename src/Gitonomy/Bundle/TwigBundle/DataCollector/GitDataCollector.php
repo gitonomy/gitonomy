@@ -1,6 +1,6 @@
 <?php
 
-namespace Gitonomy\Bundle\CoreBundle\Debug;
+namespace Gitonomy\Bundle\TwigBundle\DataCollector;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,8 +30,15 @@ class GitDataCollector extends DataCollector
         return 'git';
     }
 
-    public function createLogger(Repository $repository)
+    /**
+     * Injects Logger inside the repository.
+     */
+    public function addRepository(Repository $repository)
     {
+        if (null !== $repository->getLogger()) {
+            throw new \RuntimeException('A logger is already injected in repository.');
+        }
+
         $name = $repository->getGitDir();
         $logger = new Logger($name);
         $handler = new TestHandler();
@@ -39,7 +46,7 @@ class GitDataCollector extends DataCollector
 
         $this->handlers[$name] = $handler;
 
-        return $logger;
+        $repository->setLogger($logger);
     }
 
     public function getCount($name = null)
