@@ -75,9 +75,6 @@ export GITONOMY_PROJECT="barbaz"
 git push __tmp__ master:master -q
 cd ../..
 
-git init --bare  "$repository_path/empty.git" -q
-git init --bare  "$repository_path/secret.git" -q
-
 echo ">>> Installing assets"
 rm -Rf web/bundles
 php app/console assets:install --symlink web --env=$env
