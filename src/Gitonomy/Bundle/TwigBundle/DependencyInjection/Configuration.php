@@ -12,6 +12,7 @@
 
 namespace Gitonomy\Bundle\TwigBundle\DependencyInjection;
 
+use Gitonomy\Bundle\TwigBundle\Routing\AbstractGitUrlGenerator;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -32,7 +33,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('gitonomy_twig');
 
-        $rootNode
+        $current = $rootNode
             ->children()
                 ->booleanNode('profiler')->defaultFalse()->end()
                 ->arrayNode('twig_extension')
@@ -44,12 +45,28 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->booleanNode('enabled')->defaultFalse()->end()
                     ->booleanNode('profiler')->defaultFalse()->end()
-                    ->scalarNode('repository_key')->defaultValue('slug')->end()
                     ->arrayNode('routes_names')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('commit')->defaultValue('project_commit')->end()
-                        ->scalarNode('reference')->defaultValue('project_reference')->end()
+        ;
+
+        foreach (AbstractGitUrlGenerator::getRouteNames() as $name => $value) {
+            $current->scalarNode($name)->defaultValue($value)->end();
+        }
+
+        $current = $current
+                    ->end()
+                ->end()
+                ->arrayNode('routes_args')
+                ->addDefaultsIfNotSet()
+                ->children()
+        ;
+
+        foreach (AbstractGitUrlGenerator::getRouteArgs() as $name => $value) {
+            $current->scalarNode($name)->defaultValue($value)->end();
+        }
+
+        $current
                     ->end()
                 ->end()
                 ->arrayNode('themes')

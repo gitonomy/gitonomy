@@ -65,25 +65,22 @@ class GitonomyExtension extends \Twig_Extension
         return 'gitonomy';
     }
 
-    public function getBranchesActivity(Project $project, $reference = null)
+    public function getBranchesActivity(Project $project, $branch = null)
     {
         $repository = $project->getRepository();
         $references = $repository->getReferences();
+        $branchName = null === $branch ? $project->getDefaultBranch() : $branch;
 
-        if (null === $reference) {
-            $reference = $project->getDefaultBranch();
-        }
-
-        $against = $references->getBranch(null === $reference ? $project->getDefaultBranch() : $reference);
+        $against = $references->getBranch($branchName);
 
         foreach ($references->getBranches() as $branch) {
-            $logBehind = $repository->getLog($branch->getFullname().'..'.$against->getFullname());
-            $logAbove = $repository->getLog($against->getFullname().'..'.$branch->getFullname());
+            $logBehind = $repository->getLog($repository->getRevision($branch->getFullname().'..'.$against->getFullname()));
+            $logAbove = $repository->getLog($repository->getRevision($against->getFullname().'..'.$branch->getFullname()));
 
             $rows[] = array(
                 'branch'           => $branch,
-                'above'            => count($logAbove->getCommits()),
-                'behind'           => count($logBehind->getCommits()),
+                'above'            => $logAbove->count(),
+                'behind'           => $logBehind->count(),
                 'lastModification' => $branch->getLastModification(),
             );
         }

@@ -39,7 +39,23 @@ gitonomy_core:
 
 # Gitonomy Twig
 gitonomy_twig:
-    twig_extension: true
+    twig_extension:
+        enabled: true
+        routes_names:
+            commit:               project_commit
+            branch:               project_history
+            tag:                  project_history
+            tree:                 project_tree
+        routes_args:
+            commit_repository:    slug
+            commit_hash:          hash
+            branch_repository:    slug
+            branch_name:          branch
+            tag_repository:       slug
+            tag_name:             branch
+            tree_repository:      slug
+            tree_revision:        revision
+            tree_path:            path
 
 # Twig Configuration
 twig:

@@ -3,6 +3,7 @@
 namespace Gitonomy\Bundle\TwigBundle\Twig;
 
 use Gitonomy\Git\Diff\Diff;
+use Gitonomy\Git\Revision;
 use Gitonomy\Git\Reference\Tag;
 use Gitonomy\Git\Reference\Branch;
 use Gitonomy\Git\Reference\Stash;
@@ -80,15 +81,19 @@ class GitExtension extends \Twig_Extension
         return $repository->getName();
     }
 
-    public function getUrl($value)
+    public function getUrl($value, array $options = array())
     {
+        if (isset($options['path'])) {
+            return $this->urlGenerator->generateTreeUrl($value, $options['path']);
+        }
+
         if ($value instanceof Commit) {
             return $this->urlGenerator->generateCommitUrl($value);
         } elseif ($value instanceof Reference) {
             return $this->urlGenerator->generateReferenceUrl($value);
-        } else {
-            throw new \InvalidArgumentException(sprintf('Unsupported type for URL generation: %s. Expected a Commit', is_object($value) ? get_class($value) : gettype($value)));
         }
+
+        throw new \InvalidArgumentException(sprintf('Unsupported type for URL generation: %s. Expected a Commit, Reference or Revision', is_object($value) ? get_class($value) : gettype($value)));
     }
 
     public function renderCommitHeader(\Twig_Environment $env, Commit $commit)
@@ -172,18 +177,17 @@ class GitExtension extends \Twig_Extension
         ));
     }
 
-    public function renderTree(\Twig_Environment $env, Tree $tree, Commit $commit, $path = '', $revision = 'master')
+    public function renderTree(\Twig_Environment $env, Tree $tree, Revision $revision, $path = '')
     {
         return $this->renderBlock($env, 'tree', array(
             'tree'        => $tree,
             'parent_path' => substr($path, 0, strrpos($path, '/')),
             'path'        => $path,
-            'revision'    => $revision,
-            'commit'      => $commit,
+            'revision'    => $revision
         ));
     }
 
-    public function renderBlob($env, Blob $blob, $path = null)
+    public function renderBlob($env, Blob $blob)
     {
         if ($blob->isText()) {
             $block = 'blob_text';

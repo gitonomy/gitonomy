@@ -9,7 +9,7 @@ use Gitonomy\Bundle\CoreBundle\Entity\User;
 
 class MessageRepository extends EntityRepository
 {
-    public function findByProject(Project $project, $reference = null, $limit = 100)
+    public function findByProject(Project $project, $branch = null, $limit = 100)
     {
         $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.feed', 'f')
@@ -19,10 +19,10 @@ class MessageRepository extends EntityRepository
             ->setMaxResults($limit)
         ;
 
-        if ($reference) {
+        if ($branch) {
             $qb
                 ->andWhere('f.reference = :reference')
-                ->setParameter('reference', 'refs/heads/'.$reference)
+                ->setParameter('reference', 'refs/heads/'.$branch)
             ;
         }
 

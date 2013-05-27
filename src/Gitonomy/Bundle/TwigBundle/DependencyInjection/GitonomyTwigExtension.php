@@ -43,7 +43,7 @@ class GitonomyTwigExtension extends Extension
 
             $container->setParameter('gitonomy_twig.themes', $config['twig_extension']['themes']);
             $container->setParameter('gitonomy_twig.url_generator.routes_names', $config['twig_extension']['routes_names']);
-            $container->setParameter('gitonomy_twig.url_generator.repository_key', $config['twig_extension']['repository_key']);
+            $container->setParameter('gitonomy_twig.url_generator.routes_args', $config['twig_extension']['routes_args']);
         }
     }
 }

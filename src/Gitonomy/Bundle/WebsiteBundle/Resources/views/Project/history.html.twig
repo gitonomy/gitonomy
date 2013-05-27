@@ -7,7 +7,7 @@
 
 {% block title 'page.title'|trans({'%project%': project.name}) %}
 
-{% macro pager(pager, reference) %}
+{% macro pager(pager, branch) %}
     {% trans_default_domain 'project_history' %}
     {% if pager.pageCount > 1 %}
         <div class="pagination">
@@ -17,10 +17,10 @@
                 </li>
                 {% set lastPage = pager.lastPage %}
                 {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
-                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="{{ 'pagination.number'|trans({'%number%': curPage}) }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
+                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="{{ 'pagination.number'|trans({'%number%': curPage}) }}" href="?page={{ curPage }}{% if branch %}&branch={{ branch }}{% endif %}">{{ curPage }}</a></li>
                 {% endfor %}
                 <li{% if pager.isLastPage %} class="disabled"{% endif %}>
-                    <a title="{{ 'pagination.last'|trans }}" href="?page={{ pager.pageCount }}{% if reference %}&amp;reference={{ reference }}{% endif %}">»</a>
+                    <a title="{{ 'pagination.last'|trans }}" href="?page={{ pager.pageCount }}{% if branch %}&amp;branch={{ branch }}{% endif %}">»</a>
                 </li>
             </ul>
         </div>
@@ -29,10 +29,16 @@
 
 {% block project_content %}
     <div class="actionbar">
-        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_history', withAll: true} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {
+            project: project,
+            branch: branch,
+            route: 'project_history',
+            withAll: true
+            } only
+        %}
     </div>
 
-    {{ _self.pager(pager, reference) }}
+    {{ _self.pager(pager, branch) }}
 
     {% set results = pager.results %}
     {% set data = history_graph_data(project, results) %}
@@ -71,6 +77,6 @@
         </tbody>
     </table>
 
-    {{ _self.pager(pager, reference) }}
+    {{ _self.pager(pager, branch) }}
 
 {% endblock %}

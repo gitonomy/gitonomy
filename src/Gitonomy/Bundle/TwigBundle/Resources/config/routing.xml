@@ -11,7 +11,7 @@
         <service id="gitonomy_twig.url_generator" class="%gitonomy_twig.url_generator.class%" public="false">
             <argument type="service" id="router" />
             <argument>%gitonomy_twig.url_generator.routes_names%</argument>
-            <argument>%gitonomy_twig.url_generator.repository_key%</argument>
+            <argument>%gitonomy_twig.url_generator.routes_args%</argument>
         </service>
     </services>
 

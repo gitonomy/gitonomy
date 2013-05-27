@@ -7,73 +7,12 @@
 {% block title 'page.tree.title'|trans({'%project%': project.name, '%path%': path}) %}
 
 {% block project_content %}
-    {% set diff = commit.diff %}
+    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {
+        path: path,
+        project: project,
+        revision: revision,
+        active: 'tree',
+    } only %}
 
-    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'tree', reference: reference|default(project.defaultBranch)} %}
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th width="100">{{ 'table.mode'|trans }}</th>
-                <th width="20">&nbsp;</td>
-                <th>{{ 'table.filename'|trans }}</th>
-                <th>{{ 'table.date'|trans }}</th>
-                <th>{{ 'table.last_commit'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if path != "" %}
-                <tr>
-                    <td>&nbsp;</td>
-                    <td><i class="icon-folder-open"></i></td>
-                    <td>
-                        <a href="{{ path('project_tree', {slug: project.slug, reference: reference, path: parent_path}) }}">
-                            ..
-                        </a>
-                        /
-                    </td>
-                    <td>&nbsp;</td>
-                    <td>
-                        &nbsp;
-                    </td>
-                </tr>
-            {% endif %}
-            {% for name, data in tree.entries if data[1] is git_tree %}
-                {% set lastModificationCommit = commit.lastModification(path~'/'~name, commit) %}
-                <tr>
-                    <td>{{ data[0] }}</td>
-                    <td><i class="icon-folder-open"></i></td>
-                    <td>
-                        <a href="{{ path('project_tree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
-                            {{ name }}
-                        </a>
-                    </td>
-                    <td>{{ lastModificationCommit.getCommitterDate.format('Y-m-d H:i:s') }}</td>
-                    <td>
-                        <a href="{{ path('project_commit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
-                            {{ lastModificationCommit.fixedShortHash }}
-                        </a>{{ lastModificationCommit.shortMessage }}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% for name, data in tree.entries if data[1] is not git_tree %}
-                {% set lastModificationCommit = commit.lastModification(path~'/' ~name) %}
-                <tr>
-                    <td>{{ data[0] }}</td>
-                    <td>&nbsp;</td>
-                    <td>
-                        <a href="{{ path('project_tree', {slug: project.slug, reference: reference, path: (path == "" ? name : path ~ '/' ~ name)}) }}">
-                            {{ name }}
-                        </a>
-                    </td>
-                    <td>{{ lastModificationCommit.getCommitterDate.format('Y-m-d H:i:s') }}</td>
-                    <td>
-                        <a href="{{ path('project_commit', {slug: project.slug, reference: reference, hash: lastModificationCommit.hash }) }}">
-                            {{ lastModificationCommit.fixedShortHash }}
-                        </a> {{ lastModificationCommit.shortMessage }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {{ git_tree(tree, revision, path) }}
 {% endblock %}

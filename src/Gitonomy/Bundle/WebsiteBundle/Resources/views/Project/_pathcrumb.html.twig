@@ -3,21 +3,27 @@
 {% set route = (active == 'tree' or active == 'blob') ? 'project_tree' : 'project_tree_history' %}
 
 <div class="actionbar">
-    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" %}
+    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {
+        project: project,
+        route: route,
+        branch: revision is git_branch ? revision.name : null,
+        branch_key_name: 'revision'
+    } only %}
 
+    {% set revision = revision is git_branch ? revision.name : revision.revision %}
     <div class="pull-right sub-actions">
         {% if active != 'tree' and active != 'blob' %}
-            <a class="menu" href="{{ path('project_tree', {slug: project.slug, reference: reference, path: path}) }}">
+            <a class="menu" href="{{ path('project_tree', {slug: project.slug, revision: revision, path: path}) }}">
                 {{ 'contextual.show'|trans }}
             </a>
         {% endif %}
         {% if active != 'history' %}
-            <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, reference: reference, path: path}) }}">
+            <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, revision: revision, path: path}) }}">
                 {{ 'contextual.history'|trans }}
             </a>
         {% endif %}
         {% if active != 'blame' and blob|default(null) and blob.isText %}
-            <a class="menu" href="{{ path('project_blame', {slug: project.slug, reference: reference, path: path}) }}">
+            <a class="menu" href="{{ path('project_blame', {slug: project.slug, revision: revision, path: path}) }}">
                 {{ 'contextual.blame'|trans }}
             </a>
         {% endif %}
@@ -27,14 +33,14 @@
         {% set path_record = "" %}
             <ul class="pathcrumb">
                 <li>
-                    <a href="{{ path(route, {slug: project.slug, reference:reference}) }}">..</a>
+                    <a href="{{ path(route, {slug: project.slug, revision:revision}) }}">..</a>
                     <span class="divider">/</span>
                 </li>
                 {% for segment in path_exploded %}
                     {% set path_record = path_record == "" ? segment : path_record ~ "/" ~ segment %}
                     <li{% if loop.last %} class="active"{% endif %}>
                         {% if not loop.last %}
-                            <a href="{{ path(route, {slug: project.slug, reference:reference, path: path_record}) }}">{{ segment }}</a>
+                            <a href="{{ path(route, {slug: project.slug, revision:revision, path: path_record}) }}">{{ segment }}</a>
                             <span class="divider">/</span>
                         {% else %}
                             {{ segment }}

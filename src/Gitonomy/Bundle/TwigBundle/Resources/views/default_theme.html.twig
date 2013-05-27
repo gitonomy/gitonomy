@@ -258,13 +258,13 @@
 {% block tree %}
 {% spaceless %}
 <table class="table table-striped">
-    {{ git_render('tree_header') }}
+    {{ git_render('tree_header', {revision: revision}) }}
     <tbody>
         {% if parent_path is not sameas(false) %}
             <tr>
                 <td><i class="icon-folder-open"></i></td>
                 <td>
-                    <a href="{{ path('tree', {revision: revision, path: parent_path}) }}">
+                    <a href="{{ git_url('tree', {revision: revision, path: parent_path}) }}">
                         ..
                     </a>
                 </td>
@@ -274,7 +274,6 @@
         {% endif %}
         {% for name, data in tree.entries if data[1] is git_tree %}
             {{ git_render('tree_row', {
-                commit:   commit,
                 data:     data,
                 is_dir:   true,
                 name:     name,
@@ -284,7 +283,6 @@
         {% endfor %}
         {% for name, data in tree.entries if data[1] is not git_tree %}
             {{ git_render('tree_row', {
-                commit:   commit,
                 data:     data,
                 is_dir:   false,
                 name:     name,
@@ -303,8 +301,10 @@
     <tr>
         <th width="20"></td>
         <th>{{ 'table.filename'|trans }}</th>
-        <th>{{ 'table.date'|trans }}</th>
-        <th>{{ 'table.last_commit'|trans }}</th>
+        {% if revision %}
+            <th>{{ 'table.date'|trans }}</th>
+            <th>{{ 'table.last_commit'|trans }}</th>
+        {% endif %}
     </tr>
 </thead>
 {% endspaceless %}
@@ -312,26 +312,28 @@
 
 {% block tree_row %}
 {% spaceless %}
-{% set pathLastModification = commit.lastModification(path~'/'~name) %}
 <tr>
     <td>{% if is_dir is defined and is_dir %}<i class="icon-folder-open"></i>{% endif %}</td>
     <td>
-        <a href="{{ path('tree', {revision: revision, path: (path ~ (path ? '/') ~ name)}) }}">
+        <a href="{{ git_url(revision, {path: (path ~ (path ? '/') ~ name)}) }}">
             {{ name }}
         </a>
     </td>
-    <td>
-        {{ pathLastModification.getCommitterDate.format('Y-m-d H:i:s') }}
-    </td>
-    <td>
-        <a href="{{ path('commit', { hash: pathLastModification.hash }) }}">
-            {{ pathLastModification.fixedShortHash }}
-        </a>
-        {{ pathLastModification.shortMessage }}
-        <small>
-            ({{ pathLastModification.authorName }})
-        </small>
-    </td>
+    {% if revision %}
+        {% set last = revision.log(path ? path~'/'~name : name).commits[0] %}
+        <td>
+            {{ last.getCommitterDate.format('Y-m-d H:i:s') }}
+        </td>
+        <td>
+            <a href="{{ git_url(last) }}">
+                {{ last.fixedShortHash }}
+            </a>
+            {{ last.shortMessage }}
+            <small>
+                ({{ last.authorName }})
+            </small>
+        </td>
+    {% endif %}
 </tr>
 {% endspaceless %}
 {% endblock %}
