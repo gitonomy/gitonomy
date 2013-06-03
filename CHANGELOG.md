@@ -1,3 +1,8 @@
+* v0.4 (2013-06-03)
+
+  * fix allow trailing / in remote URL
+  * fix incorrect paths in hooks
+
 * v0.3 (2013-01-19)
 
   * security framework issue http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released
