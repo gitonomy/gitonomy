@@ -93,7 +93,7 @@ EOF
             return;
         }
 
-        if (!preg_match('#^(.*) \'('.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
+        if (!preg_match('#^(.*) \'(/?'.Project::SLUG_PATTERN.').git\'#', $originalCommand, $vars)) {
             throw new \RuntimeException('Command seems illegal: '.$originalCommand);
         }
 
