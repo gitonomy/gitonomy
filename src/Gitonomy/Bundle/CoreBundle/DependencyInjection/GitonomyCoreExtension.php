@@ -48,6 +48,14 @@ class GitonomyCoreExtension extends Extension
                     new Reference('gitonomy_twig.git.data_collector')
                 ))
             ;
+
+            /*
+                <service....>
+                    <call method="setDataCollector">
+                        <argument type="service" id="gitonomy_twig.git.data_collector" />
+                    </call>
+                </service>
+            */
         }
     }
 }

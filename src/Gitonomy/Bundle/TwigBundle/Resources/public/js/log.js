@@ -232,7 +232,7 @@ gitonomyLog = {
                 toY   = commits[positions[to]].y;
             } else {
                 toX   = null;
-                toY   = commits.length;
+                toY   = fromY;
             }
 
             var x,y;
@@ -246,14 +246,12 @@ gitonomyLog = {
                 fromX = x;
             }
 
-            if (null === toX) {
-                toX = fromX;
+            if (null !== toX) {
+                links.push([
+                    {x: fromX, y: y, family: family},
+                    {x: toX,   y: y + 1}
+                ]);
             }
-
-            links.push([
-                {x: fromX, y: y, family: family},
-                {x: toX,   y: y + 1}
-            ]);
         }
 
         return {

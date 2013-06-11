@@ -69,6 +69,35 @@
 {% endspaceless %}
 {% endblock %}
 
+{# Blame #}
+
+{% block blame %}
+{% spaceless %}
+    <table class="blame">
+        <tbody>
+            {% for x in blame.groupedLines %}
+                {% set commit, lines = x[0], x[1] %}
+                <tr>
+                    <td class="information" rowspan="{{ lines|length }}" valign="top">
+                        <span class="author">{{ commit.authorName }}</span>
+                        <br />
+                        <a href="{{ git_url(commit) }}" title="{{ commit.message }}">{{ commit.shortMessage }}</a>
+                    </td>
+                    {% for lineNumber, line in lines %}
+                        {% if not loop.first %}
+                            <tr>
+                        {% endif %}
+                                <td class="line-number{% if loop.first %} information-border{% endif %}">{{ lineNumber }}</td>
+                                <td class="line-content{% if loop.first %} information-border{% endif %}"><pre>{{ line.content }}</pre></td>
+                            </tr>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endspaceless %}
+{% endblock %}
+
 {# Status blocks #}
 
 {% block status %}
@@ -275,6 +304,28 @@
 
 {# Tree & Source #}
 
+{% block pathcrumb %}
+{% spaceless %}
+    <ul class="pathcrumb">
+        <li>
+            <a href="{{ git_url(revision, {path: ''}) }}">..</a>
+            <span class="divider">/</span>
+        </li>
+        {% for segment in path_exploded %}
+            {% set path_record = path_record|default('') == "" ? segment : path_record ~ "/" ~ segment %}
+            <li{% if loop.last %} class="active"{% endif %}>
+                {% if not loop.last %}
+                    <a href="{{ git_url(revision, {path: path_record}) }}">{{ segment }}</a>
+                    <span class="divider">/</span>
+                {% else %}
+                    {{ segment }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}
+{% endblock %}
+
 {% block tree %}
 {% spaceless %}
 <table class="table table-striped">
@@ -284,7 +335,7 @@
             <tr>
                 <td><i class="icon-folder-open"></i></td>
                 <td>
-                    <a href="{{ git_url('tree', {revision: revision, path: parent_path}) }}">
+                    <a href="{{ git_url(revision, {path: parent_path}) }}">
                         ..
                     </a>
                 </td>

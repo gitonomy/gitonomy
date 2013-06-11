@@ -16,6 +16,6 @@
 
     <legend>{{ 'title.diff.commits'|trans }}</legend>
 
-    {{ git_commit_list(log) }}
+    {{ git_log(log) }}
     {{ git_diff(diff) }}
 {% endblock %}

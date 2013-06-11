@@ -2,32 +2,53 @@
 
 namespace Gitonomy\Bundle\TwigBundle\Twig;
 
-use Gitonomy\Git\Diff\Diff;
-use Gitonomy\Git\Revision;
-use Gitonomy\Git\Reference\Tag;
-use Gitonomy\Git\Reference\Branch;
-use Gitonomy\Git\Reference\Stash;
-use Gitonomy\Git\Blob;
-use Gitonomy\Git\Commit;
-use Gitonomy\Git\Reference;
-use Gitonomy\Git\Log;
-use Gitonomy\Git\Tree;
-
 use Gitonomy\Bundle\TwigBundle\Git\Repository;
 use Gitonomy\Bundle\TwigBundle\Routing\GitUrlGeneratorInterface;
 use Gitonomy\Bundle\TwigBundle\Twig\TokenParser\GitThemeTokenParser;
+use Gitonomy\Git\Blame;
+use Gitonomy\Git\Blob;
+use Gitonomy\Git\Commit;
+use Gitonomy\Git\Diff\Diff;
+use Gitonomy\Git\Log;
+use Gitonomy\Git\Reference;
+use Gitonomy\Git\Reference\Branch;
+use Gitonomy\Git\Reference\Stash;
+use Gitonomy\Git\Reference\Tag;
+use Gitonomy\Git\Revision;
+use Gitonomy\Git\Tree;
 
+/**
+ * Twig extension for Git elements.
+ *
+ * @author Alexandre Salomé <alexandre.salome@gmail.com>
+ */
 class GitExtension extends \Twig_Extension
 {
+    /**
+     * @var GitUrlGeneratorInterface
+     */
     private $urlGenerator;
+
+    /**
+     * @var string[] an array of templates
+     */
     private $themes;
 
+    /**
+     * Creates the Twig extension for git blocks.
+     *
+     * @param GitUrlGeneratorInterface $urlGenerator URL generator for blocks
+     * @param string[]                 $themes       Twig theme files for git blocks
+     */
     public function __construct(GitUrlGeneratorInterface $urlGenerator, array $themes = array())
     {
         $this->urlGenerator = $urlGenerator;
         $this->themes       = $themes;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTokenParsers()
     {
         return array(
@@ -36,26 +57,36 @@ class GitExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('git_commit_header',     array($this, 'renderCommitHeader'),     array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_author',            array($this, 'renderAuthor'),           array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_blob',              array($this, 'renderBlob'),             array('is_safe' => array('html'), 'needs_environment' => true)),
-            new \Twig_SimpleFunction('git_branches',          array($this, 'renderBranches'),         array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_commit_list',       array($this, 'renderCommitList'),       array('is_safe' => array('html'), 'needs_environment' => true)),
-            new \Twig_SimpleFunction('git_commit_header',     array($this, 'renderCommitHeader'),     array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_diff',              array($this, 'renderDiff'),             array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_log',               array($this, 'renderLog'),              array('is_safe' => array('html'), 'needs_environment' => true)),
+            new \Twig_SimpleFunction('git_pathcrumb',         array($this, 'renderPathcrumb'),        array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_tree',              array($this, 'renderTree'),             array('is_safe' => array('html'), 'needs_environment' => true)),
+            new \Twig_SimpleFunction('git_blob',              array($this, 'renderBlob'),             array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_log_rows',          array($this, 'renderLogRows'),          array('is_safe' => array('html'), 'needs_environment' => true)),
+            new \Twig_SimpleFunction('git_blame',             array($this, 'renderBlame'),            array('is_safe' => array('html'), 'needs_environment' => true)),
+
             new \Twig_SimpleFunction('git_status',            array($this, 'renderStatus'),           array('is_safe' => array('html'), 'needs_environment' => true)),
-            new \Twig_SimpleFunction('git_render',            array($this, 'renderBlock'),            array('is_safe' => array('html'), 'needs_environment' => true)),
-            new \Twig_SimpleFunction('git_repository_name',   array($this, 'renderRepositoryName'),   array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('git_branches',          array($this, 'renderBranches'),         array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_tags',              array($this, 'renderTags'),             array('is_safe' => array('html'), 'needs_environment' => true)),
+
+            new \Twig_SimpleFunction('git_render',            array($this, 'renderBlock'),            array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_url',               array($this, 'getUrl')),
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTests()
     {
         return array(
@@ -67,34 +98,6 @@ class GitExtension extends \Twig_Extension
             new \Twig_SimpleTest('git_stash', function ($stash) { return $stash instanceof Stash; }),
             new \Twig_SimpleTest('git_tree', function ($tree) { return $tree instanceof Tree; })
         );
-    }
-
-    public function renderRepositoryName($value)
-    {
-        if ($value instanceof Commit) {
-            $repository = $value->getRepository();
-        } elseif ($value instanceof Repository) {
-            $repository = $value;
-        } else {
-            throw new \InvalidArgumentException(sprintf('Unsupported type for Repository name: %s', is_object($value) ? get_class($value) : gettype($value)));
-        }
-
-        return $repository->getName();
-    }
-
-    public function getUrl($value, array $options = array())
-    {
-        if (isset($options['path'])) {
-            return $this->urlGenerator->generateTreeUrl($value, $options['path']);
-        }
-
-        if ($value instanceof Commit) {
-            return $this->urlGenerator->generateCommitUrl($value);
-        } elseif ($value instanceof Reference) {
-            return $this->urlGenerator->generateReferenceUrl($value);
-        }
-
-        throw new \InvalidArgumentException(sprintf('Unsupported type for URL generation: %s. Expected a Commit, Reference or Revision', is_object($value) ? get_class($value) : gettype($value)));
     }
 
     public function renderCommitHeader(\Twig_Environment $env, Commit $commit)
@@ -135,14 +138,21 @@ class GitExtension extends \Twig_Extension
         ));
     }
 
-    public function renderLogRows(\Twig_Environment $env, Log $log, array $options = array())
+    public function renderLogRows(\Twig_Environment $env, Log $log)
     {
         return $this->renderBlock($env, 'log_rows', array(
             'log' => $log
         ));
     }
 
-    public function renderDiff(\Twig_Environment $env, Diff $diff, array $options = array())
+    public function renderBlame(\Twig_Environment $env, Blame $blame)
+    {
+        return $this->renderBlock($env, 'blame', array(
+            'blame' => $blame
+        ));
+    }
+
+    public function renderDiff(\Twig_Environment $env, Diff $diff)
     {
         return $this->renderBlock($env, 'diff', array(
             'diff' => $diff
@@ -195,6 +205,17 @@ class GitExtension extends \Twig_Extension
         ));
     }
 
+    public function renderPathcrumb(\Twig_Environment $env, Revision $revision, $path = '')
+    {
+        return $this->renderBlock($env, 'pathcrumb', array(
+            'revision'      => $revision,
+            'parent_path'   => substr($path, 0, strrpos($path, '/')),
+            'path'          => $path,
+            'path_exploded' => explode('/', $path),
+            'revision'      => $revision
+        ));
+    }
+
     public function renderBlob($env, Blob $blob)
     {
         if ($blob->isText()) {
@@ -211,6 +232,11 @@ class GitExtension extends \Twig_Extension
         return $this->renderBlock($env, $block, array('blob' => $blob));
     }
 
+    /**
+     * Adds themes to the git extension.
+     *
+     * @param mixed $themes a theme as string or an array of themes
+     */
     public function addThemes($themes)
     {
         $themes = reset($themes);
@@ -218,6 +244,9 @@ class GitExtension extends \Twig_Extension
         $this->themes = array_merge($themes, $this->themes);
     }
 
+    /**
+     * Renders a block with given context.
+     */
     public function renderBlock(\Twig_Environment $env, $block, $parameters = array())
     {
         foreach ($this->themes as $theme) {
@@ -234,6 +263,9 @@ class GitExtension extends \Twig_Extension
         throw new \InvalidArgumentException('Unable to find block '.$block);
     }
 
+    /**
+     * Internal method for block rendering.
+     */
     private function renderTemplateBlock(\Twig_Environment $env, \Twig_Template $template, $block, array $context = array())
     {
         $context = $env->mergeGlobals($context);
@@ -251,6 +283,27 @@ class GitExtension extends \Twig_Extension
 
             throw $e;
         }
+    }
+
+    /**
+     * Computes URL for a given value.
+     *
+     * @param mixed $value   the thing to make a link to
+     * @param array $options options for URL generation
+     */
+    public function getUrl($value, array $options = array())
+    {
+        if (isset($options['path'])) {
+            return $this->urlGenerator->generateTreeUrl($value, $options['path']);
+        }
+
+        if ($value instanceof Commit) {
+            return $this->urlGenerator->generateCommitUrl($value);
+        } elseif ($value instanceof Reference) {
+            return $this->urlGenerator->generateReferenceUrl($value);
+        }
+
+        throw new \InvalidArgumentException(sprintf('Unsupported type for URL generation: %s. Expected a Commit, Reference or Revision', is_object($value) ? get_class($value) : gettype($value)));
     }
 
     /**

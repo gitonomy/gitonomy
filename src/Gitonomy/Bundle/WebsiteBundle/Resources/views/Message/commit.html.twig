@@ -13,12 +13,40 @@
 
 {% block message %}
     {% set count = message.commitCount %}
-    {% include "GitonomyWebsiteBundle:Project:_commitList.html.twig" with {log: message.commits, slug: message.feed.project.slug} only %}
+    {#
+        Here, we can't reuse the TwigExtension, message is an array of data.
+        Injecting real commits is also a bad idea, because they might not
+        exist anymore in repository.
+    #}
+    <table class="commit-list">
+        <tbody>
+            {% for commit in message.commits %}
+                <tr>
+                    <td class="span1 message">
+                        <a title="{{ commit.message }}" href="{{ path('project_commit', {hash: commit.hash, slug: project.slug}) }}">
+                            {{ commit.fixedShortHash }}
+                        </a>
+                    </td>
+                    <td class="span10">{{ commit.shortMessage }}</td>
+                    <td class="span3 author">
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        {{ commit.authorName }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% if count > 1 %}
         <p>
-            <a href="{{ path('project_compare', {slug: message.feed.project.slug, revision: message.revision}) }}">
-                <small>{{ 'message.view_diff'|transchoice(count) }}</small>
-            </a>
+            {% if ".." in message.revision %}
+                <a href="{{ path('project_compare', {slug: message.feed.project.slug, revision: message.revision}) }}">
+                    <small>{{ 'message.view_diff'|transchoice(count) }}</small>
+                </a>
+            {% else %}
+                <a href="{{ path('project_history', {slug: message.feed.project.slug, branch: message.shortReferenceName}) }}">
+                    <small>{{ 'message.view_history'|trans }}</small>
+                </a>
+            {% endif %}
         </p>
     {% endif %}
 {% endblock message %}

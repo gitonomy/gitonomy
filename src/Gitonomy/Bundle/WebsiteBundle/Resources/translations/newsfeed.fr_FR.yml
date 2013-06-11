@@ -7,5 +7,6 @@ message.commit_forced: "<strong>a forcé</strong> %commits% sur <strong>%ref%</s
 message.commit_pushed: "<strong>a poussé</strong> %commits% sur <strong>%ref%</strong>"
 message.merged: "a fusionné la branche"
 message.view_diff: "{0}aucun différentiel|{1}voir le différentiel pour ce commit|]0,Inf]voir le différentiel des %count% commits"
+message.view_history: "voir le journal"
 message.post: "a posté un message"
 inline.commits: "{0}aucun commit|{1} 1 commit|]1,Inf] %count% commits"
