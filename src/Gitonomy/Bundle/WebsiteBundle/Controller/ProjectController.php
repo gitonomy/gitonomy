@@ -101,19 +101,24 @@ class ProjectController extends Controller
     public function historyAction(Request $request, $slug)
     {
         $branch     = $request->query->get('branch', null);
-        var_dump($branch);exit;
         $project    = $this->getProject($slug);
         $repository = $project->getRepository();
         $log        = $repository->getLog($branch);
 
-        $pager = new Pager(new GitLogAdapter($log));
-        $pager->setPerPage(50);
-        $pager->setPage($page = $request->query->get('page', 1));
+        $log
+            ->setOffset($request->query->get('offset', 0))
+            ->setLimit($request->query->get('limit', 25))
+        ;
 
-        return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
+        $template = $request->isXmlHttpRequest() ?
+            'GitonomyWebsiteBundle:Project:history_ajax.html.twig' :
+            'GitonomyWebsiteBundle:Project:history.html.twig'
+        ;
+
+        return $this->render($template, array(
             'project'  => $project,
             'branch'   => $branch,
-            'pager'    => $pager
+            'log'      => $log,
         ));
     }
 

@@ -20,10 +20,28 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $generator;
+
+    /**
+     * @var string[] associative array of route names.
+     *
+     * @see self::getRouteNames
+     */
     private $routeNames;
+
+    /**
+     * @var string[] associative array of route argument names.
+     *
+     * @see self::getRouteArgs
+     */
     private $routeArgs;
 
+    /**
+     * @inheritdoc
+     */
     abstract protected function getName(Repository $repository);
 
     public function __construct(UrlGeneratorInterface $generator, array $routeNames = array(), array $routeArgs = array())
@@ -33,6 +51,9 @@ abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
         $this->routeArgs  = array_merge(self::getRouteArgs(), $routeArgs);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generateCommitUrl(Commit $commit)
     {
         return $this->generator->generate($this->routeNames['commit'], array(
@@ -41,6 +62,9 @@ abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
         ));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generateReferenceUrl(Reference $reference)
     {
         if ($reference instanceof Branch) {
@@ -60,6 +84,9 @@ abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
         throw new \InvalidArgumentException(sprintf('Expected a Branch, got a "%s".', is_object($reference) ? get_class($reference) : gettype($reference)));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generateTreeUrl(Revision $revision, $path = '')
     {
         if ($revision instanceof Tag or $revision instanceof Branch) {
@@ -75,6 +102,13 @@ abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
         ));
     }
 
+    /**
+     * Returns route names being used for URL generation.
+     *
+     * See sourcecode of this method for an exhaustive list.
+     *
+     * @return string[] associative array of route names
+     */
     public static function getRouteNames()
     {
         return array(
@@ -85,6 +119,13 @@ abstract class AbstractGitUrlGenerator implements GitUrlGeneratorInterface
         );
     }
 
+    /**
+     * Returns route argument names being used for URL generation.
+     *
+     * See sourcecode of this method for an exhaustive list.
+     *
+     * @return string[] associative array of route names
+     */
     public static function getRouteArgs()
     {
         return array(

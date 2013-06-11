@@ -15,8 +15,7 @@
     </div>
 
     <legend>{{ 'title.diff.commits'|trans }}</legend>
-    {% include "GitonomyWebsiteBundle:Project:_commitList.html.twig" with {log: log, slug: project.slug} only %}
 
-
-    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: diff} only %}
+    {{ git_commit_list(log) }}
+    {{ git_diff(diff) }}
 {% endblock %}

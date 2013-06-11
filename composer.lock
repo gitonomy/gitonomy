@@ -730,12 +730,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "2d670a8c29d92ccccb3e6f618b8808b6da4cff94"
+                "reference": "0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/2d670a8c29d92ccccb3e6f618b8808b6da4cff94",
-                "reference": "2d670a8c29d92ccccb3e6f618b8808b6da4cff94",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2",
+                "reference": "0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2",
                 "shasum": ""
             },
             "require": {
@@ -774,7 +774,7 @@
             ],
             "description": "Library for accessing git",
             "homepage": "http://gitonomy.com",
-            "time": "2013-05-03 20:49:06"
+            "time": "2013-06-10 21:12:24"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1289,7 +1289,7 @@
                 "icu",
                 "intl"
             ],
-            "time": "2013-04-05 10:34:44"
+            "time": "2013-06-03 18:32:58"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -1612,7 +1612,7 @@
                     "Behat\\Behat": "src/"
                 }
             },
-            "time": "2013-04-14 00:40:10"
+            "time": "2013-06-07 13:39:16"
         },
         {
             "name": "behat/gherkin",
@@ -1628,7 +1628,7 @@
                     "Behat\\Gherkin": "src/"
                 }
             },
-            "time": "2013-03-08 10:25:28"
+            "time": "2013-05-09 15:20:54"
         }
     ],
     "aliases": [

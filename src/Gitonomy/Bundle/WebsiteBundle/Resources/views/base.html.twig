@@ -18,6 +18,8 @@
             "bundles/gitonomywebsite/css/project/history.sass"
             "bundles/gitonomywebsite/css/project/source.sass"
             "bundles/gitonomywebsite/css/project/commit.sass"
+            "bundles/gitonomytwig/css/diff.css"
+            "bundles/gitonomytwig/css/log.css"
         %}
             <link rel="stylesheet" href="{{ asset(asset_url) }}" />
         {% endstylesheets %}
@@ -28,16 +30,14 @@
 
         {% javascripts combine=true output="js/all.js"
             "bundles/gitonomywebsite/vendor/jquery-1.7.1.min.js"
-            "bundles/gitonomywebsite/js/d3.v2.js"
             "bundles/gitonomywebsite/vendor/jquery.masonry.min.js"
             "bundles/gitonomywebsite/vendor/bootstrap/js/bootstrap.js"
             "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.js"
             "bundles/gitonomywebsite/vendor/codemirror/lib/util/loadmode.js"
             "bundles/gitonomywebsite/js/post-link.js"
             "bundles/gitonomywebsite/js/button-groups.js"
-            "bundles/gitonomywebsite/js/history.js"
-            "bundles/gitonomywebsite/js/commit.js"
             "bundles/gitonomywebsite/js/codemirror.js"
+            "bundles/gitonomytwig/js/log.js"
         %}
             <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
         {% endjavascripts %}

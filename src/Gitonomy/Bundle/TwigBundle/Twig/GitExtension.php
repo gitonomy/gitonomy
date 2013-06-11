@@ -42,6 +42,7 @@ class GitExtension extends \Twig_Extension
             new \Twig_SimpleFunction('git_author',            array($this, 'renderAuthor'),           array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_blob',              array($this, 'renderBlob'),             array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_branches',          array($this, 'renderBranches'),         array('is_safe' => array('html'), 'needs_environment' => true)),
+            new \Twig_SimpleFunction('git_commit_list',       array($this, 'renderCommitList'),       array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_commit_header',     array($this, 'renderCommitHeader'),     array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_diff',              array($this, 'renderDiff'),             array('is_safe' => array('html'), 'needs_environment' => true)),
             new \Twig_SimpleFunction('git_log',               array($this, 'renderLog'),              array('is_safe' => array('html'), 'needs_environment' => true)),
@@ -100,6 +101,13 @@ class GitExtension extends \Twig_Extension
     {
         return $this->renderBlock($env, 'commit_header', array(
             'commit' => $commit,
+        ));
+    }
+
+    public function renderCommitList(\Twig_Environment $env, $commits)
+    {
+        return $this->renderBlock($env, 'commit_list', array(
+            'commits' => $commits,
         ));
     }
 

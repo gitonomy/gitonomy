@@ -1,3 +1,6 @@
+
+{# Log, History #}
+
 {% block log %}
 {% spaceless %}
     <table class="git-log" {% if query_url %} data-per-page="{{ per_page }}" data-query-url="{{ query_url }}" {% endif %}data-offset="{{ log.offset }}" data-limit="{{ log.limit }}" data-total="{{ log.count }}">
@@ -66,6 +69,8 @@
 {% endspaceless %}
 {% endblock %}
 
+{# Status blocks #}
+
 {% block status %}
 {% spaceless %}
     {% if diff_staged.files|length %}
@@ -87,6 +92,8 @@
 {% endspaceless %}
 {% endblock %}
 
+{# Author #}
+
 {% block author %}
 {% spaceless %}
     <span class="git-author">
@@ -94,6 +101,31 @@
         <img alt="Avatar of {{ name }}" width="{{ size }}" height="{{ size }}" src="http://www.gravatar.com/avatar/{{ email_md5 }}?s={{ size }}" />
         {{- name -}}
     </span>
+{% endspaceless %}
+{% endblock %}
+
+{# Commit #}
+
+{% block commit_list %}
+{% spaceless %}
+    <table class="commit-list">
+        <tbody>
+            {% for commit in commits %}
+                <tr>
+                    <td class="span1 message">
+                        <a title="{{ commit.message }}" href="{{ git_url(commit) }}">
+                            {{ commit.fixedShortHash }}
+                        </a>
+                    </td>
+                    <td class="span10">{{ commit.shortMessage }}</td>
+                    <td class="span3 author">
+                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
+                        {{ commit.authorName }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endspaceless %}
 {% endblock %}
 
@@ -111,6 +143,8 @@
 {% endspaceless %}
 {% endblock %}
 
+{# Diff #}
+
 {% block diff %}
 {% spaceless %}
     <div class="git-diff">
@@ -122,42 +156,6 @@
             </div>
         {% endfor %}
     </div>
-{% endspaceless %}
-{% endblock %}
-
-{% block branches %}
-{% spaceless %}
-    <ul>
-        {% for branch in branches %}
-            <li>
-                <a href="{{ git_url(branch) }}">
-                    <strong>{{ branch.name }}</strong>
-                </a>
-                <small>
-                    {{ git_author(branch.commit) }}
-                    {{ branch.commit.authorDate.format('d/m/Y') }}
-                </small>
-            </li>
-        {% endfor %}
-    </ul>
-{% endspaceless %}
-{% endblock %}
-
-{% block tags %}
-{% spaceless %}
-    <ul>
-        {% for tag in tags %}
-            <li>
-                <a href="{{ git_url(tag) }}">
-                    <strong>{{ tag.name }}</strong>
-                </a>
-                <small>
-                    {{ git_author(tag.commit) }}
-                    {{ tag.commit.authorDate.format('d/m/Y') }}
-                </small>
-            </li>
-        {% endfor %}
-    </ul>
 {% endspaceless %}
 {% endblock %}
 
@@ -219,6 +217,44 @@
 {% endspaceless %}
 {% endblock %}
 
+{# References #}
+
+{% block branches %}
+{% spaceless %}
+    <ul>
+        {% for branch in branches %}
+            <li>
+                <a href="{{ git_url(branch) }}">
+                    <strong>{{ branch.name }}</strong>
+                </a>
+                <small>
+                    {{ git_author(branch.commit) }}
+                    {{ branch.commit.authorDate.format('d/m/Y') }}
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}
+{% endblock %}
+
+{% block tags %}
+{% spaceless %}
+    <ul>
+        {% for tag in tags %}
+            <li>
+                <a href="{{ git_url(tag) }}">
+                    <strong>{{ tag.name }}</strong>
+                </a>
+                <small>
+                    {{ git_author(tag.commit) }}
+                    {{ tag.commit.authorDate.format('d/m/Y') }}
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}
+{% endblock %}
+
 {% block reference_label %}
 {% spaceless %}
     <a href="{{ git_url(reference) }}">
@@ -237,23 +273,7 @@
 {% endspaceless %}
 {% endblock %}
 
-{% block blob_text %}
-{% spaceless %}
-    <pre><code>{{ blob.content }}</code></pre>
-{% endspaceless %}
-{% endblock %}
-
-{% block blob_image %}
-{% spaceless %}
-    <pre><code>IMAGE</code></pre>
-{% endspaceless %}
-{% endblock %}
-
-{% block blob_binary %}
-{% spaceless %}
-    <pre><code>BINARY</code></pre>
-{% endspaceless %}
-{% endblock %}
+{# Tree & Source #}
 
 {% block tree %}
 {% spaceless %}
@@ -335,5 +355,23 @@
         </td>
     {% endif %}
 </tr>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_text %}
+{% spaceless %}
+    <pre><code>{{ blob.content }}</code></pre>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_image %}
+{% spaceless %}
+    <pre><code>IMAGE</code></pre>
+{% endspaceless %}
+{% endblock %}
+
+{% block blob_binary %}
+{% spaceless %}
+    <pre><code>BINARY</code></pre>
 {% endspaceless %}
 {% endblock %}

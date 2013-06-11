@@ -279,8 +279,14 @@ gitonomyLog = {
                 queryLimit  = Math.min(offset, perPage);
             ;
 
+            if (-1 == queryUrl.indexOf("?")) {
+                queryUrl += "?";
+            } else {
+                queryUrl += "&";
+            }
+
             $.ajax({
-                url: queryUrl + "?offset=" + queryOffset + "&limit=" + queryLimit,
+                url: queryUrl + "offset=" + queryOffset + "&limit=" + queryLimit,
                 success: function (i, e) {
                     $table.attr('data-offset', queryOffset);
                     $table.attr('data-limit', limit + queryLimit);
@@ -301,22 +307,29 @@ gitonomyLog = {
                 return;
             }
             $table.data('loading', true);
+
             var
                 queryUrl    = $table.attr('data-query-url'),
                 perPage     = 1 * $table.attr('data-per-page'),
                 offset      = 1 * $table.attr('data-offset'),
                 limit       = 1 * $table.attr('data-limit'),
                 total       = 1 * $table.attr('data-total'),
-                queryOffset = offset + limit,
-                queryLimit  = Math.min(perPage, total - offset)
+                queryOffset = Math.min(offset + limit, total),
+                queryLimit  = Math.min(perPage, total - queryOffset)
             ;
 
+            if (-1 == queryUrl.indexOf("?")) {
+                queryUrl += "?";
+            } else {
+                queryUrl += "&";
+            }
+
             $.ajax({
-                url: queryUrl + "?offset=" + queryOffset + "&limit=" + queryLimit,
+                url: queryUrl + "offset=" + queryOffset + "&limit=" + queryLimit,
                 success: function (i, e) {
                     $table.attr('data-limit', limit + queryLimit);
 
-                    if (queryOffset == total - 1) {
+                    if (queryOffset + queryLimit == total) {
                         $table.find('tfoot').remove();
                     }
 
