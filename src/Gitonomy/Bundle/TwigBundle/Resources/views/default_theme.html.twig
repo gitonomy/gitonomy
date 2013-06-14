@@ -176,12 +176,14 @@
 
 {% block diff %}
 {% spaceless %}
+    {% set id_prefix = id_prefix|default("diff-file-") %}
     <div class="git-diff">
-        {{ git_render('diff_summary', {diff: diff}) }}
+        {{ git_render('diff_summary', {diff: diff, id_prefix: id_prefix}) }}
 
         {% for i, file in diff.files %}
-            <div class="file" id="diff-file-{{ i }}">
-                {{ git_render('diff_file', {file: file}) }}
+            {% set id = 'diff-file-' ~ i %}
+            <div class="file" id="{{ id }}">
+                {{ git_render('diff_file', {file: file, id: id_prefix ~ i}) }}
             </div>
         {% endfor %}
     </div>
@@ -192,7 +194,7 @@
     <ul class="summary">
         {% for i,file in diff.files %}
             <li>
-                <a href="#file-{{ i }}">
+                <a href="#{{ id_prefix }}{{ i }}">
                     {{ file.name }}
                 </a>
             </li>
@@ -202,7 +204,7 @@
 
 {% block diff_file %}
 {% spaceless %}
-    <header>
+    <header id="{{ id }}">
         {% if file.oldName == file.newName and file.oldMode == file.newMode %}
             <span class="file">{{ file.oldName }}</span>
         {% elseif file.oldName == null %}
