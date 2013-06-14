@@ -67,7 +67,7 @@ class Configuration implements ConfigurationInterface
         }
 
         $current
-                    ->end()
+                ->end()
                 ->end()
                 ->arrayNode('themes')
                     ->normalizeKeys(false)

@@ -101,4 +101,4 @@ And those javascripts:
 Usage
 -----
 
-See `usage page <../usage.rst>`_ for more informations on how to use this bundle.
+See `usage page <./../usage.rst>`_ for more informations on how to use this bundle.
