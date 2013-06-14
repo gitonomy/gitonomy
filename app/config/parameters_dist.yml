@@ -10,4 +10,4 @@ parameters:
   # Security
   secret:            ThisTokenIsNotSoSecretChangeIt
   remember_secret:   ThisTokenIsNotSoSecretChangeIt
-  repository_path:   %kernel.root_dir%/cache/repositories
+  repository_path:   %kernel.root_dir%/repositories
