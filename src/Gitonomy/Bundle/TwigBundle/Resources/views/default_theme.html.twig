@@ -176,8 +176,8 @@
 
 {% block diff %}
 {% spaceless %}
-    {% set id_prefix = id_prefix|default("diff-file-") %}
-    <div class="git-diff">
+    <div class="file-wrapper">
+        {% set id_prefix = id_prefix|default("diff-file-") %}
         {{ git_render('diff_summary', {diff: diff, id_prefix: id_prefix}) }}
 
         {% for i, file in diff.files %}
@@ -220,7 +220,7 @@
         {% endif %}
     </header>
     <div class="file-changes">
-        <table class="diff-lines">
+        <table class="file-lines">
             {% for change in file.changes %}
                 {% if not loop.first %}
                     <tr><td class="skip" colspan="3">&nbsp;</td></tr>
@@ -229,8 +229,8 @@
                 {% set new = change.rangeNewStart %}
                 {%- for x, line in change.lines -%}
                     <tr class="{{ line[0] == 1 ? 'new' : line[0] == -1 ? 'old' }}">
-                        <td class="old">{{ line[0] != 1 ? old : ' ' }}</td>
-                        <td class="new">{{ line[0] != -1 ? new : ' ' }}</td>
+                        <td class="line-number old">{{ line[0] != 1 ? old : ' ' }}</td>
+                        <td class="line-number new">{{ line[0] != -1 ? new : ' ' }}</td>
                         <td class="{{ line[0] == 1 ? 'plus' : line[0] == -1 ? 'minus' }} source"><pre>{{ line[1] }}</pre></td>
                     </tr>
                     {%- if line[0] == 1 -%}
@@ -413,7 +413,16 @@
 
 {% block blob_text %}
 {% spaceless %}
-    <pre><code>{{ blob.content }}</code></pre>
+    <div class="file-wrapper">
+        <table class="file-lines">
+            {%- for number, content in blob.content|split("\n") -%}
+                <tr>
+                    <td class="line-number">{{ number }}</td>
+                    <td class="source"><pre>{{ content }}</pre></td>
+                </tr>
+            {%- endfor -%}
+        </table>
+    </div>
 {% endspaceless %}
 {% endblock %}
 

@@ -166,11 +166,10 @@ class ProjectController extends Controller
         }
 
         $parameters = array(
-            'project'       => $project,
-            'revision'      => $revision,
-            'path'          => $path,
+            'project'  => $project,
+            'revision' => $revision,
+            'path'     => $path,
         );
-
 
         if ($element instanceof Blob) {
             $parameters['blob'] = $element;
