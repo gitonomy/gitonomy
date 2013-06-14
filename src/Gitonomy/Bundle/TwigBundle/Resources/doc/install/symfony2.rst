@@ -96,9 +96,3 @@ If not, you just need to make your application load those stylesheets:
 And those javascripts:
 
 * @GitonomyTwigBundle/Resources/public/css/log.js
-
-
-Usage
------
-
-See `usage page <./../usage.rst>`_ for more informations on how to use this bundle.

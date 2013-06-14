@@ -68,3 +68,65 @@ The template:
     {% else %}
         {{ git_log(log, {query_url: '/log-ajax'}) }}
     {% endif %}
+
+Folders & Files
+---------------
+
+Within gitlib, folders are represented by *Tree* objects and files are represented
+by *Blob* object.
+
+For both of them, functions are available to ease rendering of them.
+
+In PHP code:
+
+.. code-block:: php
+
+    $commit   = $repository->getHead();
+    $revision = $commit;
+    $path = ''; // could be 'src/Gitonomy/Bundle'
+
+    $tree = $revision->getTree()->resolvePath($path);
+
+    echo $twig->render('template.twig', array(
+        'tree'     => $tree,
+        'path'     => $path,
+        'revision' => $revision
+    ));
+
+And your template:
+
+.. code-block:: html+jinja
+
+    {{ git_tree(tree, revision, path) }}
+
+Another useful function when you're rendering a tree is what is called a "pathcrumb":
+a breadcrumb with all parent folders.
+
+To generate it:
+
+.. code-block:: html+jinja
+
+    {{ git_pathcrumb(revision, path) }}
+
+Blame
+-----
+
+Given a file and a revision, you want a blame view. To do so, first in PHP:
+
+.. code-block:: php
+
+    use Gitonomy\Git\Repository;
+
+    $repository = new Repository('/path/to/repository');
+
+    $blame = $repository->getBlame('master', 'path/to/file.txt');
+
+    echo $twig->render('template.twig', array(
+        'blame' => $blame
+    ));
+
+And the twig template:
+
+.. code-block:: html+jinja
+
+    {{ git_blame(blame) }}
