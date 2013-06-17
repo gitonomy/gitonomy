@@ -8,7 +8,7 @@
 {% set local_navigation = 'history' %}
 
 {% block project_content %}
-    {{ git_commit_header(commit) }}
+    {{ git_commit(commit) }}
     {{ git_diff(commit.diff) }}
 
 {% endblock %}

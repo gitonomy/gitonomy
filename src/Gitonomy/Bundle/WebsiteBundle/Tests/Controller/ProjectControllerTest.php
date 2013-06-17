@@ -111,7 +111,7 @@ class ProjectControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('td:contains("Add element_100")')->count());
 
-        $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
+        $crawler = $this->client->request('GET', '/projects/foobar?branch=pagination');
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -165,7 +165,7 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', '/projects/foobar?reference=pagination');
+        $crawler = $this->client->request('GET', '/projects/foobarx?branch=pagination');
         $crawler = $this->client->click($crawler->filter('a:contains("view diff of 101 commits")')->link());
         $response = $this->client->getResponse();
 

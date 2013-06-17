@@ -68,7 +68,7 @@ EOF
             }
 
         } elseif (!isset($config[$parameter])) {
-            throw new \InvalidArgumentException(sprintf('Parameter "%s" is not present in configuration. Present are: "%s".', $parameter, implode(', ', array_keys($config))));
+            throw new \InvalidArgumentException(sprintf('Parameter "%s" is not present in configuration. Present are: "%s".', $parameter, implode(', ', array_keys($config))), 1);
         } else {
             $output->writeln($config[$parameter]);
         }

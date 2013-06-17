@@ -108,12 +108,7 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertTrue($response->isRedirect('/login'));
 
-        $profile = $this->client->getProfile();
-        $collector = $profile->getCollector('mailer');
-        $this->assertEquals(1, $collector->getMessageCount());
-
         $crawler = $this->client->followRedirect();
-
         $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
     }
 
