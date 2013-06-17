@@ -37,8 +37,8 @@ gitonomy_core:
         mailer_from_name:  Gitonomy
         mailer_from_email: gitonomy@nowhere
 
-# Gitonomy Twig
-gitonomy_twig:
+# Gitonomy Git
+gitonomy_git:
     twig_extension:
         enabled: true
         routes_names:

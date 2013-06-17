@@ -4,7 +4,7 @@ imports:
 gitonomy_core:
     debug: true
 
-gitonomy_twig:
+gitonomy_git:
     profiler: true
 
 framework:

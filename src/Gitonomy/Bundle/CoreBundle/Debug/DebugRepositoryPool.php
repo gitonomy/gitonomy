@@ -4,7 +4,7 @@ namespace Gitonomy\Bundle\CoreBundle\Debug;
 
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Git\RepositoryPool;
-use Gitonomy\Bundle\TwigBundle\DataCollector\GitDataCollector;
+use Gitonomy\Bundle\GitBundle\DataCollector\GitDataCollector;
 use Gitonomy\Git\Repository;
 
 class DebugRepositoryPool extends RepositoryPool
