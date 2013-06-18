@@ -13,6 +13,7 @@
 
 {% block message %}
     {% set count = message.commitCount %}
+    {% set slug = message.feed.project.slug %}
     {#
         Here, we can't reuse the TwigExtension, message is an array of data.
         Injecting real commits is also a bad idea, because they might not
@@ -23,7 +24,7 @@
             {% for commit in message.commits %}
                 <tr>
                     <td class="span1 message">
-                        <a title="{{ commit.message }}" href="{{ path('project_commit', {hash: commit.hash, slug: project.slug}) }}">
+                        <a title="{{ commit.message }}" href="{{ path('project_commit', {hash: commit.hash, slug: slug}) }}">
                             {{ commit.fixedShortHash }}
                         </a>
                     </td>
