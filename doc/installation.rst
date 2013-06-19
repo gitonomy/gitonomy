@@ -1,24 +1,44 @@
 Installation
 ============
 
-Gitonomy is still under development, and no distributed version is available by now.
-
 Requirements
 ------------
 
-To work properly, web-application needs to have full right on repositories. If you can,
-run the same user for web-frontend and backend application.
+To run properly, you need to use the same user for web-access and CLI commands.
+You can access the 3 application by 3 different ways:
 
-If you can't, use group permissions to allow it to be possible.
+* CRON jobs (for authorized_keys generation)
+* Git server access (through a SSH connection)
+* Web access (application to browse and manage repositories)
 
-Install dependencies
---------------------
+All users using Gitonomy will be identified as the same user on the system.
+Every user will have the same push URL (``ssh://user@example.org/foobar.git``).
+In the application, Gitonomy accepts or deny access to the user, depending of
+his credentials.
 
-Dependencies of the project are managed using Composer. This tool allows you to install
-dependencies in two lines::
+For this reason, we suggest you to use the same user for all operations, if you
+are not a system guru.
 
-    curl -s https://getcomposer.org/installer | php
-    php composer.phar install
+Download and uncompress
+-----------------------
+
+Go to `download page <http://gitonomy.com/downloads>`_ and download latest
+version from website.
+
+Uncompress it to your prefered location, let's assume */var/www/gitonomy*.
+
+If you are using Apache, configuration should be at least:
+
+.. code-block::
+
+    <VirtualHost *:80>
+        ServerName git.example.org
+        DocumentRoot /var/www/gitonomy/web
+    </VirtualHost>
+
+Make sure your *web/* folder is the only accessible folder through web.
+Directory ``app/config`` contains sensitive data, it should not be accessible
+with browser.
 
 Configuration
 -------------
@@ -53,23 +73,3 @@ Manual installation
 Edit your crontab and add::
 
     * * * * * php /path/to/gitonomy/app/console gitonomy:authorized-keys -i > ~/.ssh/authorized_keys
-
-Install development version
----------------------------
-
-The code is hosted on github. To clone it locally:
-
-.. code-block:: bash
-
-    git clone git@github.com:gitonomy/gitonomy.git
-    cd gitonomy
-    ./super-reset.sh
-
-This will setup the development version of the project, with demo accounts. It
-will add demo repositories, too. You can connect using one of various
-available accounts:
-
-* admin:admin
-* user:user
-* alice:alice
-* visitor:visitor

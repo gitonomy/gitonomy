@@ -9,7 +9,12 @@
 
 {% block project_content %}
     <div class="actionbar">
-        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_newsfeed', withAll: true} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {
+            project: project,
+            branch:  branch,
+            route:   'project_newsfeed',
+            withAll: true
+        } only %}
     </div>
     <div class="newsfeed">
         {% for message in messages %}

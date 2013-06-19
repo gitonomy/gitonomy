@@ -1,13 +1,14 @@
+/app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
-/app/bootstrap.php.cache
+/app/repositories
+/behat.yml
 /bin
 /build/
+/composer.phar
 /sample/
 /vendor/
 /web/bundles/
 /web/css/
 /web/js/
-behat.yml
-composer.phar

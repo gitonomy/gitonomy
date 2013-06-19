@@ -21,23 +21,22 @@
     "require": {
         "php": ">=5.3.3",
 
-        "symfony/symfony":                   "dev-master",
-        "doctrine/orm":                      ">=2.2.3,<2.4-dev",
-        "swiftmailer/swiftmailer":           "dev-master",
+        "symfony/symfony":                   "2.3",
+        "doctrine/orm":                      "2.3",
+        "swiftmailer/swiftmailer":           "5.0",
 
-        "doctrine/doctrine-bundle":          "dev-master",
-        "twig/extensions":                   "dev-master",
-        "symfony/assetic-bundle":            "dev-master",
-        "symfony/monolog-bundle":            "dev-master",
-        "sensio/distribution-bundle":        "dev-master",
+        "doctrine/doctrine-bundle":          "1.2",
+        "twig/extensions":                   "1.0",
+        "symfony/assetic-bundle":            "2.3",
+        "symfony/monolog-bundle":            "2.3",
+        "sensio/distribution-bundle":        "2.3",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "juliendidier/buzz-bundle":          "dev-master",
 
-        "gitonomy/gitlib":                   "dev-master"
+        "gitonomy/git-bundle":               "dev-master"
     },
     "require-dev": {
-        "behat/behat":   "dev-custom",
-        "behat/gherkin": "dev-custom",
+        "behat/behat":                   "dev-develop",
         "alexandresalome/php-webdriver": "dev-master"
     },
     "scripts": {

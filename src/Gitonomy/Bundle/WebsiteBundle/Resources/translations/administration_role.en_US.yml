@@ -6,8 +6,7 @@ action.create: New role
 
 title.create: Create new role
 
-button.create: Save
-button.edit: Save
+button.save: Save
 button.cancel: Cancel
 button.confirm.delete: Yes, I want to delete %name%
 

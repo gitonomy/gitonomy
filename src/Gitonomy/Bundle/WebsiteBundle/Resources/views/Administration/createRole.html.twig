@@ -8,15 +8,6 @@
 
 {% block administration_content %}
     <div id="content">
-        <form method="POST" action"{{ path('administration_createRole') }}" class="form-horizontal">
-            <legend>{{ 'form.legend.create'|trans }}</legend>
-            {{ form_rest(form) }}
-            <div class="control-group">
-                <div class="controls">
-                    <button class="btn btn-success" type="submit"><i class="symbol">plus</i> {{ 'button.create'|trans }}</button>
-                    <a class="btn" href="{{ path('administration_roles') }}">{{ 'button.cancel'|trans }}</a>
-                </div>
-            </div>
-        </form>
+        {{ form(form, {action: path('administration_createRole')}) }}
     </div>
 {% endblock %}

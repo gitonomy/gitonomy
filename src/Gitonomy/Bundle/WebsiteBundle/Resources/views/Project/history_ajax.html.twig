@@ -1,0 +1,5 @@
+{% if app.request.xmlHttpRequest %}
+    {{ git_log_rows(log, {query_url: path('project_history', {slug: project.slug, branch: branch})}) }}
+{% else %}
+    {{ git_log(log, {query_url: path('project_history', {slug: project.slug, branch: branch})}) }}
+{% endif %}

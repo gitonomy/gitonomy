@@ -17,7 +17,7 @@
             {% else %}
                 <li><a href="{{ path('project_newsfeed', {slug: slug }) }}"{% if local_navigation == 'newsfeed' %} class="active"{% endif %}>{{ 'menu.newsfeed'|trans }}</a></li>
                 <li><a href="{{ path('project_history', {slug: slug }) }}"{% if local_navigation == 'history' %} class="active"{% endif %}>{{ 'menu.history'|trans }}</a></li>
-                <li><a href="{{ path('project_tree', {slug: project.slug, reference: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>{{ 'menu.source'|trans }}</a></li>
+                <li><a href="{{ path('project_tree', {slug: project.slug, revision: project.defaultBranch}) }}"{% if local_navigation == 'source' %} class="active"{% endif %}>{{ 'menu.source'|trans }}</a></li>
                 <li><a href="{{ path('project_branches', {slug: slug }) }}"{% if local_navigation == 'branches' %} class="active"{% endif %}>{{ 'menu.branches'|trans }}</a></li>
                 <li><a href="{{ path('project_tags', {slug: slug }) }}"{% if local_navigation == 'tags' %} class="active"{% endif %}>{{ 'menu.tags'|trans }}</a></li>
             {% endif %}

@@ -1,17 +1,20 @@
 {% extends "GitonomyWebsiteBundle::layout_project.html.twig" %}
 
 {% trans_default_domain 'project_source' %}
-
 {% set global_navigation = 'projects' %}
 {% set local_navigation = 'source' %}
 
 {% block title 'page.blob.title'|trans({'%project%': project.name, '%path%': path}) %}
 
-{% import "GitonomyWebsiteBundle:Blob:codemirror.html.twig" as tpl %}
-
 {% block project_content %}
-    {% include "GitonomyWebsiteBundle:Project:_pathcrumb.html.twig" with {active: 'blob'} %}
+    {% include "GitonomyWebsiteBundle:Project:_tree_header.html.twig" with {
+        path:     path,
+        project:  project,
+        revision: revision,
+        active:   'blob',
+        blame:    blob.isText
+    } only %}
 
-    {{ render_blob(blob, path) }}
+    {{ git_blob(blob) }}
 
 {% endblock %}

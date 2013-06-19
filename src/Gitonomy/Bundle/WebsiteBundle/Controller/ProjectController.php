@@ -44,17 +44,13 @@ class ProjectController extends Controller
         ));
     }
 
-    public function createAction()
+    public function createAction(Request $request)
     {
         $this->assertGranted('ROLE_PROJECT_CREATE');
 
         $user    = $this->getUser();
         $project = new Project();
-        $role    = $this->getRepository('GitonomyCoreBundle:Role')->findOneByName('Lead developer');
         $form    = $this->createForm('project', $project);
-        $request = $this->getRequest();
-
-        $project->getUserRoles()->add(new UserRoleProject($user, $project, $role));
 
         if ('GET' === $request->getMethod()) {
             return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
@@ -64,26 +60,30 @@ class ProjectController extends Controller
 
         $form->bind($request);
 
-        if ($form->isValid()) {
-            $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
-            $this->persistEntity($project);
-            $this->setFlash('success', $this->trans('notice.project_created', array(), 'project'));
+        if (!$form->isValid()) {
+            $this->setFlash('error', $this->trans('error.form_invalid', array(), 'register'));
 
-            return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));
+            return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
+                'form' => $form->createView()
+            ));
         }
 
-        $this->setFlash('error', $this->trans('error.form_invalid', array(), 'register'));
+        $role    = $this->getRepository('GitonomyCoreBundle:Role')->findOneByName('Lead developer');
+        $project->getUserRoles()->add(new UserRoleProject($user, $project, $role));
 
-        return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
-            'form' => $form->createView()
-        ));
+        $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
+        $this->persistEntity($project);
+        $this->setFlash('success', $this->trans('notice.project_created', array(), 'project'));
+
+        return $this->redirect($this->generateUrl('project_newsfeed', array('slug' => $project->getSlug())));
     }
 
     public function newsfeedAction(Request $request, $slug)
     {
-        $reference  = $request->query->get('reference');
         $project    = $this->getProject($slug);
-        $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $reference);
+
+        $branch     = $request->query->get('branch');
+        $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $branch);
 
         if ($project->isEmpty()) {
             return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
@@ -92,32 +92,33 @@ class ProjectController extends Controller
         }
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
-            'project'    => $project,
-            'messages'   => $messages,
-            'reference'  => $reference,
+            'project'  => $project,
+            'messages' => $messages,
+            'branch'   => $branch,
         ));
     }
 
     public function historyAction(Request $request, $slug)
     {
-        $reference  = $request->query->get('reference', null);
+        $branch     = $request->query->get('branch', null);
         $project    = $this->getProject($slug);
         $repository = $project->getRepository();
-        $log        = $repository->getLog($reference);
+        $log        = $repository->getLog($branch);
 
-        $pager = new Pager(new GitLogAdapter($log));
-        $pager->setPerPage(50);
-        $pager->setPage($page = $request->query->get('page', 1));
+        $log
+            ->setOffset($request->query->get('offset', 0))
+            ->setLimit($request->query->get('limit', 25))
+        ;
 
-        $references    = $repository->getReferences();
-        $referenceName = function (Reference $reference) {
-            return $reference->getName();
-        };
+        $template = $request->isXmlHttpRequest() ?
+            'GitonomyWebsiteBundle:Project:history_ajax.html.twig' :
+            'GitonomyWebsiteBundle:Project:history.html.twig'
+        ;
 
-        return $this->render('GitonomyWebsiteBundle:Project:history.html.twig', array(
-            'project'       => $project,
-            'reference'     => $reference,
-            'pager'         => $pager
+        return $this->render($template, array(
+            'project'  => $project,
+            'branch'   => $branch,
+            'log'      => $log,
         ));
     }
 
@@ -137,25 +138,24 @@ class ProjectController extends Controller
     }
 
     /**
-     * Displays tree
-     *
-     * @var string $reference Can be a branch name or a commit hash
+     * @var string $revision Can be a branch name or a commit hash
      */
-    public function treeAction($slug, $reference, $path)
+    public function treeAction($slug, $revision, $path)
     {
         $project    = $this->getProject($slug);
         $repository = $project->getRepository();
-        $revision   = $repository->getRevision($reference);
-        $commit     = $revision->getResolved();
+        $refs       = $repository->getReferences();
 
-        if ($repository->getReferences()->hasBranch($reference)) {
-            $branch = $reference;
+        if ($refs->hasBranch($revision)) {
+            $revision = $refs->getBranch($revision);
         } else {
-            $branch = $project->getDefaultBranch();
+            $revision = $repository->getRevision($revision);
         }
 
+        $commit = $revision->getCommit();
+
         $tree = $commit->getTree();
-        if (strlen($path) > 0 && 0 === substr($path, 0, 1)) {
+        if (strlen($path) > 0 && '/' === substr($path, 0, 1)) {
             $path = substr($path, 1);
         }
 
@@ -166,14 +166,10 @@ class ProjectController extends Controller
         }
 
         $parameters = array(
-            'reference'     => $reference,
-            'commit'        => $commit,
-            'project'       => $project,
-            'parent_path'   => $path === '' ? null : substr($path, 0, strrpos($path, '/')),
-            'path'          => $path,
-            'path_exploded' => explode('/', $path),
+            'project'  => $project,
+            'revision' => $revision,
+            'path'     => $path,
         );
-
 
         if ($element instanceof Blob) {
             $parameters['blob'] = $element;
@@ -215,48 +211,56 @@ class ProjectController extends Controller
     /**
      * Displays tree history.
      */
-    public function treeHistoryAction(Request $request, $slug, $reference, $path)
+    public function treeHistoryAction(Request $request, $slug, $revision, $path)
     {
         $project    = $this->getProject($slug);
         $repository = $project->getRepository();
-        $branch     = $repository->getReferences()->getBranch($reference);
-        $log        = $repository->getLog($branch->getCommitHash(), $path);
-        $branches   = $repository->getReferences()->getBranches();
+        $refs       = $repository->getReferences();
 
-        $pager = new Pager(new GitLogAdapter($log));
-        $pager->setPerPage(50);
-        $pager->setPage($page = $request->query->get('page', 1));
+        if ($refs->hasBranch($revision)) {
+            $revision = $refs->getBranch($revision);
+        } else {
+            $revision = $repository->getRevision($revision);
+        }
 
-        return $this->render('GitonomyWebsiteBundle:Project:treeHistory.html.twig', array(
-            'reference'     => $reference,
-            'log'           => $log,
-            'project'       => $project,
-            'path'          => $path,
-            'path_exploded' => explode('/', $path),
-            'page'          => $page,
-            'pager'         => $pager,
-            'branches'      => $branches,
+        $log        = $revision->getLog($path);
+
+        $log
+            ->setOffset($request->query->get('offset', 0))
+            ->setLimit($request->query->get('limit', 25))
+        ;
+
+        $template = $request->isXmlHttpRequest() ?
+            'GitonomyWebsiteBundle:Project:history_ajax.html.twig' :
+            'GitonomyWebsiteBundle:Project:treeHistory.html.twig'
+        ;
+
+        return $this->render($template, array(
+            'path'     => $path,
+            'project'  => $project,
+            'revision' => $revision,
+            'log'      => $log,
         ));
     }
 
-    public function blameAction(Request $request, $slug, $reference, $path)
+    public function blameAction(Request $request, $slug, $path, $revision)
     {
         $project = $this->getProject($slug);
-
         $repository = $project->getRepository();
 
-        $resolved = $repository->getRevision($reference)->getResolved()->getTree()->resolvePath($path);
+        $revision = $repository->getRevision($revision);
+        $resolved = $revision->getCommit()->getTree()->resolvePath($path);
 
         if (!$resolved instanceof Blob || $resolved->isBinary()) {
             throw $this->createNotFoundException('Cannot blame a tree or binary');
         }
 
-        $blame = $repository->getBlame($reference, $path);
+        $blame = $repository->getBlame($revision, $path);
 
         return $this->render('GitonomyWebsiteBundle:Project:blame.html.twig', array(
             'project'       => $project,
             'blame'         => $blame,
-            'reference'     => $reference,
+            'revision'     => $revision,
             'path'          => $path,
             'path_exploded' => explode('/', $path)
         ));

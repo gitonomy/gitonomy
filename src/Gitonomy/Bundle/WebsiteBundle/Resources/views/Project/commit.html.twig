@@ -8,27 +8,7 @@
 {% set local_navigation = 'history' %}
 
 {% block project_content %}
-    {% set diff = commit.diff %}
-
-    <div class="commit-header">
-        <div class="message">{{ commit.message|nl2br }}</div>
-        <div class="author">
-            <img src="{{ gravatar(commit.authorName, 16) }}" />
-            <strong>{{ commit.authorName }}</strong> on {{ commit.authorDate.format('Y-m-d H:i:s') }}
-        </div>
-        <div class="footer">
-            <span>{{ commit.hash }}</span>
-
-            <span class="pull-right">
-                {% for parent in commit.parents %}
-                    {% if loop.first %}<strong>{{ 'label.commit.parents'|trans }}</strong>{% endif %}
-                    <a href="{{ path('project_commit', {'slug': project.slug, 'hash': parent.hash}) }}">{{ parent.hash }}</a>
-                    {%- if not loop.last %},{% endif %}
-                {% endfor %}
-            </span>
-        </div>
-    </div>
-
-    {% include "GitonomyWebsiteBundle:Project:_diff.html.twig" with {diff: commit.diff, reference: commit.hash, project: project} only %}
+    {{ git_commit(commit) }}
+    {{ git_diff(commit.diff) }}
 
 {% endblock %}

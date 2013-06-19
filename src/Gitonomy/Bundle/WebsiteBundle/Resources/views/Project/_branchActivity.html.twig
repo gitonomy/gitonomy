@@ -1,6 +1,6 @@
 {% trans_default_domain 'navigation_project' %}
 
-{% set branch = project.repository.references.hasBranch(reference) ? reference : null %}
+{% set branch_key_name = branch_key_name|default("branch") %}
 
 <div class="btn-group pull-right">
     <a class="menu dropdown-toggle" data-toggle="dropdown">
@@ -10,7 +10,11 @@
     <ul class="dropdown-menu pull-right">
         {% for row in branches_activity(project, branch) %}
             <li>
-                <a href="{{ path(route, { slug: project.slug, reference: row.branch.name, path: path|default(null) }) }}">
+                <a href="{{ path(route, {
+                    'slug': project.slug,
+                    'path': path|default(null),
+                    (branch_key_name): row.branch.name,
+                }) }}">
                     {% if row.behind or row.above %}
                         <div class="label pull-right">
                             {% if row.behind %}<span class="behind">-{{ row.behind }}</span>{% endif %}

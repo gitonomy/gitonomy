@@ -81,10 +81,6 @@ class ProfileControllerTest extends WebTestCase
         $link = $crawler->filter('#email_'.$email->getId().' .send-activation')->attr('href');
         $crawler = $this->client->request('POST', $link);
 
-        $profile   = $this->client->getProfile();
-        $collector = $profile->getCollector('mailer');
-        $this->assertEquals(1, $collector->getMessageCount());
-
         $this->assertTrue($this->client->getResponse()->isRedirect('/profile'));
 
         $crawler = $this->client->followRedirect();

@@ -116,18 +116,20 @@ class ConfigurationController extends Controller
 
     protected function getDistAndLocal()
     {
-        $dist  = Yaml::parse($this->getDistributedFile());
-        $local = Yaml::parse($this->getLocalFile());
+        $dist = $this->getDistributedFile();
+        $dist = Yaml::parse(file_get_contents($dist));
 
-        if (null === $local) {
-            $local = array();
-            $dist  = $dist['parameters'];
+        $local = $this->getLocalFile();
+        if (file_exists($local)) {
+            $local = Yaml::parse(file_get_contents($local));
         } else {
-            $local = $local['parameters'];
-            $dist  = $dist['parameters'];
+            $local = array();
         }
 
-        return array($dist, $local === null ? array() : $local);
+        $local = isset($local['parameters']) ? $local['parameters'] : array();
+        $dist  = isset($dist['parameters']) ? $dist['parameters'] : array();
+
+        return array($dist, $local);
     }
 
     protected function getDistributedFile()

@@ -6,8 +6,7 @@ action.create: Nouveau rôle
 
 title.create: Créer un nouveau rôle
 
-button.create: Enregister
-button.edit: Enregister
+button.save: Enregister
 button.cancel: Annuler
 button.confirm.delete: Oui, je veux supprimer %name%
 
