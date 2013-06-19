@@ -1,5 +1,6 @@
-* v0.4 (2013-06-03)
+* v0.4
 
+  * new git-bundle, a reusable set of git blocks for Twig
   * fix allow trailing / in remote URL
   * fix incorrect paths in hooks
 
