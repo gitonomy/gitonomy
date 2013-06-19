@@ -165,14 +165,13 @@ class ProjectControllerTest extends WebTestCase
     {
         $this->client->connect('alice');
 
-        $crawler = $this->client->request('GET', '/projects/foobarx?branch=pagination');
+        $crawler = $this->client->request('GET', '/projects/foobar?branch=pagination');
         $crawler = $this->client->click($crawler->filter('a:contains("view diff of 101 commits")')->link());
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(101, $crawler->filter('table.commit-list tr')->count());
-        $this->assertEquals(101, $crawler->filter('table.commit-summary tr')->count());
-        $this->assertEquals(101, $crawler->filter('.changeset > .file')->count());
+        $this->assertEquals(101, $crawler->filter('table.git-log td.message')->count());
+        $this->assertEquals(101, $crawler->filter('.file-wrapper > .file')->count());
     }
 
     public function testCreateProjectAsAnonymous()

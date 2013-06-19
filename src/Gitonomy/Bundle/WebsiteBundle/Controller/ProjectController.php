@@ -61,15 +61,15 @@ class ProjectController extends Controller
         $form->bind($request);
 
         if (!$form->isValid()) {
-            $role    = $this->getRepository('GitonomyCoreBundle:Role')->findOneByName('Lead developer');
-            $project->getUserRoles()->add(new UserRoleProject($user, $project, $role));
-
             $this->setFlash('error', $this->trans('error.form_invalid', array(), 'register'));
 
             return $this->render('GitonomyWebsiteBundle:Project:create.html.twig', array(
                 'form' => $form->createView()
             ));
         }
+
+        $role    = $this->getRepository('GitonomyCoreBundle:Role')->findOneByName('Lead developer');
+        $project->getUserRoles()->add(new UserRoleProject($user, $project, $role));
 
         $this->dispatch(GitonomyEvents::PROJECT_CREATE, new ProjectEvent($project));
         $this->persistEntity($project);

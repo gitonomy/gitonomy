@@ -65,7 +65,7 @@ class GitonomyExtension extends \Twig_Extension
         }
 
         usort($rows, function ($left, $right) {
-            return $left['lastModification']->getTimestamp() < $right['lastModification']->getTimestamp();
+            return $left['lastModification']->getAuthorDate() < $right['lastModification']->getAuthorDate();
         });
 
         return $rows;

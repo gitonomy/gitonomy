@@ -2,9 +2,9 @@
 set -e
 cd `php -r "echo dirname(realpath('$0'));"`
 if [ -z "$1" ]; then
-  env="dev"
+  export env="dev"
 else
-  env=$1
+  export env=$1
 fi
 
 if [ ! -f composer.phar ]; then

@@ -5,6 +5,7 @@ repository_path="`php app/console gitonomy:config:show repository_path`"
 
 cd sample/foobar
 
+export GITONOMY_ENV="$env"
 export GITONOMY_USER="alice"
 export GITONOMY_PROJECT="foobar"
 
