@@ -50,14 +50,23 @@ gitonomyHistory = {
         var history = d3.select($table.parent()[0]).append('svg').attr('height', height);
 
         for (i in graph.heights) {
-            $($table.find("td.message").eq(i)).css('text-indent', graph.heights[i] * cell_size);
+            $($table.find("td.message").eq(i)).css('padding-left', graph.heights[i] * cell_size);
         }
 
         $table.find("th").each(function (i, e) {
             var $cell = $(e);
-            var b = $cell.parent().prev().find("td.message").css('textIndent');
-            var a = $cell.parent().next().find("td.message").css('textIndent');
-            $cell.css('text-indent', Math.max(parseInt(a), parseInt(b)));
+            var b = $cell.parent().prev().find("td.message").css('paddingLeft');
+            var a = $cell.parent().next().find("td.message").css('paddingLeft');
+            var res;
+            if (undefined === a) {
+                res = parseInt(b);
+            } else if (undefined === b) {
+                res = parseInt(a);
+            } else {
+                res = Math.max(parseInt(a), parseInt(b));
+            }
+
+            $cell.css('padding-left', res);
         });
 
         var commits = history

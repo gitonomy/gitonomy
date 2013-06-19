@@ -1,6 +1,9 @@
 {% extends "GitonomyDistributionBundle::layout.html.twig" %}
 
 {% block content %}
+    {% if step is defined %}
+        {% set status = step.status(parameters) %}
+    {% endif %}
     {% spaceless %}
     <ul class="menu">
         <li class="

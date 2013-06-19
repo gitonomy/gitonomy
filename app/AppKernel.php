@@ -32,6 +32,7 @@ class AppKernel extends Kernel
 
             new Gitonomy\Bundle\CoreBundle\GitonomyCoreBundle(),
             new Gitonomy\Bundle\WebsiteBundle\GitonomyWebsiteBundle(),
+            new Gitonomy\Bundle\GitBundle\GitonomyGitBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -54,5 +54,6 @@ class ConfigListener implements EventSubscriberInterface
         }
 
         $this->container->get('translator')->setLocale($locale);
+        \Locale::setDefault($locale);
     }
 }

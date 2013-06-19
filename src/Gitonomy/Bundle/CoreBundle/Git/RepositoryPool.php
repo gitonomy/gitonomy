@@ -18,7 +18,8 @@ use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\PushReferenceEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
-use Gitonomy\Git;
+use Gitonomy\Git\Repository;
+use Gitonomy\Git\Admin;
 
 /**
  * Repository pool, containing all Git repositories.
@@ -63,7 +64,7 @@ class RepositoryPool implements EventSubscriberInterface
 
         $path = $this->getPath($project);
 
-        Git\Admin::init($path);
+        Admin::init($path);
 
         $repository = $this->getGitRepository($project);
         $project->setRepository($repository);
@@ -109,7 +110,7 @@ class RepositoryPool implements EventSubscriberInterface
      */
     public function getGitRepository(Project $project)
     {
-        return new Git\Repository($this->getPath($project));
+        return new Repository($this->getPath($project));
     }
 
     /**

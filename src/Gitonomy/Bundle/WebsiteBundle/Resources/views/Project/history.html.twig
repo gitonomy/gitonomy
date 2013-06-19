@@ -7,70 +7,17 @@
 
 {% block title 'page.title'|trans({'%project%': project.name}) %}
 
-{% macro pager(pager, reference) %}
-    {% trans_default_domain 'project_history' %}
-    {% if pager.pageCount > 1 %}
-        <div class="pagination">
-            <ul>
-                <li{% if pager.isFirstPage %} class="disabled"{% endif %}>
-                    <a title="{{ 'pagination.first'|trans }}" href="?page=1">«</a>
-                </li>
-                {% set lastPage = pager.lastPage %}
-                {% for curPage in 1..pager.pageCount if (curPage - pager.page)|abs < 8 %}
-                    <li{% if curPage == pager.page %} class="active"{% endif %}><a title="{{ 'pagination.number'|trans({'%number%': curPage}) }}" href="?page={{ curPage }}{% if reference %}&reference={{ reference }}{% endif %}">{{ curPage }}</a></li>
-                {% endfor %}
-                <li{% if pager.isLastPage %} class="disabled"{% endif %}>
-                    <a title="{{ 'pagination.last'|trans }}" href="?page={{ pager.pageCount }}{% if reference %}&amp;reference={{ reference }}{% endif %}">»</a>
-                </li>
-            </ul>
-        </div>
-    {% endif %}
-{% endmacro %}
-
 {% block project_content %}
     <div class="actionbar">
-        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {project: project, reference: reference, route: 'project_history', withAll: true} %}
+        {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {
+            project: project,
+            branch: branch,
+            route: 'project_history',
+            withAll: true
+            } only
+        %}
     </div>
 
-    {{ _self.pager(pager, reference) }}
-
-    {% set results = pager.results %}
-    {% set data = history_graph_data(project, results) %}
-    <table data-history-graph="{{ data|json_encode }}" class="table table-condensed commit-list">
-        <tbody>
-            {% set date = null %}
-            {% for i, commit in results %}
-                {% if date == null or date != commit.committerDate.format('Y-m-d') %}
-                {% set date = commit.committerDate.format('Y-m-d') %}
-                <tr>
-                    <th colspan="2">{{ date }}</th>
-                </tr>
-                {% endif %}
-                <tr>
-                    <td class="message">
-                        {% for branch in data[i].branches %}
-                            <span class="label">{{ branch }}</span>
-                        {% endfor %}
-                        {% for tag in data[i].tags %}
-                            <span class="label">{{ tag }}</span>
-                        {% endfor %}
-                        <a title="{{ commit.message }}" href="{{ path('project_commit', {'slug': project.slug, 'hash': commit.hash }) }}">
-                            {{ commit.fixedShortHash }}
-                        </a> {{ commit.shortMessage }}
-                    </td>
-                    <td class="author">
-                        <img class="avatar" src="{{ gravatar(commit.authorEmail, 16) }}" alt="{{ commit.authorName }}" title="{{ commit.authorName }}" />
-                        {{ commit.authorName }}
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td>No commit to see here</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {{ _self.pager(pager, reference) }}
+    {{ include('GitonomyWebsiteBundle:Project:history_ajax.html.twig') }}
 
 {% endblock %}

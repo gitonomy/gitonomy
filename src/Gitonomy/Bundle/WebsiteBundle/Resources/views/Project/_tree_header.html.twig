@@ -1,0 +1,33 @@
+{% trans_default_domain 'project_source' %}
+
+{% set route = (active == 'tree' or active == 'blob') ? 'project_tree' : 'project_tree_history' %}
+
+<div class="actionbar">
+    {% include "GitonomyWebsiteBundle:Project:_branchActivity.html.twig" with {
+        project: project,
+        route: route,
+        branch: revision is git_branch ? revision.name : null,
+        branch_key_name: 'revision'
+    } only %}
+
+    {% set revision_text = revision is git_branch ? revision.name : revision.revision %}
+    <div class="pull-right sub-actions">
+        {% if active != 'tree' and active != 'blob' %}
+            <a class="menu" href="{{ path('project_tree', {slug: project.slug, revision: revision_text, path: path}) }}">
+                {{ 'contextual.show'|trans }}
+            </a>
+        {% endif %}
+        {% if active != 'history' %}
+            <a class="menu" href="{{ path('project_tree_history', {slug: project.slug, revision: revision_text, path: path}) }}">
+                {{ 'contextual.history'|trans }}
+            </a>
+        {% endif %}
+        {% if active != 'blame' and blame|default(false) %}
+            <a class="menu" href="{{ path('project_blame', {slug: project.slug, revision: revision_text, path: path}) }}">
+                {{ 'contextual.blame'|trans }}
+            </a>
+        {% endif %}
+    </div>
+
+    {{ git_pathcrumb(revision, path) }}
+</div>

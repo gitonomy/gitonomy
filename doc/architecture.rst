@@ -20,9 +20,9 @@ Limitations
 -----------
 
 Gitonomy does not backup automatically your repositories. As default,
-repositories are located in ``app/cache/repositories``. When setting up your
-Gitonomy platform, we recommend you to choose a path on your system, like
-``/var/git``.
+repositories are located in ``app/repositories``. When setting up your
+Gitonomy platform, we recommend you to setup a backup on this folder, Gitonomy
+won't do it automatically.
 
 File permissions are also responsability of administrator: you need to make
 sure Apache can read repositories and that CLI access has full write-access

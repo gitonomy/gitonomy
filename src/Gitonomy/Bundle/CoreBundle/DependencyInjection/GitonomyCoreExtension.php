@@ -36,20 +36,26 @@ class GitonomyCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        // repositories
         $container->setParameter('gitonomy_core.git.repository_path', $config['repository_path']);
-
-        // config
         $container->setParameter('gitonomy_core.config.default_config', $config['config_defaults']);
 
-        // git profiler
-        if ($config['enable_profiler']) {
+        if ($config['debug']) {
             $loader->load('debug.xml');
 
             $container
                 ->getDefinition('gitonomy_core.git.repository_pool')
-                ->addMethodCall('setDataCollector', array(new Reference('gitonomy_core.git.data_collector')))
+                ->addMethodCall('setDataCollector', array(
+                    new Reference('gitonomy_twig.git.data_collector')
+                ))
             ;
+
+            /*
+                <service....>
+                    <call method="setDataCollector">
+                        <argument type="service" id="gitonomy_twig.git.data_collector" />
+                    </call>
+                </service>
+            */
         }
     }
 }

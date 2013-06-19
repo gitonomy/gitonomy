@@ -31,17 +31,17 @@ project_commit:
     defaults: { _controller: "GitonomyWebsiteBundle:Project:commit" }
 
 project_tree:
-    pattern: /projects/{slug}/tree/{reference}/{path}
+    pattern: /projects/{slug}/tree/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
     requirements: { path: ".*" }
 
 project_blame:
-    pattern: /projects/{slug}/blame/{reference}/{path}
+    pattern: /projects/{slug}/blame/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:blame", path: "" }
     requirements: { path: ".*" }
 
 project_tree_history:
-    pattern: /projects/{slug}/tree-history/{reference}/{path}
+    pattern: /projects/{slug}/tree-history/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
     requirements: { path: ".*" }
 

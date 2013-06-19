@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('repository_path')->cannotBeEmpty()->end()
-                ->booleanNode('enable_profiler')->defaultFalse()->end()
+                ->booleanNode('debug')->defaultFalse()->end()
                 ->arrayNode('config_defaults')
                     ->normalizeKeys(false)
                     ->useAttributeAsKey('key')
