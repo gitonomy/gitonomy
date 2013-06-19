@@ -734,12 +734,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/git-bundle.git",
-                "reference": "932a95e5eb93c4897873871e5a089850f442e185"
+                "reference": "128714707b16e5fa25cc41daf0868cc5eecd86c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/932a95e5eb93c4897873871e5a089850f442e185",
-                "reference": "932a95e5eb93c4897873871e5a089850f442e185",
+                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/128714707b16e5fa25cc41daf0868cc5eecd86c4",
+                "reference": "128714707b16e5fa25cc41daf0868cc5eecd86c4",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
             ],
             "description": "Provides git related features for PHP applications",
             "homepage": "http://gitonomy.com",
-            "time": "2013-06-17 21:17:12"
+            "time": "2013-06-19 06:16:23"
         },
         {
             "name": "gitonomy/gitlib",
@@ -781,12 +781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2"
+                "reference": "d7a7590380a488335b28a109f777f60f9bebd5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2",
-                "reference": "0d2e33fbc4022fe85d44d65b485b6bacc4d5e5e2",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/d7a7590380a488335b28a109f777f60f9bebd5b1",
+                "reference": "d7a7590380a488335b28a109f777f60f9bebd5b1",
                 "shasum": ""
             },
             "require": {
@@ -825,7 +825,7 @@
             ],
             "description": "Library for accessing git",
             "homepage": "http://gitonomy.com",
-            "time": "2013-06-10 21:12:24"
+            "time": "2013-06-19 06:14:42"
         },
         {
             "name": "jdorn/sql-formatter",
