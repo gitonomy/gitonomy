@@ -76,3 +76,13 @@
 {% block submit_row %}
     <div class="form-actions">{{ form_widget(form, {attr: {class: 'btn btn-primary'}}) }}</div>
 {% endblock %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+    {% for child in form %}
+        {{ form_row(child) }}
+    {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
