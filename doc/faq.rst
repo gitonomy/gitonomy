@@ -16,6 +16,7 @@ projects are more advanced than Gitonomy:
 * `Github <https://github.com/>`_
 * `Gitlab <http://gitlab.org/>`_
 * `Gitorious <http://gitorious.org/>`_
+* `Gitblit <http://gitblit.com/>`_
 
 Please consider them as you consider Gitonomy. Gitonomy is good for you if you're
 a Symfony2 developer and will probably want some day to hack in it.
