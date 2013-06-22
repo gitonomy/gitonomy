@@ -27,3 +27,8 @@ tooltip.delete: Supprimer le rôle %name%
 notice.created: Rôle créé
 notice.updated: Rôle mis à jour
 notice.deleted: Rôle supprimé
+
+ROLE_ADMIN: Administration
+ROLE_PROJECT_CREATE: Créer des projets
+PROJECT_READ: Lire le dépôt
+PROJECT_ADMIN: Administrer le dépôt

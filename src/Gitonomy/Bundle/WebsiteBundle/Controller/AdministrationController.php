@@ -176,7 +176,10 @@ class AdministrationController extends Controller
         $this->assertGranted('ROLE_ADMIN');
 
         $role = $this->getRepository('GitonomyCoreBundle:Role')->find($id);
-        $form = $this->createForm('administration_role', $role, array('validation_groups' => 'admin'));
+        $form = $this->createForm('administration_role', $role, array(
+            'is_global' => $role->isGlobal(),
+            'validation_groups' => 'admin'
+        ));
 
         if ('POST' === $request->getMethod() && $form->bind($request)->isValid()) {
             $this->flush();
