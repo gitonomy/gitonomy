@@ -218,12 +218,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96"
+                "reference": "c4255b9fbd63ee1fe52697839318af5937fced9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
-                "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/c4255b9fbd63ee1fe52697839318af5937fced9b",
+                "reference": "c4255b9fbd63ee1fe52697839318af5937fced9b",
                 "shasum": ""
             },
             "require": {
@@ -271,7 +271,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -284,7 +284,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-06-10 18:20:01"
+            "time": "2013-06-21 12:11:28"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -481,12 +481,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "5696cd636df7cbfaf4d1c45ed2922438968cf890"
+                "reference": "512fc0fa1d0ce7bdcc6a0a91812eb531f20e0828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/5696cd636df7cbfaf4d1c45ed2922438968cf890",
-                "reference": "5696cd636df7cbfaf4d1c45ed2922438968cf890",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/512fc0fa1d0ce7bdcc6a0a91812eb531f20e0828",
+                "reference": "512fc0fa1d0ce7bdcc6a0a91812eb531f20e0828",
                 "shasum": ""
             },
             "require": {
@@ -530,7 +530,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2013-04-27 11:57:35"
+            "time": "2013-06-21 10:31:45"
         },
         {
             "name": "doctrine/inflector",
@@ -734,12 +734,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/git-bundle.git",
-                "reference": "128714707b16e5fa25cc41daf0868cc5eecd86c4"
+                "reference": "c7130b77b87142bbf3b38c7b69301ab7b7e8457c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/128714707b16e5fa25cc41daf0868cc5eecd86c4",
-                "reference": "128714707b16e5fa25cc41daf0868cc5eecd86c4",
+                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/c7130b77b87142bbf3b38c7b69301ab7b7e8457c",
+                "reference": "c7130b77b87142bbf3b38c7b69301ab7b7e8457c",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
             ],
             "description": "Provides git related features for PHP applications",
             "homepage": "http://gitonomy.com",
-            "time": "2013-06-19 06:16:23"
+            "time": "2013-06-22 07:34:30"
         },
         {
             "name": "gitonomy/gitlib",
@@ -781,12 +781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "d7a7590380a488335b28a109f777f60f9bebd5b1"
+                "reference": "3db67195f6aef1942e6e39b33bda191a1f21b057"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/d7a7590380a488335b28a109f777f60f9bebd5b1",
-                "reference": "d7a7590380a488335b28a109f777f60f9bebd5b1",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/3db67195f6aef1942e6e39b33bda191a1f21b057",
+                "reference": "3db67195f6aef1942e6e39b33bda191a1f21b057",
                 "shasum": ""
             },
             "require": {
@@ -825,7 +825,7 @@
             ],
             "description": "Library for accessing git",
             "homepage": "http://gitonomy.com",
-            "time": "2013-06-19 06:14:42"
+            "time": "2013-06-22 07:27:58"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1042,12 +1042,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "a43f926ffee4de41f14016dbee2aac1ed2cb411a"
+                "reference": "875ada786bf49b765db8cf4f4dff0607f7d5f5b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a43f926ffee4de41f14016dbee2aac1ed2cb411a",
-                "reference": "a43f926ffee4de41f14016dbee2aac1ed2cb411a",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/875ada786bf49b765db8cf4f4dff0607f7d5f5b5",
+                "reference": "875ada786bf49b765db8cf4f4dff0607f7d5f5b5",
                 "shasum": ""
             },
             "require": {
@@ -1096,7 +1096,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-06-07 08:26:36"
+            "time": "2013-06-20 14:40:07"
         },
         {
             "name": "psr/log",
