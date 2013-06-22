@@ -217,11 +217,13 @@ class ApiContext extends BehatContext
     }
 
     /**
-     * @Given /^role "([^"]*)" exists$/
+     * @Given /^(project |global )?role "([^"]*)" exists$/
      */
-    public function roleExists($slug)
+    public function roleExists($type, $slug)
     {
-        $this->kernelFactory->run(function ($kernel) use ($slug) {
+        $isGlobal = $type !== 'project ';
+
+        $this->kernelFactory->run(function ($kernel) use ($slug, $isGlobal) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneBySlug($slug);
             if ($role) {
@@ -229,7 +231,7 @@ class ApiContext extends BehatContext
                 $em->flush();
             }
 
-            $role = new Role(ucfirst($slug), $slug, $slug);
+            $role = new Role(ucfirst($slug), $slug, $slug, $isGlobal);
             $em->persist($role);
             $em->flush();
         });

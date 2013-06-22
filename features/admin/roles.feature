@@ -29,20 +29,31 @@ Feature: Administrate roles globally
          Then I should not see "Role created"
          Then I should see "This value is already used"
 
-    Scenario: Administrator edits a role
+    Scenario: Administrator edits a project role
         Given I am connected as "admin"
-          And I am on "/admin/roles/1/edit"
-          And I fill:
-            | Slug        | foobar |
+          And project role "foobar" exists
+          And I am on "/admin/roles"
+          And I click on button with tooltip "Edit role Foobar"
+         Then I should not see "Create projects"
+          And I should see "Administrate repository"
+         When I fill:
+            | Name        | New name of foobar |
           And I click on "Save"
          Then I should see "Role updated"
+          And I should see "New name of foobar"
 
-        # Revert
-        Given I am on "/admin/roles/1/edit"
-          And I fill:
-            | Slug        | admin |
+    Scenario: Administrator edits a global role
+        Given I am connected as "admin"
+          And global role "barbaz" exists
+         When I am on "/admin/roles"
+          And I click on button with tooltip "Edit role Barbaz"
+          And I should see "Create projects"
+          And I should not see "Administrate repository"
+         When I fill:
+            | Name        | New name of barbaz |
           And I click on "Save"
          Then I should see "Role updated"
+          And I should see "New name of barbaz"
 
     Scenario: User cannot administrate roles
         Given I am connected as "alice"

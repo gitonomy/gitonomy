@@ -43,7 +43,7 @@ class RoleType extends AbstractType
                     };
                 }
             ))
-            ->add('global', 'checkbox')
+            ->add('global', 'checkbox', array('required' => false))
             ->add('submit', 'submit', array('label' => 'button.save'))
         ;
     }
