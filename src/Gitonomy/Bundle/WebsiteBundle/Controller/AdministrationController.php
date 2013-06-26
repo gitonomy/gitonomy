@@ -130,6 +130,9 @@ class AdministrationController extends Controller
         } elseif ($action === 'as_default') {
             $user->setDefaultEmail($email);
             $success = $this->trans('notice.email_as_default', array('%email%' => $email->getEmail()), 'administration_user');
+        } elseif ($action == 'delete') {
+            $this->removeEntity($email);
+            $success = $this->trans('notice.email_deleted', array('%email%' => $email->getEmail()), 'administration_user');
         } else {
             throw $this->createNotFoundException(sprintf('No action %s on a mail in administration controller', $action));
         }

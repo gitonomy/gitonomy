@@ -45,7 +45,7 @@
                                     {% if not email.default %}
                                         <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_as_default'|trans({'%email%': email.email}) }} " class="btn btn-small" href="{{ path('administration_emailAction', {action: 'as_default', id: email.id}) }}"><i class="icon-ok"></i></a>
                                     {% endif %}
-                                    <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_delete'|trans({'%email%': email.email}) }} " class="btn btn-small btn-danger"  data-method="POST" href="{{ path('administration_deleteUser', {username: user.username}) }}"><i class="icon-fire icon-white"></i></a>
+                                    <a rel="tooltip" data-placement="left" data-method="POST" title="{{ 'tooltip.email_delete'|trans({'%email%': email.email}) }} " class="btn btn-small btn-danger"  data-method="POST" href="{{ path('administration_emailAction', {action: 'delete', id: email.id}) }}"><i class="icon-fire icon-white"></i></a>
                                 </div>
                             </td>
                         </tr>

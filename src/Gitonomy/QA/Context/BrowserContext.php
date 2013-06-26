@@ -11,6 +11,14 @@ use WebDriver\By;
 class BrowserContext extends BaseBrowserContext
 {
     /**
+     * @When /^I refresh$/
+     */
+    public function iRefresh()
+    {
+        $this->getBrowser()->refresh();
+    }
+
+    /**
      * @Given /^I am on "(.+)"$/
      */
     public function iAmOn($url)

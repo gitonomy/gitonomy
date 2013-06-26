@@ -5,15 +5,15 @@ namespace Gitonomy\QA\Context;
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
-
-use Gitonomy\QA\KernelFactory;
+use Gitonomy\Bundle\CoreBundle\Entity\Email;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\Role;
+use Gitonomy\Bundle\CoreBundle\Entity\User;
 use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\QA\KernelFactory;
 
 class ApiContext extends BehatContext
 {
@@ -63,6 +63,26 @@ class ApiContext extends BehatContext
             }
 
             $em->remove($user);
+            $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^user "([^"]*)" has an e-mail "([^"]*)"$/
+     */
+    public function userHasAnEmail($username, $email)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $email) {
+            $em = $kernel->getContainer()->get('doctrine')->getManager();
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+            if ($mail = $em->getRepository('GitonomyCoreBundle:Email')->findOneBy(array('email' => $email))) {
+                $em->remove($mail);
+            }
+
+            $email = new Email($user, $email, true);
+            $em->persist($email);
+
             $em->flush();
         });
     }
