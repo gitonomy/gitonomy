@@ -22,6 +22,8 @@ class WebGitonomyRequirements extends GitonomyRequirements
     public function __construct()
     {
         $this->addRequirement($this->isDocumentRoot(), 'Your app/ folder is accessible to the world');
+
+        parent::__construct();
     }
 
     protected function isDocumentRoot()
