@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "dd942da6c14244818ac19e61cd768815",
+    "hash": "f78e1504f6870b631a41201315907198",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -734,12 +734,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/git-bundle.git",
-                "reference": "c7130b77b87142bbf3b38c7b69301ab7b7e8457c"
+                "reference": "d4e83cf318b42bfa234f400876ecab1cf61fd4c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/c7130b77b87142bbf3b38c7b69301ab7b7e8457c",
-                "reference": "c7130b77b87142bbf3b38c7b69301ab7b7e8457c",
+                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/d4e83cf318b42bfa234f400876ecab1cf61fd4c2",
+                "reference": "d4e83cf318b42bfa234f400876ecab1cf61fd4c2",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
             ],
             "description": "Provides git related features for PHP applications",
             "homepage": "http://gitonomy.com",
-            "time": "2013-06-22 07:34:30"
+            "time": "2013-06-22 10:12:36"
         },
         {
             "name": "gitonomy/gitlib",
@@ -833,12 +833,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jdorn/sql-formatter.git",
-                "reference": "3c7983d6d638233ea8e0e7705a3a8f3e4921ca75"
+                "reference": "d7f10fbb2f871155cdd91b077acebb378e10a95c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/3c7983d6d638233ea8e0e7705a3a8f3e4921ca75",
-                "reference": "3c7983d6d638233ea8e0e7705a3a8f3e4921ca75",
+                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/d7f10fbb2f871155cdd91b077acebb378e10a95c",
+                "reference": "d7f10fbb2f871155cdd91b077acebb378e10a95c",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +875,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2013-06-13 03:56:09"
+            "time": "2013-06-24 10:01:06"
         },
         {
             "name": "juliendidier/buzz-bundle",
@@ -1561,12 +1561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "6f753205834b511269a97fe35108bbd5c8d245f5"
+                "reference": "6f0753f0ff4047a870f57e7567446242b38b37ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/6f753205834b511269a97fe35108bbd5c8d245f5",
-                "reference": "6f753205834b511269a97fe35108bbd5c8d245f5",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/6f0753f0ff4047a870f57e7567446242b38b37ac",
+                "reference": "6f0753f0ff4047a870f57e7567446242b38b37ac",
                 "shasum": ""
             },
             "require": {
@@ -1585,7 +1585,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -1602,22 +1602,56 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-06-09 06:03:21"
+            "time": "2013-06-27 06:24:36"
         }
     ],
     "packages-dev": [
+        {
+            "name": "alexandresalome/mailcatcher",
+            "version": "dev-master",
+            "target-dir": "Alex/MailCatcher",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexandresalome/mailcatcher.git",
+                "reference": "f2a555657a5ec5c5b268edd18e9e16a6da374cb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexandresalome/mailcatcher/zipball/f2a555657a5ec5c5b268edd18e9e16a6da374cb9",
+                "reference": "f2a555657a5ec5c5b268edd18e9e16a6da374cb9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "swiftmailer/swiftmailer": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Alex\\MailCatcher": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A library to access MailCatcher",
+            "time": "2013-07-09 14:35:08"
+        },
         {
             "name": "alexandresalome/php-webdriver",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexandresalome/php-webdriver.git",
-                "reference": "v0.1.0"
+                "reference": "564240df7b83fd1650f6dda70c741e4bcaaab0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexandresalome/php-webdriver/zipball/v0.1.0",
-                "reference": "v0.1.0",
+                "url": "https://api.github.com/repos/alexandresalome/php-webdriver/zipball/564240df7b83fd1650f6dda70c741e4bcaaab0dd",
+                "reference": "564240df7b83fd1650f6dda70c741e4bcaaab0dd",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1680,7 @@
                 }
             ],
             "description": "WebDriver client for PHP",
-            "time": "2013-05-03 20:02:38"
+            "time": "2013-07-04 19:14:15"
         },
         {
             "name": "behat/behat",
@@ -1786,7 +1820,8 @@
         "juliendidier/buzz-bundle": 20,
         "gitonomy/git-bundle": 20,
         "behat/behat": 20,
-        "alexandresalome/php-webdriver": 20
+        "alexandresalome/php-webdriver": 20,
+        "alexandresalome/mailcatcher": 20
     },
     "platform": {
         "php": ">=5.3.3"

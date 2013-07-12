@@ -37,7 +37,8 @@
     },
     "require-dev": {
         "behat/behat":                   "dev-develop",
-        "alexandresalome/php-webdriver": "dev-master"
+        "alexandresalome/php-webdriver": "dev-master",
+        "alexandresalome/mailcatcher":   "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

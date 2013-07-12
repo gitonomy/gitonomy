@@ -25,7 +25,7 @@ Feature: Register
           And I click on "Register"
          Then I should see "Your account was created!"
 
-    Scenario: I shouldn't be able to register with an e-mail already used
+    Scenario: I shouldn't be able to register with an email already used
 
         Given I am on "/logout"
           And I click on "Register"
@@ -41,4 +41,4 @@ Feature: Register
             | Confirm password | haricoo |
           And I click on "Register"
          Then I should see "Roger, we have a problem with your form"
-          And I should see "This e-mail is already present in our database"
+          And I should see "This email is already present in our database"

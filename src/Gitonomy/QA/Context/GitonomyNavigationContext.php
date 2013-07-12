@@ -2,12 +2,13 @@
 
 namespace Gitonomy\QA\Context;
 
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Step\When;
 use Behat\Behat\Exception\PendingException;
-
 use WebDriver\By;
 use WebDriver\Element;
 
-class GitonomyNavigationContext extends BaseBrowserContext
+class GitonomyNavigationContext extends BehatContext
 {
     /**
      * @Then /^I should see a register form$/
@@ -22,12 +23,12 @@ class GitonomyNavigationContext extends BaseBrowserContext
      */
     public function iAmConnectedAs($username)
     {
-        $ctx = $this->getMainContext()->getSubcontext('browser');
-
-        $ctx->iAmOn('/logout');
-        $ctx->iFillWith('Username', $username);
-        $ctx->iFillWith('Password', $username);
-        $ctx->iClickOn('Login');
+        return array(
+            new When('I am on "/logout"'),
+            new When('I fill "Username" with "'.$username.'"'),
+            new When('I fill "Password" with "'.$username.'"'),
+            new When('I click on "Login"'),
+        );
     }
 
     /**
@@ -35,7 +36,9 @@ class GitonomyNavigationContext extends BaseBrowserContext
      */
     public function iLogout()
     {
-        $this->getMainContext()->getSubcontext('browser')->iAmOn('/logout');
+        return array(
+            new When('I am on "/logout"'),
+        );
     }
 
     /**
@@ -43,7 +46,21 @@ class GitonomyNavigationContext extends BaseBrowserContext
      */
     public function iClickOnButtonWithTooltip($text)
     {
-        $this->getBrowser()->element(By::xpath('//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]'))->click();
+        return array(
+            new When('I click on xpath "//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]"')
+        );
+    }
+
+    /**
+     * @Then /^I should (not )?see a button with tooltip "(.*)"$/
+     */
+    public function iShouldSeeButtonWithTooltip($verb, $text)
+    {
+        $expected = $verb === 'not ' ? 0 : 1;
+
+        return array(
+            new When('I should see '.$expected.' xpath elements "//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]"'),
+        );
     }
 
 

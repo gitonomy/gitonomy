@@ -116,7 +116,7 @@ class User implements UserInterface
      */
     public function createEmail($email = null, $setDefault = false)
     {
-        $email = new Email($this, $email, $setDefault);
+        $email = new Email($this, $email);
         $this->emails->add($email);
 
         if ($setDefault) {
@@ -310,6 +310,24 @@ class User implements UserInterface
     public function getEmails()
     {
         return $this->emails;
+    }
+
+    /**
+     * Searches a user email by text.
+     *
+     * @param string $email the email to search
+     *
+     * @return Email
+     */
+    public function getEmail($text)
+    {
+        foreach ($this->getEmails() as $email) {
+            if ($email->getEmail() === $text) {
+                return $email;
+            }
+        }
+
+        return null;
     }
 
     public function getLocale()

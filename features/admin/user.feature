@@ -39,7 +39,7 @@ Feature: Administrate users
           And I click on "Save"
          Then I should see "User updated"
 
-    Scenario: Administrator can add e-mail of a user
+    Scenario: Administrator can add email of a user
         Given I am connected as "admin"
           And user "testedit" exists
          When I am on "/admin/users/testedit/edit"
@@ -50,7 +50,7 @@ Feature: Administrate users
          When I am on "/admin/users/testedit/edit"
          Then I should see "foobarbaz@example.org"
 
-    Scenario: Administrator can't add an existing e-mail to a user
+    Scenario: Administrator can't add an existing email to a user
         Given I am connected as "admin"
          When I am on "/admin/users/alice/edit"
          When I fill:
@@ -84,7 +84,7 @@ Feature: Administrate users
 
     Scenario: Administrator can delete a mail
         Given I am connected as "admin"
-          And user "alice" has an e-mail "todelete@example.org"
+          And user "alice" has an email "todelete@example.org"
           And I am on "/admin/users/alice/edit"
          Then I should see "todelete@example.org"
          When I click on button with tooltip "Delete email todelete@example.org"
