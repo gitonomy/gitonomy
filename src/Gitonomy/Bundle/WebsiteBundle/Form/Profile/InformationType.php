@@ -36,7 +36,6 @@ class InformationType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups'  => array('profile'),
             'translation_domain' => 'profile_information'
         ));
     }

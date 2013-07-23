@@ -196,6 +196,25 @@ class ApiContext extends BehatContext
     }
 
     /**
+     * @Given /^user "([^"]*)" has no SSH key named "([^"]*)"$/
+     */
+    public function userHasNoSshKeyNamed($username, $title)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $title) {
+            $em = $kernel->getContainer()->get('doctrine')->getManager();
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+            foreach ($user->getSshKeys() as $userKey) {
+                if ($userKey->getTitle() === $title) {
+                    $em->remove($userKey);
+                }
+            }
+
+            $em->flush();
+        });
+    }
+
+    /**
      * @Given /^project "([^"]*)" exists$/
      */
     public function projectExists($slug)

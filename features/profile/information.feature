@@ -13,6 +13,14 @@ Feature: Edit profile information
           And I click on "Save information"
          Then I should see "Your information have been changed"
 
+    Scenario: I can't change to a wrong username
+        Given I am connected as "alice"
+          And I am on "/profile"
+         When I fill:
+          | Username | foo bar |
+          And I click on "Save information"
+         Then I should see "Only letters, numbers, -, _"
+
     Scenario: I activate a new mail
         Given user "alice" has an inactive email "alice-new@example.org"
           And I am connected as "alice"
