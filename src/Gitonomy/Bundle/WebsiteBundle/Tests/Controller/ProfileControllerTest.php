@@ -29,60 +29,6 @@ class ProfileControllerTest extends WebTestCase
         $this->client->stopIsolation();
     }
 
-    public function testChangePasswordFail()
-    {
-        $this->client->connect('alice');
-
-        $crawler  = $this->client->request('GET', '/profile/password');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $form = $crawler->filter('form')->form(array(
-            'profile_password[old_password]' => 'ecila',
-        ));
-
-        $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
-
-        $this->assertFalse($response->isRedirect());
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $this->assertEquals(1, $crawler->filter('#profile_password_old_password_field.error')->count());
-    }
-
-    public function testChangePasswordOk()
-    {
-        $this->client->connect('alice');
-
-        $crawler  = $this->client->request('GET', '/profile/password');
-        $response = $this->client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-
-        $form = $crawler->filter('form')->form(array(
-            'profile_password[old_password]' => 'alice',
-            'profile_password[password][first]' => 'ecila',
-            'profile_password[password][second]' => 'ecila',
-        ));
-        $crawler  = $this->client->submit($form);
-        $response = $this->client->getResponse();
-
-        $this->assertTrue($response->isRedirect('/profile/password'));
-
-        $this->client->logout();
-
-        $this->client->followRedirects();
-        $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->filter('form button[type=submit]')->form(array(
-            '_username' => 'alice',
-            '_password' => 'ecila'
-        ));
-
-        $crawler = $this->client->submit($form);
-        $this->assertEquals('Projects', trim($crawler->filter('h1')->text()));
-    }
-
     public function testSshKeyListAndCreate()
     {
         $this->client->connect('bob');

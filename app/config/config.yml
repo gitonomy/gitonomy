@@ -29,6 +29,7 @@ gitonomy_core:
         locale:            en_US
         open_registration: true
         mailer_transport:  smtp
+        mailer_port:       1025
         mailer_host:       localhost
         mailer_user:       username
         mailer_password:   password

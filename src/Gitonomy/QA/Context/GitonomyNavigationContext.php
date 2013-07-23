@@ -19,14 +19,19 @@ class GitonomyNavigationContext extends BehatContext
     }
 
     /**
-     * @Given /^I am connected as "(.*)"$/
+     * @Given /^I am connected as "((?:[^"]|"")*)"(?: with password "((?:[^"]|"")*)")?$/
      */
-    public function iAmConnectedAs($username)
+    public function iAmConnectedAs($username, $password = '')
     {
+        $username = $this->unescape($username);
+        $password = $this->unescape($password);
+
+        $password = $password ?: $username;
+
         return array(
             new When('I am on "/logout"'),
             new When('I fill "Username" with "'.$username.'"'),
-            new When('I fill "Password" with "'.$username.'"'),
+            new When('I fill "Password" with "'.$password.'"'),
             new When('I click on "Login"'),
         );
     }
@@ -113,5 +118,10 @@ class GitonomyNavigationContext extends BehatContext
         return implode(', ', array_map(function (Element $element) {
             return $element->text();
         }, $elements));
+    }
+
+    private function unescape($argument)
+    {
+        return str_replace('""', '"', $argument);
     }
 }
