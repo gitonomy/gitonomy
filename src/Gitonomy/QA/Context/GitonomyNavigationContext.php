@@ -124,4 +124,9 @@ class GitonomyNavigationContext extends BehatContext
     {
         return str_replace('""', '"', $argument);
     }
+
+    private function getBrowser()
+    {
+        return $this->getMainContext()->getSubContext('webdriver')->getBrowser();
+    }
 }

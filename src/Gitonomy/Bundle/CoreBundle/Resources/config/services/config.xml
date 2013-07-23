@@ -14,7 +14,6 @@
     <services>
         <service id="gitonomy_core.config" class="%gitonomy_core.config.chain.class%">
             <argument type="collection">
-                <argument type="service" id="gitonomy_core.config.php_file" />
                 <argument type="service" id="gitonomy_core.config.mysql" />
                 <argument type="service" id="gitonomy_core.config.array" />
             </argument>
