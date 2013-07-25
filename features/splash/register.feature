@@ -12,7 +12,7 @@ Feature: Register
 
         Given I am on "/logout"
           And I click on "Register"
-         Then I should see a title "Register"
+         Then I should see "Register"
           And I should see a register form
 
         Given I fill:
@@ -29,7 +29,7 @@ Feature: Register
 
         Given I am on "/logout"
           And I click on "Register"
-         Then I should see a title "Register"
+         Then I should see "Register"
           And I should see a register form
 
         Given I fill:

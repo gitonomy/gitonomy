@@ -13,6 +13,11 @@ Feature: Edit profile information
           And I click on "Save information"
          Then I should see "Your information have been changed"
 
+         When I fill:
+            | Fullname | Alice |
+          And I click on "Save information"
+         Then I should see "Your information have been changed"
+
     Scenario: I can't change to a wrong username
         Given I am connected as "alice"
           And I am on "/profile"

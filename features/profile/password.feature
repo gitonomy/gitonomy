@@ -6,7 +6,7 @@ Feature: Change password
          When I fill:
           | Current password | alice |
           | Password         | new |
-          | Confirm password | new |
+          | Confirm password | new2 |
          And I click on "Reset password"
         Then I should see "This value is not valid"
 

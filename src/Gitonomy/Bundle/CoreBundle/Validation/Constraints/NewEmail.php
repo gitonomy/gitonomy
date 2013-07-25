@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class NewEmail extends Constraint
 {
-    public $message = 'This e-mail is already present in our database';
+    public $message = 'This email is already present in our database';
 
     public function validatedBy()
     {
