@@ -23,7 +23,7 @@ namespace Gitonomy\Component\Config;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class ChainConfig implements ConfigInterface
+class ChainConfig extends AbstractConfig
 {
     protected $configs;
 
@@ -50,70 +50,7 @@ class ChainConfig implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function get($key, $default = null)
-    {
-        $current = $default;
-
-        $max = count($this->configs);
-        for ($i = 0; $i < $max; $i++) {
-
-            // If error occurs on reading, ignore and pass to next
-            try {
-                $current = $this->configs[$i]->get($key, $default);
-            } catch (\Exception $e) {
-                continue;
-            }
-
-            if ($i === 0 && $current !== $default) {
-                return $current;
-            } elseif ($current !== $default) {
-                break;
-            }
-        }
-
-        while ($i > 0) {
-            $i--;
-            try {
-                $this->configs[$i]->set($key, $current);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-
-        return $current;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function set($key, $value)
-    {
-        foreach ($this->configs as $config) {
-            try {
-                $config->set($key, $value);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-    }
-    /**
-     * {@inheritDoc}
-     */
-    public function remove($key)
-    {
-        foreach ($this->configs as $config) {
-            try {
-                $config->remove($key);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function all()
+    public function doGetAll()
     {
         $max = count($this->configs);
         for ($i = 0; $i < $max; $i++) {
@@ -147,25 +84,11 @@ class ChainConfig implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function setAll(array $values)
+    public function doSetAll(array $values)
     {
         foreach ($this->configs as $config) {
              try {
                $config->setAll($values);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function merge(array $values)
-    {
-        foreach ($this->configs as $config) {
-             try {
-                $config->merge($values);
             } catch (\Exception $e) {
                 continue;
             }
