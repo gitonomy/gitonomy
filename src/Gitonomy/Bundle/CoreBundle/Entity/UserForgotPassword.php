@@ -22,6 +22,15 @@ class UserForgotPassword
     public function __construct(User $user, $token = null, \DateTime $createdAt = null)
     {
         $this->user      = $user;
+        if (null === $token) {
+            $this->updateToken();
+        } else {
+            $this->setToken($token, $createdAt);
+        }
+    }
+
+    public function setToken($token = null, \DateTime $createdAt = null)
+    {
         $this->token     = null === $token ? md5(uniqid().microtime()) : $token;
         $this->createdAt = null === $createdAt ? new \DateTime() : $createdAt;
     }
