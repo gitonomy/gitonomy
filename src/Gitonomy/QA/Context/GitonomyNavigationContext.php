@@ -5,17 +5,19 @@ namespace Gitonomy\QA\Context;
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Context\Step\When;
 use Behat\Behat\Exception\PendingException;
+use WebDriver\Behat\AbstractWebDriverContext;
 use WebDriver\By;
 use WebDriver\Element;
+use WebDriver\Util\Xpath;
 
-class GitonomyNavigationContext extends BehatContext
+class GitonomyNavigationContext extends AbstractWebDriverContext
 {
     /**
      * @Then /^I should see a register form$/
      */
     public function iShouldSeeARegisterForm()
     {
-        $this->getBrowser()->element(By::xpath('//form//h2[contains(text(), "Register")]'));
+        $this->getElement(By::xpath('//form//h2[contains(text(), "Register")]'));
     }
 
     /**
@@ -52,7 +54,7 @@ class GitonomyNavigationContext extends BehatContext
     public function iClickOnButtonWithTooltip($text)
     {
         return array(
-            new When('I click on xpath "//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]"')
+            new When('I click on xpath "//a[contains(@title,'.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"')
         );
     }
 
@@ -64,7 +66,7 @@ class GitonomyNavigationContext extends BehatContext
         $expected = $verb === 'not ' ? 0 : 1;
 
         return array(
-            new When('I should see '.$expected.' xpath elements "//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]"'),
+            new When('I should see '.$expected.' xpath elements "//a[contains(@title, '.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"'),
         );
     }
 
@@ -110,7 +112,7 @@ class GitonomyNavigationContext extends BehatContext
 
     protected function getContextualActions($textFilter = null)
     {
-        return $this->getBrowser()->elements(By::xpath('//div[contains(@class, "sub-actions")]//a[contains(.,"'.$textFilter.'")]'));
+        return $this->getElements(By::xpath('//div[contains(@class, "sub-actions")]//a[contains(.,"'.$textFilter.'")]'));
     }
 
     protected function elementsToText($elements)
@@ -125,8 +127,8 @@ class GitonomyNavigationContext extends BehatContext
         return str_replace('""', '"', $argument);
     }
 
-    private function getBrowser()
+    private function escape($argument)
     {
-        return $this->getMainContext()->getSubContext('webdriver')->getBrowser();
+        return str_replace('"', '""', $argument);
     }
 }

@@ -32,6 +32,7 @@
         "sensio/distribution-bundle":        "2.3",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "juliendidier/buzz-bundle":          "dev-master",
+        "alexandresalome/mailcatcher":       "dev-master",
 
         "gitonomy/git-bundle":               "dev-master"
     },

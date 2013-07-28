@@ -1,7 +1,7 @@
 default:
     extensions:
         Gitonomy\QA\GitonomyExtension:
-            app_dir:    /var/www/gitonomy/app
+            app_dir:  app
         Alex\MailCatcher\Behat\MailCatcherExtension\Extension: ~
         WebDriver\Behat\WebDriverExtension\Extension:
-            base_url: http://gitonomy.dev
+            base_url: http://gitonomy.dev/app_dev.php

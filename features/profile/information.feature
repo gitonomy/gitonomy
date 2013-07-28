@@ -51,7 +51,7 @@ Feature: Edit profile information
         Given user "bob" has an email "bob@example.org"
           And I am connected as "alice"
          When I am on "/profile"
-          And I fill "#profile_email_email" with "bob@example.org"
+          And I fill "id=profile_email_email" with "bob@example.org"
           And I click on "Create"
          Then I should see "This value is already used."
 
@@ -59,7 +59,7 @@ Feature: Edit profile information
         Given user "bob" has no email "bob-add@example.org"
           And I am connected as "bob"
          When I am on "/profile"
-          And I fill "#profile_email_email" with "bob-add@example.org"
+          And I fill "id=profile_email_email" with "bob-add@example.org"
           And I click on "Create"
          Then I should see "New email was created"
 

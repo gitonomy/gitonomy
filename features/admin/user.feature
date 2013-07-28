@@ -44,7 +44,7 @@ Feature: Administrate users
           And user "testedit" exists
          When I am on "/admin/users/testedit/edit"
          When I fill:
-            | #profile_email_email | foobarbaz@example.org |
+            | id=profile_email_email | foobarbaz@example.org |
           And I click on "Create email"
          Then I should see "Email foobarbaz@example.org created"
          When I am on "/admin/users/testedit/edit"
@@ -54,7 +54,7 @@ Feature: Administrate users
         Given I am connected as "admin"
          When I am on "/admin/users/alice/edit"
          When I fill:
-            | #profile_email_email | admin@example.org |
+            | id=profile_email_email | admin@example.org |
           And I click on "Create email"
          Then I should see "This value is already used"
 
