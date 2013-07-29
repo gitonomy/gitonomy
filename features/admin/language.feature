@@ -10,12 +10,14 @@ Feature: Manage language of the application
          When I fill:
             | Language | French |
           And I click on "Save configuration"
-          And I logout
 
-         Then I should see "Se souvenir de moi"
+         Then I should see "Configuration du projet"
 
-        # Restore
-        Given locale is "en_US"
+         When I fill:
+            | Langue | English |
+          And I click on "Sauvegarder"
+
+         Then I should see "Project configuration"
 
     Scenario: As a user, I can change my personal language
         Given user "alice" has locale "en_US"

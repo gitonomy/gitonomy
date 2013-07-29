@@ -45,8 +45,8 @@ class ChainConfigTest extends \PHPUnit_Framework_TestCase
         $first  = $this->createConfigMock();
         $second = $this->createConfigMock();
 
-        $first->expects($this->once())->method('get')->with('foo')->will($this->returnValue('bar'));
-        $second->expects($this->never())->method('get');
+        $first->expects($this->once())->method('all')->will($this->returnValue(array('foo' => 'bar')));
+        $second->expects($this->never())->method('all');
 
         $chain = new ChainConfig(array($first, $second));
 
@@ -58,9 +58,9 @@ class ChainConfigTest extends \PHPUnit_Framework_TestCase
         $first  = $this->createConfigMock();
         $second = $this->createConfigMock();
 
-        $first->expects($this->once())->method('get')->with('foo');
-        $first->expects($this->once())->method('set')->with('foo', 'bar');
-        $second->expects($this->once())->method('get')->with('foo')->will($this->returnValue('bar'));
+        $first->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $first->expects($this->once())->method('setAll')->with(array('foo' => 'bar'));
+        $second->expects($this->once())->method('all')->will($this->returnValue(array('foo' => 'bar')));
 
         $chain = new ChainConfig(array($first, $second));
 
@@ -72,8 +72,10 @@ class ChainConfigTest extends \PHPUnit_Framework_TestCase
         $first  = $this->createConfigMock();
         $second = $this->createConfigMock();
 
-        $first->expects($this->once())->method('set')->with('foo', 'bar');
-        $second->expects($this->once())->method('set')->with('foo', 'bar');
+        $first->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $second->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $first->expects($this->once())->method('setAll')->with(array('foo' => 'bar'));
+        $second->expects($this->once())->method('setAll')->with(array('foo' => 'bar'));
 
         $chain = new ChainConfig(array($first, $second));
 
@@ -85,8 +87,8 @@ class ChainConfigTest extends \PHPUnit_Framework_TestCase
         $first  = $this->createConfigMock();
         $second = $this->createConfigMock();
 
-        $first->expects($this->once())->method('get')->with('foo')->will($this->throwException(new \Exception('bar')));
-        $second->expects($this->once())->method('get')->with('foo')->will($this->returnValue('baz'));
+        $first->expects($this->once())->method('all')->will($this->throwException(new \Exception('bar')));
+        $second->expects($this->once())->method('all')->will($this->returnValue(array('foo' => 'baz')));
 
         $chain = new ChainConfig(array($first, $second));
 

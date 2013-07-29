@@ -96,6 +96,7 @@ class SplashController extends Controller
         try {
             $user  = $this->getRepository('GitonomyCoreBundle:User')->findOneByEmail($email);
             $token = $this->getRepository('GitonomyCoreBundle:UserForgotPassword')->findOneByUser($user);
+            $token->setToken();
             $this->persistEntity($token);
 
             $this->mail($user, 'GitonomyWebsiteBundle:Mail:forgotPassword.mail.twig', array('user' => $user, 'email' => $email, 'token' => $token));

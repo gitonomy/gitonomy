@@ -3,7 +3,6 @@
 /app/config/parameters.yml
 /app/logs/*
 /app/repositories
-/behat.yml
 /bin
 /build/
 /composer.phar
