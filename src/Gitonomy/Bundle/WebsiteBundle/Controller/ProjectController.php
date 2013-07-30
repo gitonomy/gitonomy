@@ -323,7 +323,7 @@ class ProjectController extends Controller
 
         $role = $this->getRepository('GitonomyCoreBundle:UserRoleProject')->find($id);
 
-        if ($role->getProject()->getSlug() !== $project->getSlug()) {
+        if ($role->getProject() !== $project) {
             throw $this->createAccessDeniedException();
         }
 

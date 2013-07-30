@@ -1,10 +1,6 @@
 imports:
     - { resource: config_dev.yml }
 
-gitonomy_core:
-    config_defaults:
-        mailer_transport:  "null"
-
 framework:
     test: ~
     session:
@@ -16,7 +12,3 @@ twig:
 web_profiler:
     toolbar: false
     intercept_redirects: false
-
-doctrine:
-    dbal:
-        dbname:   %database_name%_test

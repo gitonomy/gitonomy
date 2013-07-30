@@ -68,22 +68,45 @@ class ApiContext extends BehatContext
     }
 
     /**
-     * @Given /^user "([^"]*)" has an e-mail "([^"]*)"$/
+     * @Given /^user "([^"]*)" has an (inactive )?email "([^"]*)"$/
      */
-    public function userHasAnEmail($username, $email)
+    public function userHasAnEmail($username, $verb, $email)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $email) {
+        $isActive = $verb === '';
+
+        $this->kernelFactory->run(function ($kernel) use ($username, $isActive, $email) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
             if ($mail = $em->getRepository('GitonomyCoreBundle:Email')->findOneBy(array('email' => $email))) {
                 $em->remove($mail);
+                $em->flush();
             }
 
-            $email = new Email($user, $email, true);
+            $email = new Email($user, $email, $isActive);
             $em->persist($email);
 
             $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^user "([^"]*)" has no email "([^"]*)"$/
+     */
+    public function userHasNoEmail($username, $email)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $email) {
+            $em = $kernel->getContainer()->get('doctrine')->getManager();
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+            if (!$user) {
+                throw new \RuntimeException(sprintf('User "%s" does not exist.', $username));
+            }
+
+            if ($email = $user->getEmail($email)) {
+                $em->remove($email);
+                $em->flush();
+            }
         });
     }
 
@@ -166,6 +189,25 @@ class ApiContext extends BehatContext
                 $em->persist($key);
             } else {
                 $key->setContent($content);
+            }
+
+            $em->flush();
+        });
+    }
+
+    /**
+     * @Given /^user "([^"]*)" has no SSH key named "([^"]*)"$/
+     */
+    public function userHasNoSshKeyNamed($username, $title)
+    {
+        $this->kernelFactory->run(function ($kernel) use ($username, $title) {
+            $em = $kernel->getContainer()->get('doctrine')->getManager();
+            $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+            foreach ($user->getSshKeys() as $userKey) {
+                if ($userKey->getTitle() === $title) {
+                    $em->remove($userKey);
+                }
             }
 
             $em->flush();

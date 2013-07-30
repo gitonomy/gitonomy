@@ -13,22 +13,5 @@
             <argument type="service" id="gitonomy.kernel_factory" />
             <tag name="behat.context.initializer" />
         </service>
-
-        <service id="gitonomy.browser_aware_initializer" class="Gitonomy\QA\Initializer\BrowserAwareInitializer">
-            <argument type="service">
-                <service class="WebDriver\Client">
-                    <argument>%gitonomy.browser.server_url%</argument>
-                </service>
-            </argument>
-            <argument type="service">
-                <service class="WebDriver\Capabilities">
-                    <argument>%gitonomy.browser.browser%</argument>
-                </service>
-            </argument>
-            <argument>%gitonomy.browser.base_url%</argument>
-            <argument>%gitonomy.browser.timeout%</argument>
-            <tag name="behat.context.initializer" />
-            <tag name="behat.event_subscriber" />
-        </service>
     </services>
 </container>

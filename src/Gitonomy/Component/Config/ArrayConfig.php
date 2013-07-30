@@ -17,7 +17,7 @@ namespace Gitonomy\Component\Config;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class ArrayConfig implements ConfigInterface
+class ArrayConfig extends AbstractConfig
 {
     /**
      * @var array
@@ -32,31 +32,7 @@ class ArrayConfig implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function get($key, $default = null)
-    {
-        return isset($this->values[$key]) ? $this->values[$key] : $default;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function set($key, $value)
-    {
-        $this->values[$key] = $value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function remove($key)
-    {
-        unset($this->values[$key]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function all()
+    public function doGetAll()
     {
         return $this->values;
     }
@@ -64,16 +40,8 @@ class ArrayConfig implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function setAll(array $values)
+    public function doSetAll(array $values)
     {
         $this->values = $values;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function merge(array $values)
-    {
-        $this->values = array_merge($this->values, $values);
     }
 }

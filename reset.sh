@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 cd `php -r "echo dirname(realpath('$0'));"`
-if [ -z "$1" ]; then
-  export env="dev"
-else
-  export env=$1
-fi
 
 if [ ! -f composer.phar ]; then
     echo "- download composer.phar"
@@ -29,13 +24,13 @@ fi
 mkdir -p "$repository_path"
 
 echo "- drop database"
-php app/console doctrine:database:drop --force -q --env=$env || true
+php app/console doctrine:database:drop --force -q || true
 echo "- create database"
-php app/console doctrine:database:create -q --env=$env
+php app/console doctrine:database:create -q
 echo "- create SQL schema"
-php app/console doctrine:schema:create -q --env=$env
+php app/console doctrine:schema:create -q
 echo "- load fixtures in project"
-php app/console doctrine:fixtures:load -q --append --env=$env
+php app/console doctrine:fixtures:load -q --append
 
 if [ ! -d "sample" ]; then
     echo "- recreate sample/ directory"
@@ -52,7 +47,7 @@ echo "- recreate repository barbaz"
 
 echo "- Install assets"
 rm -Rf web/bundles
-php app/console assets:install -q --symlink web --env=$env
+php app/console assets:install -q --symlink web
 
 echo "- production assets"
-php app/console assetic:dump -q --env=prod --no-debug web || true
+php app/console assetic:dump --env=prod --no-debug web || true

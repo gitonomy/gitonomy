@@ -2,32 +2,40 @@
 
 namespace Gitonomy\QA\Context;
 
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Step\When;
 use Behat\Behat\Exception\PendingException;
-
+use WebDriver\Behat\AbstractWebDriverContext;
 use WebDriver\By;
 use WebDriver\Element;
+use WebDriver\Util\Xpath;
 
-class GitonomyNavigationContext extends BaseBrowserContext
+class GitonomyNavigationContext extends AbstractWebDriverContext
 {
     /**
      * @Then /^I should see a register form$/
      */
     public function iShouldSeeARegisterForm()
     {
-        $this->getBrowser()->element(By::xpath('//form//h2[contains(text(), "Register")]'));
+        $this->getElement(By::xpath('//form//h2[contains(text(), "Register")]'));
     }
 
     /**
-     * @Given /^I am connected as "(.*)"$/
+     * @Given /^I am connected as "((?:[^"]|"")*)"(?: with password "((?:[^"]|"")*)")?$/
      */
-    public function iAmConnectedAs($username)
+    public function iAmConnectedAs($username, $password = '')
     {
-        $ctx = $this->getMainContext()->getSubcontext('browser');
+        $username = $this->unescape($username);
+        $password = $this->unescape($password);
 
-        $ctx->iAmOn('/logout');
-        $ctx->iFillWith('Username', $username);
-        $ctx->iFillWith('Password', $username);
-        $ctx->iClickOn('Login');
+        $password = $password ?: $username;
+
+        return array(
+            new When('I am on "/logout"'),
+            new When('I fill "Username" with "'.$username.'"'),
+            new When('I fill "Password" with "'.$password.'"'),
+            new When('I click on "Login"'),
+        );
     }
 
     /**
@@ -35,7 +43,9 @@ class GitonomyNavigationContext extends BaseBrowserContext
      */
     public function iLogout()
     {
-        $this->getMainContext()->getSubcontext('browser')->iAmOn('/logout');
+        return array(
+            new When('I am on "/logout"'),
+        );
     }
 
     /**
@@ -43,7 +53,21 @@ class GitonomyNavigationContext extends BaseBrowserContext
      */
     public function iClickOnButtonWithTooltip($text)
     {
-        $this->getBrowser()->element(By::xpath('//a[contains(@title, "'.$text.'") or contains(@data-original-title, "'.$text.'")]'))->click();
+        return array(
+            new When('I click on xpath "//a[contains(@title,'.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"')
+        );
+    }
+
+    /**
+     * @Then /^I should (not )?see a button with tooltip "(.*)"$/
+     */
+    public function iShouldSeeButtonWithTooltip($verb, $text)
+    {
+        $expected = $verb === 'not ' ? 0 : 1;
+
+        return array(
+            new When('I should see '.$expected.' xpath elements "//a[contains(@title, '.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"'),
+        );
     }
 
 
@@ -88,7 +112,7 @@ class GitonomyNavigationContext extends BaseBrowserContext
 
     protected function getContextualActions($textFilter = null)
     {
-        return $this->getBrowser()->elements(By::xpath('//div[contains(@class, "sub-actions")]//a[contains(.,"'.$textFilter.'")]'));
+        return $this->getElements(By::xpath('//div[contains(@class, "sub-actions")]//a[contains(.,"'.$textFilter.'")]'));
     }
 
     protected function elementsToText($elements)
@@ -96,5 +120,15 @@ class GitonomyNavigationContext extends BaseBrowserContext
         return implode(', ', array_map(function (Element $element) {
             return $element->text();
         }, $elements));
+    }
+
+    private function unescape($argument)
+    {
+        return str_replace('""', '"', $argument);
+    }
+
+    private function escape($argument)
+    {
+        return str_replace('"', '""', $argument);
     }
 }

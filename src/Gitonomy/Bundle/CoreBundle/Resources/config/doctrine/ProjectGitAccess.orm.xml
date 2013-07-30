@@ -4,9 +4,6 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess" table="project_git_access">
-        <unique-constraints>
-            <unique-constraint name="project_role_reference" columns="project_id,role_id,reference" />
-        </unique-constraints>
 
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY" />

@@ -20,37 +20,16 @@
         </constraint>
 
         <property name="username">
-            <constraint name="Assert:NotBlank">
-                <option name="groups">
-                    <value>registration</value>
-                    <value>admin</value>
-                    <value>change_username</value>
-                </option>
-            </constraint>
+            <constraint name="Assert:NotBlank" />
             <constraint name="Assert:Length">
                 <option name="min">3</option>
-                <option name="groups">
-                    <value>registration</value>
-                    <value>admin</value>
-                    <value>change_username</value>
-                </option>
             </constraint>
             <constraint name="Assert:Length">
                 <option name="max">32</option>
-                <option name="groups">
-                    <value>registration</value>
-                    <value>admin</value>
-                    <value>change_username</value>
-                </option>
             </constraint>
             <constraint name="Assert:Regex">
                 <option name="message">Only letters, numbers, -, _</option>
                 <option name="pattern">/^[a-zA-Z0-9][a-zA-Z0-9-_]+[a-zA-Z0-9]$/</option>
-                <option name="groups">
-                    <value>registration</value>
-                    <value>admin</value>
-                    <value>change_username</value>
-                </option>
             </constraint>
         </property>
 

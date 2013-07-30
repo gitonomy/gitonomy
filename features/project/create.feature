@@ -4,7 +4,6 @@ Feature: Project creation
     So I easily push my code
 
     Scenario: A user creates a new project
-
         Given project "test" does not exist
           And I am connected as "alice"
           And I am on "/"
@@ -26,3 +25,17 @@ Feature: Project creation
           And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Lead developer')]"
           And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Developer')]"
           And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Visitor')]"
+
+    Scenario: An anonymous cannot create a project
+        Given I am on "/create-project"
+         Then I should see "Login"
+
+
+    Scenario: A user cannot create a project with a name already used
+        Given I am connected as "alice"
+         When I am on "/create-project"
+          And I fill:
+            | Name of project | foobar |
+            | Slug of project | foobar |
+          And I click on "Create"
+         Then I should see "This value is already used."

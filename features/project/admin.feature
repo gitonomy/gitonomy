@@ -13,7 +13,7 @@ Feature: Project administration
           And user "alice" is "Lead developer" on "todelete"
           And I am connected as "alice"
          When I am on "/projects/todelete/admin"
-          And I click on xpath "//a[contains(@data-confirm, "Yes, I want to delete Todelete")]"
+          And I click on xpath "//a[contains(@data-confirm, ""Yes, I want to delete Todelete"")]"
          Then I should see "Yes, I want to delete Todelete"
          When I click on "Yes, I want to delete Todelete"
          Then I should see "Project removed"
