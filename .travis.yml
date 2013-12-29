@@ -5,7 +5,6 @@ script:   "./test.sh"
 # Inspired from http://knpuniversity.com/screencast/question-answer-day/travis-ci
 before_script:
     - sudo apt-get update -qq
-    - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
     # Compass
     - gem install compass

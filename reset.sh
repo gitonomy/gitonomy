@@ -45,7 +45,7 @@ echo "- recreate repository foobar"
 echo "- recreate repository barbaz"
 ./put-barbaz.sh
 
-echo "- Install assets"
+echo "- install assets"
 rm -Rf web/bundles
 php app/console assets:install -q --symlink web
 

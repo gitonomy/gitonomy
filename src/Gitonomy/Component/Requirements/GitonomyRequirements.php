@@ -31,12 +31,6 @@ class GitonomyRequirements extends RequirementCollection
             $gitInstalled && version_compare($gitVersion, '1.7', '>='),
             'Your git must be greater than 1.7 ('.$gitVersion.' installed)'
         );
-
-        // APC
-        $this->addRequirement(
-            extension_loaded('apc'),
-            'APC must be installed'
-        );
     }
 
     protected function findGit()
