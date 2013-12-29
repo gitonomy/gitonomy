@@ -4,4 +4,4 @@ default:
             app_dir:  app
         Alex\MailCatcher\Behat\MailCatcherExtension\Extension: ~
         WebDriver\Behat\WebDriverExtension\Extension:
-            base_url: http://gitonomy.dev/app_dev.php
+            base_url: http://gitonomy.dev
