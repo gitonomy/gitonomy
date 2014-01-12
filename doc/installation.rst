@@ -22,7 +22,7 @@ are not a system guru.
 Download and uncompress
 -----------------------
 
-Go to `download page <http://gitonomy.com/downloads>`_ and download latest
+Go to `download page <http://gitonomy.com/download>`_ and download latest
 version from website.
 
 Uncompress it to your prefered location, let's assume */var/www/gitonomy*.
