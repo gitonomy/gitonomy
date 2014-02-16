@@ -38,7 +38,7 @@
     },
     "require-dev": {
         "behat/behat":                   "~2.5",
-        "alexandresalome/php-webdriver": "~0.3"
+        "alexandresalome/php-webdriver": "~0.7"
     },
     "scripts": {
         "post-install-cmd": [

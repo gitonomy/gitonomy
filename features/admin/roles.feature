@@ -94,7 +94,7 @@ Feature: Administrate roles globally
         Given role "todelete" exists
           And I am connected as "admin"
           And I am on "/admin/roles"
-         When I click on xpath "//a[contains(@data-confirm, ""Yes, I want to delete Todelete"")]"
+         When I click on "xpath=//a[contains(@data-confirm, ""Yes, I want to delete Todelete"")]"
          Then I should see "Yes, I want to delete Todelete"
          When I click on "Yes, I want to delete Todelete"
          Then I should see "Role deleted"
