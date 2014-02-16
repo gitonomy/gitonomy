@@ -34,7 +34,9 @@
         "alexandresalome/mailcatcher":       "~0.2",
         "juliendidier/buzz-bundle":          "dev-master",
 
-        "gitonomy/git-bundle":               "~0.1"
+        "gitonomy/git-bundle":               "~0.1",
+
+        "leafo/lessphp":                    "~0.4"
     },
     "require-dev": {
         "behat/behat":                   "~2.5",

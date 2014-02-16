@@ -1,0 +1,96 @@
+@orange:        #ff8821;
+@white:         white;
+@height:        600px;
+@width:         1200px;
+@heroHeight:    160px;
+@heroWidth:     650px;
+@contentBottom: 0px;
+
+body.splash {
+    background-color: @orange;
+}
+
+#splash-hero {
+    position: absolute;
+    left:     50%;
+    top:      50%;
+    margin-top: -(@heroHeight/2);
+    margin-left: -@width/2;
+    height:   @heroHeight;
+    width: @heroWidth;
+    color: white;
+
+    h1, h2 {
+        text-align: right;
+        font-weight: normal;
+        font-family: tellural;
+        padding: 0 20px 0 0;
+        margin: 0;
+        text-shadow: (@orange - #151515) 2px 2px 2px;
+    }
+
+    h1 {
+        font-size: 62px;
+    }
+}
+
+#splash-content {
+    position: absolute;
+    left:     50%;
+    top:      50%;
+    margin-top: -(@height/2) + @contentBottom;
+    margin-left: -(@width/2) + @heroWidth;
+    height:   @height;
+    width:    @width - @heroWidth;
+    display: table-cell;
+    line-height: @height;
+
+    form {
+        margin:  0;
+        padding: 0;
+
+        .error {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding-top: 10px;
+
+            label, .help-inline {
+                color: white;
+            }
+        }
+    }
+
+    > div {
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 1em;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+        background-image: url(../images/splash-halo.png);
+        background-repeat: no-repeat;
+        background-position: left center;
+        width: @width - @heroWidth;
+        padding: 20px 0;
+    }
+
+    a.link {
+        color: white;
+    }
+
+    .alert {
+        background-color: rgba(255, 255, 255, 0.3);
+        border: 0px none;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-shadow: none;
+        color: white;
+        border-radius: 0;
+    }
+}
+
+.form-horizontal {
+    p {
+        margin-left: 40px;
+    }
+}

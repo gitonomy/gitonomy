@@ -6,12 +6,6 @@ before_script:
     - sudo apt-get update -qq
     - sudo apt-get install apache2 libapache2-mod-fastcgi
 
-    # Compass
-    - gem install compass
-    # see http://stackoverflow.com/questions/21079342/cant-use-compass-after-installing-it
-    - gem uninstall sass --version 3.3.0.rc.4
-    - gem install sass --version 3.2.13
-
     # Mailcatcher server
     - gem install mailcatcher
     - mailcatcher

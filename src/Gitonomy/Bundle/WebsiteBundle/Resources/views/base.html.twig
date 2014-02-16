@@ -3,18 +3,18 @@
     <title>{% block title '' %}</title>
     <head>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        {% stylesheets filter="cssrewrite" combine=true output="css/all.css"
+        {% stylesheets filter="cssrewrite" output="css/all.css"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap.css"
             "bundles/gitonomywebsite/vendor/bootstrap/css/bootstrap-responsive.css"
             "bundles/gitonomywebsite/vendor/codemirror/lib/codemirror.css"
             "bundles/gitonomywebsite/vendor/codemirror/theme/elegant.css"
-            "bundles/gitonomywebsite/css/global.sass"
-            "bundles/gitonomywebsite/css/layout.sass"
-            "bundles/gitonomywebsite/css/splash.sass"
-            "bundles/gitonomywebsite/css/codemirror.sass"
-            "bundles/gitonomywebsite/css/fonts.sass"
-            "bundles/gitonomywebsite/css/preferences/sshKeys.sass"
-            "bundles/gitonomywebsite/css/project/newsfeed.sass"
+            "bundles/gitonomywebsite/less/global.less"
+            "bundles/gitonomywebsite/less/layout.less"
+            "bundles/gitonomywebsite/less/splash.less"
+            "bundles/gitonomywebsite/less/codemirror.less"
+            "bundles/gitonomywebsite/less/fonts.less"
+            "bundles/gitonomywebsite/less/preferences/sshKeys.less"
+            "bundles/gitonomywebsite/less/project/newsfeed.less"
             "bundles/gitonomygit/css/all.css"
         %}
             <link rel="stylesheet" href="{{ asset(asset_url) }}" />

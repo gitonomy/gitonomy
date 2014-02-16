@@ -1,0 +1,41 @@
+@border:     #aaa;
+@background: #fff8d1;
+@cardWidth:  400px;
+@padding:    10px;
+@margin:     10px;
+
+.ssh-keyring {
+    overflow: hidden;
+    min-width: @cardWidth + 2*@padding;
+
+    > .key {
+        float:            left;
+        background-color: @background;
+        margin:           @margin;
+        width:            @cardWidth;
+        border:           1px solid @border;
+
+        &.key-new {
+            background-color: #e2f8e2;
+        }
+
+        > h3 {
+            padding:       0 @padding;
+            border-bottom: 1px solid @border;
+        }
+
+        > .key-content {
+            word-wrap: break-word;
+            font-size: 10px;
+            padding: 0 @padding;
+
+            input[type="text"], textarea {
+                width: @cardWidth - 2px - 3*@padding;
+            }
+        }
+
+        > .key-actions {
+            padding: 10px 20px;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+.blame {
+    width: 100%;
+
+    td.information {
+        width: 200px;
+        font-size: 12px;
+        background-color: $blameInfoBg;
+
+        span.author {
+            font-weight: bold;
+        }
+
+    td.information, .information-border {
+        border-top: 1px solid $blameBorder;
+    }
+
+    td.line-number {
+        width: 50px;
+        color: $blameLineNumberFg;
+        background-color: $blameLineNumberBg;
+        padding: 0 0.3em 0 0.6em;
+    }
+
+    pre {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: none;
+    }
+}
