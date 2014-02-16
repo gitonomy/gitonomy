@@ -26,7 +26,7 @@ Feature: Login
          When I fill:
             | Username | alice |
             | Password | alice |
-         And I click on id "_remember_me"
+         And I click on "id=_remember_me"
          And I click on "Login"
         When I delete cookie "PHPSESSID"
         Then I should see "Projects"
