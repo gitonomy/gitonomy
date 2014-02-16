@@ -1,0 +1,7 @@
+default:
+    extensions:
+        Gitonomy\QA\GitonomyExtension:
+            app_dir:  app
+        Alex\MailCatcher\Behat\MailCatcherExtension\Extension: ~
+        WebDriver\Behat\WebDriverExtension\Extension:
+            base_url: http://localhost
