@@ -17,7 +17,7 @@ Feature: Project permissions
           And user "alice" is "Lead developer" on "Todelete"
           And I am connected as "admin"
           And I am on "/projects/todelete/permissions"
-         When I click on xpath "//a[contains(@data-confirm, ""Yes, I want to delete Alice as Lead developer"")]"
+         When I click on "xpath=//a[contains(@data-confirm, ""Yes, I want to delete Alice as Lead developer"")]"
          Then I should see "Yes, I want to delete Alice as Lead developer"
          When I click on "Yes, I want to delete Alice as Lead developer"
          Then I should see "Role deleted"
@@ -36,7 +36,7 @@ Feature: Project permissions
         Given project "todelete" exists
           And I am connected as "admin"
           And I am on "/projects/todelete/permissions"
-         When I click on xpath "//a[contains(@data-confirm, ""Yes, I want to revoke git access to Lead developer"")]"
+         When I click on "xpath=//a[contains(@data-confirm, ""Yes, I want to revoke git access to Lead developer"")]"
          Then I should see "Yes, I want to revoke git access to Lead developer"
          When I click on "Yes, I want to revoke git access to Lead developer"
          Then I should see "Git access deleted"
@@ -50,7 +50,7 @@ Feature: Project permissions
           | id=project_git_access_reference | * |
           And I click on "Create access"
          Then I should see "Git access created"
-         When I click on xpath "//a[contains(@data-confirm, ""Yes, I want to revoke git access to Lead developer on"")]"
+         When I click on "xpath=//a[contains(@data-confirm, ""Yes, I want to revoke git access to Lead developer on"")]"
          Then I should see "Yes, I want to revoke git access to Lead developer"
          When I click on "Yes, I want to revoke git access to Lead developer"
          Then I should see "Git access deleted"

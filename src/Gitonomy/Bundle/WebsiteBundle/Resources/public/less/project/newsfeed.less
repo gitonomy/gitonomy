@@ -1,0 +1,42 @@
+@orange: #ff8821;
+@lightgrey: #efefef;
+@cell: 50px;
+
+.newsfeed {
+    overflow: hidden;
+
+    > .news {
+        padding: 10px 0;
+        border-bottom: 1px solid @lightgrey;
+
+        .avatar {
+            display: inline-block;
+            float: left;
+            margin-right: 5px;
+        }
+
+        div {
+            padding: 0 2px;
+            min-height: 10px;
+            margin: 2px 0 2px 30px;
+        }
+
+        &.small-news {
+            width: 200px;
+        }
+
+        .time {
+            font-size: 0.7em;
+            margin-left: 0;
+            color: grey;
+        }
+
+        table.commit-list tr {
+            line-height: 16px;
+        }
+    }
+
+    > .news:last-child {
+        border-bottom: 0px none;
+    }
+}

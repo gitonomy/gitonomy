@@ -21,25 +21,26 @@
     "require": {
         "php": ">=5.3.3",
 
-        "symfony/symfony":                   "2.3",
-        "doctrine/orm":                      "2.3",
-        "swiftmailer/swiftmailer":           "5.0",
+        "symfony/symfony":                   "~2.4",
+        "doctrine/orm":                      "~2.4",
+        "swiftmailer/swiftmailer":           "~5.0",
 
-        "doctrine/doctrine-bundle":          "1.2",
-        "twig/extensions":                   "1.0",
-        "symfony/assetic-bundle":            "2.3",
-        "symfony/monolog-bundle":            "2.3",
-        "sensio/distribution-bundle":        "2.3",
-        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "doctrine/doctrine-bundle":          "~1.2",
+        "twig/extensions":                   "~1.0",
+        "symfony/assetic-bundle":            "~2.3",
+        "symfony/monolog-bundle":            "~2.3",
+        "sensio/distribution-bundle":        "~2.3",
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "alexandresalome/mailcatcher":       "~0.2",
         "juliendidier/buzz-bundle":          "dev-master",
-        "alexandresalome/mailcatcher":       "dev-master",
 
-        "gitonomy/git-bundle":               "dev-master"
+        "gitonomy/git-bundle":               "~0.1",
+
+        "leafo/lessphp":                    "~0.4"
     },
     "require-dev": {
-        "behat/behat":                   "dev-develop",
-        "alexandresalome/php-webdriver": "dev-master",
-        "alexandresalome/mailcatcher":   "dev-master"
+        "behat/behat":                   "~2.5",
+        "alexandresalome/php-webdriver": "~0.7"
     },
     "scripts": {
         "post-install-cmd": [
@@ -59,39 +60,5 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
-    },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "behat/behat",
-                "version": "dev-custom",
-                "source": {
-                    "url": "https://github.com/Behat/Behat.git",
-                    "type": "git",
-                    "reference": "develop"
-                },
-                "autoload": {
-                    "psr-0": {"Behat\\Behat": "src/"}
-                },
-                "bin": ["bin/behat"]
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "behat/gherkin",
-                "version": "dev-custom",
-                "source": {
-                    "url": "https://github.com/Behat/Gherkin.git",
-                    "type": "git",
-                    "reference": "develop"
-                },
-                "autoload": {
-                    "psr-0": {"Behat\\Gherkin": "src/"}
-                }
-            }
-        }
-    ]
+    }
 }

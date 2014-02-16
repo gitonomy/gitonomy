@@ -2,37 +2,36 @@ language: php
 php:      [ "5.4" ]
 script:   "./test.sh"
 
-# Inspired from http://knpuniversity.com/screencast/question-answer-day/travis-ci
 before_script:
     - sudo apt-get update -qq
-    - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-    # Compass
-    - gem install compass
+    - sudo apt-get install apache2 libapache2-mod-fastcgi
 
     # Mailcatcher server
     - gem install mailcatcher
     - mailcatcher
 
-    # Apache
-    - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl php5-sqlite sqlite3
-    - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
-    - sudo sed -i -e "s,AllowOverride None,AllowOverride All,g" /etc/apache2/sites-available/default
-    - cat /etc/apache2/envvars
-    - sudo sed -i -e "s,www-data,$(whoami),g" /etc/apache2/envvars
-    - sudo sed -i -e "/DocumentRoot/i\ServerName gitonomy.dev" /etc/apache2/sites-available/default
-    - echo "127.0.0.1 gitonomy.dev" | sudo tee -a /etc/hosts
-    - sudo a2enmod rewrite
-    - sudo a2enmod php5
-    - sudo /etc/init.d/apache2 stop
-    - sudo rm -rf /var/lock/apache2
-    - sudo /etc/init.d/apache2 start
+     # PHP-FPM
+    - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+    - sudo a2enmod rewrite actions fastcgi alias
+    - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+
+    # configure apache virtual hosts
+    - sudo cp -f .travis.vhost.conf /etc/apache2/sites-available/default
+    - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)/web?g" --in-place /etc/apache2/sites-available/default
+    - sudo service apache2 restart
 
     # XVFB
     - "export DISPLAY=:99.0"
-    - sh -e /etc/init.d/xvfb start
+    - "Xvfb :99.0 -extension RANDR > /dev/null &"
+
+    # Window manager
+    - "sudo apt-get install fluxbox -y --force-yes"
+    - "fluxbox &"
 
     # Selenium server
-    - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.31.0.jar"
-    - "java -jar selenium-server-standalone-2.31.0.jar > /dev/null &"
-    - "wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip && unzip chromedriver_linux32_23.0.1240.0.zip && sudo mv chromedriver /usr/bin"
+    - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+    - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null 2>/dev/null &"
+
+    # Firefox
+    - sudo apt-get install -y --force-yes firefox

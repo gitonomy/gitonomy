@@ -22,9 +22,9 @@ Feature: Project creation
 
          When I click on "Permissions"
          Then I should see "Git accesses"
-          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Lead developer')]"
-          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Developer')]"
-          And I should see 1 xpath element "//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Visitor')]"
+          And I should see 1 "xpath=//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Lead developer')]"
+          And I should see 1 "xpath=//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Developer')]"
+          And I should see 1 "xpath=//table[contains(@class, 'git-accesses')]/tbody/tr/td[contains(., 'Visitor')]"
 
     Scenario: An anonymous cannot create a project
         Given I am on "/create-project"

@@ -65,6 +65,9 @@ class PhpFileConfig extends AbstractConfig
     protected function doSetAll(array $values)
     {
         file_put_contents($this->path, '<?php return '.var_export($values, true).';');
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($this->path);
+        }
         $this->values = $values;
 
         return $this;

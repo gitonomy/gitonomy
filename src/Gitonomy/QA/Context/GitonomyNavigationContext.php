@@ -54,7 +54,7 @@ class GitonomyNavigationContext extends AbstractWebDriverContext
     public function iClickOnButtonWithTooltip($text)
     {
         return array(
-            new When('I click on xpath "//a[contains(@title,'.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"')
+            new When('I click on "xpath=//a[contains(@title,'.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"')
         );
     }
 
@@ -66,7 +66,7 @@ class GitonomyNavigationContext extends AbstractWebDriverContext
         $expected = $verb === 'not ' ? 0 : 1;
 
         return array(
-            new When('I should see '.$expected.' xpath elements "//a[contains(@title, '.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"'),
+            new When('I should see '.$expected.' "xpath=//a[contains(@title, '.$this->escape(Xpath::quote($text)).') or contains(@data-original-title, '.$this->escape(Xpath::quote($text)).')]"'),
         );
     }
 
@@ -120,15 +120,5 @@ class GitonomyNavigationContext extends AbstractWebDriverContext
         return implode(', ', array_map(function (Element $element) {
             return $element->text();
         }, $elements));
-    }
-
-    private function unescape($argument)
-    {
-        return str_replace('""', '"', $argument);
-    }
-
-    private function escape($argument)
-    {
-        return str_replace('"', '""', $argument);
     }
 }

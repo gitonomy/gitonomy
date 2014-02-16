@@ -84,13 +84,13 @@ Feature: Administrate users
 
     Scenario: Administrator can delete a mail
         Given I am connected as "admin"
-          And user "alice" has an email "todelete@example.org"
+          And user "alice" has an email "alice.todelete@example.org"
           And I am on "/admin/users/alice/edit"
-         Then I should see "todelete@example.org"
-         When I click on button with tooltip "Delete email todelete@example.org"
-         Then I should see "Email todelete@example.org deleted"
+         Then I should see "alice.todelete@example.org"
+         When I click on button with tooltip "Delete email alice.todelete@example.org"
+         Then I should see "Email alice.todelete@example.org deleted"
          When I refresh
-         Then I should not see "todelete@example.org"
+         Then I should not see "alice.todelete@example.org"
 
     Scenario: User cannot look user list
         Given I am connected as "alice"
