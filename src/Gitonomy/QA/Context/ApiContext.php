@@ -54,7 +54,7 @@ class ApiContext extends BehatContext
      */
     public function userDoesNotExist($username)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username) {
+        $this->run(function ($kernel) use ($username) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
@@ -74,7 +74,7 @@ class ApiContext extends BehatContext
     {
         $isActive = $verb === '';
 
-        $this->kernelFactory->run(function ($kernel) use ($username, $isActive, $email) {
+        $this->run(function ($kernel) use ($username, $isActive, $email) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
@@ -95,7 +95,7 @@ class ApiContext extends BehatContext
      */
     public function userHasNoEmail($username, $email)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $email) {
+        $this->run(function ($kernel) use ($username, $email) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
@@ -115,7 +115,7 @@ class ApiContext extends BehatContext
      */
     public function userHasLocale($username, $locale)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $locale) {
+        $this->run(function ($kernel) use ($username, $locale) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
             if (!$user) {
@@ -131,7 +131,7 @@ class ApiContext extends BehatContext
      */
     public function projectDoesNotExist($slug)
     {
-        $this->kernelFactory->run(function ($kernel) use ($slug) {
+        $this->run(function ($kernel) use ($slug) {
             $em      = $kernel->getContainer()->get('doctrine')->getManager();
             $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
 
@@ -150,7 +150,7 @@ class ApiContext extends BehatContext
      */
     public function userExists($username)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username) {
+        $this->run(function ($kernel) use ($username) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $factory = $kernel->getContainer()->get('security.encoder_factory');
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
@@ -173,7 +173,7 @@ class ApiContext extends BehatContext
      */
     public function userHasSshKeyNamedKeyAContent($username, $title, $content)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $title, $content) {
+        $this->run(function ($kernel) use ($username, $title, $content) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
 
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
@@ -200,7 +200,7 @@ class ApiContext extends BehatContext
      */
     public function userHasNoSshKeyNamed($username, $title)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $title) {
+        $this->run(function ($kernel) use ($username, $title) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $user = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
 
@@ -219,7 +219,7 @@ class ApiContext extends BehatContext
      */
     public function projectExists($slug)
     {
-        $this->kernelFactory->run(function ($kernel) use ($slug) {
+        $this->run(function ($kernel) use ($slug) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneBySlug($slug);
             if ($project) {
@@ -240,7 +240,7 @@ class ApiContext extends BehatContext
      */
     public function userIsOn($username, $role, $project)
     {
-        $this->kernelFactory->run(function ($kernel) use ($username, $role, $project) {
+        $this->run(function ($kernel) use ($username, $role, $project) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
 
             $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
@@ -268,7 +268,7 @@ class ApiContext extends BehatContext
      */
     public function roleDoesNotExist($role)
     {
-        $this->kernelFactory->run(function ($kernel) use ($role) {
+        $this->run(function ($kernel) use ($role) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $existing = $em->getRepository('GitonomyCoreBundle:Role')->findOneByName($role);
             if ($existing) {
@@ -285,7 +285,7 @@ class ApiContext extends BehatContext
     {
         $isGlobal = $type !== 'project ';
 
-        $this->kernelFactory->run(function ($kernel) use ($slug, $isGlobal) {
+        $this->run(function ($kernel) use ($slug, $isGlobal) {
             $em = $kernel->getContainer()->get('doctrine')->getManager();
             $role = $em->getRepository('GitonomyCoreBundle:Role')->findOneBySlug($slug);
             if ($role) {
@@ -301,8 +301,17 @@ class ApiContext extends BehatContext
 
     protected function setConfig($key, $value)
     {
-        $this->kernelFactory->run(function ($kernel) use($key, $value) {
+        $this->run(function ($kernel) use($key, $value) {
             $kernel->getContainer()->get('gitonomy_core.config')->set($key, $value);
         });
+    }
+
+    private function run($code)
+    {
+        if (null === $this->kernelFactory) {
+            throw new \RuntimeException('No kernel factory in context. Did you enable extension?');
+        }
+
+        return $this->kernelFactory->run($code);
     }
 }
