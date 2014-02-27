@@ -17,6 +17,14 @@
                 <value>name</value>
             </option>
         </constraint>
+        <constraint name="Callback">
+            <option name="methods">
+                <value>
+                    <value>Gitonomy\Bundle\CoreBundle\Validation\ProjectValidator</value>
+                    <value>isSlugValid</value>
+                </value>
+            </option>
+        </constraint>
 
         <property name="name">
             <constraint name="Assert:NotBlank" />
