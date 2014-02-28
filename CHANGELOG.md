@@ -1,5 +1,6 @@
-* v0.4
+* v0.4 (2014-02-28)
 
+  * fix dependency to compass removed
   * new checkbox feature in diff view
   * new git-bundle, a reusable set of git blocks for Twig
   * fix allow trailing / in remote URL
