@@ -30,7 +30,6 @@ Feature: Project creation
         Given I am on "/create-project"
          Then I should see "Login"
 
-
     Scenario: A user cannot create a project with a name already used
         Given I am connected as "alice"
          When I am on "/create-project"
@@ -39,3 +38,12 @@ Feature: Project creation
             | Slug of project | foobar |
           And I click on "Create"
          Then I should see "This value is already used."
+
+    Scenario: A user cannot create a project with invalid slug
+        Given I am connected as "alice"
+         When I am on "/create-project"
+          And I fill:
+            | Name of project | toto |
+            | Slug of project | to/to |
+          And I click on "Create"
+         Then I should see "This value is not valid."
