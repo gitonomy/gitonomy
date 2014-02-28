@@ -32,19 +32,6 @@ h1 {
 
     background-color: @orange;
 
-    &.active {
-        width: auto;
-
-        > li > a > .text {
-            display: inline-block;
-        }
-    }
-
-    a:hover {
-        background-color: @orange/1.1;
-        text-decoration: none;
-    }
-
     > li:first-child {
         border-bottom: 1px solid white;
     }
@@ -59,14 +46,12 @@ h1 {
             background-color: @orange/1.1;
             border-top:       2px solid @orange/1.2;
             height: @cell - 2px;
-        }
-
-        &.active {
             text-decoration: none;
         }
 
         > div {
-            display: inline-block;
+            display: block;
+            float: left;
             line-height: @cell;
             font-size: (@cell/1.5);
         }
@@ -76,21 +61,29 @@ h1 {
             text-align: center;
             overflow:hidden;
             position:relative;
-
-            > img {
-                position: absolute;
-                left: 0;
-                top: 0;
-                display: block;
-                width:  @cell;
-                height: @cell;
-            }
         }
 
         > .text {
             display: none;
             padding: 0 0.5em;
             font-size: (@cell/2);
+        }
+    }
+
+
+    &:hover {
+        width: auto;
+
+        > li > a {
+
+            &:hover {
+                background-color: @orange/1.1;
+            }
+            text-decoration: none;
+
+            > .text {
+                display: inline-block;
+            }
         }
     }
 }

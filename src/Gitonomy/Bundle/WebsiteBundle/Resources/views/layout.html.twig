@@ -6,6 +6,7 @@
     {% include "GitonomyWebsiteBundle::flash.html.twig" %}
     {% block content '' %}
     <div id="global-menu-container">
+        {% spaceless %}
         <ul id="global-menu">
             {% if app.user %}
                 <li>
@@ -63,6 +64,7 @@
                 </li>
             {% endif %}
         </ul>
+        {% endspaceless %}
     </div>
 {% endblock %}
 
