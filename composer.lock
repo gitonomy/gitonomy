@@ -773,17 +773,17 @@
         },
         {
             "name": "gitonomy/git-bundle",
-            "version": "v0.1.1",
+            "version": "v0.2.1",
             "target-dir": "Gitonomy/Bundle/GitBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/git-bundle.git",
-                "reference": "dcb44c844fe87d5bf9fceed71bcc88987903127e"
+                "reference": "853cf4589511f567480895929ae69b8ed6877e98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/dcb44c844fe87d5bf9fceed71bcc88987903127e",
-                "reference": "dcb44c844fe87d5bf9fceed71bcc88987903127e",
+                "url": "https://api.github.com/repos/gitonomy/git-bundle/zipball/853cf4589511f567480895929ae69b8ed6877e98",
+                "reference": "853cf4589511f567480895929ae69b8ed6877e98",
                 "shasum": ""
             },
             "require": {
@@ -817,7 +817,7 @@
             ],
             "description": "Provides git related features for PHP applications",
             "homepage": "http://gitonomy.com",
-            "time": "2013-12-29 10:24:10"
+            "time": "2014-02-28 16:50:28"
         },
         {
             "name": "gitonomy/gitlib",
