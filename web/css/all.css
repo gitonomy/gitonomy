@@ -7679,7 +7679,7 @@ ul.diff-summary input[type=checkbox] {
 ul.diff-summary a div.diff-file-label {
   display: inline-block;
   text-indent: 5px;
-  font-family: monospace;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 ul.diff-summary a div.diff-file-label.creation:before {
@@ -7740,7 +7740,7 @@ ul.diff-summary a:hover > div {
 }
 
 .file-wrapper table.file-lines td {
-  font-family: monospace;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 .file-wrapper table.file-lines td.line-number {
@@ -7802,6 +7802,10 @@ span.git-author {
     background-color: #ddeeff;
     display: inline-block;
     padding: 1px 5px;
+}
+
+span.git-author img {
+  margin-right: 5px;
 }
 
 .git-log-wrapper {
