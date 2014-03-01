@@ -17,7 +17,7 @@ use Gitonomy\Git\Repository;
 
 class Project
 {
-    const SLUG_PATTERN = '[a-zA-Z0-9-_/]+';
+    const SLUG_PATTERN = '(?:[a-zA-Z0-9-_]+/?)*[a-zA-Z0-9-_]';
 
     protected $id;
     protected $name;
