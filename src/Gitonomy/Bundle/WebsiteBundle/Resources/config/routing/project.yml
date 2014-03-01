@@ -6,78 +6,112 @@ project_create:
     pattern: /create-project
     defaults: { _controller: "GitonomyWebsiteBundle:Project:create" }
 
-project_newsfeed:
-    pattern: /projects/{slug}
-    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
-
 project_history:
     pattern: /projects/{slug}/history
     defaults: { _controller: "GitonomyWebsiteBundle:Project:history" }
+    requirements:
+        slug: .+
 
 project_source:
     pattern: /projects/{slug}/source
     defaults: { _controller: "GitonomyWebsiteBundle:Project:source" }
+    requirements:
+        slug: .+
 
 project_branches:
     pattern: /projects/{slug}/branches
     defaults: { _controller: "GitonomyWebsiteBundle:Project:branches" }
+    requirements:
+        slug: .+
 
 project_tags:
     pattern: /projects/{slug}/tags
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }
+    requirements:
+        slug: .+
 
 project_commit:
     pattern: /projects/{slug}/commits/{hash}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:commit" }
+    requirements:
+        slug: .+
 
 project_tree:
     pattern: /projects/{slug}/tree/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tree", path: "" }
-    requirements: { path: ".*" }
+    requirements:
+        path: .*
+        slug: .+
 
 project_blame:
     pattern: /projects/{slug}/blame/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:blame", path: "" }
-    requirements: { path: ".*" }
+    requirements:
+        path: .*
+        slug: .+
 
 project_tree_history:
     pattern: /projects/{slug}/tree-history/{revision}/{path}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:treeHistory", path: "" }
-    requirements: { path: ".*" }
+    requirements:
+        path: .*
+        slug: .+
 
 project_compare:
     pattern: /projects/{slug}/compare/{revision}
     defaults: { _controller: "GitonomyWebsiteBundle:Project:compare" }
+    requirements:
+        slug: .+
 
 project_permissions:
     pattern: /projects/{slug}/permissions
     defaults: { _controller: "GitonomyWebsiteBundle:Project:permissions" }
-    requirements: { _method: GET }
+    requirements:
+        _method: GET
+        slug: .+
 
 project_postPermissionsCreateRole:
     pattern: /projects/{slug}/permissions/role
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateRole" }
-    requirements: { _method: POST }
+    requirements:
+        _method: POST
+        slug: .+
 
 project_postPermissionsDeleteRole:
     pattern: /projects/{slug}/permissions/role/{id}/delete
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsDeleteRole" }
-    requirements: { _method: POST }
+    requirements:
+        _method: POST
+        slug: .+
 
 project_postPermissionsCreateGitAccess:
     pattern: /projects/{slug}/permissions/git-access
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsCreateGitAccess" }
-    requirements: { _method: POST }
+    requirements:
+        _method: POST
+        slug: .+
 
 project_postPermissionsDeleteGitAccess:
     pattern: /projects/{slug}/permissions/git-access/{id}/delete
     defaults: { _controller: "GitonomyWebsiteBundle:Project:postPermissionsDeleteGitAccess" }
-    requirements: { _method: POST }
+    requirements:
+        _method: POST
+        slug: .+
 
 project_admin:
     pattern: /projects/{slug}/admin
     defaults: { _controller: "GitonomyWebsiteBundle:Project:admin" }
+    requirements:
+        slug: .+
 
 project_delete:
     pattern: /projects/{slug}/admin/remove
     defaults: { _controller: "GitonomyWebsiteBundle:Project:delete" }
+    requirements:
+        slug: .+
+
+project_newsfeed:
+    pattern: /projects/{slug}
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:newsfeed" }
+    requirements:
+        slug: .+
