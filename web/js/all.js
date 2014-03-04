@@ -2236,6 +2236,10 @@ $(document).ready(function () {
     $('*[rel="tooltip"]').tooltip();
 });
 
+$(document).ready(function() {
+  $('td.source > pre').each(function(i, e) {hljs.highlightBlock(e)});
+});
+
 /**
  * Script to display git log in trees.
  *
