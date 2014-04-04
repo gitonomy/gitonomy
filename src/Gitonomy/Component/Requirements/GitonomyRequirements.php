@@ -42,7 +42,7 @@ class GitonomyRequirements extends RequirementCollection
                 2 => array('pipe', 'w')
             ), $pipes);
 
-        $res = preg_match('/^git version ([0-9\.]+)\n$/', stream_get_contents($pipes[1]), $vars);
+        $res = preg_match('/^git version ([0-9\.]+)(.+)?\n$/', stream_get_contents($pipes[1]), $vars);
         $rtn = proc_close($proc);
         if (!$res) {
             return array(false, 'none');
