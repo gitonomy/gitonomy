@@ -35,8 +35,6 @@ class SwiftMailerFactory
             $authMode   = 'login';
             $encryption = 'ssl';
             $port       = 465;
-        } elseif ($transport != 'smtp' && $transport != 'null') {
-            throw new \RuntimeException(sprintf('Unable to handle transport "%s"', $transport));
         }
 
         $port = $port ? $port : 25;
