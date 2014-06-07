@@ -2,7 +2,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity table="user" name="Gitonomy\Bundle\CoreBundle\Entity\User" repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\UserRepository">
+    <entity table="`user`" name="Gitonomy\Bundle\CoreBundle\Entity\User" repository-class="Gitonomy\Bundle\CoreBundle\Entity\Repository\UserRepository">
         <unique-constraints>
             <unique-constraint name="username" columns="username" />
         </unique-constraints>
