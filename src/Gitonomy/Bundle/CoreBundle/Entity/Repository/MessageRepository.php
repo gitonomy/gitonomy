@@ -3,20 +3,22 @@
 namespace Gitonomy\Bundle\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Gitonomy\Component\Pagination\Adapter\ArrayAdapter;
+use Gitonomy\Component\Pagination\Adapter\DoctrineOrmQueryAdapter;
+use Gitonomy\Component\Pagination\Pager;
 
 class MessageRepository extends EntityRepository
 {
-    public function findByProject(Project $project, $branch = null, $limit = 100)
+    public function getPagerForProject(Project $project, $branch = null, $perPage = 50)
     {
         $qb = $this->createQueryBuilder('m')
+            ->select('m, f')
             ->leftJoin('m.feed', 'f')
             ->where('f.project = :project')
             ->setParameter('project', $project)
             ->orderBy('m.id', 'DESC')
-            ->setMaxResults($limit)
         ;
 
         if ($branch) {
@@ -26,27 +28,26 @@ class MessageRepository extends EntityRepository
             ;
         }
 
-        return $qb->getQuery()->execute();
+        return new Pager(new DoctrineOrmQueryAdapter($qb->getQuery()), $perPage);
     }
 
-    public function findByUser(User $user, array $projects, $limit = 10)
+    public function getPagerForUser(User $user, array $projects, $perPage = 50)
     {
         $ids = array_map(function($project) { return $project->getId(); }, $projects);
 
         if (0 === count($ids)) {
-            return;
+            return new Pager(new ArrayAdapter(array()), $perPage);
         }
 
-        return $this->createQueryBuilder('m')
+        $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.feed', 'f')
             ->where('m.user = :user')
             ->andWhere('f.project IN (:projects)')
             ->setParameter('user', $user)
             ->setParameter('projects', $ids)
             ->orderBy('m.publishedAt', 'DESC')
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->execute()
         ;
+
+        return new Pager(new DoctrineOrmQueryAdapter($qb->getQuery()), $perPage);
     }
 }

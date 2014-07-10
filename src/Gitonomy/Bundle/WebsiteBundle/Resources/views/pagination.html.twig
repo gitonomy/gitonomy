@@ -1,0 +1,25 @@
+{% for currPage in 1..pager.pageCount %}
+    {% if loop.first %}
+        <div class="pagination">
+            <ul>
+                {% if page > 1 %}
+                    <li>
+                        <a href="?page={{ page - 1 }}">Previous</a>
+                    </li>
+                {% endif %}
+    {% endif %}
+
+    <li{% if page == currPage %} class="active"{% endif %}>
+        <a href="?page={{ currPage }}">{{ currPage }}</a>
+    </li>
+
+    {% if loop.last %}
+                {% if page < currPage %}
+                    <li>
+                        <a href="?page={{ page + 1 }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endfor %}

@@ -26,7 +26,7 @@ class Pager implements \IteratorAggregate, \Countable
     public function __construct(PagerAdapterInterface $adapter, $perPage = 10)
     {
         $this->adapter = $adapter;
-        $this->perPage = 10;
+        $this->perPage = $perPage;
     }
 
     public function setOffset($offset)
@@ -37,6 +37,8 @@ class Pager implements \IteratorAggregate, \Countable
     public function setPage($page)
     {
         $this->offset = (max(1, (int) $page) - 1) * $this->perPage;
+
+        return $this;
     }
 
     public function isFirstPage()

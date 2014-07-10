@@ -15,12 +15,14 @@
         <div class="row show-grid">
             <div class="span9">
                 <legend>{{ 'title.newsfeed'|trans }}</legend>
+                {{ include('GitonomyWebsiteBundle::pagination.html.twig', {pager: newsfeed, page: app.request.query.get('page', 1)}) }}
                 <div class="newsfeed">
                     {% for message in newsfeed %}
                         {% set template = "GitonomyWebsiteBundle:Message:"~message.name~".html.twig" %}
                         {% include template with {message: message} %}
                     {% endfor %}
                 </div>
+                {{ include('GitonomyWebsiteBundle::pagination.html.twig', {pager: newsfeed, page: app.request.query.get('page', 1)}) }}
             </div>
 
             <div class="span3">
