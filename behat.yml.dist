@@ -3,4 +3,5 @@ default:
         Gitonomy\QA\GitonomyExtension:
             app_dir:  app
         Alex\MailCatcher\Behat\MailCatcherExtension\Extension: ~
-        WebDriver\Behat\WebDriverExtension\Extension: ~
+        WebDriver\Behat\WebDriverExtension\Extension:
+            timeout:  15000

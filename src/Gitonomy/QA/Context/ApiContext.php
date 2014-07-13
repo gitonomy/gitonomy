@@ -77,7 +77,9 @@ class ApiContext extends BehatContext
             foreach ($commands as $command) {
                 $process = new Process($command);
                 $process->setWorkingDirectory($dir);
-                $process->setEnv(array('GITONOMY_USER' => $username, 'GITONOMY_PROJECT' => $project->getSlug()));
+                $env = array('GITONOMY_USER' => $username, 'GITONOMY_PROJECT' => $project->getSlug());
+                $env = array_merge($_SERVER, $env);
+                $process->setEnv($env);
                 $process->run();
 
                 if (!$process->isSuccessful()) {

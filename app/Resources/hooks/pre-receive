@@ -14,7 +14,7 @@ fi
 # Gitonomy console
 file="`readlink -f "$0"`"
 dir="`dirname "$file"`"
-command="$dir/../../console"
+command="php $dir/../../console"
 
 check_reference()
 {

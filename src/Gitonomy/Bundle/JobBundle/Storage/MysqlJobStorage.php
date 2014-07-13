@@ -79,7 +79,7 @@ class MysqlJobStorage implements StorageInterface
 
     public function find()
     {
-        $stmt = $this->runSql(sprintf('SELECT id, name, parameters FROM %s WHERE locked = 0 ORDER BY created_at ASC', $this->tableName));
+        $stmt = $this->runSql(sprintf('SELECT id, name, parameters FROM %s WHERE locked = 0 AND fails < 10 ORDER BY created_at ASC', $this->tableName));
 
         if (!$row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             return null;
