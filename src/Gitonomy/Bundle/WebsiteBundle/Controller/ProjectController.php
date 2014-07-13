@@ -198,6 +198,8 @@ class ProjectController extends Controller
         $branch    = $project->getRepository()->getReferences()->getBranch($branch);
         $user      = $this->getUser();
 
+        $this->assertGranted('GIT_DELETE', array($project, $branch->getFullname()));
+
         $job = DeleteReferenceJob::create($project, $branch, $user);
         $this->get('gitonomy.job_manager')->delegate($job);
 

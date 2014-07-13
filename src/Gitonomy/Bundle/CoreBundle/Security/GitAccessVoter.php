@@ -54,6 +54,10 @@ class GitAccessVoter implements VoterInterface
             }
         }
 
+        if (is_array($object) && isset($object[0]) && $object[0] instanceof Project) {
+            $object = new PushTarget($object[0], $object[1]);
+        }
+
         if (!$object instanceof PushTarget) {
             return VoterInterface::ACCESS_ABSTAIN;
         }

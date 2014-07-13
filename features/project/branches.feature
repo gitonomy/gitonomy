@@ -6,11 +6,11 @@ Feature: Branches
       Then I should see "Add element_100"
 
     Scenario: I can delete branch
-    Given I run in project "foobar" as "alice":
+    Given I run in project "foobar" as "lead":
         """
         git push origin master:to-delete
         """
-      And I am connected as "alice"
+      And I am connected as "lead"
      When I am on "/projects/foobar/branches"
      Then I should see "to-delete"
      When I click on button with tooltip "Delete branch to-delete"
@@ -18,3 +18,8 @@ Feature: Branches
      Then I should see "Branch to-delete deleted"
      When I refresh
      Then I should not see "to-delete"
+
+    Scenario: I can't delete branch if I'm not allowed
+    Given I am connected as "visitor"
+     When I am on "/projects/foobar/branches"
+     Then I should not see a button with tooltip "Delete branch"

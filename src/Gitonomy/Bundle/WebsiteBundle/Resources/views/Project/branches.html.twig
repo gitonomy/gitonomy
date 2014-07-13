@@ -50,8 +50,10 @@
                                     </a>
                                 {% endif %}
 
-                                <a data-method="POST" data-confirm="{{ 'button.delete_confirm'|trans }}" rel="tooltip" class="btn btn-small btn-danger" href="{{ path('project_branchDelete', {slug: project.slug, branch: branch.name}) }}" data-original-title="{{ 'button.delete'|trans({'%branch%': branch.name}) }}"><i class="icon-fire icon-white"></i>
-                                </a>
+                                {% if is_granted('GIT_DELETE', [project, branch.fullname]) %}
+                                    <a data-method="POST" data-confirm="{{ 'button.delete_confirm'|trans }}" rel="tooltip" class="btn btn-small btn-danger" href="{{ path('project_branchDelete', {slug: project.slug, branch: branch.name}) }}" data-original-title="{{ 'button.delete'|trans({'%branch%': branch.name}) }}"><i class="icon-fire icon-white"></i>
+                                    </a>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
