@@ -80,10 +80,9 @@ class ProjectController extends Controller
 
     public function newsfeedAction(Request $request, $slug)
     {
-        $project    = $this->getProject($slug);
-
-        $branch     = $request->query->get('branch');
-        $messages   = $this->getRepository('GitonomyCoreBundle:Message')->findByProject($project, $branch);
+        $project = $this->getProject($slug);
+        $branch  = $request->query->get('branch');
+        $page    = $request->query->get('page', 1);
 
         if ($project->isEmpty()) {
             return $this->render('GitonomyWebsiteBundle:Project:empty.html.twig', array(
@@ -93,7 +92,7 @@ class ProjectController extends Controller
 
         return $this->render('GitonomyWebsiteBundle:Project:newsfeed.html.twig', array(
             'project'  => $project,
-            'messages' => $messages,
+            'messages' => $this->getRepository('GitonomyCoreBundle:Message')->getPagerForProject($project, $branch)->setPage($page),
             'branch'   => $branch,
         ));
     }

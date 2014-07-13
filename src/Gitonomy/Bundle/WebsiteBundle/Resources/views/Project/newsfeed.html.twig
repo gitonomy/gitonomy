@@ -16,10 +16,12 @@
             withAll: true
         } only %}
     </div>
+    {{ include('GitonomyWebsiteBundle::pagination.html.twig', {pager: messages, page: app.request.query.get('page', 1)}) }}
     <div class="newsfeed">
         {% for message in messages %}
             {% set template = "GitonomyWebsiteBundle:Message:"~message.name~".html.twig" %}
             {% include template with {message: message} %}
         {% endfor %}
     </div>
+    {{ include('GitonomyWebsiteBundle::pagination.html.twig', {pager: messages, page: app.request.query.get('page', 1)}) }}
 {% endblock %}

@@ -19,11 +19,12 @@ use Gitonomy\Bundle\CoreBundle\Entity\Email;
 
 class UserController extends Controller
 {
-    public function showAction($username)
+    public function showAction(Request $request, $username)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->findByUsername($username);
+        $page = $request->query->get('page', 1);
 
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUser($user);
@@ -31,7 +32,7 @@ class UserController extends Controller
             $projects = $this->getRepository('GitonomyCoreBundle:Project')->findByUsers(array($user, $this->getUser()));
         }
 
-        $newsfeed = $this->getRepository('GitonomyCoreBundle:Message')->findByUser($user, $projects);
+        $newsfeed = $this->getRepository('GitonomyCoreBundle:Message')->getPagerForUser($user, $projects)->setPage($page);
 
         return $this->render('GitonomyWebsiteBundle:User:show.html.twig', array(
             'user'     => $user,
