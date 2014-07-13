@@ -12,12 +12,12 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
 use Gitonomy\Bundle\CoreBundle\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Controller extends BaseController
 {
@@ -101,5 +101,10 @@ class Controller extends BaseController
     protected function dispatch($eventName, Event $event)
     {
         $this->get('gitonomy_core.event_dispatcher')->dispatch($eventName, $event);
+    }
+
+    protected function json($data)
+    {
+        return new JsonResponse($data);
     }
 }

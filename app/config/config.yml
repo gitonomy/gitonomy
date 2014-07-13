@@ -58,6 +58,12 @@ gitonomy_git:
             tree_revision:        revision
             tree_path:            path
 
+# Gitonomy jobs
+gitonomy_job:
+    job_classes:
+        delete_reference: Gitonomy\Bundle\CoreBundle\Job\DeleteReferenceJob
+        update_ssh_keys:  Gitonomy\Bundle\CoreBundle\Job\UpdateSshKeysJob
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

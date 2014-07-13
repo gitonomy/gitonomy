@@ -1,0 +1,7 @@
+job_wait:
+    path: /job/{id}/wait
+    defaults: { _controller: "GitonomyJobBundle:Job:wait" }
+
+job_status:
+    path: /job/{id}/status
+    defaults: { _controller: "GitonomyJobBundle:Job:status" }

@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+cd "`dirname "$0"`/.."
+
+
+while true; do
+    php app/console gitonomy:process-jobs
+done

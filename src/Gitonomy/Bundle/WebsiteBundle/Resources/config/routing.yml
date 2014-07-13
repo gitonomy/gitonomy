@@ -12,3 +12,6 @@ _profile:
 
 _administration:
     resource: "@GitonomyWebsiteBundle/Resources/config/routing/administration.yml"
+
+_job:
+    resource: "@GitonomyJobBundle/Resources/config/routing/job.yml"

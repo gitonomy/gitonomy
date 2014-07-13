@@ -49,6 +49,9 @@
                                     <a rel="tooltip" class="btn btn-small" href="{{ path('project_compare', {slug: project.slug, revision: reference~'...'~branch.name}) }}" data-original-title="{{ 'button.diff'|trans }}"><i class="icon-eye-close"></i>
                                     </a>
                                 {% endif %}
+
+                                <a data-confirm="{{ 'button.delete_confirm'|trans }}" rel="tooltip" class="btn btn-small btn-danger" href="{{ path('project_branchDelete', {slug: project.slug, branch: branch.name}) }}" data-original-title="{{ 'button.delete'|trans }}"><i class="icon-fire icon-white"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>

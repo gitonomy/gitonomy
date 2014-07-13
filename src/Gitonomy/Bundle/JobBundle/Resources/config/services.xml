@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="gitonomy.job_hydrator" class="Gitonomy\Bundle\JobBundle\Hydrator\JobHydrator" public="false">
+            <argument type="service" id="service_container" />
+            <argument>%gitonomy.job_hydrator.job_classes%</argument>
+        </service>
+
+        <service id="gitonomy.job_storage" class="Gitonomy\Bundle\JobBundle\Storage\MysqlJobStorage" public="false">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+        </service>
+
+        <service id="gitonomy.job_manager" class="Gitonomy\Bundle\JobBundle\JobManager">
+            <argument type="service" id="gitonomy.job_hydrator" />
+            <argument type="service" id="gitonomy.job_storage" />
+        </service>
+    </services>
+</container>
