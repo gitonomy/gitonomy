@@ -27,7 +27,7 @@
                             {% if not key.isInstalled %}
                                 <span class="label label-info">{{ 'label.installing'|trans }}</span>
                             {% endif %}
-                            <a href="{{ path('profile_deleteSshKey', {'id': key.id }) }}" class="btn btn-danger">{{ 'button.delete'|trans }}</a>
+                            <a data-method="POST" href="{{ path('profile_deleteSshKey', {'id': key.id, token: csrf_token('ssh_key_delete') }) }}" class="btn btn-danger">{{ 'button.delete'|trans }}</a>
                         </span>
                     </h3>
                     <div class="key-content">{{ key.content }}</div>

@@ -56,12 +56,17 @@ abstract class Job implements JobInterface, ContainerAwareInterface
         return array_key_exists($name, $this->parameters) ? $this->parameters[$name] : $default;
     }
 
-    protected function getService($id)
+    protected function getContainer()
     {
         if (!$this->container) {
             throw new \RuntimeException('Container not injected in job.');
         }
 
-        return $this->container->get($id);
+        return $this->container;
+    }
+
+    protected function getService($id)
+    {
+        return $this->getContainer()->get($id);
     }
 }
