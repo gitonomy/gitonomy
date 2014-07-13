@@ -52,6 +52,9 @@ class SplashController extends Controller
 
     public function registerAction()
     {
+        if (!$this->get('gitonomy_core.config')->get('open_registration')) {
+            throw $this->createNotFoundException('Registration disabled');
+        }
         $form = $this->createForm('register', new User());
 
         return $this->render('GitonomyWebsiteBundle:Splash:register.html.twig', array(
@@ -61,6 +64,10 @@ class SplashController extends Controller
 
     public function postRegisterAction(Request $request)
     {
+        if (!$this->get('gitonomy_core.config')->get('open_registration')) {
+            throw $this->createNotFoundException('Registration disabled');
+        }
+
         $user = new User();
         $form = $this->createForm('register', $user);
 

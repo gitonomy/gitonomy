@@ -16,7 +16,9 @@
             <div class="controls">
                 <p>
                     <button type="submit" class="btn btn-primary">{{ 'form.submit'|trans }}</button>
-                    <a class="btn" href="{{ path('splash_register') }}">{{ 'button.register'|trans }}</a>
+                    {% if config.get('open_registration') %}
+                        <a class="btn" href="{{ path('splash_register') }}">{{ 'button.register'|trans }}</a>
+                    {% endif %}
                 </p>
                     <a class="link" href="{{ path('splash_forgotPassword') }}">{{ 'link.forgot_password'|trans }}</a>
                 </p>
