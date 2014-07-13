@@ -2,12 +2,14 @@
 
 [![Build Status](https://secure.travis-ci.org/gitonomy/gitonomy.png)](https://travis-ci.org/gitonomy/gitonomy)
 
+
 Gitonomy is a git repository management solution. It acts as a git server and
 offer you a web-interface to manage and browse your repositories.
 
   * download: http://gitonomy.com/download
   * documentation: http://gitonomy.com/doc/gitonomy/master
   * demo: http://gitonomy.com/demo
+  * backlog: https://trello.com/b/j53zyw57
 
 ## How to install?
 
