@@ -21,11 +21,21 @@ class JobManager
 {
     private $storage;
     private $hydrator;
+    private $currentJob;
 
     public function __construct(JobHydrator $hydrator, StorageInterface $storage)
     {
         $this->hydrator = $hydrator;
         $this->storage  = $storage;
+    }
+
+    public function stop()
+    {
+        if ($this->currentJob) {
+            $this->storage->finish($this->currentJob->getId(), false, "Stopped");
+        }
+
+        $this->currentJob = null;
     }
 
     public function delegate(Job $job)
@@ -58,18 +68,20 @@ class JobManager
                 continue;
             }
 
-            $job = $this->hydrator->hydrateJob($row[1], $row[2]);
-            $job->setId($row[0]);
+            $this->currentJob = $this->hydrator->hydrateJob($row[1], $row[2]);
+            $this->currentJob->setId($row[0]);
 
             try {
-                $output->writeln(sprintf('- executing job <info>#%s</info> (%s iterations left)...', $job->getId(), $iterations));
-                $res = $job->execute();
-                $this->storage->finish($job->getId(), true, $res);
+                $output->writeln(sprintf('- executing job <info>#%s</info> (%s iterations left)...', $this->currentJob->getId(), $iterations));
+                $res = $this->currentJob->execute();
+                $this->storage->finish($this->currentJob->getId(), true, $res);
                 $output->writeln('  <info>OK</info> - job succeeded');
             } catch (\Exception $e) {
-                $this->storage->finish($job->getId(), false, $e->getMessage());
+                $this->storage->finish($this->currentJob->getId(), false, $e->getMessage());
                 $output->writeln(sprintf('  <error>KO</error> - error: %s', $e->getMessage()));
             }
+
+            $this->currentJob = null;
         }
 
         $output->writeln('<comment>Job manager job finished</comment>');

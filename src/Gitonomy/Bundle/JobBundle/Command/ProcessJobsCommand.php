@@ -31,6 +31,24 @@ class ProcessJobsCommand extends AbstractCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get('gitonomy.job_manager')->runBackground($output);
+        $jobManager = $this->getContainer()->get('gitonomy.job_manager');
+
+        if (function_exists('pcntl_signal')) {
+            declare(ticks = 1);
+            $sigHandler = function () use ($jobManager, $output) {
+                $output->writeln('<comment>- stopping...</comment>');
+                $jobManager->stop();
+
+                exit;
+            };
+
+            pcntl_signal(SIGQUIT, $sigHandler);
+            pcntl_signal(SIGTERM, $sigHandler);
+            pcntl_signal(SIGINT,  $sigHandler);
+            pcntl_signal(SIGHUP,  $sigHandler);
+            pcntl_signal(SIGUSR1, $sigHandler);
+        }
+
+        $jobManager->runBackground($output);
     }
 }
