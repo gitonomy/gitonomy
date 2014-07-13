@@ -83,11 +83,6 @@ class Controller extends BaseController
         $em->flush();
     }
 
-    protected function createAccessDeniedException($message = null)
-    {
-        return new AccessDeniedException($message);
-    }
-
     protected function createToken($intention)
     {
         return $this->get('form.csrf_provider')->generateCsrfToken($intention);
