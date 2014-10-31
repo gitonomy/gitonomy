@@ -7,10 +7,7 @@ if [ ! -f composer.phar ]; then
     curl -s http://getcomposer.org/installer | php
 fi
 
-if [ ! -d vendor ]; then
-    echo "- install dependencies"
-    php composer.phar install
-fi
+php composer.phar install
 
 echo "- clean cache"
 rm -rf app/cache/{dev,prod}

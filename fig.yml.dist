@@ -2,8 +2,10 @@ server:
     build: "."
     environment:
         PUBLIC_KEY: "PUT YOUR SSH KEY HERE"
+        USER_UID: "1000"
+        USER_GID: "1000"
     volumes:
-        - ".:/var/www"
+        - ".:/gitonomy"
     ports:
         - "80:80"
         - "22:22"
