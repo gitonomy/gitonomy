@@ -50,7 +50,7 @@ class ProjectGitAccess
     {
         $userRole = $this->project->getUserRole($user);
 
-        if (!$userRole->isRole($this->role)) {
+        if (!$userRole || !$userRole->isRole($this->role)) {
             return false;
         }
 
