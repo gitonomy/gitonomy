@@ -15,11 +15,13 @@ RUN apt-get install -y \
         mysql-server \
         redis-server
 
-ADD nginx.conf     /etc/nginx/nginx.conf
-ADD nginx.sh       /etc/service/nginx/run
-ADD mysql.sh       /etc/service/mysql/run
-ADD redis.sh       /etc/service/redis/run
-ADD php-fpm.sh     /etc/service/php-fpm/run
-ADD start.sh       /etc/my_init.d/gitonomy-start.sh
+ADD config/nginx.conf   /etc/nginx/nginx.conf
+ADD config/php-fpm.conf /etc/php5/fpm/pool.d/www.conf
+ADD service/nginx.sh    /etc/service/nginx/run
+ADD service/mysql.sh    /etc/service/mysql/run
+ADD service/redis.sh    /etc/service/redis/run
+ADD service/php-fpm.sh  /etc/service/php-fpm/run
+ADD service/jobs.sh     /etc/service/jobs/run
+ADD start.sh            /etc/my_init.d/gitonomy-start.sh
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

@@ -23,4 +23,11 @@ fi
 
 chown -R gitonomy:gitonomy /gitonomy
 
+mysqld_safe &
+echo "-- waiting for MySQL..."
+while ! mysql -e "SHOW DATABASES" 1>/dev/null; do
+    sleep 1
+done
+
 sudo -u gitonomy ./reset.sh
+mysqladmin shutdown

@@ -1,3 +1,3 @@
 #!/bin/bash
-set -ex
+set -e
 mysqld_safe
