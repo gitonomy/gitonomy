@@ -22,6 +22,11 @@ project_branches:
     pattern: /projects/{slug}/branches
     defaults: { _controller: "GitonomyWebsiteBundle:Project:branches" }
 
+project_branchDelete:
+    pattern: /projects/{slug}/branches/{branch}/delete
+    defaults: { _controller: "GitonomyWebsiteBundle:Project:branchDelete" }
+    requirements: { _method: POST }
+
 project_tags:
     pattern: /projects/{slug}/tags
     defaults: { _controller: "GitonomyWebsiteBundle:Project:tags" }

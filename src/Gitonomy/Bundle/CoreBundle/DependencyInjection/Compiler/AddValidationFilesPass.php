@@ -40,8 +40,10 @@ class AddValidationFilesPass implements CompilerPassInterface
             }
         }
 
-        $files = array_merge($container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files'), $newFiles);
+        $validatorBuilder = $container->getDefinition('validator.builder');
 
-        $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $files);
+        if (count($newFiles) > 0) {
+            $validatorBuilder->addMethodCall('addXmlMappings', array($newFiles));
+        }
     }
 }

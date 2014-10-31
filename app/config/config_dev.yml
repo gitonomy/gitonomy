@@ -27,10 +27,3 @@ monolog:
         firephp:
             type:  firephp
             level: info
-
-services:
-    twig.extension.debug:
-        class:  Twig_Extensions_Extension_Debug
-        public: false
-        tags:
-            - { name: twig.extension }

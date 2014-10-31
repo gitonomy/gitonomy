@@ -12,10 +12,10 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-
-use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
+use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
+use Gitonomy\Bundle\CoreBundle\Job\UpdateSshKeysJob;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends Controller
 {
@@ -182,13 +182,13 @@ class ProfileController extends Controller
      *
      * @todo Add CSRF
      */
-    public function deleteSshKeyAction($id)
+    public function deleteSshKeyAction(Request $request, $id)
     {
         $this->assertGranted('IS_AUTHENTICATED_FULLY');
-        if (!$this->isTokenValid('profile', $request->query->get('token'))) {
-            $this->setFlash('success', $this->trans('', array(), 'profile_information'));
+        if (!$this->isTokenValid('ssh_key_delete', $request->query->get('token'))) {
+            $this->setFlash('error', 'Invalid token');
 
-            return $this->redirect($this->generateUrl('profile_information'));
+            return $this->redirect($this->generateUrl('profile_sshKeys'));
         }
 
         $userSshKey = $this->getRepository('GitonomyCoreBundle:UserSshKey')->find($id);
@@ -203,7 +203,7 @@ class ProfileController extends Controller
 
         $this->removeEntity($userSshKey);
 
-        $message = $this->trans('notice.ssh_key_deleted', array('%title%' => $userSshKey->getTitle()), 'profile');
+        $message = $this->trans('notice.ssh_key_deleted', array('%title%' => $userSshKey->getTitle()), 'profile_ssh');
         $this->setFlash('success', $message);
 
         return $this->redirect($this->generateUrl('profile_sshKeys'));
@@ -227,6 +227,7 @@ class ProfileController extends Controller
 
             $message = $this->trans('notice.ssh_key_created', array('%title%' => $userSshKey->getTitle()), 'profile_ssh');
             $this->setFlash('success', $message);
+            $this->get('gitonomy.job_manager')->delegate(new UpdateSshKeysJob());
 
             return $this->redirect($this->generateUrl('profile_sshKeys'));
         }

@@ -7,9 +7,9 @@ Requirements
 To run properly, you need to use the same user for web-access and CLI commands.
 You can access the 3 application by 3 different ways:
 
-* CRON jobs (for authorized_keys generation)
-* Git server access (through a SSH connection)
 * Web access (application to browse and manage repositories)
+* Git server access (through a SSH connection)
+* Background jobs (through a service manager)
 
 All users using Gitonomy will be identified as the same user on the system.
 Every user will have the same push URL (``ssh://user@example.org/foobar.git``).
@@ -65,11 +65,23 @@ Create your MySQL database and when it's done, go to project and type::
 This script will create database and load default data. On first time, connect with user **admin** (password: admin).
 Go to your profile and change your password to something more obscure.
 
-Manual installation
--------------------
+Background jobs
+---------------
 
-**Add CRON job**
+Gitonomy needs to delegate jobs to the background. For this reason, Gitonomy needs to run
+a command in your system.
 
-Edit your crontab and add::
+If you don't have a service manager, launch the shell script located in ``bin/``, maintaining
+the processing of jobs:
 
-    * * * * * php /path/to/gitonomy/app/console gitonomy:authorized-keys -i > ~/.ssh/authorized_keys
+.. code-block:: shell
+
+    $ ./bin/service
+
+The actual command to run in a loop is the following:
+
+.. code-block:: shell
+
+    $ ./app/console gitonomy:process-jobs
+
+If you only run this command, it will make 100 iterations and stop execution.

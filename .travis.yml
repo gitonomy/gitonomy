@@ -1,6 +1,6 @@
 language: php
 php:      [ "5.4" ]
-script:   "./test.sh"
+script:   "./reset.sh; ./bin/service & phpunit -c app/; bin/behat --stop-on-failure"
 
 before_script:
     - sudo apt-get update -qq

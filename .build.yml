@@ -1,3 +1,4 @@
 build:
+    - ./bin/service &
     - ./reset.sh
 

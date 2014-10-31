@@ -1,0 +1,64 @@
+{% extends "GitonomyWebsiteBundle::layout.html.twig" %}
+
+{% set pending  = app.request.query.get('pending')|default('page.title'|trans) %}
+{% set finished = app.request.query.get('finished') %}
+
+{% trans_default_domain 'job_wait' %}
+
+{% block title pending %}
+
+{% block content %}
+    <h1 id="job-status">{{ pending }}</h1>
+    <div id="content">
+        <p><br />{{ 'page.description'|trans }}</p>
+        <p>
+        <div class="progress progress-striped active">
+            <div id="job-bar" class="bar" style="width: 20%;"></div>
+        </div>
+        <div id="job-error">
+            <p data-template="{{ 'page.error.description'|trans|raw }}"></p>
+        </div>
+        <p>{{ 'page.footer'|trans }}</p>
+    </div>
+{% endblock %}
+
+{% block javascript_content %}
+    <script type="text/javascript">
+        var pollStatus = function() {
+            var url      = '{{ path('job_status', {id: id}) }}';
+            var finished = '{{ app.request.query.get('finished') }}';
+
+            $.ajax({
+                url: url,
+                success: function (status) {
+                    if (status.running) {
+                        $("#job-bar").css('width', '60%');
+                    }
+
+                    if (status.finished) {
+                        $("#job-status").text(finished);
+                        $("#job-bar").css('width', '100%');
+                        document.location.reload();
+
+                        return;
+                    }
+
+                    if (status.fails > 0) {
+                        $("#job-error").show();
+                        var paragraph = $("#job-error p");
+                        paragraph.text(paragraph.attr('data-template'));
+                    }
+
+                    setTimeout(pollStatus, 1000);
+                },
+                error: function () {
+                    alert("Error while polling status");
+                }
+            })
+        };
+
+        $(function () {
+            pollStatus();
+        });
+    </script>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace Gitonomy\QA\Context;
 
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Gitonomy\Bundle\CoreBundle\Entity\Email;
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
@@ -13,7 +14,9 @@ use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\UserSshKey;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Git\Admin;
 use Gitonomy\QA\KernelFactory;
+use Symfony\Component\Process\Process;
 
 class ApiContext extends BehatContext
 {
@@ -31,6 +34,59 @@ class ApiContext extends BehatContext
         }
 
         return $this->kernelFactory;
+    }
+
+    /**
+     * @Given /^I run in project "([^"]*)" as "([^"]*)":$/
+     */
+    public function iRunInProjectAs($project, $username, PyStringNode $commands)
+    {
+        $commands = $commands->getLines();
+        $this->run(function ($kernel) use ($project, $username, $commands) {
+            $em      = $kernel->getContainer()->get('doctrine')->getManager();
+            $project = $em->getRepository('GitonomyCoreBundle:Project')->findOneByName($project);
+            $user    = $em->getRepository('GitonomyCoreBundle:User')->findOneByUsername($username);
+
+            // create temp folders
+            do {
+                $dir = sys_get_temp_dir().'/shell_'.md5(mt_rand());
+            } while (is_dir($dir));
+
+            mkdir($dir, 0777, true);
+
+            register_shutdown_function(function () use ($dir) {
+                $iterator = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS);
+                $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
+                foreach ($iterator as $file) {
+                    if (!is_link($file)) {
+                        chmod($file, 0777);
+                    }
+                    if (is_dir($file)) {
+                        rmdir($file);
+                    } else {
+                        unlink($file);
+                    }
+                }
+
+                chmod($dir, 0777);
+                rmdir($dir);
+            });
+
+            $repo = Admin::cloneTo($dir, $project->getRepository()->getPath(), false);
+
+            foreach ($commands as $command) {
+                $process = new Process($command);
+                $process->setWorkingDirectory($dir);
+                $env = array('GITONOMY_USER' => $username, 'GITONOMY_PROJECT' => $project->getSlug());
+                $env = array_merge($_SERVER, $env);
+                $process->setEnv($env);
+                $process->run();
+
+                if (!$process->isSuccessful()) {
+                    throw new \RuntimeException(sprintf("Execution of command '%s' failed: \n%s\n%s", $command, $process->getOutput(), $process->getErrorOutput()));
+                }
+            }
+        });
     }
 
     /**

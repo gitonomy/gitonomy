@@ -17,3 +17,4 @@ label:
 
 notice:
     ssh_key_created: "SSH key created!"
+    ssh_key_deleted: "SSH key deleted"

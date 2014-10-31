@@ -12,18 +12,18 @@
 
 namespace Gitonomy\Bundle\WebsiteBundle\Controller;
 
-use Gitonomy\Git\Blob;
-use Gitonomy\Git\Tree;
-use Gitonomy\Git\Reference;
-use Symfony\Component\HttpFoundation\Request;
-
 use Gitonomy\Bundle\CoreBundle\Entity\Project;
-use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\Entity\ProjectGitAccess;
-use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\Entity\UserRoleProject;
 use Gitonomy\Bundle\CoreBundle\EventDispatcher\Event\ProjectEvent;
-use Gitonomy\Component\Pagination\Pager;
+use Gitonomy\Bundle\CoreBundle\EventDispatcher\GitonomyEvents;
+use Gitonomy\Bundle\CoreBundle\Job\DeleteReferenceJob;
 use Gitonomy\Component\Pagination\Adapter\GitLogAdapter;
+use Gitonomy\Component\Pagination\Pager;
+use Gitonomy\Git\Blob;
+use Gitonomy\Git\Reference;
+use Gitonomy\Git\Tree;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProjectController extends Controller
 {
@@ -189,6 +189,27 @@ class ProjectController extends Controller
         return $this->render('GitonomyWebsiteBundle:Project:branches.html.twig', array(
             'project'   => $project,
             'reference' => $reference,
+        ));
+    }
+
+    public function branchDeleteAction(Request $request, $slug, $branch)
+    {
+        $project   = $this->getProject($slug);
+        $branch    = $project->getRepository()->getReferences()->getBranch($branch);
+        $user      = $this->getUser();
+
+        $this->assertGranted('GIT_DELETE', array($project, $branch->getFullname()));
+
+        $job = DeleteReferenceJob::create($project, $branch, $user);
+        $this->get('gitonomy.job_manager')->delegate($job);
+
+        return $this->redirect($this->generateUrl(
+            'job_wait', array(
+                'id'       => $job->getId(),
+                'pending'  => $this->trans('notice.branch_deleting', array('%branch%' => $branch->getName()), 'project_branches'),
+                'finished' => $this->trans('notice.branch_deleted', array('%branch%' => $branch->getName()), 'project_branches'),
+                'redirect' => $this->generateUrl('project_branches', array('slug' => $slug))
+            )
         ));
     }
 

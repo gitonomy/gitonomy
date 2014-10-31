@@ -1,3 +1,8 @@
+* v0.5
+
+  * new delete a branch
+  * new pagination of newsfeeds
+
 * v0.4 (2014-02-28)
 
   * fix dependency to compass removed
