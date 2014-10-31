@@ -1,0 +1,9 @@
+server:
+    build: "."
+    environment:
+        PUBLIC_KEY: "PUT YOUR SSH KEY HERE"
+    volumes:
+        - ".:/var/www"
+    ports:
+        - "80:80"
+        - "22:22"
