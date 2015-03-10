@@ -1,5 +1,5 @@
 server:
-    build: "."
+    build: "docker"
     environment:
         PUBLIC_KEY: "PUT YOUR SSH KEY HERE"
         USER_UID: "1000"
